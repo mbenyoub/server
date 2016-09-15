@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="view_cmr_lead_requireds_form_inherit">
+            <field name="name">crm.lead.requireds.form.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_form_view_leads"/>
+            <field name="priority" eval="20"/>
+            <field name='type'>form</field>
+            <field name='arch' type='xml'>
+                <field name="contact_name" position="attributes">
+                    <attribute name="attrs">{'required':True}</attribute>
+                </field>
+            </field>
+        </record>
+
+
+    </data>
+</openerp>

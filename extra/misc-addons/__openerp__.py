@@ -11,8 +11,10 @@
     "depends": [
        	    'email_template',
        	    'product',
+	    'crm',
+	    'hr_expense',
                 ],
-    "data":['product_product_view.xml'],
+    "data":['product_product_view.xml','cmr_lead_view.xml'],
     "update_xml": [],
     "demo_xml": [],
     "update_xml": [],
