@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    
+<!--
+        Administracion de modulos a actualizar
+-->
+        <!-- View Form - Admon databse module -->
+        <record id="view_admon_database_module_form" model="ir.ui.view">
+            <field name="name">admon.database.module.form</field>
+            <field name="model">admon.database.module</field>
+            <field name="arch" type="xml">
+                <form string="Modulos" version="7.0">
+                    <sheet>
+                        <field name="icon_image" widget="image" class="oe_avatar oe_left" />
+                        <div class="oe_title">
+                            <h1>
+                                <field name="shortdesc"/>
+                            </h1>
+                            <h2 class="oe_fade">
+                                <field name="summary" />
+                            </h2>
+                            <button name="action_update_on_databases" string="Actualizar modulo" type="object" class="oe_highlight"/>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="module_id"/>
+                                <field name="sequence"/>
+                            </group>
+                            <group>
+                                <field name="name"/>
+                                <field name="admon_default"/>
+                            </group>
+                        </group>
+                        <group string="Bases de Datos">
+                            <field name="database_ids" nolabel="1" >
+                                <tree string="Bases de datos" editable="bottom">
+                                    <field name="database_id"/>
+                                    <field name="state" readonly="1"/>
+                                    <field name="date_update" readonly="1"/>
+                                    <button name="action_update" string="" help="Actualizar Base de datos" class="oe_edit_only" type="object" icon="gtk-refresh"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <button name="action_add_all_database" string="Agregar todas las Bases de datos" type="object"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- View Tree - Admon database module -->
+        <record id="view_admon_database_module_tree" model="ir.ui.view">
+            <field name="name">admon.database.module.tree</field>
+            <field name="model">admon.database.module</field>
+            <field name="arch" type="xml">
+                <tree string="Gestion de Modulos">
+                    <field name="sequence"/>
+                    <field name="shortdesc"/>
+                    <field name="summary"/>
+                    <field name="name"/>
+                    <field name="module_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!--  Filtros - Admon database module -->
+        <record id="view_admon_database_module_filter" model="ir.ui.view">
+            <field name="name">admon.database.module.select</field>
+            <field name="model">admon.database.module</field>
+            <field name="arch" type="xml">
+                <search string="Buscar">
+                    <field name="name"/>
+                    <field name="summary"/>
+                    <field name="name"/>
+                    <field name="module_id"/>
+                    <field name="shortdesc"/>
+                    <field name="admon_default"/>
+                    <separator/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Modulo" context="{'group_by': 'module_id'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+        
+        <!-- Action - Admon database module -->
+        <record id="action_admon_database_module" model="ir.actions.act_window">
+            <field name="name">Gestion de Modulos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">admon.database.module</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+            <field name="search_view_id" ref="view_admon_database_module_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click para registrar un modulo a actualizar en bases de datos
+              </p>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

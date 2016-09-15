@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="stock_partial_picking_form">
+            <field name="name">stock.partial.picking.form.inherit</field>
+            <field name="model">stock.partial.picking</field>
+            <field name="inherit_id" ref="stock.stock_partial_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='move_ids']/tree" position="inside">
+                    <!--<field name="weight_real_order"/>-->
+                    <field name="to_weight_product"  invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='move_ids']" position="before">
+                    <field name="allowed" invisible="1"/>
+                </xpath>
+                <xpath expr="//button[@name='do_partial']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('allowed', '=', True)]}</attribute>
+                </xpath>
+                <xpath expr="//button[@name='do_partial']" position="before">
+                    <button name="do_partial" string="Recibir" class="oe_highlight" type="object"
+                        attrs="{'invisible': [('allowed', '=', False)]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

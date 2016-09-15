@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <record model="ir.cron" id="admon_inactive_user_cron">
+            <field name="name">Admon inactive user</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model">admon.database.user</field>
+            <field name="function">cron_inactive_user</field>
+            <field name="args">()</field>
+            <field name="active" eval="True"/>
+        </record>
+        
+    </data>
+</openerp>

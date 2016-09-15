@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <!-- Traducir menu de Seguimientos de pago -->
+        <menuitem id="account_followup.menu_sale_followup" action="account_followup.action_customer_my_followup" name="Mis seguimientos de pago" sequence="10" groups="account.group_account_invoice" parent="base.menu_sales_followup"/>
+        
+        <!--
+            Modifica accesos a CRM
+        -->
+        <!-- Menu iniciativa -->
+        <record id="crm.menu_crm_leads" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4,ref('base.group_akk_back_v1_crm'))]"/>
+        </record>
+        <!-- Menu Oportunidad -->
+        <record id="crm.menu_crm_opportunities" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4,ref('base.group_akk_back_v1_crm'))]"/>
+        </record>
+        <!-- After-Sale Services -->
+        <record id="base.menu_aftersale" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4,ref('base.group_akk_back_v1_crm')),(3,ref('base.group_sale_salesman_all_leads'))]"/>
+        </record>
+        <!-- Llamadas telefonicas -->
+        <record id="crm.menu_crm_case_phone" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4,ref('base.group_akk_back_v1_crm')),(3,ref('base.group_sale_salesman_all_leads'))]"/>
+        </record>
+        <!-- Reuniones -->
+        <record id="crm_custom.sale_menu_meeting" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4,ref('base.group_akk_back_v1_crm'))]"/>
+        </record>
+        
+        <!--
+            Da acceso al menu de contabilidad por opcion especifica
+        -->
+        <menuitem id="account.menu_finance" name="Contabilidad" sequence="50" groups="base.group_akk_back_v1_account"/>
+        <!-- Quita a los que no son responsable de ventas de las opciones del menu de contabilidad -->
+        <record id="account.menu_finance" model="ir.ui.menu">
+            <field name="groups_id" eval="[(3,ref('account.group_account_user')),(3,ref('account.group_account_invoice')),(3,ref('account.group_account_manager'))]"/>
+        </record>
+        
+        <!-- Ocultar menu de recursos humanos -->
+        <menuitem id="hr.menu_hr_root" name="Recursos Humanos" sequence="90" groups="base.group_hr_user,base.group_hr_manager"/>
+        <!-- Quitar grupos que no se necesitan menu de Recursos Humanos-->
+        <record id="hr.menu_hr_root" model="ir.ui.menu">
+            <field name="groups_id" eval="[(3,ref('base.group_user'))]"/>
+        </record>
+        
+        <!-- Ocultar menu de almacen -->
+        <menuitem id="stock.menu_stock_root" name="Recursos Humanos" sequence="90" groups="base.group_akk_back_v1_stock"/>
+        <!-- Quitar grupos que no se necesitan del menu de Almacen-->
+        <record id="stock.menu_stock_root" model="ir.ui.menu">
+            <field name="groups_id" eval="[(3,ref('stock.group_stock_user'))]"/>
+        </record>
+        
+        <!-- Ocultar menu de Mensajeria -->
+        <menuitem id="mail.mail_feeds_main" name="Mensajeria" sequence="10" groups="base.group_akk_back_v1_message"/>
+        <!-- Quitar grupos que no se necesitan del menu Mensajeria-->
+        <record id="mail.mail_feeds_main" model="ir.ui.menu">
+            <field name="groups_id" eval="[(3,ref('base.group_user'))]"/>
+        </record>
+        
+        <!-- Quitar grupos que no se necesitan del menu de contabilidad fiscal-->
+        <record id="account.menu_fiscal_accounting" model="ir.ui.menu">
+            <field name="groups_id" eval="[(3,ref('account.group_account_manager'))]"/>
+        </record>
+        
+        <!-- Delimitar accesos menu conocimiento-->
+        <record id="knowledge.menu_document" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6, 0,[ref('base.group_akk_back_v1_knowledge_menu')])]"/>
+        </record>
+        
+        <!-- Delimitar acceso menu informes-->
+        <record id="base.menu_reporting" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6, 0,[ref('base.group_akk_back_v1_reporting_menu')])]"/>
+        </record>
+        
+        <!--
+            Modificacion de Menus de Albaran por entrada y salida
+        -->
+        
+        <!-- Almacen/Albaran de entrada -->
+        <delete model="ir.ui.menu" id="stock.menu_action_picking_tree4"/>
+        <menuitem id="stock.menu_action_picking_tree4" action="stock.action_picking_tree4" name="Entrada de Almacen" sequence="1" parent="stock.menu_stock_warehouse_mgmt" groups=""/>
+        
+        <!-- Almacen/Albaran de salida -->
+        <delete model="ir.ui.menu" id="stock.menu_action_picking_tree"/>
+        <menuitem id="stock.menu_action_picking_tree" action="stock.action_picking_tree" name="Salida de Almacen" sequence="3" parent="stock.menu_stock_warehouse_mgmt" groups=""/>
+        
+        <!-- Almacen/Albaranes internos -->
+        <delete model="ir.ui.menu" id="stock.menu_action_picking_tree6"/>
+        <menuitem id="stock.menu_action_picking_tree6" action="stock.action_picking_tree6" name="Traspasos internos" sequence="2" parent="stock.menu_stock_warehouse_mgmt" groups="stock.group_locations"/>
+        
+        <!-- Compras/Albaran de entrada -->
+        <delete model="ir.ui.menu" id="purchase.menu_action_picking_tree4"/>
+        <menuitem id="purchase.menu_action_picking_tree4" action="stock.action_picking_tree4" name="Entrada de Almacen" sequence="9" parent="purchase.menu_procurement_management_inventory" groups=""/>
+        
+        <!-- Ventas/Albaran de salida -->
+        <delete model="ir.ui.menu" id="sale_stock.menu_action_picking_list_to_invoice"/>
+        <menuitem id="sale_stock.menu_action_picking_list_to_invoice" action="sale_stock.outgoing_picking_list_to_invoice" name="Entrada de Almacen a Facturar" sequence="20" parent="base.menu_invoiced" groups="sale_stock.group_invoice_deli_orders"/>
+        
+    </data>
+</openerp>

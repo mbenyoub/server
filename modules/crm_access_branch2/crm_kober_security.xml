@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        
+        <!-- Se agregan permisos en base a una regla de usuario -->
+        <record id="only_responsable_access_all_task" model="ir.rule">
+            <field name="name">Acceso a todas las tareas</field>
+            <field name="model_id" ref="project.model_project_task"/>
+            <field name="groups" eval="[(4, ref('base.group_sale_manager')),(4, ref('base.group_sale_salesman_all_leads'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">[]</field>
+        </record>
+        
+    </data>
+</openerp>

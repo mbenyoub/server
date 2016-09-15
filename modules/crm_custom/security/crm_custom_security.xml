@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Se agregan los grupos de usuario -->
+        <record id="crm_custom.group_crm_custom_user" model="res.groups">
+            <field name="name">Ver Calendario de Actividades</field>
+        </record>
+        
+        <!-- Gestion de Almacenes -->
+        <record id="base.group_akk_back_v1_stock_manager" model="res.groups">
+            <field name="name">Gestion de disponibilidad Almacenes</field>
+        </record>
+        
+        <!-- Se agregan permisos en base a una regla de usuario -->
+        <record id="only_responsible_can_modify" model="ir.rule">
+            <field name="name">Only user can see calendar</field>
+            <field name="model_id" ref="model_crm_custom_calendar_activity"/>
+            <field name="groups" eval="[(4, ref('crm_custom.group_crm_custom_user'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">[]</field>
+        </record>
+        
+    </data>
+</openerp>

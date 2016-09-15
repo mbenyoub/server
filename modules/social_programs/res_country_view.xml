@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--
+          City
+        -->
+        
+        <record id="view_city_form" model="ir.ui.view">
+            <field name="name">social.programs.res.city.form</field>
+            <field name="model">social.programs.res.city</field>
+            <field name="arch" type="xml">
+                <form string="City" version="7.0">
+                    <group>
+                        <field name="name"/>
+                        <field name="code" style="width: 40%%"/>
+                        <field name="state_id"/>
+                        <field name="country_id" options='{"no_open": True}'/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+        <record id="view_city_tree" model="ir.ui.view">
+            <field name="name">social.programs.res.city.tree</field>
+            <field name="model">social.programs.res.city</field>
+            <field name="arch" type="xml">
+                <tree string="City">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="state_id"/>
+                    <field name="country_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_city" model="ir.actions.act_window">
+            <field name="name">Ciudades</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">social.programs.res.city</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help">Muestra y administra la lista de ciudades disponibles.</field>
+        </record>
+        
+        <menuitem action="action_city" id="menu_city_partner" parent="base.menu_localisation" sequence="3" groups="base.group_no_one"/>
+        
+        <!--
+          Area
+        -->
+        
+        <record id="view_area_tree" model="ir.ui.view">
+            <field name="name">social.programs.res.area.tree</field>
+            <field name="model">social.programs.res.area</field>
+            <field name="arch" type="xml">
+                <tree string="Area">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="city_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_area_form" model="ir.ui.view">
+            <field name="name">social.programs.res.area.form</field>
+            <field name="model">social.programs.res.area</field>
+            <field name="arch" type="xml">
+                <form string="Area" version="7.0">
+                    <group>
+                        <field name="name"/>
+                        <field name="code" style="width: 40%%"/>
+                        <field name="city_id"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_area" model="ir.actions.act_window">
+            <field name="name">Areas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">social.programs.res.area</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_area_form"/>
+        </record>
+
+        <menuitem action="action_area" id="menu_area_partner" parent="base.menu_localisation" sequence="4" groups="base.group_no_one"/>
+        
+        <!--
+          Sector
+        -->
+
+        <record id="view_sector_tree" model="ir.ui.view">
+            <field name="name">social.programs.res.sector.tree</field>
+            <field name="model">social.programs.res.sector</field>
+            <field name="arch" type="xml">
+                <tree string="Sector">
+                    <field name="name"/>
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_sector_form" model="ir.ui.view">
+            <field name="name">social.programs.res.sector.form</field>
+            <field name="model">social.programs.res.sector</field>
+            <field name="arch" type="xml">
+                <form string="Sector" version="7.0">
+                    <group>
+                        <field name="name"/>
+                        <field name="code" style="width: 40%%"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_sector" model="ir.actions.act_window">
+            <field name="name">Sectores</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">social.programs.res.sector</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_sector_form"/>
+        </record>
+
+        <menuitem action="action_sector" id="menu_sector_partner" parent="base.menu_localisation" sequence="5" groups="base.group_no_one"/>
+        
+        <!--
+          Settlement
+        -->
+
+        <record id="view_settlement_tree" model="ir.ui.view">
+            <field name="name">social.programs.res.settlement.tree</field>
+            <field name="model">social.programs.res.settlement</field>
+            <field name="arch" type="xml">
+                <tree string="Settlement">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="zip"/>
+                    <field name="city_id"/>
+                    <field name='area_id'/>
+                    <field name='sector_id'/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_settlement_form" model="ir.ui.view">
+            <field name="name">social.programs.res.settlement.form</field>
+            <field name="model">social.programs.res.settlement</field>
+            <field name="arch" type="xml">
+                <form string="Settlement" version="7.0">
+                    <group>
+                        <group colspan="4" col="4">
+                            <field name="name"/>
+                            <field name="code"  style="width: 40%%"/>
+                            <field name="zip"/>
+                        </group>
+                        <group>
+                            <field name="area_id"/>
+                            <field name="city_id"/>
+                            <field name="sector_id"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_settlement" model="ir.actions.act_window">
+            <field name="name">Colonias</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">social.programs.res.settlement</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_settlement_form"/>
+        </record>
+
+        <menuitem action="action_settlement" id="menu_colonia_partner" parent="base.menu_localisation" sequence="6" groups="base.group_no_one"/>
+
+    </data>
+</openerp>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+        <!-- Se agrega la categoria para administracion de funcionalidad extra-->
+        <record model="ir.module.category" id="base.module_category_akk_back_v1_manager">
+            <field name="name">Funcionalidad Usuarios</field>
+            <field name="description">Administracion de procesos Backoffice</field>
+            <field name="sequence">4</field>
+        </record>
+        
+        <!-- Se agregan los grupos de usuario -->
+        <record id="base.group_account_sat_manager" model="res.groups">
+            <field name="category_id" ref="base.module_category_akk_back_v1_manager"/>
+            <field name="name">Gestion contabilidad electronica (SAT)</field>
+        </record>
+        
+    </data>
+</openerp>

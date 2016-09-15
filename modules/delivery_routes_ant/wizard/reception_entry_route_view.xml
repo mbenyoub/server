@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <!-- Vista formulario para attendee -->
+        <record model="ir.ui.view" id="reception_entry_route_form_view">
+            <field name="name">reception.entry.route.form</field>
+            <field name="model">reception.entry.route</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Ingreso Vehiculo" col="4" version="7.0">
+                    <div name="info_route">
+                        <label for="route_id" string="Ruta "/>
+                        <field name="route_id" class="oe_inline" />
+                    </div>
+                    <div name="info_van">
+                        <label for="van_id" string="Vehiculo "/>
+                        <field name="van_id" class="oe_inline" />
+                    </div>
+                    <group>
+                        <group>
+                            <field name="km_end"/>
+                        </group>
+                        <group>
+                            <field name="entry_date"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button type="object" name="action_entry"
+                            string="Guardar y Continuar" class="oe_highlight"/>
+                        <button type="special" special="cancel" string="Cancelar"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+<!--
+        Action para ejecutar wizard de ingreso vehiculo
+-->
+        <record model="ir.actions.act_window" id="action_reception_entry_route">
+            <field name="name">Ingreso Vehiculo</field>
+            <field name="res_model">reception.entry.route</field>
+            <field name="context">{'default_route_id': active_id}</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
+    </data>
+</openerp>

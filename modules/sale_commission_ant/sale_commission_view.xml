@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--VISTA TREE-->
+        <record model="ir.ui.view" id="sale_commission_objective_tree_view">
+            <field name="name">sale.commission.objective.tree.view</field>
+            <field name="model">sale.commission.objective</field>
+            <field name="arch" type="xml">
+                <tree string="Objetivos" colors="red: active == False">
+                    <field name="name" string="Objetivo"/>
+                    <field name="type"/>
+                    <field name="commission_type"/>
+                    <field name="commission_value"/>
+                    <field name="active" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sale_commission_version_tree_view">
+            <field name="name">sale.commission.version.tree.view</field>
+            <field name="model">sale.commission.objective.version</field>
+            <field name="arch" type="xml">
+                <tree string="Versión de objetivos">
+                    <field name="name"/>
+                    <field name="period_id"/>
+                    <field name="active" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="sale_commission_commission_tree_view">
+            <field name="name">sale.commission.commission.tree.view</field>
+            <field name="model">sale.commission.commission</field>
+            <field name="arch" type="xml">
+                <tree string="Comisión" create="0">
+                    <field name="name"/>
+                    <field name="period_id"/>
+                    <field name="date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="sale_commission_line_tree_view">
+            <field name="name">sale.commission.line.tree.view</field>
+            <field name="model">sale.commission.line</field>
+            <field name="arch" type="xml">
+                <tree string="Comisión" create="0" edit="0" delete="0">
+                    <field name="user_id"/>
+                    <field name="section_id"/>
+                    <field name="objective_complete"/>
+                    <field name="amount_paid" sum="Total comision vendedor"/>
+                    <field name="period_id"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="detail_objectives_tree_view">
+            <field name="name">detail.objectves.tree.view</field>
+            <field name="model">sale.commission.line.objective</field>
+            <field name="arch" type="xml">
+                <tree string="Detalle de objetivos" create="0" edit="0" delete="0">
+                    <field name="commission_id"/>
+                    <field name="name" string="Nombre"/>
+                    <field name="objective_id"/>
+                    <field name="commission_value"/>
+                    <field name="type" string="Tipo de comisión"/>
+                    <field name="user_id" string="Vendedor"/>
+                    <field name="commission_amount" string="Comisión a pagar"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--VISTA SEARCH-->
+        <record model="ir.ui.view" id="sale_commission_objective_search_view">
+            <field name="name">sale.commission.objective.search.view</field>
+            <field name="model">sale.commission.objective</field>
+            <field name="arch" type="xml">
+                <search string="Objetivos generales">
+                    <filter name="Objetivos de ventas" domain="[('type', '=', 'invoiced')]"/>
+                    <filter name="Objetivos de cobranza" domain="[('type', '=', 'paid')]"/>
+                    <filter name="Activos" domain="[('active', '=', True)]"/>
+                    <filter name="No activos" domain="[('active', '=', False)]"/>
+                    <group string="Agrupando por..." expand="0">
+                        <filter string="Tipo" icon="terp-folder-orange" domain="[]"
+                            context="{'group_by': 'type'}"/>
+                        <filter string="Comisión en" icon="terp-folder-orange" domain="[]"
+                            context="{'group_by': 'commission_type'}"/>
+                        <filter string="Porcentaje mínimo" icon="terp-folder-orange" domain="[]"
+                            context="{'group_by': 'commission_proportion_min'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="sale_commission_acumulate_search_view">
+            <field name="name">sale.commission.acumulate.search.view</field>
+            <field name="model">sale.commission.line</field>
+            <field name="arch" type="xml">
+                <search string="Comisiones acumuladas">
+                    <field name="name" string="Busqueda vendedor" filter_domain="[('user_id', 'ilike', self),
+                        ('section_id', '=', self)]"/>
+                    <filter string="Vendedores con objetivos" domain="[('objective_complete', '>', 0)]"/>
+                    <group string="Agrupado por..." expand="0">
+                        <filter string="Vendedor" icon="terp-folder-orange" domain="[]"
+                            context="{'group_by': 'user_id'}"/>
+                        <filter string="Equipo de ventas" icon="terp-folder-orange" domain="[]"
+                            context="{'group_by': 'section_default_id'}"/>
+                        <filter string="Periodo" icon="terp-foldet-orange" domain="[]"
+                            context="{'group_by': 'period_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <!--VISTA FORM-->
+        <record model="ir.ui.view" id="sale_commission_objective_form_view">
+            <field name="name">sale.commission.objective.form.view</field>
+            <field name="model">sale.commission.objective</field>
+            <field name="arch" type="xml">
+                <form string="Objetivos" version="7.0">
+                    <sheet>
+                        <h1>
+                            <field name="name" placeholder="Nombre del objetivo"
+                                readonly="context.get('not_edit',False)"
+                                help="Aquí se coloca el nombre del objetivo y se sugiere que este compuesto por: Tipo+/+datos de validación+/+porcentaje de comisión; se colocan los datos de validación que se vayan a ocupar para la comisión. Ej: Facturacion/producto/económico/10bultos/11kg/$1000/Tarifa/5"/>
+                        </h1>
+                        <group string="Información general">
+                            <group>
+                                <div>
+                                    <div>
+                                        <label for="commission_value"/>
+                                        <field name="commission_type" class="oe_inline" nolabel="1"
+                                            on_change="onchange_type_commission(commission_type)"
+                                            attrs="{'readonly': [('type', '=', 'paid')]}"
+                                            readonly="context.get('not_edit',False)"/>
+                                        <field name="commission_value" class="oe_inline"
+                                            readonly="context.get('not_edit',False)"
+                                            help="Porcentaje o cantidad de comisión proporcionada al vendedor por cumplir un objetivo"/>
+                                        <label for="commission_value_ext"
+                                            attrs="{'invisible': ['|',('type', '!=', 'invoiced'), ('commission_type', '=', 'currency')]}"/>
+                                        <field name="commission_value_ext" class="oe_inline" readonly="context.get('not_edit',False)"
+                                            attrs="{'invisible': ['|',('type', '!=', 'invoiced'), ('commission_type', '=', 'currency')]}"/>
+                                    </div>
+                                    <div>
+                                        <label for="resp_commission_value" string="Comision Supervisor"/>
+                                        <field name="resp_commission_type" style="width: 10%%" class="oe_inline" readonly="1" nolabel="1"/>
+                                        <field name="resp_commission_value" class="oe_inline"
+                                                string="Comision Supervisor"
+                                                readonly="context.get('not_edit',False)"
+                                                help="Porcentaje o cantidad de comisión proporcionada con respecto a los objetivos cumplidos por los vendedores"/>
+                                    </div>
+                                    <div>
+                                        <label for="commission_proportion_min" string="Porcentaje de:"
+                                            attrs="{'invisible': [('type', '!=', 'invoiced')]}"/>
+                                        <field name="commission_proportion_min" attrs="{'invisible': [('type','=','paid')]}"
+                                            readonly="context.get('not_edit',False)"
+                                            help="Porcentaje mínimo en base al objetivo para su aplicación" style="width: 20%%" class="oe_inline"/>
+                                        <label for="commission_proportion_max" string="a"
+                                            attrs="{'invisible': ['|', ('type', '!=', 'invoiced'), ('commission_type', '=', 'currency')]}"/>
+                                        <field name="commission_proportion_max"
+                                            readonly="context.get('not_edit',False)"
+                                            style="width: 20%%" class="oe_inline"
+                                            help="Proporcion maxima que debe cumplir el vendedor para darle una comision extra"
+                                            attrs="{'invisible': ['|', ('type', '!=', 'invoiced'), ('commission_type', '=', 'currency')]}"/>
+                                    </div>
+                                </div>
+                            </group>
+                            <group>
+                                <field name="commission_proportion" attrs="{'invisible': [('type','=','paid')]}" 
+                                    help="Aplicar pago proporcional de la comisión sobre la proporción alcanzada en el objetivo"
+                                    readonly="context.get('not_edit',False)"/>
+                                <field name="active" readonly="context.get('not_edit',False)"/>
+                            </group>
+                        </group>
+                        <group string="Datos de validación">
+                            <group>
+                                <field name="type" on_change="onchange_type(type)"
+                                    help="Selección de tipo de objetivo a cumplir. Si es objetivo sobre ventas, seleccionar Facturado. Si es sobre cobro, seleccionar Pagado"
+                                    readonly="context.get('not_edit',False)"/>
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+                        <group attrs="{'invisible':  [('type', '=', 'paid')]}">
+                            <group>
+                                <field name="product_category_id"
+                                    help="Categoría del producto a vender"
+                                    readonly="context.get('not_edit',False)"/>
+                                <field name="product_ids" widget="many2many_tags" on_change="onchange_product_ids(product_ids)"
+                                    help="Producto objetivo a vender"
+                                    readonly="context.get('not_edit',False)"/>
+                                <field name="pricelist_ids" widget="many2many_tags"
+                                    readonly="context.get('not_edit',False)"/>
+                            </group>
+                            <group>
+                                <field name="quantity_min"
+                                    help="Cuota mínima para cumplir con el objetivo(Bultos, piezas, etc.)"
+                                    readonly="context.get('not_edit',False)"/>
+                                <field name="weight"
+                                    help="Peso mínimo para cumplir con el objetivo (Kg)"
+                                    readonly="context.get('not_edit',False)"/>
+                                <field name="amount"
+                                    help="Monto mínimo del producto sobre vendido sin iva ($)"
+                                    readonly="context.get('not_edit',False)"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group attrs="{'invisible': [('type', '=', 'invoiced')]}">
+                                <separate>
+                                    <field name="paid_ids"
+                                        readonly="context.get('not_edit',False)"
+                                        help="Se registran los días transcurridos después de la fecha de corte de la factura indicando los porcentajes que se proporcionarán con respecto a la comisión. Se toma el cero como el mísmo día de la fecha de corte de la factura y números negativos si son días antes de la fecha de corte">
+                                        <tree string="Comisiones por pago" editable="top">
+                                            <field name="days"/>
+                                            <field name="percent"/>
+                                        </tree>
+                                    </field>
+                                </separate>
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+                        <label for="note"/>
+                        <div>
+                            <field name="note"
+                                readonly="context.get('not_edit',False)"/>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sale_commission_version_form_view">
+            <field name="name">sale.commission.version.form.view</field>
+            <field name="model">sale.commission.objective.version</field>
+            <field name="arch" type="xml">
+                <form string="Versión de objetivos" version="7.0">
+                    <sheet>
+                        <h1>
+                            <field name="name" placeholder="Nombre de la versión" required="1"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="fiscalyear_bol"/> 
+                                <field name="period_id" string="Periodo"
+                                    attrs="{'invisible': [('fiscalyear_bol', '=', True)],
+                                    'required': [('fiscalyear_bol', '=', False)]}"/>
+                                <field name="fiscalyear_id" string="Ejercicio"
+                                    attrs="{'invisible': [('fiscalyear_bol', '=', False)],
+                                    'required': [('fiscalyear_bol', '=', True)]}"/>
+                            </group>
+                            <group>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Línea de versión de comisiones">
+                                <field name="line_ids"
+                                       context="{'form_view_ref':'objective_version_line_view_form'}">
+                                    <tree>
+                                        <field name="sequence" />
+                                        <field name="name"/>
+                                        <field name="user_id"/>
+                                        <field name="section_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="objective_version_line_view_form">
+            <field name="name">objective.version.line.view.form</field>
+            <field name="model">sale.commission.objective.version.line</field>
+            <field name="arch" type="xml">                
+                <form string="Línea de versión de comisión" version="7.0">
+                    <h1>
+                        <field name="name" placeholder="Nombre" required="1"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="section_id" required="1" on_change="onchange_section_id(section_id)"/>
+                            <field name="user_id" domain="[('commission_apply', '=', True)]"
+                                   on_change="onchange_user_id(user_id)"/>
+                        </group>
+                        <group>
+                            <field name="sequence" required="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="objective_parent_id"/>
+                            <field name="objective_id" domain="[('active', '=', True)]" required="1"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+        
+        <!--DETALLE DE COMISIÓN-->
+        <record model="ir.ui.view" id="sale_commission_line_objective_form_view">
+            <field name="name">sale.commission.line.obective.form.view</field>
+            <field name="model">sale.commission.line.objective</field>
+            <field name="arch" type="xml">
+                <form string="Detalle de comision" version="7.0">
+                    <header>
+                        <button name="action_apply" string="Habilitar" type="object" class="oe_highlight"
+                                attrs="{'invisible':['|',('apply','=',True),('state','=','draft')]}"/>
+                        <button name="action_not_apply" string="Deshabilitar" type="object" class="oe_highlight"
+                                attrs="{'invisible':['|',('apply','=',False),('state','=','draft')]}"/>
+                        <button name="action_redirect_objective" string="Ver Objetivo" type="object"/>
+                    </header>
+                    <sheet>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="user_id"/>
+                                <field name="commission_type"/>
+                                <field name="commission_value"/>
+                                <field name="percent"/>
+                            </group>
+                            <group>
+                                <field name="type"/>
+                                <field name="quantity" sum="Total Cantidad"/>
+                                <field name="weight" sum="Total peso"/>
+                                <field name="amount" sum="Total Monto"/>
+                                <field name="commission_amount" sum="Total a pagar"/>
+                                <field name="objective_complete"/>
+                                <field name="state" invisible="1"/>
+                                <field name="apply" invisible="1"/>
+                            </group>
+                            <group string="Dias al Pago" attrs="{'invisible': [('type','!=','paid')]}">
+                                <field name="paid_ids" nolabel="1">
+                                    <tree string="Pagos" editable="Top" edit="0" create="0">
+                                        <field name="days"/>
+                                        <field name="percent"/>
+                                        <field name="amount" sum="Total monto"/>
+                                        <field name="amount_paid" sum="Total monto a pagar"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!--COMISION ACUMULADA-->
+        <record model="ir.ui.view" id="sale_commission_line_form_view">
+            <field name="name">sale.commission.line.form.view</field>
+            <field name="model">sale.commission.line</field>
+            <field name="arch" type="xml">
+                <form string="Detalle de la comisión" version="7.0">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="user_id" readonly="1"/>
+                                <field name="section_id" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="objective_complete"/>
+                                <field name="objective_not_complete"/>
+                                <field name="amount_paid"/>
+                                <field name="amount_invoiced"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Detalle de objetivos">
+                                <field name="line_objective_ids" readonly="1" context="{'form_view_ref': 'sale_commission_line_objective_form_view'}">
+                                    <tree string="Detalle de objetivos" colors="grey:apply==False">
+                                        <button
+                                            name="action_redirect_objective"
+                                            string="Ver Objetivo"
+                                            type="object"
+                                            class="oe_right"
+                                            icon="gtk-find"/>
+                                        <field name="name"/>
+                                        <field name="objective_id" invisible="1"/>
+                                        <field name="type"/>
+                                        <field name="user_id"/>
+                                        <field name="commission_type"/>
+                                        <field name="commission_value"/>
+                                        <field name="percent"/>
+                                        <field name="quantity" sum="Total Cantidad"/>
+                                        <field name="weight" sum="Total peso"/>
+                                        <field name="amount" sum="Total Monto"/>
+                                        <field name="commission_amount" sum="Total a pagar"/>
+                                        <field name="objective_complete"/>
+                                        <field name="state" invisible="1"/>
+                                        <field name="apply" invisible="1"/>
+                                        <button name="action_apply" string="" type="object" icon="gtk-redo" attrs="{'invisible':['|',('apply','=',True),('state','=','draft')]}"/>
+                                        <button name="action_not_apply" string="" type="object" icon="gtk-cancel" attrs="{'invisible':['|',('apply','=',False),('state','=','draft')]}"/>
+                                    </tree>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="total">
+                                    <div class="oe_subtotal_footer_separator oe_inline">
+                                        <label for="total" string="Total"/>
+                                    </div>
+                                    <field name="total" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary'/>
+                                </group>
+                            </page>
+                            <page string="Notas">
+                                <field name="note" nolabel="1"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!--COMISIONES CALCULADAS-->
+        <record model="ir.ui.view" id="sale_commission_commission_form_view">
+            <field name="name">sale.commission.commission.form.view</field>
+            <field name="model">sale.commission.commission</field>
+            <field name="arch" type="xml">
+                <form string="Comisión" version="7.0" create="0">
+                    <header>
+                        <button name="confirm" string="Confirmar" type="workflow" states="draft"/>
+                        <button name="paid" string="Pagar" type="workflow" states="confirm"/>
+                        <button name="cancel" string="Cancelar" ype="workflow"  states="confirm"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <h1>
+                            <field name="name" placeholder="Nombre" attrs="{'readonly': [('state','!=','draft')]}"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="period_id" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="date" readony="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Detalle de comisiones">
+                                <field name="line_ids" context="{'form_view_ref':'sale_commission_line_form_view'}" readonly="1">
+                                   <tree string="Detalle de comisión">
+                                        <field name="name"/>
+                                        <field name="user_id" invisible="1"/>
+                                        <field name="amount_paid" sum="Total cobrado"/>
+                                        <field name="amount_invoiced" sum="Total facturado"/>
+                                        <field name="objective_complete" sum="Objetivos completados"/>
+                                        <field name="objective_not_complete" sum="Objetivos no completados"/>
+                                        <field name="total" sum="Total a pagar"/>
+                                   </tree>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="total">
+                                    <div class="oe_subtotal_footer_separator oe_inline">
+                                        <label for="total" string="Total"/>
+                                    </div>
+                                    <field name="total" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary'/>
+                                </group>
+                            </page>
+                            <page string="Notas">
+                                <field name="note" nolabel="1"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

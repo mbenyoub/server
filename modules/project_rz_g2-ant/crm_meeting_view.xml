@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+<!--
+        Search Calendario
+-->
+        <record id="view_crm_meeting_search_inherit" model="ir.ui.view">
+            <field name="name">crm.meeting.select.inherit</field>
+            <field name="model">crm.meeting</field>
+            <field name="inherit_id" ref="base_calendar.view_crm_meeting_search"/>
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="phase_id"/>
+                    <field name="state_meeting"/>
+                    <field name="date_week"/>
+                    <field name="file"/>
+                </field>
+                <filter name="group_project" position="after">
+                    <filter string="Fase proyecto" name="group_phase" icon="terp-gtk-jump-to-rtl" domain="[]" context="{'group_by':'phase_id'}"/>
+                </filter>
+                <filter name="group_date_string_filter" position="after">
+                    <filter string="Estado" name="group_state_meeting" icon="terp-gtk-jump-to-rtl" domain="[]" context="{'group_by':'state_meeting'}"/>
+                    <filter icon="terp-go-week"
+                            string="Agrupar por semana"
+                            name="group_date_week"
+                            domain="[]"
+                            help="Semana" 
+                            context="{'group_by':'date_week'}"/>
+                </filter>
+                <filter name="filter_ase" position="attributes">
+                    <attribute name="string">Consultoria</attribute>
+                    <attribute name="help">Mostrar reuniones de Consultoria</attribute>
+                </filter>
+                
+                <filter name="message_unread" position="after">
+                    <separator/>
+                    <filter string="Reuniones pendientes" name="filter_meeting_draft" icon="terp-folder-violet" domain="[('state_meeting','=','draft')]" context="{}"/>
+                    <filter string="Reuniones realizadas" name="filter_meeting_done" icon="terp-folder-violet" domain="[('state_meeting','=','done')]" context="{}"/>
+                    <filter string="Reuniones canceladas" name="filter_meeting_cancel" icon="terp-folder-violet" domain="[('state_meeting','=','cancel')]" context="{}"/>
+                    <filter string="Reuniones reagendadas" name="filter_meeting_reschedule" icon="terp-folder-violet" domain="[('state_meeting','=','reschedule')]" context="{}"/>
+                    <filter string="Reuniones sin asistencia" name="filter_meeting_absence" icon="terp-folder-violet" domain="[('state_meeting','=','absence')]" context="{}"/>
+                    <separator/>
+                    <filter icon="terp-go-month" 
+                            string="Mes actual"
+                            name="date_month"
+                            domain="[('date2','&lt;=',(context_today()+relativedelta(day=31)).strftime('%%Y-%%m-%%d')),('date2','&gt;=',(context_today()-relativedelta(day=1)).strftime('%%Y-%%m-%%d'))]"
+                            help="Mes actual" 
+                            context="{}"/>
+                    <!--<filter icon="terp-go-week"
+                            string="Semana Actual"
+                            name="filter_date_week"
+                            domain="[('date_week','=',(context_today()).strftime('%%W'))]"
+                            help="Semana Actual" 
+                            context="{}"/>-->
+                    <separator/>
+                    <filter string="Reuniones con minuta" name="filter_meeting_ase_upload" icon="terp-folder-violet" domain="[('type','in',['ase','seg']),('file','!=',False)]" context="{}" help="Filtro aplicable para reuniones de consultoria y reuniones de seguimiento"/>
+                    <filter string="Reuniones sin minuta" name="filter_meeting_ase_noload" icon="terp-folder-violet" domain="[('type','in',['ase','seg']),('file','=',False)]" context="{}" help="Filtro aplicable para reuniones de consultoria y reuniones de seguimiento"/>
+                </filter>
+            </field>
+        </record>
+
+<!--
+        Modificacion de la vista formulario de calendario
+-->
+        <record id="view_crm_meeting_form_inherit" model="ir.ui.view">
+            <field name="name">crm.meeting.form.inherit</field>
+            <field name="model">crm.meeting</field>
+            <field name="inherit_id" ref="base_calendar.view_crm_meeting_form"/>
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="project_id" position="after">
+                    <field name="phase_id" domain="[('validate_time','=',True),('state','=','open'),('project_id','=',project_id)]" attrs="{'readonly':[('is_manager','!=',True)], 'required': [('type','=','seg')], 'invisible': ['|',('project_id','=',False),('type','not in',['seg'])]}"/>
+                </field>
+                <sheet position="before">
+                    <header>
+                        <button name="action_draft" type="object" string="Reabrir" attrs="{'invisible': [('state_meeting','not in',['cancel','reschedule','absence'])]}" groups="base.group_project_reto_zapopan_eval,base.group_project_reto_zapopan_config"/>
+                        <button name="action_cancel" type="object" string="Cancelar" attrs="{'invisible': [('state_meeting','in',['cancel','reschedule','absence'])]}" groups="base.group_project_reto_zapopan_eval,base.group_project_reto_zapopan_config"/>
+                        <button name="action_reschedule" type="object" string="Reagendar" attrs="{'invisible': [('state_meeting','not in',['draft'])]}" groups="base.group_project_reto_zapopan_eval,base.group_project_reto_zapopan_config"/>
+                        <button name="action_absence" type="object" string="Inasistencia" attrs="{'invisible': [('state_meeting','not in',['draft'])]}" groups="base.group_project_reto_zapopan_eval,base.group_project_reto_zapopan_config"/>
+                        <button name="action_done" type="object" string="Realizada" class="oe_highlight" attrs="{'invisible': [('state_meeting','not in',['draft'])]}" groups="base.group_project_reto_zapopan_eval,base.group_project_reto_zapopan_config"/>
+                        
+                        <button name="action_draft" type="object" string="Reabrir" attrs="{'invisible': ['|',('state_meeting','not in',['cancel','reschedule','absence']),('type','!=','ase')]}" groups="base.group_project_reto_zapopan_con,base.group_project_reto_zapopan_emp"/>
+                        <button name="action_cancel" type="object" string="Cancelar" attrs="{'invisible': ['|',('state_meeting','in',['cancel','reschedule','absence']),('type','!=','ase')]}" groups="base.group_project_reto_zapopan_con,base.group_project_reto_zapopan_emp"/>
+                        <button name="action_reschedule" type="object" string="Reagendar" attrs="{'invisible': ['|',('state_meeting','not in',['draft']),('type','!=','ase')]}" groups="base.group_project_reto_zapopan_con,base.group_project_reto_zapopan_emp"/>
+                        <button name="action_absence" type="object" string="Inasistencia" attrs="{'invisible': ['|',('state_meeting','not in',['draft']),('type','!=','ase')]}" groups="base.group_project_reto_zapopan_con,base.group_project_reto_zapopan_emp"/>
+                        <button name="action_done" type="object" string="Realizada" class="oe_highlight" attrs="{'invisible': ['|',('state_meeting','not in',['draft']),('type','!=','ase')]}" groups="base.group_project_reto_zapopan_con,base.group_project_reto_zapopan_emp"/>
+                        
+                        <button name="upload_file" type="object" string="Adjuntar Minuta" class="oe_highlight" attrs="{'invisible': ['|',('state_meeting','not in',['done']),('type','not in',['ase','seg'])]}" groups="base.group_project_reto_zapopan_con,base.group_project_reto_zapopan_eval,base.group_project_reto_zapopan_config"/>
+                        
+                        <field name="state_meeting" widget="statusbar" nolabel="1" statusbar_visible="draft,done" />
+                    </header>
+                </sheet>
+                <field name="alarm_id" position="attributes">
+                    <attribute name="groups"></attribute>
+                </field>
+                <field name="alarm_id" position="after">
+                    <field name="trigger_date" invisible="0" />
+                </field>
+                <page name="log_meeting" position="replace">
+                    <page name="log_meeting" string="Bitacora" groups="base.group_project_reto_zapopan_con,base.group_project_reto_zapopan_eval">
+                        <field name="project_log_project_ids" domain="[('user_id','=',uid)]" context="{'project_id' : project_id,'default_project_id': project_id, 'default_meeting_id': id, 'default_time': duration}">
+                            <tree editable="top">
+                                <field name="date"/>
+                                <field name="time" widget="float_time"/>
+                                <field name="description"/>
+                                <field name="project_id"/>
+                                <field name="meeting_id" invisible="1"/>
+                                <field name="user_id" groups="base.group_project_reto_zapopan_eval"/>
+                                <field name="date_string" invisible="1"/>
+                            </tree>
+                        </field>
+                    </page>
+                </page>
+                <field name="location" position="after">
+                    <field name="file_name" invisible="1"/>
+                    <field name="file" filename="file_name" attrs="{'invisible':['|',('state_meeting','=','draft'),('type','not in',['ase','seg'])]}"/>
+                </field>
+            </field>
+        </record>
+        
+<!--
+        Modificacion de la vista lista de reuniones
+-->
+        <record id="view_crm_meeting_tree_inherit" model="ir.ui.view">
+            <field name="name">crm.meeting.tree.inherit</field>
+            <field name="model">crm.meeting</field>
+            <field name="inherit_id" ref="base_calendar.view_crm_meeting_tree"/>
+            <field name="arch" type="xml">
+                <field name="duration" position="after">
+                    <field name="phase_id" invisible="1"/>
+                    <field name="state_meeting"/>
+                    <field name="date_week" invisible="1"/>
+                    <field name="file" invisible="1"/>
+                </field>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

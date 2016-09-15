@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <!-- Vista formulario para attendee -->
+        <record model="ir.ui.view" id="consultor_evaluation_wizard_form_view">
+            <field name="name">consultor.evaluation.wizard.form</field>
+            <field name="model">consultor.evaluation.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Calificar Consultor" col="4" version="7.0">
+                    <h2 groups="base.group_project_reto_zapopan_eval">
+                        <label for="project_id" class="oe_inline" string="Proyecto "/>
+                        <field name="project_id" class="oe_inline" required="1" on_change="onchange_project_id(project_id,context)" />
+                    </h2>
+                    <group>
+                        <field name="phase_id" style="width:35%%" groups="base.group_project_reto_zapopan_eval"/>
+                    </group>
+                    <separator/>
+                    <label for="line_ids" string="Consultores"/>
+                    <field name="line_ids" nolabel="1" colspan="4">
+                        <tree string="Consultores" editable="top" create="0" delete="0">
+                            <field name="consultor_id" style="width: 30%%" readonly="1"/>
+                            <field name="meetings"/>
+                            <field name="time"/>
+                            <field name="result"/>
+                            <field name="note"/>
+                        </tree>
+                    </field>
+                    <footer>
+                        <button string="Aplicar" name="action_evaluation_apply" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="action_consultor_evaluation_wizard">
+            <field name="name">Evaluacion de Consultor</field>
+            <field name="res_model">consultor.evaluation.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
+        <menuitem action="action_consultor_evaluation_wizard" id="menu_partner_evaluation_consultor_wizard" parent="base.menu_contact_evaluation" sequence="20" groups="base.group_project_reto_zapopan_emp,base.group_project_reto_zapopan_eval"/>
+        
+    </data>
+</openerp>

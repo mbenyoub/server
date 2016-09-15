@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+        <record model="ir.ui.view" id="view_partner_form_view_inherit">
+            <field name="name">res.partner.view.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="priority" eval="26"/>
+            <field name="arch" type="xml">
+                <field name="type_contact" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+                <page name="evaluation_consultor" position="replace">
+                    <page name="evaluation_consultor" string="Perfil de Consultor" attrs="{'invisible': [('type_contact','!=','con')]}">
+                        <label for="evaluation_ids" string="Sectores de experiencia"/>
+                        <field name="evaluation_ids" attrs="{'readonly': [('is_manager','=',False)]}">
+                            <tree editable="top" create="0" delete="0">
+                                <field name="phase_id" ></field>
+                                <field name="category_id" ></field>
+                                <field name="name" ></field>
+                                <field name="experience"></field>
+                                <field name="notes"></field>
+                            </tree>
+                        </field>
+                        <separator/>
+                        <label for="evaluation_notes1" string="En este espacio usted podra mencionar el testimonio de alguno de sus clientes atendidos. (Favor de incluir el nombre de la empresa)"/>
+                        <field name="evaluation_notes1" attrs="{'readonly': [('is_manager','=',False)]}"/>
+                        <label for="evaluation_notes2" string="Mencione al menos un ejemplo de los resultados obtenidos en el area que usted se califica como experto"/>
+                        <field name="evaluation_notes2" attrs="{'readonly': [('is_manager','=',False)]}"/>
+                    </page>
+                </page>
+                <div class="oe_right oe_button_box" name="buttons" position="inside">
+                    <button string="Crear Reunion" icon="terp-go-today" name="action_open_meeting" type="object" attrs="{'invisible':[('type_contact','!=','con')]}"/>
+                </div>
+                <field name="speciality" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="lang" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="date" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="ref" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="res_partner_form_view_rz_inherit">
+            <field name="name">res.partner.view.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="project_reto_zapopan.res_partner_form_view_rz" />
+            <field name="priority" eval="26"/>
+            <field name="arch" type="xml">
+                <field name="type_contact" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+                <page name="evaluation_consultor" position="replace">
+                    <page name="evaluation_consultor" string="Perfil de Consultor" attrs="{'invisible': [('type_contact','!=','con')]}" modifiers="{'invisible': [['type_contact', '!=', 'con']]}">
+                        <label for="evaluation_ids" string="Sectores de experiencia por Area"/>
+                        <field name="evaluation_ids" modifiers="{}" attrs="{'invisible': [('is_manager','=',False)]}">
+                            <tree string="Evaluaciones" editable="top" create="0" delete="0">
+                                <field name="phase_id" readonly="1"/>
+                                <field name="category_id" readonly="1"/>
+                                <field name="name" readonly="1" />
+                                <field name="experience"/>
+                                <field name="notes"/>
+                            </tree>
+                        </field>
+                        <separator/>
+                        <label for="evaluation_notes1" string="En este espacio usted podra mencionar el testimonio de alguno de sus clientes atendidos. (Favor de incluir el nombre de la empresa)"/>
+                        <field name="evaluation_notes1" modifiers="{}" attrs="{'invisible': [('is_manager','=',False)]}"/>
+                        <label for="evaluation_notes2" string="Mencione al menos un ejemplo de los resultados obtenidos en el area que usted se califica como experto"/>
+                        <field name="evaluation_notes2" modifiers="{}" attrs="{'invisible': [('is_manager','=',False)]}"/>
+                    </page>
+                </page>
+                <div class="oe_right oe_button_box" name="buttons" position="inside">
+                    <button string="Crear Reunion" icon="terp-go-today" name="action_open_meeting" type="object" attrs="{'invisible':[('type_contact','!=','con')]}"/>
+                </div>
+                <field name="speciality" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="lang" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="date" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="ref" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="res_partner_read_form_view_inherit">
+            <field name="name">res.partner.view.form.inherit</field>
+            <field name="model">res.partner.read</field>
+            <field name="inherit_id" ref="project_reto_zapopan.res_partner_read_form_view" />
+            <field name="priority" eval="26"/>
+            <field name="arch" type="xml">
+                <field name="type_contact" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+                <page name="evaluation_consultor" position="replace">
+                    <page name="evaluation_consultor" string="Perfil de Consultor" attrs="{'invisible': [('type_contact','!=','con')]}" modifiers="{'invisible': [['type_contact', '!=', 'con']]}">
+                        <label for="evaluation_ids" string="Sectores de experiencia por Area"/>
+                        <field name="evaluation_ids" modifiers="{}" >
+                            <tree string="Evaluaciones" editable="top" create="0" delete="0">
+                                <field name="phase_id" readonly="1"/>
+                                <field name="category_id" readonly="1"/>
+                                <field name="name" readonly="1" />
+                                <field name="experience"/>
+                                <field name="notes"/>
+                            </tree>
+                        </field>
+                        <separator/>
+                        <label for="evaluation_notes1" string="En este espacio usted podra mencionar el testimonio de alguno de sus clientes atendidos. (Favor de incluir el nombre de la empresa)"/>
+                        <field name="evaluation_notes1" modifiers="{}"/>
+                        <label for="evaluation_notes2" string="Mencione al menos un ejemplo de los resultados obtenidos en el area que usted se califica como experto"/>
+                        <field name="evaluation_notes2" modifiers="{}"/>
+                    </page>
+                </page>
+                <div class="oe_right oe_button_box" name="buttons" position="inside">
+                    <button string="Crear Reunion" icon="terp-go-today" name="action_open_meeting" type="object" attrs="{'invisible':[('type_contact','!=','con')]}"/>
+                </div>
+                <field name="speciality" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="lang" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="date" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="ref" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

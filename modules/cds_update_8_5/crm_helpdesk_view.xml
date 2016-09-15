@@ -1,0 +1,205 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <!--  Helpdesk Support Form View -->
+
+        <record model="ir.ui.view" id="crm_case_form_view_helpdesk">
+            <field name="name">CRM - Helpdesk Support Form</field>
+            <field name="model">crm.helpdesk</field>
+            <field name="arch" type="xml">
+                <form string="Helpdesk Support" version="7.0">
+                <header>
+                    <button name="case_open" string="Open" type="object" groups="cds_update.group_support_manager" class="oe_highlight"
+                            states="draft,pending"/>
+                    
+                    <button name="case_close" groups="cds_update.group_support_manager" string="Close Case" type="object" states="draft,pending"/>
+                    
+                    <button name="case_close" groups="cds_update.group_support_manager" string="Close Case" type="object" states="open,evalued" class="oe_highlight"/>
+                    
+                    <button name="case_pending" string="Pending" type="object"
+                            states="draft"/>
+                    
+                    <button name="case_asigna" groups="cds_update.group_support_manager" string="Asignar" type="object"
+                            states="open"/>
+                    
+                    <button name="case_pending" string="Pending" type="object"
+                            states="open"/>
+                    
+                    <button name="case_reset" groups="cds_update.group_support_manager" string="Reset to Draft" type="object"
+                            states="cancel,done"/>
+                    
+                    <button name="case_escalate" groups="cds_update.group_support_manager" string="Escalate" type="object"
+                            states="open,draft,pending,asigna"/>
+                    
+                    <button name="case_cancel" groups="cds_update.group_support_manager" string="Cancel Case" type="object"
+                            states="draft,open,pending"/>
+                    
+                    <button name="case_end" string="Servicio Hecho" type="object" 
+                            states="open"/>
+                    <button name="case_end" string="Servicio Hecho" type="object" class="oe_highlight"
+                            states="assigned"/>
+                    
+                    <button name="case_eval" string="Pasar a Evaluacion" type="object" class="oe_highlight"
+                            states="end"/>
+                    
+                    
+                    <field name="state" nolabel="1" widget="statusbar"
+						   statusbar_colors='{
+                                "pending":"blue",
+                                "assigned":"red"
+                            }'/>
+                </header>
+                <sheet string="Helpdesk Support">
+                    <group col="4" class="oe_header">
+                        <field name="name" string="Query" attrs="{'required':True,'readonly': [('state','!=','draft')]}"/>
+                        <field name="section_id" widget="selection" attrs="{'readonly': [('state','!=','draft')]}"/>
+                        <field name="user_id"/>
+                        <field name="tec_id" attrs="{'required':[('state','=','assing')],'readonly': [('state','!=','draft')]}"/>/>
+                        <field name="date"/>
+                        <field name="date_deadline"/>
+                    </group>
+                    <notebook>
+                        <page string="General">
+                            <group>
+                                <group string="Communication">
+                                    <field name="partner_id" on_change="onchange_partner_id(partner_id, email_from)" attrs="{'required':True,'readonly': [('state','!=','draft')]}"/>
+                                    <field name="email_from" attrs="{'readonly': [('state','!=','draft')]}"/>
+                                </group>
+                                <group string="References">
+                                    <field name="ref"/>
+                                    <field name="ref2"/>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="contracts" domain="[('partner_id', '=', partner_id)]" attrs="{'required':True,'readonly': [('state','!=','draft')]}"/>
+                            </group>
+                            <group attrs="{'invisible': [('state','!=','assigned')]}">
+                                <field name="products_line">
+								<tree string="Lista de Productos del Soporte" editable="bottom">
+                                    <field name="quantity"/>
+                                    <field name="product_id" string="Productos"/>
+                                </tree>
+						</field>
+                            </group>
+                            <group>
+                                <group string="Categorization">
+                                    <field name="priority"/>
+                                    <field name="categ_id" domain="[('object_id.model', '=', 'crm.helpdesk')]" context="{'object_name': 'crm.helpdesk'}"/>
+                                    <field name="channel_id"/>
+                                    <field name="type_support" attrs="{'required': [('state','=','assigned')],'invisible': [('state','!=','assigned')]}"/>
+                                    <field name="family_support" attrs="{'invisible': [('state','!=','assigned')]}" domain="[('parent_id', '=', type_support)]"/>
+                                    <field name="principale_support" attrs="{'invisible': [('state','!=','assigned')]}" domain="[('parent_id', '=', family_support)]"/>
+                                    <field name="consecutive_support" attrs="{'invisible': [('state','!=','assigned')]}" domain="[('parent_id', '=', consecutive_support)]"/>
+                                </group>
+                            </group>
+
+                            <separator string="Notes"/>
+                            <field name="description"/>
+                        </page>
+                        <page string="Extra Info">
+                            <group>
+                                <group groups="base.group_no_one" string="Dates">
+                                    <field name="create_date"/>
+                                    <field name="write_date"/>
+                                    <field name="date_closed"/>
+                                </group>
+                                <group string="Misc">
+                                    <field name="id"/>
+                                    <field name="active"/>
+                                </group>
+                                <group string="Estimates">
+                                    <field name="planned_cost"/>
+                                </group>
+                                
+                            </group>
+                        </page>
+                        <page string="Cuestionario" attrs="{'invisible': [('state','!=','done')]}">
+                            <group>
+                                <button name="case_evalued" groups="portal.group_portal" string="Evaluar caso" type="object"
+                            states="eval"/>
+                                <group string="Cuestionario">
+                                    <field name="preg1" attrs="{'readonly':[('state','!=','eval')]}"/>
+                                    <field name="preg2" attrs="{'readonly':[('state','!=','eval')]}"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_ids" widget="mail_thread"/>
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Helpdesk Support Tree View  -->
+
+        <record model="ir.ui.view" id="crm_case_tree_view_helpdesk">
+            <field name="name">CRM - Helpdesk Support Tree</field>
+            <field name="model">crm.helpdesk</field>
+            <field name="arch" type="xml">
+                <tree string="Helpdesk Support Tree"
+                    colors="black:state=='open';blue:state=='pending';gray:state in ('cancel','done')">
+                    <field name="id" string="Numero de solicitud" />
+                    <field name="name" string="Query" />
+                    <field name="partner_id" string="Partner"/>
+                    <field name="date" string="Date"/>
+                    <field name="date_deadline"/>
+                    <field name="user_id"/>
+                    <field name="section_id"/>
+                    <field name="priority"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--  Helpdesk Support Calendar View -->
+
+        <record model="ir.ui.view" id="crm_case_helpdesk_calendar_view">
+            <field name="name">CRM - Helpdesk Support Calendar</field>
+            <field name="model">crm.helpdesk</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <calendar string="Helpdesk Supports" date_start="date" color="user_id" date_delay="duration">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="categ_id"/>
+                </calendar>
+            </field>
+        </record>
+
+        <!-- Helpdesk Support Search View  -->
+
+        <record id="view_crm_case_helpdesk_filter" model="ir.ui.view">
+            <field name="name">CRM - Helpdesk Search</field>
+            <field name="model">crm.helpdesk</field>
+            <field name="arch" type="xml">
+                <search string="Search Helpdesk">
+                    <field name="name" string="Query"/>
+                    <field name="date"/>
+                    <filter icon="terp-check" string="New" name="current" domain="[('state','=','draft')]" help="New Helpdesk Request" />
+                    <filter icon="terp-camera_test" string="Open" domain="[('state','=','open')]" help="Open Helpdesk Request" />
+                    <filter icon="terp-gtk-media-pause" string="Pending" domain="[('state','=','pending')]" help="All pending Helpdesk Request" />
+                    <separator/>
+                    <filter string="Assigned to Me or My Sales Team(s)" icon="terp-personal+" domain="['|', ('section_id.user_id','=',uid), ('section_id.member_ids', 'in', [uid])]"
+                            help="Helpdesk requests that are assigned to me or to one of the sale teams I manage" />
+                    <field name="partner_id" filter_domain="[('partner_id','child_of',self)]"/>
+                    <field name="user_id"/>
+                    <field name="section_id" string="Sales Team"/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Partner" icon="terp-partner" domain="[]" help="Partner" context="{'group_by':'partner_id'}" />
+                        <filter string="Responsible" icon="terp-personal" domain="[]" help="Responsible User" context="{'group_by':'user_id'}" />
+                        <filter string="Sales Team" icon="terp-personal+" domain="[]" help="Sales Team" context="{'group_by':'section_id'}" />
+                        <filter string="Priority" icon="terp-rating-rated" domain="[]" context="{'group_by':'priority'}" />
+                        <filter string="Status" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}" />
+                        <filter string="Date" icon="terp-go-month" domain="[]" help="Request Date" context="{'group_by':'date'}" />
+                        <filter string="Deadline" icon="terp-go-month" domain="[]" context="{'group_by':'date_deadline'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+
+    </data>
+</openerp>

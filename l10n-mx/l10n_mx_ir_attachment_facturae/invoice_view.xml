@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <act_window
+            context="{'search_default_invoice_id': [active_ids], 'default_invoice_id': [active_ids]}"
+            id="act_invoice_attachment"
+            name="Attachment Factura E MX"
+            res_model="ir.attachment.facturae.mx"
+            src_model="account.invoice"
+
+            />
+        
+        <record id="account_invoice_form_inh_l10n_mx_facturae_rate" model="ir.ui.view">
+            <field name="name">account.invoice.form.inh.l10n.mx.facturae.rate</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <button name="action_invoice_sent" type="object" position="before">
+                    <button name="action_invoice_sent2" type="object" string="Reenviar Factura Sellada" attrs="{'invisible':['|',('sent','=',True), ('state', '!=', 'open')]}" class="oe_highlight" groups="base.group_user"/>
+                </button>
+                <button name="action_invoice_sent" type="object" position="replace">
+                    <button name="action_invoice_sent2" type="object" string="Reenviar Factura Sellada" attrs="{'invisible':['|',('sent','=',False), ('state', '!=', 'open')]}" groups="base.group_user"/>
+                </button>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

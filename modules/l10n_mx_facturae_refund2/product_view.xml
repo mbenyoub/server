@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_category_property_form" model="ir.ui.view">
+            <field name="name">product.category.property.form.inherit</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="product.product_category_form_view"/>
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="property_account_expense_categ" position="after">
+                        <field name="property_account_income_refund_categ" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]"/>
+                        <field name="property_account_expense_refund_categ" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]"/>
+                    </field>
+                </data>
+            </field>
+        </record>
+
+    </data>
+</openerp>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <menuitem id="marketing_campaign.menu_marketing_configuration" name="Configuracion"
+                  groups="marketing.group_marketing_config" sequence="999" parent="base.marketing_menu"/>
+        
+        <record model="ir.actions.act_window" id="marketing_campaign_config_action">
+            <field name="name">Configuracion de Actividades</field>
+            <field name="res_model">marketing.campaign.config.activity</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Configuracion de Actividades</p>
+            </field>
+        </record>
+       
+        <menuitem id="config_activity_campaign_submenu" name="Configuracion de Actividades"
+        parent="marketing_campaign.menu_marketing_configuration" action="marketing_campaign_config_action"/>
+        
+        <!--Vista formulario de la configuracion de las actividades-->
+        <record model="ir.ui.view" id="view_marketing_campaign_config_activity_form">
+            <field name="name">marketing.campaign.config.activity.form</field>
+            <field name="model">marketing.campaign.config.activity</field>
+            <field name="arch" type="xml">
+                <form string="Configuracion de Actividades" version="7.0">
+                    <sheet>
+                        <group>
+                            <field name="name" required="True" string="Nombre" />
+                            <field name="condition" required="True" string="Condicion"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Vista lista de la configuracion de las actividades-->
+        <record model="ir.ui.view" id="view_marketing_campaign_config_activity_tree">
+            <field name="name">marketing.campaign.config.activity.list</field>
+            <field name="model">marketing.campaign.config.activity</field>
+            <field name="arch" type="xml">
+                <tree string="Marketing Campaign">
+                    <field name="name" string="Nombre" />
+                    <field name="condition" string="Condicion"/>
+                </tree>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

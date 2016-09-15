@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+        <record model="ir.ui.view" id="res_partner_view_inherit">
+            <field name="name">res.partner.view.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <!--<sheet position="before">
+                    <header>
+                        <button name="action_create_diot" type="object" string="Generar DIOT" attrs="{'invisible':[('supplier','=',False)]}"/>
+                    </header>
+                </sheet>-->
+                <notebook position="inside">
+                    <page string="DIOT" attrs="{'invisible': [('supplier','=',False)]}">
+                        <group colspan="4" col="4" attrs="{'invisible':[('supplier','=', False)]}">
+                            <separator string="Informacion DIOT" colspan="4"/>
+                            <newline/>
+                            <field name="number_fiscal_id" attrs="{'invisible':[('type_of_third','in',['04','15'])]}"/>
+                            <newline/>
+                            <field name="type_of_third" colspan="2" />
+                            <field name="type_of_operation"  colspan="2" />
+                            <newline/>
+                            <field name="country_of_residence" attrs="{'invisible':[('type_of_third','in',['04','15'])]}"/>
+                            <field name="nationality" attrs="{'invisible':[('type_of_third','in',['04','15'])]}"/>
+                            <field name="foreign_name" attrs="{'invisible':[('type_of_third','in',['04','15'])]}"/>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

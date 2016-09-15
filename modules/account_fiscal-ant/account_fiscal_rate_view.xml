@@ -1,0 +1,174 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+<!--
+        Indices Fiscales
+-->
+        <!-- View Form - Indices Fiscales -->
+        <record id="view_account_fiscal_rate_form" model="ir.ui.view">
+            <field name="name">account.fiscal.rate.form</field>
+            <field name="model">account.fiscal.rate</field>
+            <field name="arch" type="xml">
+                <form string="Indices Fiscales" version="7.0">
+                    <header>
+                        <button name="action_update" type="object" string="Actualizar" class="oe_highlight"  attrs="{'invisible':[('mode','=','manual')]}"/>
+                    </header>
+                    <group>
+                        <group>
+                            <field name="sequence"/>
+                            <field name="name"/>
+                            <field name="value" attrs="{'invisible':[('mode','!=','manual')]}"/>
+                            <field name="if_apply" attrs="{'invisible':[('mode','=','manual')]}" help="Valida si se cumple la condicion pone el resultado, de caso contrario pone cero"/>
+                            <separator/>
+                            <label string="Condicion:" attrs="{'invisible':[('if_apply','=',False)]}" />
+                            <field name="operator" attrs="{'invisible':[('if_apply','=',False)]}" />
+                            <field name="condition_value" attrs="{'invisible':[('if_apply','=',False)]}" />
+                        </group>
+                        <group>
+                            <field name="code"/>
+                            <field name="mode"/>
+                            <field name="type_rate" invisible="1"/>
+                            <field name="result" readonly="1" attrs="{'invisible':[('mode','=','manual')]}"/>
+                            <field name="date" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Informacion Adicional" attrs="{'invisible':[('mode','=','manual')]}" >
+                            <group string="Configuracion de Acumulados" attrs="{'invisible':[('mode','=','manual')]}">
+                                <div>
+                                    <button name="action_add_rate" string="Agregar" class="oe_highlight" type="object" help="Agregar nuevo acumulador para calcular sobre el registro"/>
+                                    <field name="child_ids" widget="one2many_list" nolabel="1" context="{'default_type_rate':'val', 'default_parent_id': active_id}">
+                                        <tree edit="1" create="0" delete="1" string="Acumulados">
+                                            <field name="parent_id" invisible="1"/>
+                                            <field name="sequence"/>
+                                            <field name="if_apply" invisible="1"/>
+                                            <field name="condition" attrs="{'invisible':[('if_apply','=',False)]}"/>
+                                            <field name="condition_res" attrs="{'invisible':[('if_apply','=',False)]}"/>
+                                            <field name="operator" attrs="{'invisible':[('if_apply','=',False)]}"/>
+                                            <field name="condition_type" attrs="{'invisible':[('if_apply','=',False)]}"/>
+                                            <field name="condition_value" attrs="{'invisible':['|',('if_apply','=',False),('condition_type','in',['per','res','utility'])]}"/>
+                                            <field name="name"/>
+                                            <field name="type_rate" invisible="1"/>
+                                            <field name="factor" attrs="{'readonly':[('type_rate','=','view')]}"/>
+                                            <field name="base" invisible="1" attrs="{'readonly':[('base','=','value')]}"/>
+                                            <field name="reference" readonly="1"/>
+                                            <field name="result" readonly="1"/>
+                                        </tree>
+                                        <form string="Indice Fiscal Acumlativo">
+                                            <group col="4" colspan="4">
+                                                <group>
+                                                    <field name="sequence" />
+                                                    <field name="name"/>
+                                                    <field name="parent_id" invisible="1"/>
+                                                    <field name="type_rate" string="Tipo Acumulador" readonly="1"/>
+                                                    <field name="if_apply"/>
+                                                    <separator/>
+                                                    <label string="Condicion:" attrs="{'invisible':[('if_apply','=',False)]}" />
+                                                    <field name="condition" attrs="{'invisible':[('if_apply','=',False)]}" />
+                                                    <field name="condition_res" attrs="{'invisible':[('if_apply','=',False)]}" />
+                                                    <field name="operator" attrs="{'invisible':[('if_apply','=',False)]}" />
+                                                    <field name="condition_type" attrs="{'invisible':[('if_apply','=',False)]}" />
+                                                    <field name="condition_value" attrs="{'invisible':['|',('if_apply','=',False),('condition_type','in',['per','utility'])]}" />
+                                                </group>
+                                                <group>
+                                                    <field name="code"/>
+                                                    <field name="factor" required="1"/>
+                                                    <field name="base" attrs="{'invisible':[('type_rate','in',['frate','code_cumulative','code_period','val','per','inpc','utility','asset'])], 'required':[('type_rate','not in',['frate','code_cumulative','code_period','val','per','inpc','utility','asset'])]}"/>
+                                                    <field name="apply" attrs="{'invisible':[('type_rate','not in',['acf_period','acf_cumulative','code_period','code_cumulative','inpc','asset'])], 'required':[('type_rate','in',['acf_period','acf_cumulative','code_period','code_cumulative','inpc','asset'])]}"/>
+                                                    <field name="period_id" attrs="{'invisible':['|',('type_rate','not in',['acf_period','acf_cumulative','code_period','code_cumulative']),('apply','!=','esp')], 'required':[('type_rate','in',['acf_period','acf_cumulative','code_period','code_cumulative']),('apply','=','esp')]}"/>
+                                                    <field name="fiscalyear_id" attrs="{'invisible':['|',('type_rate','not in',['asset']),('apply','!=','esp')], 'required':[('type_rate','in',['asset']),('apply','=','esp')]}"/>
+                                                    <field name="type_asset" attrs="{'invisible':[('type_rate','not in',['asset'])], 'required':[('type_rate','in',['asset'])]}"/>
+                                                    <field name="inpc_id" attrs="{'invisible':['|',('type_rate','not in',['inpc']),('apply','!=','esp')], 'required':[('type_rate','in',['inpc']),('apply','=','esp')]}"/>
+                                                    <field name="apply_year" attrs="{'invisible':[('type_rate','in',['frate','view','val','per','inpc','utility'])], 'readonly': [('type_rate','=','asset')]}"/>
+                                                    <field name="reference" readonly="1" attrs="{'invisible':[('type_rate','in',['view','val','per','inpc','utility','asset'])]}"/>
+                                                    <field name="value" attrs="{'invisible':[('type_rate','not in',['val'])]}"/>
+                                                </group>
+                                            </group>
+                                            <div>
+                                                <label for="descripction" string="Descripcion"/>
+                                                <field name="description" nolabel="1" />
+                                            </div>
+                                        </form>
+                                    </field>
+                                </div>
+                            </group>
+                            <group string="Descripcion">
+                                <field name="description" nolabel="1"/>
+                            </group>
+                        </page>
+                        <page string="Historial">
+                            <group string="Historico Indices Fiscales">
+                                <field name="log_ids" widget="one2many_list" nolabel="1">
+                                    <tree edit="1" create="0" delete="1" string="Acumulados">
+                                        <field name="rate_id"/>
+                                        <field name="date"/>
+                                        <field name="period_id"/>
+                                        <field name="mode"/>
+                                        <field name="value"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+        
+        <!-- View Tree - Indices Fiscales -->
+        <record id="view_account_fiscal_rate_tree" model="ir.ui.view">
+            <field name="name">account.fiscal.rate.tree</field>
+            <field name="model">account.fiscal.rate</field>
+            <field name="arch" type="xml">
+                <tree string="Indices Fiscales">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="mode"/>
+                    <field name="result"/>
+                    <field name="date"/>
+                    <field name="type_rate" invisible="1"/>
+                    <button name="action_update" string="" type="object" icon="gtk-redo" attrs="{'invisible':['|',('type_rate','!=','view'),('mode','=','manual')]}"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!--  Filtros - Indices Fiscales -->
+        <record id="view_account_fiscal_rate_filter" model="ir.ui.view">
+            <field name="name">account.fiscal.rate.select</field>
+            <field name="model">account.fiscal.rate</field>
+            <field name="arch" type="xml">
+                <search string="Buscar">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="mode"/>
+                    <separator/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Codigo" context="{'group_by': 'code'}"/>
+                        <filter string="Tipo" context="{'group_by': 'mode'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+        
+        <!-- Action - Indices Fiscales -->
+        <record id="action_account_fiscal_rate" model="ir.actions.act_window">
+            <field name="name">Indices Fiscales</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.fiscal.rate</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[('type_rate','=','view')]</field>
+            <field name="search_view_id" ref="view_account_fiscal_rate_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click para agregar indices fiscales
+              </p>
+            </field>
+        </record>
+        
+        <!-- Menu - Indices Fiscales -->
+        <menuitem action="action_account_fiscal_rate" id="menu_account_fiscal_rate" parent="account.menu_account_fiscal_configuration" sequence="10"/>
+    
+    </data>
+</openerp>

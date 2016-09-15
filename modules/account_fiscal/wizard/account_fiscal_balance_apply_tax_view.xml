@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    
+<!--
+        Vista wizard Aplicar Saldo Fiscal
+-->
+        <!-- View Form - Aplicar Saldo -->
+        <record model="ir.ui.view" id="wizard_account_fiscal_balance_apply_tax_view">
+            <field name="name">account.fiscal.balance.apply.tax.form</field>
+            <field name="model">account.fiscal.balance.apply.tax</field>
+            <field name="arch" type="xml">
+                <form string="Aplicar Saldo fiscal" version="7.0">
+                    <group col="4">
+                        <group>
+                            <field name="period_id" on_change="onchange_period_id(period_id,context)"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <button name="action_update_lines" string="(Actualizar montos por pagar)" class="oe_link oe_edit_only oe_inline" type="object"/>
+                        </group>
+                    </group>
+                    <field name="line_ids" >
+                        <tree editable="top" edit="1" create="0" delete="1" string="Saldos a aplicar">
+                            <field name="tax_code_id" readonly="1" string="Impuesto"/>
+                            <field name="period_id" invisible="1"/>
+                            <field name="period_id_apply" invisible="0" readonly="1"/>
+                            <field name="balance_id" invisible="1"/>
+                            <field name="balance_update" readonly="1" sum="Total saldo"/>
+                            <field name="history_id" invisible="1"/>
+                            <field name="history_value2" invisible="1"/>
+                            <field name="history_value" readonly="1" sum="Total por pagar"/>
+                            <field name="amount" sum="Total Aplicado"/>
+                            <field name="apply"/>
+                        </tree>
+                    </field>
+                    <footer>
+                        <button name="action_balance_apply" type="object" string="Aplicar" class="oe_highlight"/>
+                        o
+                        <button string="Cancelar" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Action - Aplicar Saldo fiscal -->
+        <record model="ir.actions.act_window" id="action_wizard_account_fiscal_balance_apply_tax_view">
+            <field name="name">Aplicar Saldo fiscal</field>
+            <field name="res_model">account.fiscal.balance.apply.tax</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_account_fiscal_balance_apply_tax_view"/>
+            <field name="target">new</field>
+        </record>
+    
+    </data>
+</openerp>   

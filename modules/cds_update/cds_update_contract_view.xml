@@ -1,0 +1,206 @@
+<openerp>
+    <data>
+        
+        <!-- Form View contract -->
+        <record id="view_account_analytic_account_cds_form_inherit" model="ir.ui.view">
+            <field name="name">ContratoCDS</field>
+            <field name="model">account.analytic.account</field>
+            <field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>
+            <field name="arch" type="xml">
+                <group name="contract" position="before">
+                    <group string="Terminos de Garantia">
+                        <field name="visits"/>
+						<field name="visits_extra"/>
+						<field name="request_time"/>
+						<field name="attention_days"/>
+						<field name="attention_timeset"/>
+						<field name="attention_time_limit"/>
+						<field name="discount_ref"/>
+						<field name="discount_han"/>
+						<field name="products_line">
+								<tree string="Lista de Productos" editable="bottom">
+                                    <field name="quantity"/>
+                                    <field name="product_id"/>
+                                </tree>
+						</field>
+                    </group>
+				</group>
+				<page name="contract_page" position="after">
+					<page string="Soporte" name="contract_page_supports" attrs="{'invisible':[('type','not in',['contract', 'template'])]}">
+						<group>
+							<field name="supports" attrs="{'readonly':True}"/>
+						</group>
+						<group>
+							<field name="reuniones" attrs="{'required':True}" />
+						</group>
+					</page>
+				</page>
+                <!--
+                <field name="quantity_max" position="after">
+                    
+                    
+                </field>
+				-->
+                <field name="partner_id" position="attributes">
+                	<attribute name="domain">[('customer', '=', True)]</attribute>
+                </field>
+				<!--
+                <field name="date_start" position="attributes">
+                    <attribute name="invisible">1</attribute>   
+				</field>
+                <field name="date" position="attributes">
+                    <attribute name="invisible">1</attribute>   
+                </field>
+                <field name="date" position="after">
+                    <field name="client_num"/>
+                    <field name="sap_number"/>
+                    <field name="payment_term_id"/>
+                </field>
+                <page string="Contract Information" position="after">
+            		<page string="Periods">
+            			<field name="period_ids" nolabel="1"/>
+            		</page>
+            		<page string="Invoices">
+            			<field name="invoice_ids" nolabel="1"/>
+            		</page>
+            		<page string="Products">
+            			<field name="product_ids" nolabel="1"/>
+            		</page>
+                </page>-->
+				<field name="partner_id" position="attributes">
+                    <attribute name="required">True</attribute>
+                </field>
+            </field>
+        </record>
+		
+        <!-- Tiempo de respuesta al contrato -->
+        <record id="view_request_contract_time_tree" model="ir.ui.view">
+            <field name="name">Respuesta de Contrato</field>
+            <field name="model">contract.time.request</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Respuesta de Contrato" version="7.0">
+                                        <field name="name"/>
+                                        <field name="time"/>
+                </tree>
+            </field>
+        </record>
+		
+		<!-- Tiempo de solucion del problema al contrato -->
+        <record id="view_solution_ticket_contract_time_tree" model="ir.ui.view">
+            <field name="name">Tiempo de solucion de garantia</field>
+            <field name="model">contract.time.limit</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Tiempo de solucion de garantia" version="7.0">
+                                        <field name="name"/>
+                                        <field name="time"/>
+                </tree>
+            </field>
+        </record>
+		
+		<!-- Dias de Atencion al cliente, este generalmente de texto pensando en rangos -->
+        <record id="view_day_sattention_tree" model="ir.ui.view">
+            <field name="name">Dias de atencion(Rangos)</field>
+            <field name="model">contract.time.request.days</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Dias de atencion(Rangos)" version="7.0">
+                                        <field name="name"/>
+                                        <field name="time"/>
+                </tree>
+            </field>
+        </record>
+		<!-- Formularios-->
+        <record id="view_request_contract_time_tree" model="ir.ui.view">
+            <field name="name">Respuesta de Contrato</field>
+            <field name="model">contract.time.request</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Respuesta de Contrato" version="7.0">
+					<group string="Datos de Respuesta">
+                                        <field name="name"/>
+                                        <field name="time"/>
+					</group>
+                </form>
+            </field>
+        </record>
+		
+		<!-- Tiempo de solucion del problema al contrato -->
+        <record id="view_solution_ticket_contract_time_tree" model="ir.ui.view">
+            <field name="name">Tiempo de solucion de garantia</field>
+            <field name="model">contract.time.limit</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Tiempo de solucion de garantia" version="7.0">
+					<group string="Datos de Solucion">
+                                        <field name="name"/>
+                                        <field name="time"/>
+					</group>
+                </form>
+            </field>
+        </record>
+		
+		<!-- Dias de Atencion al cliente, este generalmente de texto pensando en rangos -->
+        <record id="view_day_sattention_tree" model="ir.ui.view">
+            <field name="name">Dias de atencion(Rangos)</field>
+            <field name="model">contract.time.request.days</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Dias de atencion(Rangos)" version="7.0">
+					<group string="Datos de Respuesta">
+                                        <field name="name"/>
+                                        <field name="time"/>
+					</group>
+                </form>
+            </field>
+        </record>
+		
+        <!-- Accion de menu-->
+        <record model="ir.actions.act_window" id="request_contract_time_action">
+            <field name="name">Respuesta de Contrato</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">contract.time.request</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+		<!-- Accion de menu-->
+		<record model="ir.actions.act_window" id="solution_ticket_contract_time_action">
+            <field name="name">Tiempo de solucion de garantia</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">contract.time.limit</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+		<!-- Accion de menu-->
+		<record model="ir.actions.act_window" id="day_sattention_action">
+            <field name="name">Dias de atencion(Rangos)</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">contract.time.request.days</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        <!--MENU-->    
+        <menuitem
+            id="view_request_contract_time_menu"
+            name="Tiempo Respuestas de Contrato"
+            parent="crm_help_config"
+            action="request_contract_time_action"
+            sequence="30"/>
+        
+        <menuitem
+            id="view_solution_ticket_contract_time_menu"
+            name="Tiempo de solucion de garantia"
+            parent="crm_help_config"
+            action="solution_ticket_contract_time_action"
+            sequence="40"/>
+        
+        <menuitem
+            id="view_day_sattention_menu"
+            name="Dias de atencion(Rangos)"
+            parent="crm_help_config"
+            action="day_sattention_action"
+            sequence="50"/>
+    </data>
+</openerp>

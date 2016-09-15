@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+    
+        <menuitem id="base.menu_config_contact_evaluation" parent="base.menu_base_contact_config" name="Consultoria" sequence="60" />
+        
+<!--
+          Fases
+-->
+
+        <record id="view_partner_evaluation_phase_form" model="ir.ui.view">
+            <field name="name">res.partner.evaluation.phase.form</field>
+            <field name="model">res.partner.evaluation.phase</field>
+            <field name="arch" type="xml">
+                <form string="Categorias" version="7.0">
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="code"/>
+                            <field name="sequence"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Especialidades">
+                            <field name="category_ids" nolabel="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="description"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="name"/>
+                                        </group>
+                                        <group>
+                                        </group>
+                                    </group>
+                                    <notebook>
+                                        <page string="Subespecialidades">
+                                            <field name="template_ids" nolabel="1">
+                                                <tree editable="top">
+                                                    <field name="priority"/>
+                                                    <field name="name"/>
+                                                </tree>
+                                            </field>
+                                        </page>
+                                        <page string="Notas">
+                                            <field name="description" nolabel="1"/>
+                                        </page>
+                                    </notebook>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Notas">
+                            <field name="description" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_partner_evaluation_phase_tree" model="ir.ui.view">
+            <field name="name">res.partner.evaluation.phase.tree</field>
+            <field name="model">res.partner.evaluation.phase</field>
+            <field name="arch" type="xml">
+                <tree string="Fases">
+                    <field name="sequence"/>
+                    <field name="name"/>
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="action_partner_evaluation_phase" model="ir.actions.act_window">
+            <field name="name">Fases</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner.evaluation.phase</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_partner_evaluation_phase_tree"/>
+        </record>
+
+        <menuitem action="action_partner_evaluation_phase" id="menu_partner_evaluation_phase" parent="base.menu_config_contact_evaluation" sequence="5" groups="base.group_no_one"/>
+
+<!--
+          Categorias
+-->
+        
+        <record model="ir.ui.view" id="view_partner_evaluation_category_tree_inherit">
+            <field name="name">res.partner.evaluation.category.tree.inherit</field>
+            <field name="model">res.partner.evaluation.category</field>
+            <field name="inherit_id" ref="project_reto_zapopan.view_partner_evaluation_category_tree" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="phase_id"/>
+                </field>
+                <tree position="attributes">
+                    <attribute name="editable"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_partner_evaluation_category_form_inherit">
+            <field name="name">res.partner.evaluation.category.form.inherit</field>
+            <field name="model">res.partner.evaluation.category</field>
+            <field name="inherit_id" ref="project_reto_zapopan.view_partner_evaluation_category_form" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="phase_id"/>
+                </field>
+                <field name="description" position="replace">
+                    <notebook>
+                        <page string="Subespecialidades">
+                            <field name="template_ids" nolabel="1">
+                                <tree editable="top">
+                                    <field name="priority"/>
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Notas">
+                            <field name="description" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </field>
+            </field>
+        </record>
+        
+        <record id="project_reto_zapopan.action_partner_evaluation_category" model="ir.actions.act_window">
+            <field name="name">Especialidad</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner.evaluation.category</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="project_reto_zapopan.view_partner_evaluation_category_tree"/>
+        </record>
+
+<!--
+          Plantilla
+-->
+
+        <record id="project_reto_zapopan.action_partner_evaluation_template" model="ir.actions.act_window">
+            <field name="name">Subespecialidad</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner.evaluation.template</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="project_reto_zapopan.view_partner_evaluation_template_tree"/>
+            <field name="search_view_id" ref="project_reto_zapopan.view_partner_evaluation_template_search"/>
+        </record>
+
+<!--
+          Evaluaciones
+-->
+
+        <record model="ir.ui.view" id="view_partner_evaluation_evaluation_form_inherit">
+            <field name="name">res.partner.evaluation.evaluation.form.inherit</field>
+            <field name="model">res.partner.evaluation.evaluation</field>
+            <field name="inherit_id" ref="project_reto_zapopan.view_partner_evaluation_evaluation_form" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="category_id" position="before">
+                    <field name="phase_id"/>
+                </field>
+                <field name="sector_ids" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_partner_evaluation_evaluation_tree_inherit">
+            <field name="name">res.partner.evaluation.evaluation.tree.inherit</field>
+            <field name="model">res.partner.evaluation.evaluation</field>
+            <field name="inherit_id" ref="project_reto_zapopan.view_partner_evaluation_evaluation_tree" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="category_id" position="before">
+                    <field name="phase_id"/>
+                </field>
+                <field name="date" position="after">
+                    <button string="Crear Reunion" icon="terp-go-today" name="action_open_meeting" type="object"/>
+                </field>
+                <field name="sector_ids" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_partner_evaluation_evaluation_search_inherit">
+            <field name="name">res.partner.evaluation.evaluation.search.inherit</field>
+            <field name="model">res.partner.evaluation.evaluation</field>
+            <field name="inherit_id" ref="project_reto_zapopan.view_partner_evaluation_evaluation_search" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="date" position="after">
+                    <field name="phase_id"/>
+                </field>
+                <filter name="group_category" position="before">
+                    <filter string="Fase" name="group_phase"  icon="terp-folder-violet" domain="[]" context="{'group_by':'phase_id'}"/>
+                </filter>
+                <filter name="group_name" position="attributes">
+                    <attribute name="string">Subespecialidad</attribute>
+                </filter>
+                <filter name="group_category" position="attributes">
+                    <attribute name="string">Especialidad</attribute>
+                </filter>
+            </field>
+        </record>
+        
+        <!-- Accion - Evaluaciones de Proyectos -->
+        <record id="project_reto_zapopan.action_partner_evaluation_evaluation" model="ir.actions.act_window">
+            <field name="name">Perfiles de Consultoria</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner.evaluation.evaluation</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{'search_default_filter_experience': True}</field>
+            <field name="view_id" ref="project_reto_zapopan.view_partner_evaluation_evaluation_tree"/>
+        </record>
+    
+    </data>
+</openerp>

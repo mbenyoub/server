@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <!--
+            Modificacion de Vista Formulario Equipos de Ventas
+        -->
+        
+        <record model="ir.ui.view" id="crm_case_section_view_form_inherit">
+            <field name="name">crm.case.section.form.inherit</field>
+            <field name="model">crm.case.section</field>
+            <field name="inherit_id" ref="crm.crm_case_section_view_form" />
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/group" position="before">
+                    <header>
+                        <button name="button_update_users" string="Actualizar equipo ventas Default" type="object"/>
+                    </header>
+                </xpath>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

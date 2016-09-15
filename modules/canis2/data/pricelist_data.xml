@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        
+        <!--
+            Tipos de descuento
+        -->
+
+        <!-- Comercial -->
+        <record id="canis.discount_type_1" model="product.pricelist.discount.type">
+            <field name="name">Comercial</field>
+            <field name="key">discount_com</field>
+            <field name="to_paid" eval="False" />
+            <field name="to_mix" eval="False" />
+        </record>
+        <!-- Financiero -->
+        <record id="canis.discount_type_2" model="product.pricelist.discount.type">
+            <field name="name">Financiero</field>
+            <field name="key">discount_fin</field>
+            <field name="to_paid" eval="True" />
+            <field name="to_mix" eval="False" />
+        </record>
+        <!-- Volumen -->
+        <record id="canis.discount_type_3" model="product.pricelist.discount.type">
+            <field name="name">Volumen</field>
+            <field name="key">discount_vol</field>
+            <field name="to_paid" eval="False" />
+            <field name="to_mix" eval="False" />
+        </record>
+        <!-- Mezcla -->
+        <record id="canis.discount_type_4" model="product.pricelist.discount.type">
+            <field name="name">Mezcla</field>
+            <field name="key">discount_mez</field>
+            <field name="to_paid" eval="False" />
+            <field name="to_mix" eval="True" />
+        </record>
+        
+    </data>
+</openerp>

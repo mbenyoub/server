@@ -1,0 +1,155 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <!--
+            Iniciativas
+        -->
+        
+        <record id="view_crm_case_leads_filter_inherit" model="ir.ui.view">
+            <field name="name">crm.case.leads.filter.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.view_crm_case_leads_filter"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="after">
+                    <field name="branch_id"/>
+                </field>
+                <xpath expr="//filter[@string='Open']" position="before">
+                    <filter icon="terp-gtk-go-back-rtl" string="Mi sucursal" name="filter_branch_id" domain="[('branch_id.branch_user_ids','in',(uid))]"/>
+                </xpath>
+                <filter string="Salesperson" position="before">
+                    <filter string="Sucursal" domain="[]" context="{'group_by':'branch_id'}"/>
+                </filter>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="crm.crm_case_category_act_leads_all">
+            <field name="name">Leads</field>
+            <field name="res_model">crm.lead</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">['|',('type','=','lead'),('type','=',False),'|',('branch_id.user_ids','in',(uid)),('branch_id','=',False)]</field>
+            <field name="view_id" ref="crm.crm_case_tree_view_leads"/>
+            <field name="search_view_id" ref="crm.view_crm_case_leads_filter"/>
+             <field name="context">{
+                     'default_type':'lead',
+                     'stage_type':'lead',
+                     'needaction_menu_ref': 'crm.menu_crm_opportunities',
+                     'default_user_id':uid
+                 }
+             </field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create an unqualified lead.
+              </p><p>
+                Use leads if you need a qualification step before creating an
+                opportunity or a customer. It can be a business card you received,
+                a contact form filled in your website, or a file of unqualified
+                prospects you import, etc.
+              </p><p>
+                Once qualified, the lead can be converted into a business
+                opportunity and/or a new customer in your address book.
+              </p>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="crm_case_tree_view_leads_inherit">
+            <field name="name">crm.case.tree.view.leads.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_tree_view_leads" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="stage_id" position="after">
+                    <field name="branch_id" invisible="1"/>
+                </field>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="crm_case_form_view_leads_inherit">
+            <field name="name">crm.case.form.view.leads.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_form_view_leads" />
+            <field name="priority" eval="22"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="attributes">
+                    <attribute name="domain">[('branch_id.user_ids','in',(uid))]</attribute>
+                    <attribute name="on_change">onchange_partner_id(partner_id,email_from)</attribute>
+                </field>
+                <field name="active" position="after">
+                    <field name="branch_id" readonly="1"/>
+                </field>
+            </field>
+        </record>
+        
+        <!--
+            Oportunidades
+        -->
+        
+        <record id="view_crm_case_opportunities_filter_inherit" model="ir.ui.view">
+            <field name="name">view.crm.case.opportunities.filter.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.view_crm_case_opportunities_filter"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="after">
+                    <field name="branch_id"/>
+                </field>
+                <xpath expr="//filter[@string='New']" position="before">
+                    <filter icon="terp-gtk-go-back-rtl" string="Mi sucursal" name="filter_branch_id" domain="[('branch_id.branch_user_ids','in',(uid))]"/>
+                </xpath>
+                <filter string="Salesperson" position="before">
+                    <filter string="Sucursal" domain="[]" context="{'group_by':'branch_id'}"/>
+                </filter>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="crm.crm_case_category_act_oppor11">
+            <field name="name">Opportunities</field>
+            <field name="res_model">crm.lead</field>
+            <field name="view_mode">kanban,tree,graph,form,calendar</field>
+            <field name="domain">[('type','=','opportunity'),'|',('branch_id.user_ids','in',(uid)),('branch_id','=',False)]</field>
+            <field name="context">{'stage_type': 'opportunity', 'default_type': 'opportunity', 'default_user_id': uid}</field>
+            <field name="view_id" eval="False"/>
+            <field name="search_view_id" ref="crm.view_crm_case_opportunities_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+              Click to create a new opportunity.
+              </p><p>
+              OpenERP helps you keep track of your sales pipeline to follow
+              up potential sales and better forecast your future revenues.
+              </p><p>
+              You will be able to plan meetings and phone calls from
+              opportunities, convert them into quotations, attach related
+              documents, track all discussions, and much more.
+              </p>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="crm_case_tree_view_oppor_inherit">
+            <field name="name">crm.case.tree.view.oppor.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_tree_view_oppor" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="stage_id" position="after">
+                    <field name="branch_id" invisible="1"/>
+                </field>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="crm_case_form_view_oppor_inherit">
+            <field name="name">crm.case.form.view.oppor.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_form_view_oppor" />
+            <field name="priority" eval="22"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="attributes">
+                    <attribute name="domain">[('branch_id.user_ids','in',(uid))]</attribute>
+                    <attribute name="on_change">onchange_partner_id(partner_id)</attribute>
+                </field>
+                <field name="active" position="after">
+                    <field name="branch_id" required="1" readonly="1"/>
+                </field>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

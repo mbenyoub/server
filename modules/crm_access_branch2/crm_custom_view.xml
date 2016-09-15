@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+        <!--
+            Calendario de Actividades
+        -->
+        
+        <record id="view_crm_calendar_activity_search_inherit" model="ir.ui.view">
+            <field name="name">res.partner.select.inherit</field>
+            <field name="model">crm.custom.calendar.activity</field>
+            <field name="inherit_id" ref="crm_custom.view_crm_calendar_activity_search"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="after">
+                    <field name="branch_id"/>
+                </field>
+                <xpath expr="//filter[@string='Mis Actividades']" position="after">
+                    <filter icon="terp-gtk-go-back-rtl" string="Mi sucursal" name="filter_branch_id" domain="[('branch_id.branch_user_ids','in',(uid))]"/>
+                </xpath>
+                <filter name="group_date" position="before">
+                    <filter string="Sucursal" icon="terp-personal" domain="[]" context="{'group_by':'branch_id'}"/>
+                </filter>
+            </field>
+        </record>
+        
+        <!-- CRM Calendar Activity action and menu -->
+        <record id="crm_custom.action_crm_calendar_activity" model="ir.actions.act_window">
+            <field name="name">Activity</field>
+            <field name="res_model">crm.custom.calendar.activity</field>
+            <field name="view_mode">calendar,tree,form</field>
+            <field name="view_id" ref="crm_custom.view_crm_calendar_activity_calendar"/>
+            <field name="search_view_id" ref="crm_custom.view_crm_calendar_activity_search"/>
+            <field name="context">{"calendar_default_user_id": uid}</field>
+            <field name="domain">['|',('branch_id.user_ids','in',(uid)),('branch_id','=',False)]</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click para ver las actividades registradas.
+              </p><p>
+                El calendario de actividades muestra la informacion de las actividades
+                sobre llamadas y reuniones.
+              </p>
+            </field>
+        </record>
+        
+        <!-- Vista de lista -->
+        <record model="ir.ui.view" id="view_crm_calendar_activity_tree_inherit">
+            <field name="name">crm.custom.calendar.activity.tree.view.inherit</field>
+            <field name="model">crm.custom.calendar.activity</field>
+            <field name="inherit_id" ref="crm_custom.view_crm_calendar_activity_tree" />
+            <field name="priority" eval="19"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="after">
+                    <field name="branch_id" invisible="1"></field>
+                </field>
+            </field>
+        </record>
+        
+        <!-- Vista Formulario -->
+        <record model="ir.ui.view" id="view_crm_calendar_activity_form_inherit">
+            <field name="name">crm.custom.calendar.activity.form.inherit</field>
+            <field name="model">crm.custom.calendar.activity</field>
+            <field name="inherit_id" ref="crm_custom.view_crm_calendar_activity_form" />
+            <field name="priority" eval="25"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="after">
+                    <field name="branch_id" required="1" readonly="1"/>
+                </field>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

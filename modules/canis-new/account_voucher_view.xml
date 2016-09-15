@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+<!--
+          Pagos
+--> 
+        <!-- Modificacion vista formulario - Account.voucher -->
+        <record model="ir.ui.view" id="view_vendor_receipt_form_inherit">
+            <field name="name">account.voucher.form.inherit</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="account_voucher.view_vendor_receipt_form" />
+            <field name="priority" eval="24"/>
+            <field name="arch" type="xml">
+                <field name="date" position="attributes">
+                    <attribute name="on_change">onchange_date_voucher(partner_id,journal_id,amount,currency_id,type,date,payment_rate_currency_id,company_id,context)</attribute>
+                    <attribute name="context">{'search_default_customer': 1}</attribute>
+                </field>
+                <xpath expr="//field[@name='line_cr_ids']/tree/field[@name='reconcile']" position="after">
+                    <field name="date_invoice" invisible="0"/>
+                    <field name="invoice_id" invisible="0"/>
+                    <field name="refund_id" invisible="0"/>
+                </xpath>
+                <xpath expr="//field[@name='line_cr_ids']/tree/field[@name='reconcile']" position="before">
+                    <field name="discount" invisible="0" readonly="1"/>
+                    <field name="apply_discount" on_change="onchange_reconcile(reconcile,amount,amount_unreconciled,apply_discount,discount_fin,context)"/>
+                    <field name="discount_fin" readonly="1"/>
+                    <field name="to_paid" readonly="1"/>
+                </xpath>
+                <xpath expr="//field[@name='line_cr_ids']/tree/field[@name='reconcile']" position="attributes">
+                    <attribute name="on_change">onchange_reconcile(reconcile,amount,amount_unreconciled,apply_discount,discount_fin,context)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_cr_ids']/tree/field[@name='amount']" position="attributes">
+                    <attribute name="on_change">onchange_amount(amount,amount_unreconciled,apply_discount,discount_fin,context)</attribute>
+                </xpath>
+                <field name="amount" position="after">
+                    <field name="apply_discount" invisible="1"/>
+                </field>
+                <field name="amount" position="attributes">
+                    <attribute name="on_change">onchange_amount(amount, payment_rate, partner_id, journal_id, currency_id, type, date, payment_rate_currency_id, company_id, apply_discount, context)</attribute>
+                </field>
+            </field>
+        </record>
+        
+        <!-- Modificacion vista formulario - Account.voucher - Pagos sobre factura-->
+        <record model="ir.ui.view" id="view_vendor_receipt_dialog_form_inherit">
+            <field name="name">account.voucher.form.inherit</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="account_voucher.view_vendor_receipt_dialog_form" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="writeoff_amount" position="before">
+                    <field name="invoice_amount" readonly="1"/>
+                    <field name="apply_discount" invisible="context.get('no_discount')" on_change="onchange_date_voucher_invoice(partner_id,journal_id,amount,invoice_amount,apply_discount,currency_id,type,date,payment_rate_currency_id,company_id,context)"/>
+                    <field name="discount" invisible="context.get('no_discount')" string="Descuento Financiero" readonly="1"/>
+                </field>
+                <field name="date" position="attributes">
+                    <attribute name="on_change">onchange_date_voucher_invoice(partner_id,journal_id,amount,invoice_amount,apply_discount,currency_id,type,date,payment_rate_currency_id,company_id,context)</attribute>
+                    <attribute name="context">{'search_default_customer': 1}</attribute>
+                </field>
+                <field name="amount" position="attributes">
+                    <attribute name="string">Importe a Pagar</attribute>
+                    <attribute name="on_change">onchange_amount(amount, payment_rate, partner_id, journal_id, currency_id, type, date, payment_rate_currency_id, company_id, apply_discount, context)</attribute>
+                </field>
+            </field>
+        </record>
+        
+        <!-- Modificacion vista formulario - Account.voucher -->
+        <!--<record model="ir.ui.view" id="view_low_priority_payment_form_inherit">
+            <field name="name">account.voucher.form.inherit2</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="account_voucher.view_low_priority_payment_form" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="reference" position="attributes">
+                    <attribute name="attrs">{'invisible':[('invoice_id','!=',False)]}</attribute>
+                </field>
+                <field name="reference" position="before">
+                    <field name="invoice_id" readonly="1" attrs="{'invisible':[('invoice_id','=',False)]}" />
+                </field>
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="account_balance" widget='monetary' readonly="1" options="{'currency_field': 'currency_id'}"/>
+                </xpath>
+            </field>
+        </record>-->
+    </data>
+</openerp>

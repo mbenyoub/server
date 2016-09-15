@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!-- Vista del formulario -->
+<!--
+        <record model="ir.ui.view" id="partner_instructor_form_view">
+            <field name="name">partner.instructor</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="arch" type="xml">
+                <field name="is_company" position="before">
+                    <field name="instructor" />
+                    <label for="instructor" string="Is an Instructor?"/>
+                </field>
+            </field>
+        </record>
+-->
+
+<!--
+        Modificacion de la vista formulario del presupuesto
+-->
+
+        <record id="crossovered_budget_view_form_inherit" model="ir.ui.view">
+            <field name="name">crossovered.budget.view.form.inherit</field>
+            <field name="model">crossovered.budget</field>
+            <field name="inherit_id" ref="account_budget.crossovered_budget_view_form"/>
+            <field name="arch" type="xml">
+                <button string="Cancel Budget" position="replace">
+                    <button string="Cancel Budget" name="cancel" states="confirm" type="workflow"/>
+                </button>
+                <page string="Budget Lines" position="replace">
+                    <page string="Budget Lines">
+                        <field name="crossovered_budget_line" colspan="4" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}">
+                            <tree string="Lineas del presupuesto">
+                                <field name="analytic_account_id" groups="analytic.group_analytic_accounting"/>
+                                <field name="general_budget_id"/>
+                                <field name="planned_amount" sum="Monto Planeado" />
+                                <field name="amount_approve" sum="Monto aprobado" />
+                                <field name="amount_adjusted" sum="Monto ajustado" />
+                                <field name="amount_committed" sum="Monto comprometido" />
+                                <field name="amount_accrued" sum="Monto devengado" />
+                                <field name="amount_exercised" sum="Monto ejercido" />
+                                <field name="amount_paid" sum="Monto pagado" />
+                                <field name="state" invisible="1" />
+                            </tree>
+                            <form string="Budget Lines" version="7.0">
+                                <group>
+                                    <group>
+                                        <field name="analytic_account_id" groups="analytic.group_analytic_accounting"/>
+                                        <field name="general_budget_id"/>
+                                    </group>
+                                    <group>
+                                        <field name="company_id" widget="selection" groups="base.group_multi_company"/>
+                                        <field name="planned_amount"/>
+                                    </group>
+                                </group>
+                            </form>
+                        </field>
+                    </page>
+                </page>
+            </field>
+        </record>
+
+<!--
+        Eliminacion de campos en vista de lineas de presupuesto
+-->
+
+        <!-- Borra el menu que da acceso a las lineas de presupuesto, para que solo acceda desde el presupuesto -->
+        <delete model="ir.ui.menu" id="account_budget.menu_act_crossovered_budget_lines_view"/>
+
+        <record id="view_crossovered_budget_line_tree_inherit" model="ir.ui.view">
+            <field name="name">crossovered.budget.line.tree.inherit</field>
+            <field name="model">crossovered.budget.lines</field>
+            <field name="inherit_id" ref="account_budget.view_crossovered_budget_line_tree"/>
+            <field name="arch" type="xml">
+                <field name="paid_date" position="replace"/>
+                <field name="planned_amount" position="replace"/>
+                <field name="practical_amount" position="replace"/>
+                <field name="theoritical_amount" position="replace"/>
+                <field name="percentage" position="replace">
+                    <field name="planned_amount" attrs="{'invisible': [('state','not in',('draft'))]}" />
+                    <field name="amount_approve" attrs="{'invisible': [('state','not in',('draft'))]}" />
+                    <field name="state" invisible="1" />
+                </field>
+            </field>
+        </record>
+
+        <record id="view_crossovered_budget_line_form_inherit" model="ir.ui.view">
+            <field name="name">crossovered.budget.line.form.inherit</field>
+            <field name="model">crossovered.budget.lines</field>
+            <field name="inherit_id" ref="account_budget.view_crossovered_budget_line_form"/>
+            <field name="arch" type="xml">
+                <field name="paid_date" position="replace"/>
+                <field name="date_from" position="replace"/>
+                <field name="date_to" position="replace"/>
+            </field>
+        </record>
+
+    </data>
+</openerp>

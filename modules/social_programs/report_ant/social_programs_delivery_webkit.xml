@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <report
+            auto="False"
+            id="report_social_programs_delivery"
+            model="social.programs.program.delivery"
+            name="report.social.programs.program.delivery.webkit"
+            file="social_programs/report/social_programs_delivery_webkit.mako"
+            string="Comprobante Entrega / Beneficiario"
+            report_type="webkit"
+            webkit_header="__export__.ir_header_webkit_6"
+            menu="True"/>
+    </data>
+</openerp>
+
+        <!-- replace by account.account_invoices 
+           
+            attachment="(object.state in ('open','paid')) and ('INV'+(object.number or '').replace('/',''))"
+            attachment_use="2"
+            multi="True"
+            
+            -->
+
+

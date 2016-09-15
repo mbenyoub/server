@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_users_cdsupdate_form_inherit">
+            <field name="name">res.users.cdsupdate.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="priority" eval="20"/>
+            <field name='type'>form</field>
+            <field name='arch' type='xml'>
+                <field name="parent_id" position="before"> <!--  Antes del campo parent_id -->
+                        <div>
+                                        <field name="is_prospect"/> <!-- campo nuevo de la tabla -->
+                                        <label for = "is_prospect"/>
+                        </div>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

@@ -1,0 +1,267 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+<!--
+        Modificar en el domain de los action de factura del cliente y Facturas de proveedor que no aparezcan las de activo
+-->
+        <record id="account.action_invoice_tree2" model="ir.actions.act_window">
+            <field name="name">Supplier Invoices</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('type','=','in_invoice'),'|',('invoice_expense','=',False),('state','in',['paid'])]</field>
+            <field name="context">{'default_type': 'in_invoice', 'type': 'in_invoice', 'journal_type': 'purchase'}</field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to record a new supplier invoice.
+              </p><p>
+                You can control the invoice from your supplier according to
+                what you purchased or received. OpenERP can also generate
+                draft invoices automatically from purchase orders or receipts.
+              </p>
+            </field>
+        </record>
+    
+    <!-- Modificacion de search -->
+        <record model="ir.ui.view" id="view_account_invoice_filter_inherit">
+            <field name="name">account.invoice.search.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="number" position="after">
+                    <field name="invoice_expense"/>
+                </field>
+                <filter name="unpaid" position="after" >
+                    <separator/>
+                    <filter icon="terp-gtk-go-back-rtl" string="Es un Gasto" name="invoice_expense_true" domain="[('invoice_expense','=',True)]"/>
+                    <filter icon="terp-gtk-go-back-rtl" string="No es un Gasto" name="invoice_expense_false" domain="[('invoice_expense','=',False)]"/>
+                </filter>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="invoice_tree_view_inherit">
+            <field name="name">account.invoice.tree.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_tree" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="state" position="after">
+                    <field name="invoice_expense" invisible="1"/>
+                </field>
+            </field>
+        </record>
+    
+<!--
+        Nueva vista para facturacion de Gastos
+-->
+        <!-- View Form - Facturacion Gastos -->
+        <record id="invoice_expense_form" model="ir.ui.view">
+            <field name="name">account.invoice.expense.form</field>
+            <field name="model">account.invoice</field>
+            <field name="arch" type="xml">
+                <form string="Invoice" version="7.0">
+                <header>
+                    <button name="invoice_open" states="draft,proforma2" string="Validate" class="oe_highlight" groups="base.group_user"/>
+                    <button name="invoice_pay_customer" type="object" string="Register Payment" class="oe_highlight"
+                        attrs="{'invisible': ['|', ('state','!=','open')]}" groups="base.group_user"/>
+                    <button name="%(account.action_account_invoice_refund)d" type='action' string='Generar nota de credito' states='open,proforma2,paid' groups="base.group_user"/>
+                    <button name="action_cancel_wizard" states="draft,proforma2,open" string="Cancelar Factura" type="object" modifiers="{'invisible': [['state', 'not in', ['draft', 'proforma2', 'open']]]}"/>
+                    <!--button name="%(account.account_invoices)d" string="Print Invoice" type="action" states="open,paid,proforma,sale,proforma2"/-->
+                    <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,open,paid" statusbar_colors='{"proforma":"blue","proforma2":"blue"}'/>
+                </header>
+                
+                <sheet string="Invoice">
+                    <h1>
+                        <label string="Gasto Borrador " attrs="{'invisible': ['|',('state','not in',('draft',)), ('type','&lt;&gt;','in_invoice')]}"/>
+                        <label string="Draft Refund " attrs="{'invisible': ['|',('state','not in',('draft',)), ('type','&lt;&gt;','in_refund')]}"/>
+                        <label string="Pro Forma Invoice " attrs="{'invisible': [('state','not in',('proforma','proforma2'))]}"/>
+                        <label string="Gasto Factura " attrs="{'invisible': ['|',('state','in',('draft','proforma','proforma2')), ('type','&lt;&gt;','in_invoice')]}"/>
+                        <label string="Refund " attrs="{'invisible': ['|',('state','in',('draft','proforma','proforma2')), ('type','&lt;&gt;','in_refund')]}"/>
+                        <field name="number" readonly="1" class="oe_inline"/>
+                    </h1>
+                    <field name="type" invisible="1"/>
+                    <group>
+                        <group>
+                            <field string="Supplier" name="partner_id"
+                              on_change="onchange_partner_id(type,partner_id,date_invoice,payment_term, partner_bank_id,company_id)"
+                              context="{'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1}"
+                              domain="[('supplier', '=', True)]"/>
+                            <field name="fiscal_position" widget="selection" invisible="1"/>
+                            <field name="origin" invisible="1"/>
+                            <field name="supplier_invoice_number" />
+                            <label for="reference_type" invisible="1"/>
+                            <div invisible="1">
+                                <field name="reference_type" class="oe_inline oe_edit_only"/>
+                                <field name="reference" class="oe_inline"/>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="date_invoice"/>
+                            <field name="date_due"/>
+                            <field name="journal_id" groups="account.group_account_user"
+                                on_change="onchange_journal_id(journal_id, context)" widget="selection"/>
+                            <field domain="[('company_id', '=', company_id), ('type', '=', 'payable')]"
+                                name="account_id" groups="account.group_account_user"/>
+                            <field name="currency_id" groups="base.group_multi_currency"/>
+                            <field name="check_total" groups="account.group_supplier_inv_check_total"/>
+                            <field name="invoice_expense" invisible="1" on_change="onchange_invoice_expense(invoice_expense,context)"/>
+                            <field name="expense_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Invoice">
+                            <field name="invoice_line" nolabel="1" widget="one2many_list" context="{'partner_id': partner_id, 'price_type': context.get('price_type') or False, 'type': type}">
+                                <tree string="Invoice Lines" editable="bottom">
+                                    <field name="sequence" widget="handle" />
+                                    <field name="product_id" domain="[('hr_expense_ok','=',True)]" context="{'default_hr_expense_ok':True}"
+                                        on_change="product_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.currency_id, context, parent.company_id)"/>
+                                    <field name="name"/>
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="account_id" groups="account.group_account_user"
+                                        domain="[('company_id', '=', parent.company_id), ('journal_id', '=', parent.journal_id), ('type', '=', 'other')]"
+                                        />
+                                    <field name="account_analytic_id" groups="analytic.group_analytic_accounting"
+                                        domain="[('type','!=','view'), ('company_id', '=', parent.company_id)]"/>
+                                    <field name="quantity"/>
+                                    <field name="uos_id" groups="product.group_uom"
+                                        />
+                                    <field name="price_unit"/>
+                                    <field name="discount" groups="sale.group_discount_per_so_line"/>
+                                    <field name="invoice_line_tax_id" widget="many2many_tags" context="{'type':parent.type}"
+                                        domain="[('parent_id','=',False),('company_id', '=', parent.company_id)]"/>
+                                    <field name="price_subtotal"/>
+                                </tree>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                
+                                <field name="amount_tax" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount_total" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="residual" groups="account.group_account_user" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="reconciled" invisible="1"/>
+                            </group>
+                            <div style="width: 50%%">
+                                <field name="tax_line">
+                                    <tree editable="bottom" string="Taxes">
+                                        <field name="name"/>
+                                        <field name="account_id" groups="account.group_account_invoice"/>
+                                        <field name="account_analytic_id" domain="[('type','&lt;&gt;','view'), ('company_id', '=', parent.company_id)]" groups="analytic.group_analytic_accounting"/>
+                                        <field name="base" on_change="base_change(base,parent.currency_id,parent.company_id,parent.date_invoice)" readonly="1"/>
+                                        <field name="amount" on_change="amount_change(amount,parent.currency_id,parent.company_id,parent.date_invoice)"/>
+
+                                        <field invisible="True" name="base_amount"/>
+                                        <field invisible="True" name="tax_amount"/>
+                                        <field name="factor_base" invisible="True"/>
+                                        <field name="factor_tax" invisible="True"/>
+                                    </tree>
+                                </field>
+                            </div>
+                            <div class="oe_clear">
+                                <label for="comment"/>
+                            </div>
+                            <field name="comment"/>
+                        </page>
+                        <page string="Other Info">
+                            <group col="4">
+                                <group>
+                                    <field name="amount_to_pay" modifiers="{}"/>
+                                    <field name="partner_bank_id" domain="[('partner_id', '=', partner_id)]" on_change="onchange_partner_bank(partner_bank_id)" modifiers="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                    <field name="company_id" on_change="onchange_company_id(company_id,partner_id,type,invoice_line,currency_id)" widget="selection" groups="base.group_multi_company"/>
+                                    <field name="user_id" groups="base.group_user"/>
+                                    <field name="period_id" domain="[('state', '=', 'draft'), ('company_id', '=', company_id)]" groups="account.group_account_user"/>
+                                    <field name="payment_term" widget="selection"/>
+                                </group>
+                                <group>
+                                    <field name="origin" groups="base.group_user" invisible="1"/>
+                                    <field name="name" string="Customer Reference" invisible="1"/>
+                                    <field name="move_id" groups="account.group_account_user"/>
+                                </group>
+                            </group>
+                            
+                        </page>
+                        <page string="Payments" groups="base.group_user">
+                            <field name="payment_ids">
+                                <tree string="Payments">
+                                    <field name="date"/>
+                                    <field name="move_id"/>
+                                    <field name="ref"/>
+                                    <field name="name"/>
+                                    <field name="journal_id" groups="base.group_user"/>
+                                    <field name="debit"/>
+                                    <field name="credit"/>
+                                    <field name="amount_currency" groups="base.group_multi_currency"/>
+                                    <field name="currency_id" groups="base.group_multi_currency"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+                </form>
+            </field>
+        </record>
+    
+        <record id="invoice_expense_tree" model="ir.ui.view">
+            <field name="name">account.invoice.expense.tree</field>
+            <field name="model">account.invoice</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:state == 'draft';black:state in ('proforma','proforma2','open');gray:state == 'cancel'" string="Invoice">
+                    <field name="partner_id" groups="base.group_user"/>
+                    <field name="date_invoice"/>
+                    <field name="number"/>
+                    <field name="reference" invisible="1"/>
+                    <field name="expense_id" />
+                    <field name="name" invisible="1"/>
+                    <field name="journal_id" invisible="1"/>
+                    <field name="period_id" invisible="1" groups="account.group_account_user"/>
+                    <field name="company_id" groups="base.group_multi_company" widget="selection"/>
+                    <field name="user_id"/>
+                    <field name="date_due"/>
+                    <field name="currency_id" groups="base.group_multi_currency"/>
+                    <field name="residual" sum="Residual Amount"/>
+                    <field name="amount_untaxed" sum="Untaxed Amount"/>
+                    <field name="amount_total" sum="Total Amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_invoice_expense_tree" model="ir.actions.act_window">
+            <field name="name">Gastos Facturados</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('type','=','in_invoice'),('invoice_expense','=',True)]</field>
+            <field name="context">{'default_type':'in_invoice', 'type':'in_invoice', 'journal_type': 'purchase', 'default_invoice_expense': True}</field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click aqui para registrar gastos que se facturan
+              </p>
+            </field>
+        </record>
+
+        <record id="action_invoice_expense_tree_view1" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="invoice_expense_tree"/>
+            <field name="act_window_id" ref="action_invoice_expense_tree"/>
+        </record>
+
+        <record id="action_invoice_expense_tree_view2" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="invoice_expense_form"/>
+            <field name="act_window_id" ref="action_invoice_expense_tree"/>
+        </record>
+        
+    </data>
+</openerp>

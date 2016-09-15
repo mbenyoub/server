@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        
+        <!--
+            Configuracion default sobre delivery
+        -->
+        <record id="delivery_config_default" model="delivery.config.settings">
+            <field name="delivery_term_id" ref="delivery_routes.delivery_term_01"/>
+            <field name="color1" eval="5"/>
+            <field name="color2" eval="3"/>
+            <field name="color3" eval="2"/>
+            <field name="color4" eval="8"/>
+            <field name="color5" eval="6"/>
+            <field name="week1" eval="True"/>
+            <field name="week2" eval="True"/>
+            <field name="week3" eval="True"/>
+            <field name="week4" eval="True"/>
+            <field name="week5" eval="True"/>
+            <field name="week6" eval="False"/>
+            <field name="week7" eval="False"/>
+        </record>
+        
+        <!--
+            Estados de entrega
+        -->
+        <record id="delivery_states_ontime" model="delivery.priority">
+            <field name="name" >En tiempo</field>
+            <field name="value" >ontime</field>
+        </record>
+        <record id="delivery_states_todeliver" model="delivery.priority">
+            <field name="name" >Por Surtir</field>
+            <field name="value" >todeliver</field>
+        </record>
+        <record id="delivery_states_urgent" model="delivery.priority">
+            <field name="name" >Urgente</field>
+            <field name="value" >urgent</field>
+        </record>
+        <record id="delivery_states_defeated" model="delivery.priority">
+            <field name="name" >Vencido</field>
+            <field name="value" >defeated</field>
+        </record>
+        <record id="delivery_states_program" model="delivery.priority">
+            <field name="name" >Programado</field>
+            <field name="value" >program</field>
+        </record>
+        <record id="delivery_states_none" model="delivery.priority">
+            <field name="name" >Desconocido</field>
+            <field name="value" >none</field>
+        </record>
+        
+    </data>
+</openerp>

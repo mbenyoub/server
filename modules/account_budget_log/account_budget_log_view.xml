@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <!-- Search -->
+        <record id="view_account_budget_log_filter" model="ir.ui.view">
+            <field name="name">account.budget.log.moments.list.select</field>
+            <field name="model">account.budget.log.moments</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Movimientos">
+                    <field name="name" string="Nombre"/>
+                    <filter icon="terp-mail-message-new" string="Presupuesto Aprobado" name="approve_budget" domain="[('state','=','approve')]" help="Muestra la informacion del presupuesto aprobado"/>
+                    <separator/>
+                        <field name="move"/>
+                        <filter icon="terp-document-new" name="adjusted" string="Ajustes Presupuesto" domain="[('move','=',False)]" help="Informacion de ajustes al presupuesto"/>
+                        <filter icon="terp-check" name="move" string="Movimientos" domain="[('move','=',True)]" help="Informacion de movimientos sobre el presupuesto"/>
+                    <separator/>
+                    <group expand="0" string="Agrupar por...">
+                        <filter string="Cuenta analitica" icon="terp-partner" domain="[]" context="{'group_by':'account_analytic_id'}"/>
+                        <filter string="Presupuesto" icon="terp-gtk-jump-to-rtl" domain="[]" context="{'group_by':'budget_id'}"/>
+                        <filter string="Estado" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
+                        <filter string="Fecha" icon="terp-go-month" domain="[]" context="{'group_by':'date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- action windows -->
+        <record model="ir.actions.act_window" id="act_account_budget_log_moments_view">
+            <field name="name">Momentos presupuestales</field>
+            <field name="res_model">account.budget.log.moments</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_account_budget_log_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Bitacora de registro de momentos presupuestales</p>
+            </field>
+        </record>
+
+        <!-- menuitems -->
+        <menuitem parent="account_budget.next_id_31"
+            id="menu_act_account_budget_log_moments"
+            action="act_account_budget_log_moments_view" sequence="2" />
+
+        <!-- action windows -->
+<!--
+        <record model="ir.actions.act_window" id="act_account_budget_log_moments">
+            <field name="name">Add momento</field>
+            <field name="res_model">account.budget.log.moments</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_account_budget_log_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Bitacora de registro de momentos presupuestales</p>
+            </field>
+        </record>
+
+        <menuitem
+            id="menu_act_account_budget_log_moments_new"
+            action="act_account_budget_log_moments" sequence="1" />
+-->
+
+        <!-- View form - Account budget log moments -->
+        <record model="ir.ui.view" id="act_account_budget_log_moments_form_view">
+            <field name="name">account.budget.log.moments.form</field>
+            <field name="model">account.budget.log.moments</field>
+            <field name="arch" type="xml">
+                <form string="Momentos Presupuestales" version="7.0">
+                    <sheet string="Momentos Presupuestales">
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <separator string="Movimiento" />
+                        <group colspan="4" col="4">
+                            <group colspan="2" col="2">
+                                <field name="account_analytic_id"/>
+                                <field name="amount"/>
+                                <field name="state"/>
+                            </group>
+                            <group colspan="2" col="2">
+                                <field name="budget_id"/>
+                                <field name="reference"/>
+                                <field name="date"/>
+                            </group>
+                        </group>
+                        <separator string="Información Adicional" />
+                        <field name="description" colspan="4"/>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <!-- View Tree - Account budget log moments -->
+        <record model="ir.ui.view" id="act_account_budget_log_moments_tree_view">
+            <field name="name">account.budget.log.moments.tree</field>
+            <field name="model">account.budget.log.moments</field>
+            <field name="arch" type="xml">
+                <tree string="Momentos Presupuestales">
+                    <field name="name" />
+                    <field name="account_analytic_id" />
+                    <field name="budget_id"/>
+                    <field name="state" />
+                    <field name="amount" />
+                    <field name="date" />
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</openerp>

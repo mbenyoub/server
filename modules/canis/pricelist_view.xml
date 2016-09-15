@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+<!--
+        Tipos de descuento
+-->
+        <record id="product_pricelist_discount_type_form_view" model="ir.ui.view">
+            <field name="name">product.pricelist.discount.type.form</field>
+            <field name="model">product.pricelist.discount.type</field>
+            <field name="arch" type="xml">
+                <form string="Tipo descuento" version="7.0">
+                    <group col="4">
+                        <group>
+                            <field name="name"/>
+                            <field name="key"/>
+                        </group>
+                        <group>
+                            <field name="to_paid"
+                                attrs="{'invisible': ['|', ('to_mix','=',True), ('to_quantity', '=', True)]}"/>
+                            <field name="to_mix"
+                                attrs="{'invisible': ['|', ('to_paid','=',True), ('to_quantity', '=', True)]}"/>
+                            <field name="to_quantity"
+                                attrs="{'invisible': ['|', ('to_paid','=',True), ('to_mix','=',True)]}"/>
+                        </group>
+                    </group>
+                    <div>
+                        <label for="note" class="oe_edit_only"/>
+                        <field name="note"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="product_pricelist_discount_type_tree_view" model="ir.ui.view">
+            <field name="name">product.pricelist.discount.type.tree</field>
+            <field name="model">product.pricelist.discount.type</field>
+            <field name="arch" type="xml">
+                <tree string="Tipo descuento">
+                    <field name="name"/>
+                    <field name="key"/>
+                    <field name="to_paid"/>
+                    <field name="to_mix"/>
+                    <field name="to_quantity"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_pricelist_discount_type_action" model="ir.actions.act_window">
+            <field name="name">Tipos de descuento</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.pricelist.discount.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+            action="product_pricelist_discount_type_action" id="menu_product_pricelist_discount_type"
+            parent="product.menu_product_pricelist_main" sequence="20" groups="base.group_no_one"/>
+<!--
+        Vista lista y formulario para items de descuento
+-->
+        <record id="product_pricelist_discount_item_tree_view" model="ir.ui.view">
+            <field name="name">product.pricelist.discount.item.tree</field>
+            <field name="model">product.pricelist.discount.item</field>
+            <field name="arch" type="xml">
+                <tree string="Reglas de Descuento">
+                    <field name="sequence"/>
+                    <field colspan="4" name="name"/>
+                    <field name="discount_id" invisible="1"/>
+                    <field name="product_id"/>
+                    <field name="categ_id"/>
+                    <field name="min_quantity"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_pricelist_discount_item_form_view" model="ir.ui.view">
+            <field name="name">product.pricelist.discount.item.form</field>
+            <field name="model">product.pricelist.discount.item</field>
+            <field name="arch" type="xml">
+                <form string="Reglas de descuento" version="7.0">
+                    <label for="name" class="oe_edit_only"/>
+                    <h1><field name="name"/></h1>
+                    <group col="4" colspan="4">
+                        <field name="discount_id" invisible="1" on_change="onchange_discount_id(discount_id,context)"/>
+                        <field name="product_id" on_change="product_id_change(product_id,name)" attrs="{'invisible':['|', '|', ('to_mix','=',True),('to_paid','=',True), ('to_quantity', '=', True)]}" />
+                        <field name="categ_id" attrs="{'invisible':['|', '|', ('to_mix','=',True),('to_paid','=',True), ('to_quantity', '=', True)]}" />
+                        <field name="company_id" groups="base.group_multi_company" widget="selection"/>
+                        <div col="2" colspan="2">
+                            <label for="min_quantity" attrs="{'invisible':[('to_paid','=',True)]}" />
+                            <label for="min_quantity" class="oe_inline" string="Dias maximo" attrs="{'invisible':['|',('to_mix','=',True),('to_paid','=',False)]}" />
+                            <field name="min_quantity" class="oe_inline" />
+                        </div>
+                        <field name="sequence"/>
+                        <field name="to_mix" invisible="1"/>
+                        <field name="to_paid" invisible="1"/>
+                        <field name="to_quantity" invisible="1"/>
+                    </group>
+                    <group>
+                        <div>
+                            <label for="discount" string="Descuento"/>
+                            <field name="discount" class="oe_inline"/>
+                        </div>
+                    </group>
+                    <group string="Aplicar Reglas" col="4" colspan="4" attrs="{'invisible':[('to_mix','=',False)]}">
+                        <field name="mix_ids" nolabel="1">
+                            <tree editable="top">
+                                <field name="categ_id"/>
+                                <field name="min_proportion"/>
+                                <field name="max_proportion"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group string="Excluir categorias de productos" col="4" colspan="4" attrs="{'invisible':[('to_paid','=',False)]}">
+                        <field name="exception_categ_ids" nolabel="1"  widget="many2many_tags"/>
+                    </group>
+                    <group name="procurement_help" class="oe_grey" col="1">
+                        <p attrs="{'invisible': [('to_mix','=',False)]}" modifiers="{'invisible': [('to_mix','=',False)]}">
+                           <b>NOTA. </b>
+                           Para la aplicacion de las mezclas seleccionamos una categoria y
+                           le especificamos el valor minimo y maximo sobre el porcentaje que aplica en la mezcla.
+                           <br/>
+                        </p>
+                        <p attrs="{'invisible': [('to_paid','=',False)]}" modifiers="{'invisible': [('to_paid','=',False)]}">
+                           <b>NOTA. </b>
+                           Para la aplicacion sobre el pronto pago, especificamos la cantidad de dias aplicados despues de
+                           tener generada la factura.
+                           <br/>
+                           Si agregamos exclusiones sobre categorias de productos y esta contenido alguno en una factura, el descuento no se aplica.
+                        </p>
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+<!--
+        Vista Descuentos
+-->
+        <record id="product_pricelist_discount_form_view" model="ir.ui.view">
+            <field name="name">product.pricelist.discount.form</field>
+            <field name="model">product.pricelist.discount</field>
+            <field name="arch" type="xml">
+                <form string="Pricelist Discount" version="7.0">
+                    <sheet>
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field colspan="4" name="name"/></h1>
+                        <group>
+                            <group>
+                                <field name="pricelist_id"/>
+                            </group>
+                            <group>
+                                <field name="type_id" widget="selection" on_change="onchange_type_id(type_id,context)"/>
+                                <field name="active"/>
+                                <field name="to_paid" invisible="1"/>
+                                <field name="to_mix" invisible="1"/>
+                                <field name="company_id" groups="base.group_multi_company" widget="selection"/>
+                            </group>
+                        </group>
+                        <group string="Reglas de descuento" >
+                            <field name="item_ids" nolabel="1" context="{'default_discount_id': active_id, 'default_to_mix': to_mix, 'default_to_paid': to_paid, 'form_view_ref':'product_pricelist_discount_item_form_view', 'tree_view_ref':'product_pricelist_discount_item_tree_view'}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="product_pricelist_discount_tree_view" model="ir.ui.view">
+            <field name="name">product.pricelist.discount.tree</field>
+            <field name="model">product.pricelist.discount</field>
+            <field name="arch" type="xml">
+                <tree string="Pricelist Discount" colors="grey:active == False">
+                    <field name="name"/>
+                    <field name="pricelist_id"/>
+                    <field name="type_id"/>
+                    <field name="active" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_pricelist_discount_action" model="ir.actions.act_window">
+            <field name="name">Descuentos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.pricelist.discount</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="product_pricelist_discount_tree_view"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click para agregar descuentos sobre las listas de precio.
+                </p>
+            </field>
+        </record>
+        <menuitem
+            action="product_pricelist_discount_action" id="menu_product_pricelist_action"
+            parent="product.menu_product_pricelist_main" sequence="15"/>
+        
+        <!-- Modificacion de la vista formulario tarifas -->
+        <record model="ir.ui.view" id="product_pricelist_view_inherit">
+            <field name="name">product.pricelist.form.inherit</field>
+            <field name="model">product.pricelist</field>
+            <field name="inherit_id" ref="product.product_pricelist_view" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="version_id" position="after">
+                    <group string="Descuentos sobre Tarifa" attrs="{'invisible': [('type','!=','sale')]}">
+                        <field name="discount_ids" nolabel="1">
+                            <tree string="Pricelist Discount" colors="grey:active == False">
+                                <field name="name"/>
+                                <field name="type_id" widget="selection"/>
+                                <field name="to_paid" invisible="1"/>
+                                <field name="to_mix" invisible="1"/>
+                                <field name="active" invisible="1"/>
+                            </tree>
+                            <form string="Pricelist Discount" discount="7.0">
+                                <group>
+                                    <group>
+                                        <field name="name"/>
+                                    </group>
+                                    <group>
+                                        <field name="type_id" widget="selection" on_change="onchange_type_id(type_id,context)"/>
+                                        <field name="active"/>
+                                        <field name="to_paid" invisible="1"/>
+                                        <field name="to_mix" invisible="1"/>
+                                        <field name="company_id" groups="base.group_multi_company" widget="selection"/>
+                                    </group>
+                                </group>
+                                <separator/>
+                                <group string="Reglas de descuento" colspan="4" col="4">
+                                    <field name="item_ids" nolabel="1" context="{'default_discount_id': active_id, 'default_to_mix': to_mix, 'default_to_paid': to_paid, 'form_view_ref':'product_pricelist_discount_item_form_view', 'tree_view_ref':'product_pricelist_discount_item_tree_view'}"/>
+                                </group>
+                            </form>
+                        </field>
+                    </group>
+                </field>
+                
+                <!--MODIFICACION 07-04-2015
+                    Agregacion de campo a la vista-->
+                
+                <xpath expr="//field[@name='type']"  position="after">
+                    <field name="limit_min_sale"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>

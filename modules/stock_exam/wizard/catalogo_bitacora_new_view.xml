@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+	<data>
+		<record id="catalogo_bitacora_new_view_form" model="ir.ui.view">
+			<field name="name">Analisis</field>
+            <field name="type">form</field>
+            <field name="model">nueva.tabla</field>
+            <field name="arch" type="xml">
+			<form string="Analisis" version="7.0">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="fecha_analisis"/>
+                            <field name="laboratorio"/>
+                            <field name="type"/>
+							<field name="mov"/>
+                            <!--<field name="ingrediente"/>-->
+                            <!--<field name="proveedor"/>-->
+                        </group>
+                        <font color="red">
+                            <h2>
+                                <label string = "Analisis a realizar"/>
+                            </h2>
+                        </font>
+                        <group>
+                            <div>
+                                <group>
+                                    <field name="proteina"	attrs="{'invisible':[('used1','=',False)],'required':[('used1','=',True)]}"/>
+                                    <field name="liminf1" invisible= "True"/>
+                                    <field name="limsup1" invisible= "True"/>
+                                    <field name="used1" invisible="True"/>
+									
+                                    <field name="proteina_sol"  attrs="{'invisible':[('used2','=',False)],'required':[('used2','=',True)]}"/>
+                                    <field name="liminf2" invisible= "True"/>
+                                    <field name="limsup2" invisible= "True"/>
+                                    <field name="used2" invisible="True"/>
+									
+                                    <field name="grasa"  	attrs="{'invisible':[('used3','=',False)],'required':[('used3','=',True)]}"/>
+                                    <field name="liminf3" invisible= "True"/>
+                                    <field name="limsup3" invisible= "True"/>
+                                    <field name="used3" invisible="True"/>
+									
+                                    <field name="ceniza"  	attrs="{'invisible':[('used4','=',False)],'required':[('used4','=',True)]}"/>
+                                    <field name="liminf4" invisible= "True"/>
+                                    <field name="limsup4" invisible= "True"/>
+                                    <field name="used4" invisible="True"/>
+									
+                                    <field name="bvt"  		attrs="{'invisible':[('used5','=',False)],'required':[('used5','=',True)]}"/>
+                                    <field name="liminf5" invisible= "True"/>
+                                    <field name="limsup5" invisible= "True"/>
+                                    <field name="used5" invisible="True"/>
+									
+                                    <field name="aflatox"  	attrs="{'invisible':[('used6','=',False)],'required':[('used6','=',True)]}"/>
+                                    <field name="liminf6" invisible= "True"/>
+                                    <field name="limsup6" invisible= "True"/>
+                                    <field name="used6" invisible="True"/>
+									
+                                    <field name="humedad"  	attrs="{'invisible':[('used7','=',False)],'required':[('used7','=',True)]}"/>
+                                    <field name="liminf7" invisible= "True"/>
+                                    <field name="limsup7" invisible= "True"/>
+                                    <field name="used7" invisible="True"/>
+									
+                                    <field name="fibra"  	attrs="{'invisible':[('used11','=',False)],'required':[('used11','=',True)]}"/>
+                                    <field name="liminf11" invisible= "True"/>
+                                    <field name="limsup11" invisible= "True"/>
+                                    <field name="used11" invisible="True"/>
+									
+                                    <field name="impurezas"	attrs="{'invisible':[('used8','=',False)],'required':[('used8','=',True)]}"/>
+                                    <field name="liminf8" invisible= "True"/>
+                                    <field name="limsup8" invisible= "True"/>
+                                    <field name="used8" invisible="True"/>
+									
+                                    <field name="agl"  		attrs="{'invisible':[('used9','=',False)],'required':[('used9','=',True)]}"/>
+                                    <field name="liminf9" invisible= "True"/>
+                                    <field name="limsup9" invisible= "True"/>
+                                    <field name="used9" invisible="True"/>
+									
+                                    <field name="digest"  		attrs="{'invisible':[('used20','=',False)],'required':[('used20','=',True)]}"/>
+                                    <field name="liminf20" invisible= "True"/>
+                                    <field name="limsup20" invisible= "True"/>
+                                    <field name="used20" invisible="True"/>
+									
+                                    <field name="act_ure"  		attrs="{'invisible':[('used21','=',False)],'required':[('used21','=',True)]}"/>
+                                    <field name="liminf21" invisible= "True"/>
+                                    <field name="limsup21" invisible= "True"/>
+                                    <field name="used21" invisible="True"/>
+									
+                                    <field name="grasa_hidro"  	attrs="{'invisible':[('used22','=',False)],'required':[('used22','=',True)]}"/>
+                                    <field name="liminf22" invisible= "True"/>
+                                    <field name="limsup22" invisible= "True"/>
+                                    <field name="used22" invisible="True"/>
+									
+                                    <field name="peroxidos" 	attrs="{'invisible':[('used12','=',False)],'required':[('used12','=',True)]}" />
+                                    <field name="liminf12" invisible= "True"/>
+                                    <field name="limsup12" invisible= "True"/>
+                                    <field name="used12" invisible="True"/>
+									
+                                    <field name="bromato" 		attrs="{'invisible':[('used13','=',False)],'required':[('used13','=',True)]}" />
+                                    <field name="liminf13" invisible= "True"/>
+                                    <field name="limsup13" invisible= "True"/>
+                                    <field name="used13" invisible="True"/>
+									
+                                    <field name="indi_putre" 	attrs="{'invisible':[('used14','=',False)],'required':[('used14','=',True)]}" />
+                                    <field name="liminf14" invisible= "True"/>
+                                    <field name="limsup14" invisible= "True"/>
+                                    <field name="used14" invisible="True"/>
+									
+                                    <field name="calcio" 		attrs="{'invisible':[('used15','=',False)],'required':[('used15','=',True)]}" />
+                                    <field name="liminf15" invisible= "True"/>
+                                    <field name="limsup15" invisible= "True"/>
+                                    <field name="used15" invisible="True"/>
+									
+                                    <field name="peso_es" 		attrs="{'invisible':[('used16','=',False)],'required':[('used16','=',True)]}" />
+                                    <field name="liminf16" invisible= "True"/>
+                                    <field name="limsup16" invisible= "True"/>
+                                    <field name="used16" invisible="True"/>
+									
+                                    <field name="grano_da" 		attrs="{'invisible':[('used17','=',False)],'required':[('used17','=',True)]}" />
+                                    <field name="liminf17" invisible= "True"/>
+                                    <field name="limsup17" invisible= "True"/>
+                                    <field name="used17" invisible="True"/>
+									
+                                    <field name="plaga" 		attrs="{'invisible':[('used18','=',False)],'required':[('used18','=',True)]}" />
+                                    <field name="liminf18" invisible= "True"/>
+                                    <field name="limsup18" invisible= "True"/>
+                                    <field name="used18" invisible="True"/>
+									
+                                    <field name="temperatura" 	attrs="{'invisible':[('used19','=',False)],'required':[('used19','=',True)]}" />
+                                    <field name="liminf19" invisible= "True"/>
+                                    <field name="limsup19" invisible= "True"/>
+                                    <field name="used19" invisible="True"/>
+									
+                                    <field name="bacteri" 		attrs="{'invisible':[('used23','=',False)],'required':[('used23','=',True)]}" />
+                                    <field name="liminf23" invisible= "True"/>
+                                    <field name="limsup23" invisible= "True"/>
+                                    <field name="used23" invisible="True"/>
+									
+                                    <field name="taninos" 		attrs="{'invisible':[('used24','=',False)],'required':[('used24','=',True)]}" />
+                                    <field name="liminf24" invisible= "True"/>
+                                    <field name="limsup24" invisible= "True"/>
+                                    <field name="used24" invisible="True"/>
+                                </group>
+                            </div>
+                        </group>
+                    </sheet>
+					<footer>
+                        <button name="guardar" string="Guardar" type="object" class="oe_highlight"/>
+						Or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+		</record>
+
+		<!--<menuitem name="Ejemplo de wizards"
+							action="action_wizard_tonto"
+							id="menu_wizard_tonto"
+							parent="capacitacion.top_producto"
+							sequence="2"/>-->
+	</data>
+</openerp>

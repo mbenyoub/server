@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+        <!-- Activos -->
+        <record model="ir.ui.view" id="view_account_asset_asset_form_inherit">
+            <field name="name">account.asset.asset.form</field>
+            <field name="model">account.asset.asset</field>
+            <field name="inherit_id" ref="account_asset.view_account_asset_asset_form"/>
+            <field name="priority" eval="19"/>
+            <field name="arch" type="xml">
+                <field name="invoice_id" position="after">
+                    <field name="income_id" context="{'default_type': 'income'}" attrs="{'invisible': [('origin','not in',['income','donation'])], 'readonly': [('state','not in',['draft'])]}" />
+                </field> 
+            </field>
+        </record>
+    </data>
+</openerp>

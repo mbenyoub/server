@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_wizard_account_move_edit" model="ir.ui.view">
+            <field name="name">Account move edit</field>
+            <field name="model">wizard.account.move.edit</field>
+            <field name="arch" type="xml">
+            <form string="DIOT Report" version="7.0">
+                <field name="move_id" invisible="1" on_change="onchange_move(move_id,context)"/>
+                <field name="name" invisible="1" />
+                <field name="journal_id" invisible="1" />
+                <field name="company_id" invisible="1" />
+                <field name="line_id" context="{'default_w_edit_id': active_id, 'default_move_id': move_id, 'move_id': move_id, 'journal_id': journal_id, 'period_id': context.get('period_id',False), 'default_name': name, 'name': name, 'manual': context.get('manual',False) }">
+                    <tree colors="blue:state == 'draft';black:state == 'posted'" editable="top" string="Journal Items">
+                        <field name="name"/>
+                        <field name="partner_id"/>
+                        <field name="move_id" invisible="1"/>
+                        <field name="account_id" domain="[('journal_id','=',parent.journal_id),('company_id', '=', parent.company_id)]"/>
+                        <field name="debit" sum="Total Debit"/>
+                        <field name="credit" sum="Total Credit"/>
+                        <field name="currency_id" readonly="0"/>
+                        <field name="tax_code_id"/>
+                        <field name="tax_amount"/>
+                        <field name="state" readonly="0" invisible="1" on_change="onchange_edit(state,context)"/>
+                    </tree>
+                </field>
+                <footer>
+                    <button name="action_apply" type="object" string="Aplicar" class="oe_highlight"/>
+                    o
+                    <button string="Cancelar" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+            </field>
+        </record>
+
+    </data>
+</openerp>

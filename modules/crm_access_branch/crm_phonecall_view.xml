@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+        <record id="view_crm_case_phonecalls_filter_inherit" model="ir.ui.view">
+            <field name="name">view.crm.phonecall.filter.inherit</field>
+            <field name="model">crm.phonecall</field>
+            <field name="inherit_id" ref="crm.view_crm_case_phonecalls_filter"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="replace"/>
+                <field name="name" position="after">
+                    <field name="branch_id"/>
+                    <field name="user_id"/>
+                </field>
+                <xpath expr="//filter[@name='current']" position="after">
+                    <filter icon="terp-gtk-go-back-rtl" string="Mi sucursal" name="filter_branch_id" domain="[('branch_id.branch_user_ids','in',(uid))]"/>
+                </xpath>
+                <filter string="Date" position="after">
+                    <filter string="Sucursal" icon="terp-personal" domain="[]" context="{'group_by':'branch_id'}"/>
+                </filter>
+            </field>
+        </record>
+        
+        <!--
+            Llamada Registrada
+        -->
+        
+        <record model="ir.actions.act_window" id="crm.crm_case_categ_phone_incoming0">
+            <field name="name">Logged Calls</field>
+            <field name="res_model">crm.phonecall</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,calendar</field>
+            <field name="view_id" ref="crm.crm_case_inbound_phone_tree_view"/>
+            <field name="domain">['|',('branch_id.user_ids','in',(uid)),('branch_id','=',False)]</field>
+            <field name="context">{'default_state': 'done'}</field>
+            <field name="search_view_id" ref="crm.view_crm_case_phonecalls_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to log the summary of a phone call. 
+              </p><p>
+                OpenERP allows you to log inbound calls on the fly to track the
+                history of the communication with a customer or to inform another
+                team member.
+              </p><p>
+                In order to follow up on the call, you can trigger a request for
+                another call, a meeting or an opportunity.
+              </p>
+            </field>
+        </record>
+        
+        <!-- Vista de lista -->
+        <record model="ir.ui.view" id="crm_case_inbound_phone_tree_view_inherit">
+            <field name="name">crm.phonecall.inbound.tree.view.inherit</field>
+            <field name="model">crm.phonecall</field>
+            <field name="inherit_id" ref="crm.crm_case_inbound_phone_tree_view" />
+            <field name="priority" eval="19"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="branch_id" invisible="1"></field>
+                </field>
+            </field>
+        </record>
+        
+<!--
+        Llamadas Planificadas
+-->
+        <record model="ir.actions.act_window" id="crm.crm_case_categ_phone_outgoing0">
+            <field name="name">Scheduled Calls</field>
+            <field name="res_model">crm.phonecall</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,calendar</field>
+            <field name="view_id" ref="crm.crm_case_phone_tree_view"/>
+            <field name="domain">[('state','!=','done'),'|',('branch_id.user_ids','in',(uid)),('branch_id','=',False)]</field>
+            <field name="context" eval="'{\'default_state\':\'open\'}'"/>
+            <field name="search_view_id" ref="crm.view_crm_case_phonecalls_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to schedule a call 
+              </p><p>
+                OpenERP allows you to easily define all the calls to be done
+                by your sales team and follow up based on their summary.
+              </p><p>  
+                You can use the import feature to massively import a new list of
+                prospects to qualify.
+              </p>
+            </field>
+        </record>
+        
+        <!-- Vista de lista -->
+        <record model="ir.ui.view" id="crm_case_phone_tree_view_inherit">
+            <field name="name">crm.case.phone.tree.view.inherit</field>
+            <field name="model">crm.phonecall</field>
+            <field name="inherit_id" ref="crm.crm_case_phone_tree_view" />
+            <field name="priority" eval="19"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="branch_id" invisible="1"></field>
+                </field>
+            </field>
+        </record>
+        
+        <!-- Vista Formulario -->
+        <record model="ir.ui.view" id="crm_case_phone_form_view_inherit">
+            <field name="name">view.crm.case.phone.form.inherit</field>
+            <field name="model">crm.phonecall</field>
+            <field name="inherit_id" ref="crm.crm_case_phone_form_view" />
+            <field name="priority" eval="25"/>
+            <field name="arch" type="xml">
+                <field name="opportunity_id" position="after">
+                    <field name="branch_id" readonly="1"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>
+

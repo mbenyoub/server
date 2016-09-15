@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+<!--
+        Vista wizard conciliacion manual banco
+-->
+        
+        <!-- View Form - Conciliacion banco -->
+        <record model="ir.ui.view" id="wizard_account_bank_statement_conciliate_bank_view">
+            <field name="name">account.bank.statement.conciliate.bank.form</field>
+            <field name="model">account.bank.statement.conciliate.bank</field>
+            <field name="arch" type="xml">
+                <form string="Conciliar Movimientos" version="7.0">
+                    <group col="4">
+                        <group>
+                            <field name="name"/>
+                            <field name="bank_id" invisible="1"/>
+                            <field name="statement_id" on_change="onchange_statement_id(statement_id,context)" invisible="1"/>
+                            <field name="amount"/>
+                            <field name="amount_apply" readonly="1"/>
+                            <div colspan="2">
+                                <button name="button_dummy" string="(Actualizar)" class="oe_link oe_inline oe_right"  type="object" help="Actualizar el valor del monto a conciliar sobre las transacciones seleccionadas"/>
+                            </div>
+                        </group>
+                        <group>
+                            <div>
+                                <label for="move_ids"/>
+                                <field name="move_ids" nolabel="1" context="{'statement_id': statement_id, 'default_wizard_id': active_id}">
+                                    <tree editable="bottom" string="Statement lines" create="0" delete="0">
+                                        <field name="apply" />
+                                        <field name="move_id" readonly="1" on_change="onchange_statement_move(move_id,context)" domain="[('statement_id','=', context.get('statement_id',False)),('bank_id','=',False)]"/>
+                                        <field name="partner_id" />
+                                        <field name="amount" sum="Total Transacciones"/>
+                                        <field name="type"/>
+                                        <field name="date"/>
+                                    </tree>
+                                </field>
+                            </div>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="action_validate_conciliation" type="object" string="Conciliar" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Action - Conciliacion banco -->
+        <record model="ir.actions.act_window" id="action_wizard_account_bank_statement_conciliate_bank_view">
+            <field name="name">Conciliar movimientos</field>
+            <field name="res_model">account.bank.statement.conciliate.bank</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_account_bank_statement_conciliate_bank_view"/>
+            <field name="target">new</field>
+        </record>
+
+<!--
+        Vista wizard de concilacion manual transacciones
+-->
+        <!-- View Form - Conciliacion transacciones -->
+        <record model="ir.ui.view" id="wizard_account_bank_statement_conciliate_move_view">
+            <field name="name">account.bank.statement.conciliate.move.form</field>
+            <field name="model">account.bank.statement.conciliate.move</field>
+            <field name="arch" type="xml">
+                <form string="Conciliar Movimientos" version="7.0">
+                    <group col="4">
+                        <group>
+                            <field name="name"/>
+                            <field name="move_id" invisible="1"/>
+                            <field name="statement_id" invisible="1" on_change="onchange_statement_id(statement_id,context)"/>
+                            <field name="amount"/>
+                            <field name="amount_apply" readonly="1"/>
+                            <div colspan="2">
+                                <button name="button_dummy" string="(Actualizar)" class="oe_link oe_inline oe_right"  type="object" help="Actualizar el valor del monto a conciliar sobre las transacciones seleccionadas"/>
+                            </div>
+                        </group>
+                        <group>
+                            <div>
+                                <label for="bank_ids"/>
+                                <field name="bank_ids" nolabel="1" context="{'statement_id': statement_id, 'default_wizard_id': active_id}">
+                                    <tree editable="bottom" string="Statement lines" create="0" delete="0">
+                                        <field name="apply" />
+                                        <field name="bank_id" readonly="1" on_change="onchange_statement_bank(bank_id,context)" domain="[('statement_id','=', context.get('statement_id',False)),('state','!=','CON')]"/>
+                                        <field name="amount" sum="Total Movimiento"/>
+                                        <field name="date"/>
+                                    </tree>
+                                </field>
+                            </div>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="action_validate_conciliation" type="object" string="Conciliar" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Action - Conciliacion transacciones -->
+        <record model="ir.actions.act_window" id="action_wizard_account_bank_statement_conciliate_move_view">
+            <field name="name">Conciliar movimientos</field>
+            <field name="res_model">account.bank.statement.conciliate.move</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_account_bank_statement_conciliate_move_view"/>
+            <field name="target">new</field>
+        </record>
+        
+    </data>
+</openerp>   

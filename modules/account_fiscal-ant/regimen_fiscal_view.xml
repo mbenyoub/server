@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+        <!-- Modificacion de la vista formulario -->
+        <record model="ir.ui.view" id="view_regimen_fiscal_form_inherit">
+            <field name="name">regimen.fiscal.form.inherit</field>
+            <field name="model">regimen.fiscal</field>
+            <field name="inherit_id" ref="l10n_mx_regimen_fiscal.view_regimen_fiscal_form" />
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <newline position="replace"/>
+                <field name="description" position="replace" />
+                <field name="name" position="replace">
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="title" on_change="onchange_title(title,context)"/>
+                        </group>
+                        <group>
+                            <field name="apply_deduction" />
+                            <field name="category_id" attrs="{'invisible': [('apply_deduction','=',False),('title','!=','title_4')], 'required': ['|',('apply_deduction','=',True),('title','=','title_4')]}" domain="[('exclude_deduction','=',True)]"/>
+                            <field name="apply_deduction_sale" />
+                            <field name="category_id_sale" attrs="{'invisible': [('apply_deduction_sale','=',False)], 'required': [('apply_deduction_sale','=',True)]}" domain="[('exclude_cum_income','=',True)]" string="Rubro fiscal ingreso"/>
+                        </group>
+                    </group>
+                    <separator/>
+                    <group col="4" colspan="4">
+                        <field name="description"/>
+                    </group>
+                </field>
+            </field>
+        </record>
+    
+        <!-- Modificacion de la vista lista -->
+        <record model="ir.ui.view" id="view_regimen_fiscal_tree_inherit">
+            <field name="name">regimen.fiscal.tree.inherit</field>
+            <field name="model">regimen.fiscal</field>
+            <field name="inherit_id" ref="l10n_mx_regimen_fiscal.view_regimen_fiscal_tree" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="description" position="after">
+                    <field name="apply_deduction" />
+                </field>
+            </field>
+        </record>
+    
+    </data>
+</openerp>

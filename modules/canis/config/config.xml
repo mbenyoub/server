@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Module XML -->
+
+<openerp>
+    <data>
+        
+        <!-- Tree View Records -->    
+        <record model="ir.ui.view" id="view__saas_catalogo_tree">         
+            <field name="name">config.tree</field>
+            <field name="model">canis.config</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Configuracion">
+                    
+                   <field name="fecha_actualizacion"/>
+				   <field name="monto_maximo"/>
+				   <field name="name"/>
+                    
+                </tree>
+            </field>
+        </record>
+    
+        <!-- Form View Records -->
+		
+		<!--MODIFICACION 18/04/2015-->
+		<!--Agregacion de atributo 'on_change' al campo 'monto_maximo' de 'canis.config'-->
+    
+        <record model="ir.ui.view" id="view__saas_catalogo_form">
+            <field name="name">config.form</field>
+            <field name="model">canis.config</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Configuracion" version="7.0">
+                    <sheet>
+                        <group>
+                           <group>
+								
+								<field name="monto_maximo" on_change="onchange_monto(monto_maximo)"/>
+								<field name="name"/>
+								
+						   </group>
+						   <group>
+								<field name="fecha_actualizacion"/>
+								<field name="ultimo_monto"/>
+						   </group>
+                        </group>
+                           
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Search View Records -->
+    
+        <record  model="ir.ui.view" id="view__saas_catalogo_search">
+            <field name="name">config.search</field>
+            <field name="model">canis.config</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">                    
+                <search string="Config">
+                    
+                <field name="fecha_actualizacion"/>
+				<field name="monto_maximo"/>
+                
+                </search>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

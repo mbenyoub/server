@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    
+        <!-- Phonecall to Phonecall view -->
+        <record model="ir.ui.view" id="planning_project_phonecall_to_phonecall_view">
+            <field name="name">planning.project.phonecall2phonecall.form</field>
+            <field name="model">planning.project.phonecall2phonecall</field>
+            <field name="arch" type="xml">
+                <form string="Schedule/Log a Call" version="7.0">
+                    <group col="4">
+                        <field name="action"/>
+                        <field name="name"/>
+                        <field name="date" attrs="{'invisible': [('action','=','log')]}"/>
+                        <field name="duration" widget="float_time" attrs="{'invisible': [('action','=','schedule')]}"/>
+                        <field name="user_id"/>
+                        <field name="partner_id" readonly="1"/>
+                    </group>
+                    <footer>
+                        <button name="action_log_call" type="object" string="Registrar llamada" context="{'state': 'done'}" attrs="{'invisible' : [('action', '!=', 'log')]}" class="oe_highlight"/>
+                        <button name="action_log_call" type="object" string="Planificar llamada" context="{'state': 'open'}" attrs="{'invisible' : [('action', '!=', 'schedule')]}" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Phonecall to Phonecall action -->
+        <record model="ir.actions.act_window" id="planning_project_phonecall_to_phonecall_action">
+            <field name="name">Schedule Other Call</field>
+            <field name="res_model">planning.project.phonecall2phonecall</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="planning_project_phonecall_to_phonecall_view"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>   

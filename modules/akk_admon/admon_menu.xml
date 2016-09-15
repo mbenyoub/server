@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <!--
+            Administrador
+        -->
+        
+        <!-- Menu Administracion -->
+        <menuitem id="base.menu_admon" name="Administracion" sequence="450" groups="base.group_admon_database"/>
+            <!-- Menu Administracion/Bases de Datos -->
+            <menuitem id="base.menu_admon_database" name="Bases de Datos" parent="base.menu_admon" sequence="5"/>
+                <!-- Menu Administracion/Bases de Datos/Gestion de Bases de datos -->
+                <menuitem action="action_admon_database" name="Gestion de Bases de datos" id="menu_admon_database_database" parent="base.menu_admon_database" sequence="5" />
+                <!-- Menu Administracion/Bases de Datos/Informacion de Registro -->
+                <menuitem action="action_admon_database_info" name="Informacion de Registro" id="menu_admon_database_info" parent="base.menu_admon_database" sequence="10" />
+                <!-- Menu Administracion/Bases de Datos/Administracion de Modulos -->
+                <menuitem action="action_admon_database_module" name="Administracion de Modulos" id="menu_admon_database_module" parent="base.menu_admon_database" sequence="12" />
+                <!-- Menu Administracion/Bases de Datos/Gestion de Usuarios -->
+                <menuitem name="Gestion de Usuarios" id="menu_admon_database_database_user" parent="base.menu_admon_database" sequence="15" />
+                    <!-- Menu Administracion/Bases de Datos/Gestion de Usuarios/Usuarios -->
+                    <menuitem action="action_admon_database_user" name="Usuarios" id="menu_admon_database_database_user_user" parent="menu_admon_database_database_user" sequence="5" />
+                    <!-- Menu Administracion/Bases de Datos/Gestion de Usuarios/Perfiles -->
+                    <menuitem action="action_admon_database_user_profile" name="Perfiles" id="menu_admon_database_database_user_profile" parent="menu_admon_database_database_user" sequence="10" />
+                    <!-- Menu Administracion/Bases de Datos/Gestion de Usuarios/Grupos -->
+                    <menuitem action="action_admon_database_user_profile_groups" name="Grupos" id="menu_admon_database_database_user_profile_groups" parent="menu_admon_database_database_user" sequence="15    " />
+            
+            <!-- Menu Administracion/Actualizacion de Registros -->
+            <menuitem id="base.menu_admon_update_reg" name="Actualizacion de Registros" parent="base.menu_admon" sequence="15"/>
+                <!-- Menu Administracion/Actualizacion de Registros/Plan de cuentas -->
+                <menuitem action="action_update_account_account" name="Plan de Cuentas" id="menu_admon_update_reg_account_account" parent="base.menu_admon_update_reg" sequence="5" />
+                <!-- Menu Administracion/Actualizacion de Registros/Impuestos -->
+                <menuitem action="action_update_tax_data" name="Impuestos" id="menu_admon_update_reg_tax" parent="base.menu_admon_update_reg" sequence="10" />
+                <!-- Menu Administracion/Actualizacion de Registros/Diarios -->
+                <menuitem action="action_update_journal_data" name="Diarios" id="menu_admon_update_reg_journal" parent="base.menu_admon_update_reg" sequence="15" />
+                <!-- Menu Administracion/Actualizacion de Registros/Categorias de productos -->
+                <menuitem action="action_update_product_category" name="Categorias de productos" id="menu_admon_update_reg_product_category" parent="base.menu_admon_update_reg" sequence="20" />
+            
+            <!-- Menu Administracion/Configuracion -->
+            <menuitem id="base.menu_admon_configuration" name="Configuracion" parent="base.menu_admon" sequence="250"/>
+                <!-- Menu Administracion/Configuracion/Gestion de Bases de datos -->
+                <menuitem action="l10n_mx_regimen_fiscal.action_regimen_fiscal" name="Regimen Fiscal" id="menu_admon_configuration_regimen_fiscal" parent="base.menu_admon_configuration" sequence="5" />
+                <!-- Menu Administracion/Configuracion/Configuracion -->
+                <menuitem action="action_admon_configuration" name="Configuracion" id="menu_admon_configuration_config" parent="base.menu_admon_configuration" sequence="100" />
+                <!-- Menu Administracion/Configuracion/Catalogo Importacion -->
+                <menuitem action="action_admon_database_import" name="Catalogo importacion" id="menu_admon_database_import_config" parent="base.menu_admon_configuration" sequence="115" />
+            
+    </data>
+</openerp>

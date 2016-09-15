@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+        <record id="view_crm_case_claims_filter_inherit" model="ir.ui.view">
+            <field name="name">view.crm.claim.filter.inherit</field>
+            <field name="model">crm.claim</field>
+            <field name="inherit_id" ref="crm_claim.view_crm_case_claims_filter"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="branch_id"/>
+                </field>
+                <xpath expr="//filter[@string='Pending']" position="after">
+                    <separator/>
+                    <filter icon="terp-gtk-go-back-rtl" string="Mi sucursal" name="filter_branch_id" domain="[('branch_id.branch_user_ids','in',(uid))]"/>
+                </xpath>
+                <filter string="Closure" position="before">
+                    <filter string="Sucursal" icon="terp-personal" domain="[]" context="{'group_by':'branch_id'}"/>
+                </filter>
+            </field>
+        </record>
+        
+        <!--
+            Reclamacion
+        -->
+        
+        <record model="ir.actions.act_window" id="crm_claim.crm_case_categ_claim0">
+            <field name="name">Claims</field>
+            <field name="res_model">crm.claim</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,calendar,form</field>
+            <field name="view_id" ref="crm_claim.crm_case_claims_tree_view"/>
+            <field name="context">{"search_default_user_id":uid, "stage_type":'claim'}</field>
+            <field name="domain">['|',('branch_id.user_ids','in',(uid)),('branch_id','=',False)]</field>
+            <field name="search_view_id" ref="crm_claim.view_crm_case_claims_filter"/>
+            <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Record and track your customers' claims. Claims may be linked to a sales order or a lot.You can send emails with attachments and keep the full history for a claim (emails sent, intervention type and so on).Claims may automatically be linked to an email address using the mail gateway module.
+            </p>
+            </field>
+        </record>
+        
+        <!-- Vista de lista -->
+        <record model="ir.ui.view" id="crm_case_claims_tree_view_inherit">
+            <field name="name">crm.claim.tree.view.inherit</field>
+            <field name="model">crm.claim</field>
+            <field name="inherit_id" ref="crm_claim.crm_case_claims_tree_view" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="branch_id" invisible="1"></field>
+                </field>
+            </field>
+        </record>
+        
+        <!-- Vista Formulario -->
+        <record model="ir.ui.view" id="view_crm_meeting_form_inherit">
+            <field name="name">view.crm.meeting.form.inherit</field>
+            <field name="model">crm.meeting</field>
+            <field name="inherit_id" ref="base_calendar.view_crm_meeting_form" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="state" position="after">
+                    <field name="branch_id" readonly="1" invisible="1"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>
+

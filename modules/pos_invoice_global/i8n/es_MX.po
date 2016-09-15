@@ -1,0 +1,10 @@
+# Spanish (Mexico) translation for openobject-addons
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the openobject-addons package.
+# Juan Manuel Oropeza Salas <joropeza@akkadian.com.mx>, 2014.
+#
+
+#. module: account
+#: model: account.move.line, name: _check_date
+msgid "The date of your Journal Entry is not in the defined period! You should change the date or remove this constraint from the journal."
+msgstr "La fecha de clausura no se encuentra dentro del periodo contable actual."

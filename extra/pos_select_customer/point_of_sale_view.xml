@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+        <record model="ir.ui.view" id="view_pos_config_form_inherit">
+            <field name="name">pos.config.form.view.inherit</field>
+            <field name="model">pos.config</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_config_form" />
+            <field name="priority" eval="19"/>
+            <field name="arch" type="xml">
+                <field name="sequence_id" position="after">
+                    <field name="partner_id" string="Cliente predefinido" help="Al seleccionar un cliente predefinido se agregara el cliente por default cada vez que se agregue un pedido nuevo"/>
+                </field>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

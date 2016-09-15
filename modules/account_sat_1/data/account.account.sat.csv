@@ -1,0 +1,282 @@
+id,code,number,name,parent_id/id,type,active
+account_sat.account_sat_001,,000-000-000,Company,,view,True
+account_sat.account_sat_002,,000-100-000,Activo,account_sat.account_sat_001,view,True
+account_sat.account_sat_003,,100-000-100,Activos Circulantes,account_sat.account_sat_002,view,True
+account_sat.account_sat_004,1,100-100-000, Caja,account_sat.account_sat_003,view,True
+account_sat.account_sat_005,1.1,100-100-001,Caja y efectivo,account_sat.account_sat_004,other,True
+account_sat.account_sat_006,2,101-000-000, Bancos,account_sat.account_sat_003,view,True
+account_sat.account_sat_007,2.1,101-100-000,Bancos nacionales,account_sat.account_sat_006,other,True
+account_sat.account_sat_008,2.2,101-200-000,Bancos extranjeros,account_sat.account_sat_006,other,True
+account_sat.account_sat_009,3,102-000-000,Inversiones,account_sat.account_sat_003,view,True
+account_sat.account_sat_010,3.1,102-100-001,Inversiones en Valores,account_sat.account_sat_009,other,True
+account_sat.account_sat_011,3.2,102-100-002,Inversiones temporales,account_sat.account_sat_009,other,True
+account_sat.account_sat_012,4,103-000-000,Clientes,account_sat.account_sat_003,view,True
+account_sat.account_sat_013,4.1,103-100-001,Clientes nacionales,account_sat.account_sat_012,other,True
+account_sat.account_sat_014,4.2,103-100-002,Clientes extranjeros,account_sat.account_sat_012,other,True
+account_sat.account_sat_015,4.3,103-100-003,Partes relacionadas,account_sat.account_sat_012,other,True
+account_sat.account_sat_016,5,104-000-000,Cuentas por Cobrar,account_sat.account_sat_003,view,True
+account_sat.account_sat_017,5.1,104-100-001,Documentos por Cobrar corto plazo,account_sat.account_sat_016,other,True
+account_sat.account_sat_018,5.2,104-100-002,Partes relacionadas,account_sat.account_sat_016,other,True
+account_sat.account_sat_019,5.3,104-100-003,Intereses por cobrar,account_sat.account_sat_016,other,True
+account_sat.account_sat_020,6,105-000-000,Títulos de crédito,account_sat.account_sat_003,view,True
+account_sat.account_sat_021,6.1,105-100-001,Títulos de crédito,account_sat.account_sat_020,other,True
+account_sat.account_sat_022,7,106-000-000,Créditos otorgados,account_sat.account_sat_003,view,True
+account_sat.account_sat_023,7.1,106-100-001,Créditos otorgados,account_sat.account_sat_022,other,True
+account_sat.account_sat_024,8,107-000-000,Deudores diversos,account_sat.account_sat_003,view,True
+account_sat.account_sat_025,8.1,107-100-001,Funcionarios y Empleados,account_sat.account_sat_024,other,True
+account_sat.account_sat_026,8.2,107-100-002,Socios y accionistas,account_sat.account_sat_024,other,True
+account_sat.account_sat_027,8.3,107-100-003,Partes relacionadas,account_sat.account_sat_024,other,True
+account_sat.account_sat_028,8.4,107-100-004,Otros deudores diversos,account_sat.account_sat_024,other,True
+account_sat.account_sat_029,9,108-000-000,Estimación de Cuentas Incobrables,account_sat.account_sat_003,view,True
+account_sat.account_sat_030,9.1,108-100-001,Estimación de Cuentas Incobrables,account_sat.account_sat_029,other,True
+account_sat.account_sat_031,10,109-000-000,Pagos Anticipados,account_sat.account_sat_003,view,True
+account_sat.account_sat_032,10.1,109-100-001,Seguros y Fianzas Pagadas por Anticipado,account_sat.account_sat_031,other,True
+account_sat.account_sat_033,10.2,109-100-002,Rentas Pagadas por Anticipado,account_sat.account_sat_031,other,True
+account_sat.account_sat_034,10.3,109-100-003,Intereses Pagados por Anticipado,account_sat.account_sat_031,other,True
+account_sat.account_sat_035,10.4,109-100-004,Otros pagos anticipados,account_sat.account_sat_031,other,True
+account_sat.account_sat_036,11,110-000-000,Impuestos a favor,account_sat.account_sat_003,view,True
+account_sat.account_sat_037,11.1,110-100-001,IVA a favor,account_sat.account_sat_036,other,True
+account_sat.account_sat_038,11.2,110-100-002,ISR a favor,account_sat.account_sat_036,other,True
+account_sat.account_sat_039,11.3,110-100-003,IETU a favor,account_sat.account_sat_036,other,True
+account_sat.account_sat_040,11.4,110-100-004,IDE a favor,account_sat.account_sat_036,other,True
+account_sat.account_sat_041,11.5,110-100-005,IA a favor,account_sat.account_sat_036,other,True
+account_sat.account_sat_042,11.6,110-100-006,Otros impuestos a favor,account_sat.account_sat_036,other,True
+account_sat.account_sat_043,12,111-000-000,Pagos provisionales,account_sat.account_sat_003,view,True
+account_sat.account_sat_044,12.1,111-100-001,Pagos provisionales de ISR,account_sat.account_sat_043,other,True
+account_sat.account_sat_045,13,112-000-000,Inventarios,account_sat.account_sat_003,view,True
+account_sat.account_sat_046,13.1,112-100-001,Inventarios,account_sat.account_sat_045,other,True
+account_sat.account_sat_047,14,113-000-000,Obras en proceso,account_sat.account_sat_003,view,True
+account_sat.account_sat_048,14.1,113-100-001,Obras en proceso,account_sat.account_sat_047,other,True
+account_sat.account_sat_049,15,114-000-000,Impuestos acreditables pagados,account_sat.account_sat_003,view,True
+account_sat.account_sat_050,15.1,114-100-001,IVA acreditable pagado,account_sat.account_sat_049,other,True
+account_sat.account_sat_051,15.2,114-100-002,IVA acreditable de importación pagado,account_sat.account_sat_049,other,True
+account_sat.account_sat_052,15.3,114-100-003,IEPS acreditable pagado,account_sat.account_sat_049,other,True
+account_sat.account_sat_053,15.4,114-100-004,IEPS pagado en importación,account_sat.account_sat_049,other,True
+account_sat.account_sat_054,16,115-000-000,Impuestos acreditables por pagar,account_sat.account_sat_003,view,True
+account_sat.account_sat_055,16.1,115-100-001,IVA pendiente de pago,account_sat.account_sat_054,other,True
+account_sat.account_sat_056,16.2,115-100-002,IVA de importación pendiente de pago,account_sat.account_sat_054,other,True
+account_sat.account_sat_057,16.3,115-100-003,IEPS pendiente de pago,account_sat.account_sat_054,other,True
+account_sat.account_sat_058,16.4,115-100-004,IEPS pendiente de pago en importación,account_sat.account_sat_054,other,True
+account_sat.account_sat_059,17,116-000-000,Anticipo a proveedores,account_sat.account_sat_003,view,True
+account_sat.account_sat_060,17.1,116-100-001,Anticipo a proveedores,account_sat.account_sat_059,other,True
+account_sat.account_sat_061,18,117-000-000,Otros Activos Circulantes,account_sat.account_sat_003,view,True
+account_sat.account_sat_062,18.1,117-100-001,Otros Activos Circulantes,account_sat.account_sat_061,other,True
+account_sat.account_sat_063,,118-000-100,Activos no circulantes,account_sat.account_sat_002,view,True
+account_sat.account_sat_064,19,118-000-000,Terrenos,account_sat.account_sat_063,view,True
+account_sat.account_sat_065,19.1,118-100-001,Terrenos,account_sat.account_sat_064,other,True
+account_sat.account_sat_066,20,119-000-000,Edificios,account_sat.account_sat_063,view,True
+account_sat.account_sat_067,20.1,119-100-001,Edificios,account_sat.account_sat_066,other,True
+account_sat.account_sat_068,21,120-000-000,Maquinaria y equipo,account_sat.account_sat_063,view,True
+account_sat.account_sat_069,21.1,120-100-001,Maquinaria y equipo,account_sat.account_sat_068,other,True
+account_sat.account_sat_070,22,121-000-000,Equipo de transporte,account_sat.account_sat_063,view,True
+account_sat.account_sat_071,22.1,121-100-001,Equipo de transporte,account_sat.account_sat_070,other,True
+account_sat.account_sat_072,23,122-000-000,Mobiliario y equipo de oficina,account_sat.account_sat_063,view,True
+account_sat.account_sat_073,23.1,122-100-001,Mobiliario y equipo de oficina,account_sat.account_sat_072,other,True
+account_sat.account_sat_074,24,123-000-000,Equipo de cómputo,account_sat.account_sat_063,view,True
+account_sat.account_sat_075,24.1,123-100-001,Equipo de cómputo,account_sat.account_sat_074,other,True
+account_sat.account_sat_076,25,124-000-000,Depreciación acumulada,account_sat.account_sat_063,view,True
+account_sat.account_sat_077,25.1,124-100-001,Depreciación acumulada de edificios,account_sat.account_sat_076,other,True
+account_sat.account_sat_078,25.2,124-100-002,Depreciación acumulada de maquinaria y equipo,account_sat.account_sat_076,other,True
+account_sat.account_sat_079,25.3,124-100-003,Depreciación acumulada de equipo de transporte,account_sat.account_sat_076,other,True
+account_sat.account_sat_080,25.4,124-100-004,Depreciación acumulada de mobiliario y equipo,account_sat.account_sat_076,other,True
+account_sat.account_sat_081,25.5,124-100-005,Depreciación acumulada de equipo de cómputo,account_sat.account_sat_076,other,True
+account_sat.account_sat_082,25.6,124-100-006,Depreciación acumulada de otros activos,account_sat.account_sat_076,other,True
+account_sat.account_sat_083,26,125-000-000,Adaptaciones y mejoras,account_sat.account_sat_063,view,True
+account_sat.account_sat_084,26.1,125-100-001,Adaptaciones y mejoras,account_sat.account_sat_083,other,True
+account_sat.account_sat_085,27,126-000-000,Gastos Pre Operativos,account_sat.account_sat_063,view,True
+account_sat.account_sat_086,27.1,126-100-001,Gastos Pre Operativos,account_sat.account_sat_085,other,True
+account_sat.account_sat_087,28,127-000-000,Gastos de instalación,account_sat.account_sat_063,view,True
+account_sat.account_sat_088,28.1,127-100-001,Gastos de instalación,account_sat.account_sat_087,other,True
+account_sat.account_sat_089,29,128-000-000,Gastos de organización,account_sat.account_sat_063,view,True
+account_sat.account_sat_090,29.1,128-100-001,Gastos de organización,account_sat.account_sat_089,other,True
+account_sat.account_sat_091,30,129-000-000,Investigación y Desarrollo de Mercado,account_sat.account_sat_063,view,True
+account_sat.account_sat_092,30.1,129-100-001,Investigación y Desarrollo de Mercado,account_sat.account_sat_091,other,True
+account_sat.account_sat_093,31,130-000-000,Marcas y Patentes,account_sat.account_sat_063,view,True
+account_sat.account_sat_094,31.1,130-100-001,Marcas y Patentes,account_sat.account_sat_093,other,True
+account_sat.account_sat_095,32,131-000-000,Depósitos en Garantía,account_sat.account_sat_063,view,True
+account_sat.account_sat_096,32.1,131-100-001,Depósitos en Garantía,account_sat.account_sat_095,other,True
+account_sat.account_sat_097,33,132-000-000,Crédito Mercantil,account_sat.account_sat_063,view,True
+account_sat.account_sat_098,33.1,132-100-001,Crédito Mercantil,account_sat.account_sat_097,other,True
+account_sat.account_sat_099,34,133-000-000,Impuestos diferidos,account_sat.account_sat_063,view,True
+account_sat.account_sat_100,34.1,133-100-001,Impuestos diferidos,account_sat.account_sat_099,other,True
+account_sat.account_sat_101,35,134-000-000,Cuentas por cobrar a largo plazo,account_sat.account_sat_063,view,True
+account_sat.account_sat_102,35.1,134-100-001,Cuentas por cobrar a largo plazo,account_sat.account_sat_101,other,True
+account_sat.account_sat_103,36,135-000-000,Otros Activos No Circulantes,account_sat.account_sat_063,view,True
+account_sat.account_sat_104,36.1,135-100-001,Otros Activos No Circulantes,account_sat.account_sat_103,other,True
+account_sat.account_sat_105,,000-200-000,Pasivo ,account_sat.account_sat_001,view,True
+account_sat.account_sat_106,,200-000-000,Pasivos circulantes,account_sat.account_sat_105,view,True
+account_sat.account_sat_107,37,200-100-000,Proveedores,account_sat.account_sat_106,view,True
+account_sat.account_sat_108,37.1,200-100-001,Proveedores Nacionales,account_sat.account_sat_107,other,True
+account_sat.account_sat_109,37.2,200-100-002,Proveedores Extranjeros,account_sat.account_sat_107,other,True
+account_sat.account_sat_110,37.3,200-100-003,Partes Relacionadas,account_sat.account_sat_107,other,True
+account_sat.account_sat_111,38,201-100-000,Cuentas por Pagar a corto plazo,account_sat.account_sat_106,view,True
+account_sat.account_sat_112,38.1,201-100-001,Documentos por Pagar,account_sat.account_sat_111,other,True
+account_sat.account_sat_113,38.2,201-100-002,Documentos por Pagar Bancarios,account_sat.account_sat_111,other,True
+account_sat.account_sat_114,38.3,201-100-003,Dividendos por Pagar,account_sat.account_sat_111,other,True
+account_sat.account_sat_115,38.4,201-100-004,Partes Relacionadas11,account_sat.account_sat_111,other,True
+account_sat.account_sat_116,38.5,201-100-005,Intereses por pagar,account_sat.account_sat_111,other,True
+account_sat.account_sat_117,39,202-100-000,Acreedores diversos,account_sat.account_sat_106,view,True
+account_sat.account_sat_118,39.1,202-100-001,"Socios, Accionistas o Representante legal",account_sat.account_sat_117,other,True
+account_sat.account_sat_119,39.2,202-100-002,Partes Relacionadas,account_sat.account_sat_117,other,True
+account_sat.account_sat_120,39.3,202-100-003,Otros Acreedores Diversos,account_sat.account_sat_117,other,True
+account_sat.account_sat_121,40,203-100-000,Anticipo de Clientes,account_sat.account_sat_106,view,True
+account_sat.account_sat_122,40.1,203-100-001,Anticipo de clientes,account_sat.account_sat_121,other,True
+account_sat.account_sat_123,41,204-100-000,Impuestos trasladados,account_sat.account_sat_106,view,True
+account_sat.account_sat_124,41.1,204-100-001,IVA trasladado ,account_sat.account_sat_123,other,True
+account_sat.account_sat_125,41.2,204-100-002,IEPS trasladado,account_sat.account_sat_123,other,True
+account_sat.account_sat_126,42,205-100-000,Impuestos trasladados cobrados,account_sat.account_sat_106,view,True
+account_sat.account_sat_127,42.1,205-100-001,IVA trasladado cobrado,account_sat.account_sat_126,other,True
+account_sat.account_sat_128,42.2,205-100-002,IEPS trasladado cobrado,account_sat.account_sat_126,other,True
+account_sat.account_sat_129,43,206-100-000,Impuestos trasladados no cobrados,account_sat.account_sat_106,view,True
+account_sat.account_sat_130,43.1,206-100-001,IVA trasladado no cobrado,account_sat.account_sat_129,other,True
+account_sat.account_sat_131,43.2,206-100-002,IEPS trasladado no cobrado,account_sat.account_sat_129,other,True
+account_sat.account_sat_132,44,207-100-000,Impuestos y Derechos por Pagar,account_sat.account_sat_106,view,True
+account_sat.account_sat_133,44.1,207-100-001,IVA por pagar,account_sat.account_sat_132,other,True
+account_sat.account_sat_134,44.2,207-100-002,IEPS por pagar,account_sat.account_sat_132,other,True
+account_sat.account_sat_135,44.3,207-100-003,ISR por pagar,account_sat.account_sat_132,other,True
+account_sat.account_sat_136,44.4,207-100-004,PTU por Pagar,account_sat.account_sat_132,other,True
+account_sat.account_sat_137,44.5,207-100-005,IETU por Pagar,account_sat.account_sat_132,other,True
+account_sat.account_sat_138,44.6,207-100-006,Impuestos estatales y municipales por pagar,account_sat.account_sat_132,other,True
+account_sat.account_sat_139,44.7,207-100-007,Otros impuestos por pagar,account_sat.account_sat_132,other,True
+account_sat.account_sat_140,44.8,207-100-008,Derechos por Pagar,account_sat.account_sat_132,other,True
+account_sat.account_sat_141,45,208-100-000,Impuestos Retenidos,account_sat.account_sat_106,view,True
+account_sat.account_sat_142,45.1,208-100-001,Retenciones salarios y asimilados,account_sat.account_sat_141,other,True
+account_sat.account_sat_143,45.2,208-100-002,Retenciones IVA,account_sat.account_sat_141,other,True
+account_sat.account_sat_144,45.3,208-100-003,Retenciones arrendamiento ISR,account_sat.account_sat_141,other,True
+account_sat.account_sat_145,45.4,208-100-004,Retenciones servicios profesionales ISR,account_sat.account_sat_141,other,True
+account_sat.account_sat_146,45.5,208-100-005,Retenciones dividendos,account_sat.account_sat_141,other,True
+account_sat.account_sat_147,45.6,208-100-006,Otras retenciones,account_sat.account_sat_141,other,True
+account_sat.account_sat_148,46,209-100-000,Pagos por terceros,account_sat.account_sat_106,view,True
+account_sat.account_sat_149,46.1,209-100-001,Pagos por terceros,account_sat.account_sat_148,other,True
+account_sat.account_sat_150,47,210-100-000,Otros Pasivos circulantes,account_sat.account_sat_106,view,True
+account_sat.account_sat_151,47.1,210-100-001,Otros Pasivos circulantes,account_sat.account_sat_150,other,True
+account_sat.account_sat_152,,211-000-000,Pasivos no circulantes,account_sat.account_sat_105,view,True
+account_sat.account_sat_153,48,211-100-000,Acreedores a Largo Plazo,account_sat.account_sat_152,view,True
+account_sat.account_sat_154,48.1,211-100-001,"Socios, Accionistas o Representante legal",account_sat.account_sat_153,other,True
+account_sat.account_sat_155,48.2,211-100-002,Partes Relacionadas,account_sat.account_sat_153,other,True
+account_sat.account_sat_156,48.3,211-100-003,Otros Acreedores a largo plazo,account_sat.account_sat_153,other,True
+account_sat.account_sat_157,49,212-100-000,Cuentas por Pagar a Largo Plazo,account_sat.account_sat_152,view,True
+account_sat.account_sat_158,49.1,212-100-001,Documentos por Pagar a Largo Plazo,account_sat.account_sat_157,other,True
+account_sat.account_sat_159,49.2,212-100-002,Documentos por Pagar Bancarios a Largo Plazo,account_sat.account_sat_157,other,True
+account_sat.account_sat_160,49.3,212-100-003,Partes Relacionadas,account_sat.account_sat_157,other,True
+account_sat.account_sat_161,49.4,212-100-004,Hipotecas por Pagar,account_sat.account_sat_157,other,True
+account_sat.account_sat_162,49.5,212-100-005,Intereses por pagar a largo plazo,account_sat.account_sat_157,other,True
+account_sat.account_sat_163,50,213-100-000,Cobros anticipados,account_sat.account_sat_152,view,True
+account_sat.account_sat_164,50.1,213-100-001,Rentas Cobradas por Anticipado,account_sat.account_sat_163,other,True
+account_sat.account_sat_165,50.2,213-100-002,Intereses Cobrados por Anticipado,account_sat.account_sat_163,other,True
+account_sat.account_sat_166,50.3,213-100-003,Factoraje Financiero,account_sat.account_sat_163,other,True
+account_sat.account_sat_167,50.4,213-100-004,Otros Cobros por Anticipado,account_sat.account_sat_163,other,True
+account_sat.account_sat_168,51,214-100-000,Otros Pasivos a Largo Plazo,account_sat.account_sat_152,view,True
+account_sat.account_sat_169,51.1,214-100-001,Otros Pasivos a Largo Plazo,account_sat.account_sat_168,other,True
+account_sat.account_sat_170,,300-000-000,Capital,account_sat.account_sat_001,view,True
+account_sat.account_sat_171,52,300-100-000,Capital social,account_sat.account_sat_170,view,True
+account_sat.account_sat_172,52.1,300-100-001,Capital fijo,account_sat.account_sat_171,other,True
+account_sat.account_sat_173,52.2,300-100-002,Capital variable,account_sat.account_sat_171,other,True
+account_sat.account_sat_174,52.3,300-100-003,Aportaciones para Futuros Aumentos a Capital,account_sat.account_sat_171,other,True
+account_sat.account_sat_175,53,301-100-000,Reserva Legal,account_sat.account_sat_170,view,True
+account_sat.account_sat_176,53.1,301-100-001,Reserva Legal,account_sat.account_sat_175,other,True
+account_sat.account_sat_177,54,302-100-000,Resultado del Ejercicio,account_sat.account_sat_170,view,True
+account_sat.account_sat_178,54.1,302-100-001,Utilidad del Ejercicio,account_sat.account_sat_177,other,True
+account_sat.account_sat_179,54.2,302-100-002,Pérdida del Ejercicio,account_sat.account_sat_177,other,True
+account_sat.account_sat_180,55,303-100-000,Resultado de Ejercicios Anteriores,account_sat.account_sat_170,view,True
+account_sat.account_sat_181,55.1,303-100-001,Utilidad de Ejercicios anteriores,account_sat.account_sat_180,other,True
+account_sat.account_sat_182,55.2,303-100-002,Pérdida de Ejercicios anteriores,account_sat.account_sat_180,other,True
+account_sat.account_sat_183,56,304-100-000,Otras Cuentas de Capital,account_sat.account_sat_170,view,True
+account_sat.account_sat_184,56.1,304-100-001,Otras Cuentas de Capital,account_sat.account_sat_183,other,True
+account_sat.account_sat_185,,400-000-000,Ingresos ,account_sat.account_sat_001,view,True
+account_sat.account_sat_186,57,400-100-000,Ventas,account_sat.account_sat_185,view,True
+account_sat.account_sat_187,57.1,400-100-001,Ventas Gravadas a Tasa general contado,account_sat.account_sat_186,other,True
+account_sat.account_sat_188,57.2,400-100-002,Ventas Gravadas a Tasa general crédito,account_sat.account_sat_186,other,True
+account_sat.account_sat_189,57.3,400-100-003,Ventas Gravadas al 0% contado,account_sat.account_sat_186,other,True
+account_sat.account_sat_190,57.4,400-100-004,Ventas Gravadas al 0% crédito,account_sat.account_sat_186,other,True
+account_sat.account_sat_191,57.5,400-100-005,Ventas Exentas contado,account_sat.account_sat_186,other,True
+account_sat.account_sat_192,57.6,400-100-006,Ventas Exentas crédito,account_sat.account_sat_186,other,True
+account_sat.account_sat_193,58,401-100-000,"Devoluciones, Descuentos y Rebajas Sobre Ventas13",account_sat.account_sat_185,view,True
+account_sat.account_sat_194,58.1,401-100-001,"Devoluciones, Descuentos y Rebajas Sobre Ventas a tasa general",account_sat.account_sat_193,other,True
+account_sat.account_sat_195,58.2,401-100-002,"Devoluciones, Descuentos y Rebajas Sobre Ventas al 0%",account_sat.account_sat_193,other,True
+account_sat.account_sat_196,58.3,401-100-003,"Devoluciones, Descuentos y Rebajas Sobre Ventas exentas",account_sat.account_sat_193,other,True
+account_sat.account_sat_197,59,402-100-000,Productos financieros,account_sat.account_sat_185,view,True
+account_sat.account_sat_198,59.1,402-100-001,Productos financieros,account_sat.account_sat_197,other,True
+account_sat.account_sat_199,60,403-100-000,Otros Ingresos,account_sat.account_sat_185,view,True
+account_sat.account_sat_200,60.1,403-100-001,Otros Ingresos,account_sat.account_sat_199,other,True
+account_sat.account_sat_201,,500-000-000,Costos ,account_sat.account_sat_001,view,True
+account_sat.account_sat_202,61,500-100-000,Costo de Ventas,account_sat.account_sat_201,view,True
+account_sat.account_sat_203,61.1,500-100-001,Costo de Ventas,account_sat.account_sat_202,other,True
+account_sat.account_sat_204,62,501-100-000,Compras,account_sat.account_sat_201,view,True
+account_sat.account_sat_205,62.1,501-100-001,Compras nacionales,account_sat.account_sat_204,other,True
+account_sat.account_sat_206,62.2,501-100-002,Compras al extranjero,account_sat.account_sat_204,other,True
+account_sat.account_sat_207,63,502-100-000,"Devoluciones, Descuentos y Rebajas Sobre Compras",account_sat.account_sat_201,view,True
+account_sat.account_sat_208,63.1,502-100-001,"Devoluciones, Descuentos y Rebajas Sobre Compras",account_sat.account_sat_207,other,True
+account_sat.account_sat_209,64,503-100-000,Otras cuentas de costos,account_sat.account_sat_201,view,True
+account_sat.account_sat_210,64.1,503-100-001,Otras cuentas de costos,account_sat.account_sat_209,other,True
+account_sat.account_sat_211,,600-000-000,Gastos ,account_sat.account_sat_001,view,True
+account_sat.account_sat_212,65,600-100-000,Gastos Generales,account_sat.account_sat_211,view,True
+account_sat.account_sat_213,65.1,600-100-001,Gastos Generales,account_sat.account_sat_212,other,True
+account_sat.account_sat_214,65.2,600-100-002,Combustibles y lubricantes,account_sat.account_sat_212,other,True
+account_sat.account_sat_215,65.3,600-100-003,Correos,account_sat.account_sat_212,other,True
+account_sat.account_sat_216,65.4,600-100-004,Internet,account_sat.account_sat_212,other,True
+account_sat.account_sat_217,65.5,600-100-005,Viáticos y gastos de viaje,account_sat.account_sat_212,other,True
+account_sat.account_sat_218,65.6,600-100-006,Gastos de representación,account_sat.account_sat_212,other,True
+account_sat.account_sat_219,65.7,600-100-007,Teléfono,account_sat.account_sat_212,other,True
+account_sat.account_sat_220,65.8,600-100-008,Agua,account_sat.account_sat_212,other,True
+account_sat.account_sat_221,65.9,600-100-009,Electricidad,account_sat.account_sat_212,other,True
+account_sat.account_sat_222,65.10,600-100-010,Vigilancia y limpieza,account_sat.account_sat_212,other,True
+account_sat.account_sat_223,65.11,600-100-011,Materiales de oficina,account_sat.account_sat_212,other,True
+account_sat.account_sat_224,65.12,600-100-012,Gastos legales,account_sat.account_sat_212,other,True
+account_sat.account_sat_225,65.13,600-100-013,Mantenimiento y conservación,account_sat.account_sat_212,other,True
+account_sat.account_sat_226,65.14,600-100-014,Seguros y fianzas,account_sat.account_sat_212,other,True
+account_sat.account_sat_227,65.15,600-100-015,Gastos no deducibles,account_sat.account_sat_212,other,True
+account_sat.account_sat_228,65.16,600-100-016,Otros impuestos y derechos,account_sat.account_sat_212,other,True
+account_sat.account_sat_229,65.17,600-100-017,Recargos fiscales,account_sat.account_sat_212,other,True
+account_sat.account_sat_230,65.18,600-100-018,Cuotas y suscripciones,account_sat.account_sat_212,other,True
+account_sat.account_sat_231,65.19,600-100-019,Propaganda y publicidad,account_sat.account_sat_212,other,True
+account_sat.account_sat_232,65.20,600-100-020,Fotocopiado14,account_sat.account_sat_212,other,True
+account_sat.account_sat_233,65.21,600-100-021,Donativos,account_sat.account_sat_212,other,True
+account_sat.account_sat_234,65.22,600-100-022,Asistencia técnica,account_sat.account_sat_212,other,True
+account_sat.account_sat_235,65.23,600-100-023,Fletes,account_sat.account_sat_212,other,True
+account_sat.account_sat_236,65.24,600-100-024,Impuesto de importación,account_sat.account_sat_212,other,True
+account_sat.account_sat_237,65.25,600-100-025,Impuesto de exportación,account_sat.account_sat_212,other,True
+account_sat.account_sat_238,65.26,600-100-026,Regalías sin retención ,account_sat.account_sat_212,other,True
+account_sat.account_sat_239,65.27,600-100-027,Regalías sujetas al 5% ,account_sat.account_sat_212,other,True
+account_sat.account_sat_240,65.28,600-100-028,Regalías sujetas al 10%,account_sat.account_sat_212,other,True
+account_sat.account_sat_241,65.29,600-100-029,Regalías sujetas al 25% ,account_sat.account_sat_212,other,True
+account_sat.account_sat_242,65.30,600-100-030,Regalías sujetas al 30%,account_sat.account_sat_212,other,True
+account_sat.account_sat_243,65.31,600-100-031,Comisiones sobre ventas,account_sat.account_sat_212,other,True
+account_sat.account_sat_244,65.32,600-100-032,Patentes y marcas,account_sat.account_sat_212,other,True
+account_sat.account_sat_245,65.33,600-100-033,Materias primas de producción,account_sat.account_sat_212,other,True
+account_sat.account_sat_246,65.34,600-100-034,Materiales auxiliares de producción,account_sat.account_sat_212,other,True
+account_sat.account_sat_247,65.35,600-100-035,Comisiones bancarias,account_sat.account_sat_212,other,True
+account_sat.account_sat_248,66,601-100-000,Gastos de Ventas,account_sat.account_sat_211,view,True
+account_sat.account_sat_249,66.1,601-100-001,Gastos de Ventas,account_sat.account_sat_248,other,True
+account_sat.account_sat_250,67,602-100-000,Gastos de Administración,account_sat.account_sat_211,view,True
+account_sat.account_sat_251,67.1,602-100-001,Gastos de Administración,account_sat.account_sat_250,other,True
+account_sat.account_sat_252,68,603-100-000,Gastos Financieros,account_sat.account_sat_211,view,True
+account_sat.account_sat_253,68.1,603-100-001,Gastos Financieros,account_sat.account_sat_252,other,True
+account_sat.account_sat_254,69,604-100-000,Otros Gastos,account_sat.account_sat_211,view,True
+account_sat.account_sat_255,69.1,604-100-001,Perdida en venta de terrenos,account_sat.account_sat_254,other,True
+account_sat.account_sat_256,69.2,604-100-002,Perdida en venta de edificios y construcciones,account_sat.account_sat_254,other,True
+account_sat.account_sat_257,69.3,604-100-003,Perdida en venta de maquinaria,account_sat.account_sat_254,other,True
+account_sat.account_sat_258,69.4,604-100-004,Perdida en venta de equipo de transporte,account_sat.account_sat_254,other,True
+account_sat.account_sat_259,69.5,604-100-005,Perdida en venta de mobiliario y equipo,account_sat.account_sat_254,other,True
+account_sat.account_sat_260,69.6,604-100-006,Perdida en venta de equipo de computo,account_sat.account_sat_254,other,True
+account_sat.account_sat_261,69.7,604-100-007,Perdida en enajenación de acciones,account_sat.account_sat_254,other,True
+account_sat.account_sat_262,69.8,604-100-008,Perdida por deterioro de activos,account_sat.account_sat_254,other,True
+account_sat.account_sat_263,69.9,604-100-009,Otros,account_sat.account_sat_254,other,True
+account_sat.account_sat_264,70,605-100-000,Participación de los Trabajadores en las Utilidades,account_sat.account_sat_211,view,True
+account_sat.account_sat_265,70.1,605-100-001,Participación de los Trabajadores en las Utilidades,account_sat.account_sat_264,other,True
+account_sat.account_sat_266,71,606-100-000,Gastos no deducibles,account_sat.account_sat_211,view,True
+account_sat.account_sat_267,71.1,606-100-001,Gastos no deducibles,account_sat.account_sat_266,other,True
+account_sat.account_sat_268,72,607-100-000,Depreciación contable,account_sat.account_sat_211,view,True
+account_sat.account_sat_269,72.1,607-100-001,Depreciación contable de edificios,account_sat.account_sat_268,other,True
+account_sat.account_sat_270,72.2,607-100-002,Depreciación contable de maquinaria y equipo,account_sat.account_sat_268,other,True
+account_sat.account_sat_271,72.3,607-100-003,Depreciación contable de equipo de transporte15,account_sat.account_sat_268,other,True
+account_sat.account_sat_272,72.4,607-100-004,Depreciación contable de mobiliario y equipo,account_sat.account_sat_268,other,True
+account_sat.account_sat_273,72.5,607-100-005,Depreciación contable de equipo de cómputo,account_sat.account_sat_268,other,True
+account_sat.account_sat_274,72.6,607-100-006,Depreciación contable de otros activos,account_sat.account_sat_268,other,True
+account_sat.account_sat_275,73,608-100-000,Amortización contable,account_sat.account_sat_211,view,True
+account_sat.account_sat_276,73.1,608-100-001,Amortización contable,account_sat.account_sat_275,other,True
+account_sat.account_sat_277,,700-000-000,Cuentas de Orden,account_sat.account_sat_001,view,True
+account_sat.account_sat_278,74,700-100-000,CUCA,account_sat.account_sat_277,view,True
+account_sat.account_sat_279,74.1,700-100-001,CUCA,account_sat.account_sat_278,other,True
+account_sat.account_sat_280,75,701-100-000,CUFIN,account_sat.account_sat_277,view,True
+account_sat.account_sat_281,75.1,701-100-001,CUFIN,account_sat.account_sat_280,other,True

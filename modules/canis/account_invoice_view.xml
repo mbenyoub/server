@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+<!--
+        Factura
+-->
+        
+        <!-- Modificacion de la vista formulario -->
+        <record model="ir.ui.view" id="invoice_form_inherit">
+            <field name="name">account.invoice.form.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form" />
+            <field name="priority" eval="22"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='invoice_line']/tree/field[@name='invoice_line_tax_id']" position="after">
+                    <field name="discount_fin"/>
+                </xpath>
+                <field name="date_due" position="after">
+                    <field name="pricelist_id" attrs="{'readonly': [('state','not in',['draft'])]}"/>
+                </field>
+                <field name="reconciled" position="after">
+                    <field name="discount_sale" string="Descuento Venta" readonly="True"/>
+                    <field name="discount_fin" string="Descuento Pronto pago" readonly="True"/>
+                </field>
+                <button name="invoice_open" states="draft" string="Validate" class="oe_highlight" position="attributes">
+                    <attribute name="groups">base.group_sale_manager</attribute>
+                </button>
+                <button name="invoice_open" states="proforma2" string="Validate" position="attributes">
+                    <attribute name="groups">base.group_sale_manager</attribute>
+                </button>
+            </field>
+        </record>
+    
+    </data>
+</openerp>

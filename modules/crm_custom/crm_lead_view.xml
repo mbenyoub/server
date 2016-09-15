@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!-- Vista del lista -->
+        <record model="ir.ui.view" id="crm_case_tree_view_oppor_inherit">
+            <field name="name">Opportunities.Tree.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_tree_view_oppor" />
+            <field name="arch" type="xml">
+                <field name="state" position="after">
+                    <field name="ref" string="Documento Origen"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

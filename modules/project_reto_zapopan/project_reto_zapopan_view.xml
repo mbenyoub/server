@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+        <!-- Top menu item -->
+        <menuitem name="Proyectos"
+            id="base.menu_main_pm"
+            groups="project.group_project_manager,project.group_project_user"
+            sequence="40"/>
+        
+    </data>
+</openerp>

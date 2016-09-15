@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <!--
+            Control Webservice
+        -->
+        
+        
+        <!-- Search de Factura -->
+        <record id="view_product_list_price_filter" model="ir.ui.view">
+            <field name="name">product.list.price.select</field>
+            <field name="model">product.list.price</field>
+            <field name="arch" type="xml">
+                <search string="Search Activity">
+                    <field name="name" filter_domain="['|',('name','ilike',self),('product_id.name','ilike',self)]"/>
+                    <field name="currency_id"/>
+                    <field name="product_id"/>
+                    <separator/>
+                    <group expand="0" string="Group by...">
+                        <filter name="group_name" string="Lista de Precio" context="{'group_by':'name'}"/>
+                        <filter name="group_currency" string="Moneda" context="{'group_by':'currency_id'}"/>
+                        <filter name="group_product" string="Producto" context="{'group_by':'product_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <!-- action windows - list Price -->
+        <record model="ir.actions.act_window" id="act_product_list_price_view">
+            <field name="name">Listas de Precios</field>
+            <field name="res_model">product.list.price</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="view_product_list_price_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Lista de precios para productos cuando aplica cuando el producto no tiene el precio sobre el precio de la lista de precios especiales </p>
+            </field>
+        </record>
+
+        <!-- Menu List Price -->
+        <menuitem action="act_product_list_price_view" id="menu_product_list_price" parent="base.menu_product" sequence="20"/>
+        
+        <!--View Tree - List Price -->
+        <record model="ir.ui.view" id="crm_product_list_price_tree_view">
+            <field name="name">Listas de Precios</field>
+            <field name="model">product.list.price</field>
+            <field name="arch" type="xml">
+                <tree string="Listas de Precios" editable="top" create="0" edit="0">
+                    <field name="name"/>
+                    <field name="currency_id"/>
+                    <field name="product_id"/>
+                    <field name="list_price"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!--
+                Personalizacion de search de productos
+        -->
+        <record model="ir.ui.view" id="view_product_product_filter_inherit">
+            <field name="name">product.product.search.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_search_form_view" />
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="group_value"/>
+                    <field name="category"/>
+                    <field name="family"/>
+                    <field name="status"/>
+                    <field name="type2"/>
+                </field>
+                <filter  name="consumable" position="replace" />
+                <filter  name="filter_to_sell" position="replace" >
+                    <filter string="Productos Activos" name="status_active" icon="terp-accessories-archiver-minus" domain="[('status','=','ALTA')]"/>
+                </filter>
+                <filter string="Category" position="replace"/>
+                <filter string="Default Unit of Measure" position="replace"/>
+                <filter string="Type" position="replace"/>
+                <filter string="Company" position="replace">
+                    <filter string="Grupo" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by' : 'group_value'}"/>
+                    <filter string="Categoria" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by' : 'category'}"/>
+                    <filter string="Familia" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by' : 'family'}"/>
+                    <filter string="Estatus" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by' : 'status'}"/>
+                    <filter string="Tipo" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by' : 'type2'}"/>
+                </filter>
+            </field>
+        </record>
+        
+        <!--
+            Modificacion de Vista Productos
+        -->
+        
+        <record model="ir.ui.view" id="product_normal_form_view_inherit">
+            <field name="name">product.normal.form.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view" />
+            <field name="priority" eval="26"/>
+            <field name="arch" type="xml">
+                <xpath expr='/form' position='attributes'>
+                    <attribute name="create">false</attribute>
+                    <attribute name="edit">false</attribute>
+                    <attribute name="delete">false</attribute>
+                </xpath>
+                <div name="buttons" position="after">
+                    <separator/>
+                    <div class="oe_title">
+                        <group>
+                            <field name="group_value" placeholder="Grupo"></field>
+                            <field name="category" placeholder="Categoria"></field>
+                            <field name="family" placeholder="Familia"></field>
+                        </group>
+                    </div>
+                </div>
+                <div name="buttons" position="replace"></div>
+                <div name="options" position="attributes">
+                    <attribute name="invisible" >1</attribute>
+                </div>
+                <xpath expr="/form/sheet/notebook/page[@string='Accounting']" position="attributes">
+                    <attribute name="invisible" >0</attribute>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Procurements']" position="attributes">
+                    <attribute name="invisible" >1</attribute>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Inventory']" position="attributes">
+                    <attribute name="invisible" >1</attribute>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Sales']" position="attributes">
+                    <attribute name="invisible" >1</attribute>
+                </xpath>
+                <label for="categ_id" position="attributes">
+                    <attribute name="invisible" >1</attribute>
+                </label>
+                <field name="categ_id" position="attributes">
+                    <attribute name="invisible" >1</attribute>
+                </field>
+                <field name="default_code" position="attributes">
+                    <attribute name="string" >Nombre Corto</attribute>
+                </field>
+                <label for="ean13" position="attributes">
+                    <attribute name="invisible" >1</attribute>
+                </label>
+                <div name="ean" position="attributes">
+                    <attribute name="invisible" >1</attribute>
+                </div>
+                <div name="ean" position="after">
+                    <field name="status"></field>
+                    <field name="have_mov"></field>
+                </div>
+                <field name="description" position="after">
+                    <field name="description2" placeholder="Descripcion del producto"/>
+                </field>
+                <field name="type" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="type" position="after">
+                    <field name="type2" />
+                </field>
+                <notebook position="inside">
+                    <page string="Precios">
+                        <group>
+                            <group>
+                                <field name="price2"/>
+                                <field name="price3"/>
+                                <field name="price4"/>
+                                <field name="price5"/>
+                                <field name="price6"/>
+                            </group>
+                            <group>
+                                <field name="price7"/>
+                                <field name="price8"/>
+                                <field name="price9"/>
+                                <field name="price10"/>
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="product_normal_tree_view_inherit">
+            <field name="name">product.normal.tree.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_product_tree_view" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <xpath expr='//tree[@string="Products"]' position='attributes'>
+                    <attribute name="create">false</attribute>
+                    <attribute name="edit">false</attribute>
+                    <attribute name="delete">false</attribute>
+                </xpath>
+                <field name="name" position="after">
+                    <field name="group_value"></field>
+                    <field name="category"></field>
+                    <field name="family"></field>
+                    <field name="status"></field>
+                </field>
+                <field name="qty_available" position="attributes">
+                    <attribute name="invisible" >1</attribute>
+                </field>
+                <field name="variants" position="attributes">
+                    <attribute name="invisible" >1</attribute>
+                </field>
+                <field name="virtual_available" position="attributes">
+                    <attribute name="invisible" >1</attribute>
+                </field>
+                <field name="lst_price" position="attributes">
+                    <attribute name="invisible" >1</attribute>
+                </field>
+                <field name="price" position="attributes">
+                    <attribute name="invisible" >1</attribute>
+                </field>
+                <field name="state" position="attributes">
+                    <attribute name="invisible" >1</attribute>
+                </field>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="product_normal_kanban_view_inherit">
+            <field name="name">product.normal.kanban.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_kanban_view" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <xpath expr='/kanban' position='attributes'>
+                    <attribute name="create">false</attribute>
+                </xpath>
+                <xpath expr="//div[@name='tags']" position="replace">
+                    <div name="tags"/>
+                </xpath>
+                <ul position="replace">
+                    <li>Precio lista: <field name="lst_price"></field></li>
+                </ul>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

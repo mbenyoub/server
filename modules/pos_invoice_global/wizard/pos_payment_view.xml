@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+    
+        <record model="ir.ui.view" id="view_pos_make_payment_inherit">
+            <field name="name">pos.make.payment.form.view.inherit</field>
+            <field name="model">pos.make.payment</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_payment" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="journal_id" position="attributes">
+                    <attribute name="domain">[('type','in',['bank','cash']),('self_apply_credit','=',False),('journal_user','=',True)]</attribute>
+                    <attribute name="widget">selection</attribute>
+                </field>
+                <xpath expr="//field[@name='journal_id']" position="after">
+                    <field name="order_id"/>
+                    <field name="session_id"/>
+                </xpath>
+            </field>
+        </record>
+    
+    </data>
+</openerp>
+

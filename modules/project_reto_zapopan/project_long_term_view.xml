@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+<!--
+        Fases para el emprendedor
+-->
+
+        <record id="act_project_phase_list" model="ir.actions.act_window">
+            <field name="name">Project Phases</field>
+            <field name="res_model">project.phase</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+             <field name="domain">[('user_ids.user_id','in', [uid])]</field>
+             <field name="context">{}</field>
+            <field name="search_view_id" ref="project_long_term.view_project_phase_search"/>
+        </record>
+    
+<!--
+        Template de Fases
+-->
+
+        <record id="view_project_phase_template_form" model="ir.ui.view">
+            <field name="name">project.phase.template.form</field>
+            <field name="model">project.phase.template</field>
+            <field name="arch" type="xml">
+                <form string="Plantilla de fases del proyecto" version="7.0">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <group>
+                            <field name="sequence"/>
+                            <field name="meeting_time" string="Horas de consultoria"/>
+                            <label for="date_start" string="Duracion"/>
+                            <div>
+                                <field name="date_start" class="oe_inline"/>
+                                <label string=" - " class="oe_inline"/>
+                                <field name="date_end" class="oe_inline"/>
+                            </div>
+                        </group>
+                        <notebook>
+                            <page string="Resultados Esperados">
+                                <field name="expected_results">
+                                     <tree editable="bottom" string="Resultados Esperados">
+                                          <field name="name"/>
+                                      </tree>
+                                 </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_project_phase_template_list" model="ir.ui.view">
+            <field name="name">project.phase.template.list</field>
+            <field name="model">project.phase.template</field>
+            <field name="priority" eval="5"/>
+            <field name="arch" type="xml">
+                <tree string="Plantilla de Fases del Proyecto">
+                    <field name="sequence"/>
+                    <field name="name"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="meeting_time"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_project_phase_template_search" model="ir.ui.view">
+            <field name="name">project.phase.template.search</field>
+            <field name="model">project.phase.template</field>
+            <field name="arch" type="xml">
+                <search string="Project Phases">
+                    <field name="name" string="Project Phases Template"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Mes" icon="terp-go-month" domain="[]" context="{'group_by':'date_start'}" help="Mes de inicio"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_project_phase_template" model="ir.actions.act_window">
+            <field name="name">Plantilla de Fases del Proyecto</field>
+            <field name="res_model">project.phase.template</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="view_project_phase_template_search"/>
+        </record>
+
+        <menuitem action="action_project_phase_template" id="menu_config_phase_template" parent="base.menu_definitions" sequence="80" groups="project.group_project_manager"/>
+        
+        <!--
+            Resultados plantilla
+        -->
+        <record id="view_project_phase_template_result_list" model="ir.ui.view">
+            <field name="name">project.phase.template.result.list</field>
+            <field name="model">project.phase.template.result</field>
+            <field name="priority" eval="5"/>
+            <field name="arch" type="xml">
+                <tree string="Plantilla Resultados esperados" editable="top">
+                    <field name="name"/>
+                    <field name="template_id"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="action_project_phase_template_result" model="ir.actions.act_window">
+            <field name="name">Plantilla de Resultados esperados en Fases</field>
+            <field name="res_model">project.phase.template.result</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{}</field>
+        </record>
+    
+        <menuitem action="action_project_phase_template_result" id="menu_config_phase_template_result" parent="base.menu_definitions" sequence="80" groups="project.group_project_manager"/>
+    
+<!--
+        Modificacion de la vista formulario de fases
+-->
+        <record id="view_project_phase_form_inherit" model="ir.ui.view">
+            <field name="name">project.phase.form.inherit</field>
+            <field name="model">project.phase</field>
+            <field name="inherit_id" ref="project_long_term.view_project_phase_form"/>
+            <field eval="18" name="priority"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="template_id" on_change="onchange_template(template_id,context)"/>
+                </field>
+                <xpath expr="//button[@name='set_open']" position="attributes">
+                    <attribute name="groups">base.group_project_reto_zapopan_eval</attribute>
+                </xpath>
+                <xpath expr="//button[@name='set_done']" position="attributes">
+                    <attribute name="groups">base.group_project_reto_zapopan_eval</attribute>
+                </xpath>
+                <xpath expr="//button[@name='set_pending']" position="attributes">
+                    <attribute name="groups">base.group_project_reto_zapopan_eval</attribute>
+                </xpath>
+                <xpath expr="//button[@name='set_draft']" position="attributes">
+                    <attribute name="groups">base.group_project_reto_zapopan_eval</attribute>
+                </xpath>
+                <xpath expr="//button[@name='set_cancel']" position="attributes">
+                    <attribute name="groups">base.group_project_reto_zapopan_eval</attribute>
+                </xpath>
+                <field name="name" position="attributes">
+                    <attribute name="attrs">{'invisible': [('state','=','draft')]}</attribute>
+                    <attribute name="modifiers">{'invisible': [('state','=','draft')]}</attribute>
+                </field>
+                <field name="project_id" position="attributes">
+                    <attribute name="domain">[('state', 'in', ['progress'])]</attribute>
+                    <attribute name="on_change">onchange_project_id(project_id,context)</attribute>
+                </field>
+                <xpath expr="//page[@string='Constraints']/group/group/field[@name='sequence']" position="replace"/>
+                <field name="project_id" position="after">
+                    <field name="meeting_time"/>
+                    <field name="sequence" string="Etapa"/>
+                </field>
+                <page string="Constraints" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </page>
+                <page string="Tasks Details" position="attributes">
+                    <attribute name="string">Plan de accion</attribute>
+                    <attribute name="name">tasks</attribute>
+                </page>
+                <notebook position="inside">
+                    <page name="phase_result" string="Resultado Esperado">
+                        <field name="expected_results">
+                            <tree editable="bottom">
+                                <field name="name"></field>
+                            </tree>
+                        </field>
+                    </page>
+                    <page name="log" string="Bitacora" attrs="{'invisible': [('project_id','=',False)]}" groups="base.group_project_reto_zapopan_eval">
+                        <field name="project_log_project_ids" nolabel="1" context="{'project_id' : project_id,'default_project_id':project_id}" widget="one2many_list">
+                            <tree editable="top">
+                                <field name="date"/>
+                                <field name="time" widget="float_time"/>
+                                <field name="project_id" on_change="onchange_project(project_id,phase_id,context)" invisible="1"/>
+                                <field name="phase_id" domain="[]" on_change="onchange_phase(phase_id,context)" invisible="1"/>
+                                <field name="description"/>
+                                <field name="user_id" invisible="1"/>
+                                <field name="type_contact" invisible="1"/>
+                                <field name="date_string" invisible="1"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+                <xpath expr="//field[@name='user_ids']" position="replace">
+                    <field name="user_ids">
+                        <tree editable="top">
+                            <field name="user_id"/>
+                        </tree>
+                    </field>
+                </xpath>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

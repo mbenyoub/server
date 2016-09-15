@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        
+        <!--
+            Secuencia para Tiendas
+        -->
+        
+        <record id="sale_shop_number_seq_type" model="ir.sequence.type">
+            <field name="name">Sequence Shops</field>
+            <field name="code">sale.shop.journal</field>
+        </record>
+        <record id="sale_shop_number_seq_01" model="ir.sequence">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="name">Sequence Shops</field>
+            <field name="code">sale.shop.journal</field>
+            <field name="active" eval="True"/>
+            <field name="padding">0</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+        </record>
+        
+        <!--
+            Diario para tienda disponible
+        -->
+        
+        <!-- Resource: Secuencias y diarios -->
+        <record id="shop_l10n_mx_facturae_ir_seq_01" model="ir.sequence">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="name">Sequence CFD-I Suc 1</field>
+            <field name="active" eval="True"/>
+            <field name="padding">0</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+        </record>
+        <record id="shop_l10n_mx_facturae_ir_seq_approval_01" model="ir.sequence.approval">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="sequence_id" ref="shop_l10n_mx_facturae_ir_seq_01"/>
+            <field name="approval_number">12345</field>
+            <field name="serie">SA</field>
+            <field name="approval_year" eval="time.strftime('%Y')"/>
+            <field name="number_start">1</field>
+            <field name="number_end">9999</field>
+            <field name="type">cfdi32</field>
+        </record>
+        <record id="shop_l10n_mx_facturae_account_journal_01" model="account.journal">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="sequence_id" ref="shop_l10n_mx_facturae_ir_seq_01"/>
+            <field name="name">Diario de CFD-I SF Suc 1</field>
+            <field name="code">FE-1</field>
+            <field name="type">sale</field>
+            <field name="prefix2">SA</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="address_invoice_company_id" ref="base.main_company"/>
+            <field name="update_posted" eval="True"/>
+        </record>
+        
+        <!-- Resource: sale.shop -->
+        <record id="sale.sale_shop_1" model="sale.shop">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="payment_default_id" ref="account.account_payment_term_net"/>
+            <field name="pricelist_id" ref="product.list0"/>
+            <field name="journal_id" ref="shop_l10n_mx_facturae_account_journal_01"/>
+            <!--  Copy the name of any company. Without demo data this will yield
+                  the main company name, which is correct. With demo data it will
+                  be random, but it does not matter much -->
+            <field model="res.company" name="name" search="[]" use="name"/>
+        </record>
+
+    </data>
+</openerp>

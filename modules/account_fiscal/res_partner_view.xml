@@ -1,0 +1,236 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+        <!--
+            Modificacion de vista de busqueda
+        -->
+        <!--<record model="ir.ui.view" id="view_res_partner_filter_inherit">
+            <field name="name">res.partner.search.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter" />
+            <field name="priority" eval="17"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="to_pay"/>
+                    <field name="to_collect"/>
+                </field>
+                <filter name="supplier" position="after">
+                    <separator/>
+                    <filter string="Tiene saldo a cargo" name="to_pay_partner" domain="[('to_pay','&gt;',0.0)]" context="{}" help="Clientes con saldo a favor"/>
+                    <filter string="Tiene saldo a favor" name="to_collect_partner" domain="[('to_collect','&gt;',0.0)]" context="{}" help="Clientes con saldo en contra"/>
+                </filter>
+            </field>
+        </record>-->
+        
+        <!--
+            Agregar opcion de ver facturas de cliente desde el contacto
+        -->
+        <record id="act_res_partner_2_customer_invoices" model="ir.actions.act_window">
+            <field name="name">Customer Invoices</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="domain">[('type','=','out_invoice'),('partner_id','=',active_id)]</field>
+            <field name="context">{'default_partner_id': active_id, 'default_type':'out_invoice', 'type':'out_invoice', 'journal_type': 'sale'}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Pulse para crear una factura a un cliente.
+                </p><p>
+                    La facturacion electronica de OpenERP permite facilitar y acelerar el pago de los clientes.
+                    Su cliente recibe la factura por correo electronico y puede pagarla en linea o
+                    importarla a su propio sistema.
+                </p><p>
+                    Las discusiones con su cliente se muestran automaticamente al final de cada factura.
+                </p>
+            </field>
+        </record>
+
+        <record id="res_partner_view_sale_buttons" model="ir.ui.view">
+            <field name="name">res.partner.view.sale.buttons</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="priority" eval="19"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='buttons']" position="inside">
+                    <button name="%(account_fiscal.act_res_partner_2_customer_invoices)d" type="action"
+                        attrs="{'invisible': [('customer', '=', False)]}"
+                        string="Facturas de Cliente"/>
+                </xpath>
+                <field name="regimen_fiscal_id" position="after">
+                    <field name="regimen_title"/>
+                    <field name="title2" invisible="1"/>
+                </field>
+                <field name="credit" position="before">
+                    <field name="to_pay"/>
+                    <field name="to_collect"/>
+                </field>
+                <page name="accounting_disabled" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </page>
+                <page name="accounting" position="attributes">
+                    <attribute name="attrs">{}</attribute>
+                </page>
+                <field name="bank_ids" position="replace">
+                    <field name="bank_ids" context="{'default_partner_id': active_id}">
+                        <tree string="Bank Details">
+                            <field name="state" invisible="1"/>
+                            <field name="sequence" invisible="1"/>
+                            <field name="acc_number"/>
+                            <field name="bank_name"/>
+                            <field name="owner_name"/>
+                        </tree>
+                        <form string="Bank account" version="7.0">
+                            <group col="4">
+                                <field name="state"/>
+                                <field name="acc_number" placeholder="Account Number"/>
+                                <field name="company_id" groups="base.group_multi_company" on_change="onchange_company_id(company_id)"
+                                    invisible="context.get('company_hide', True)" widget="selection"/>
+                                <field name="footer" invisible="context.get('footer_hide', True)"/>
+                            </group>
+                            <group>
+                                <group name="owner" string="Bank Account Owner">
+                                    <field name="partner_id" on_change="onchange_partner_id(partner_id)"/>
+                                    <label for="street" string="Address"/>
+                                    <div>
+                                        <field name="owner_name" placeholder="Name"/>
+                                        <field name="street" placeholder="Street"/>
+                                        <div>
+                                            <field name="zip" class="oe_inline" placeholder="ZIP"/>
+                                            <field name="city" class="oe_inline" placeholder="City"/>
+                                        </div>
+                                        <field name="state_id" placeholder="State" options='{"no_open": True}'/>
+                                        <field name="country_id" placeholder="Country" options='{"no_open": True}'/>
+                                    </div>
+                                </group>
+                                <group name="bank" string="Information About the Bank">
+                                    <field name="bank" on_change="onchange_bank_id(bank)"/>
+                                    <field name="bank_name" attrs="{'required': [('company_id','&lt;&gt;',False)]}"/>
+                                    <field name="bank_bic" placeholder="e.g. GEBABEBB" />
+                                </group>
+                                <group name="accounting" col="2" colspan="2" >
+                                    <separator string="Accounting Information" colspan="2"/>
+                                    <field name="journal_id"/>
+                                    <field name="currency_id" groups="base.group_multi_currency"/>
+                                </group>
+                            </group>
+                        </form>
+                    </field>
+                </field>
+                <field name="property_account_receivable" position="after">
+                    <field name="property_account_advance_customer"/>
+                </field>
+                <field name="property_account_payable" position="after">
+                    <field name="property_account_advance_supplier"/>
+                </field>
+                <field name="active" position="before">
+                    <field name="acc_categ_id" on_change="onchange_acc_categ_id(acc_categ_id,context)"/>
+                </field>
+            </field>
+        </record>
+        
+        <!--<record id="view_partner_tree_inherit" model="ir.ui.view">
+            <field name="name">res.partner.view.tree.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="parent_id" position="after">
+                    <field name="to_pay" invisible="1"/>
+                    <field name="to_collect" invisible="1"/>
+                </field>
+            </field>
+        </record>-->
+        
+        <!-- Partner kanban view inherit -->
+        <record model="ir.ui.view" id="res_partner_kanban_view_inherit">
+            <field name="name">res.partner.kanban.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <field name="mobile" position="after">
+                    <field name="to_pay"/>
+                    <field name="to_collect"/>
+                </field>
+                <xpath expr="//div[@class='oe_kanban_details']" position="inside">
+                    <ul name="balance">
+                        <li t-if="record.to_pay.raw_value > 0.0">Saldo a cargo: <field name="to_pay" class="oe_inline"/></li>
+                        <li t-if="record.to_collect.raw_value > 0.0">Saldo a favor: <field name="to_collect" class="oe_inline"/></li>
+                    </ul>
+                </xpath>
+            </field>
+        </record>
+        
+        <!--
+            Categoria de Contactos
+        -->
+        <record id="res_partner_account_category_search_view" model="ir.ui.view">
+            <field name="name">res.partner.account.category.search</field>
+            <field name="model">res.partner.account.category</field>
+            <field name="arch" type="xml">
+                <search string="Partner Categories">
+                    <field name="name" string="Categoria Contacto"/>
+                    <field name="parent_id"/>
+                </search>
+            </field>
+        </record>
+        <record id="res_partner_account_category_form_view" model="ir.ui.view">
+            <field name="name">res.partner.account.category.form</field>
+            <field name="model">res.partner.account.category</field>
+            <field name="arch" type="xml">
+                <form string="Partner Categories" version="7.0">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group name="parent" col="4">
+                                <field name="parent_id"/>
+                                <field name="type"/>
+                            </group>
+                        </group>
+                        <group name="account_info" string="Informacion contable" attrs="{'invisible': [('type','=','view')]}">
+                            <group>
+                                <field name="property_account_receivable"/>
+                                <field name="property_account_receivable_note"/>
+                                <field name="property_account_advance_customer"/>
+                                <field name="property_account_asset"/>
+                            </group>
+                            <group>
+                                <field name="property_account_payable"/>
+                                <field name="property_account_advance_supplier"/>
+                            </group>
+                        </group>
+                        <field name="note" nolabel="1" placeholder="Comentarios"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="res_partner_account_category_list_view" model="ir.ui.view">
+            <field name="name">res.partner.account.category.list</field>
+            <field name="model">res.partner.account.category</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <tree string="Product Categories">
+                    <field name="complete_name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="res_partner_account_category_action_form" model="ir.actions.act_window">
+            <field name="name">Categorias de contacto</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner.account.category</field>
+            <field name="view_type">form</field>
+            <field name="search_view_id" ref="res_partner_account_category_search_view"/>
+            <field name="view_id" ref="res_partner_account_category_list_view"/>
+        </record>
+        <menuitem action="res_partner_account_category_action_form"
+            id="menu_res_partner_account_category_action_form"
+            parent="base.menu_base_config" sequence="20"/>
+        
+    </data>
+</openerp>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+	<data>
+
+		<record model='ir.ui.view' id='invoice_form'>
+			<field name='name'>account.invoice.form.inherit.customize</field>
+			<field name='model'>account.invoice</field>
+			<field name='inherit_id' ref='account.invoice_form'/>
+			<field name='arch' type='xml'>
+                <field name="move_id" position="after">
+                    <field name="parent_id" domain="[('type','=','out_invoice'),('state','not in',['draft','cancel'])]" 
+                    	attrs="{'readonly':[('state','!=','draft')],'invisible':[('type','&lt;&gt;','out_refund')]}"/>
+                </field>
+			</field>
+		</record>
+        
+        <record model='ir.ui.view' id='invoice_supplier_form'>
+			<field name='name'>account.invoice.supplier.form.inherit.customize</field>
+			<field name='model'>account.invoice</field>
+			<field name='inherit_id' ref='account.invoice_supplier_form'/>
+			<field name='arch' type='xml'>
+                <field name="move_id" position="after">
+                    <field name="parent_id" domain="[('type','=','in_invoice'),('state','not in',['draft','cancel'])]" 
+                    	attrs="{'readonly':[('state','!=','draft')],'invisible':[('type','&lt;&gt;','in_refund')]}"/>
+                </field>
+			</field>
+		</record>
+                
+	</data>
+</openerp>

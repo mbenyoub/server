@@ -1,0 +1,1030 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data noupdate="0">
+        
+        
+        
+<!--
+        Linea de ruta de entrega
+-->
+        
+        <!-- Delivery Route -->
+        <record id="view_delivery_route_line_tree" model="ir.ui.view">
+            <field name="name">delivery.route.line.tree</field>
+            <field name="model">delivery.route.line</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Lineas de ruta de entrega" colors="blue:state in ('arrived','delivered');grey:state in ('cancel','draft','not_fuound','return');red:state in ('exeption');green:state=='open';">
+                    <field name="origin"/>
+                    <field name="route_id" string="Ruta de entrega"/>
+                    <field name="picking_id" invisible="1"/>
+                    <field name="qty" sum="Total Bultos"/>
+                    <field name="weight" sum="Total Peso"/>
+                    <field name="address_id" string="Cliente entrega"/>
+                    <field name="street"/>
+                    <field name="user_id"/>
+                    <field name="visit_date" string="Fecha visita"/>
+                    <field name="state" string="Estado"/>
+                    <field name="schedule_id"/>
+                    <field name="zone_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_delivery_route_line_form" model="ir.ui.view">
+            <field name="name">delivery.route.line.form</field>
+            <field name="model">delivery.route.line</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Delivery Route Line" version="7.0">
+                    <header>
+                        <!--<button name="action_draft" string="Cambiar a Borrador" type="object" states="cancel"/>-->
+                        <button name="action_arrived" string="Arribado" type="object" states="open" class="oe_highlight"/>
+                        <button name="action_delivered" string="Entregar producto" type="object" class="oe_highlight" states="arrived"/>
+                        <button name="action_prepare_delivery_stock" string="Entregar producto" class="oe_highlight" type="object" attrs="{'invisible': ['|',('state','!=','delivered'),('delivered','=',True)]}"/>
+                        <button name="action_done" string="Entregado" type="object" class="oe_highlight" attrs="{'invisible': ['|',('state','!=','delivered'),('delivered','=',False)]}"/>
+                        <button name="action_not_found" string="No encontrado" type="object" states="open"/>
+                        <button name="action_return" string="Devuelto" type="object" states="arrived"/>
+                        <button name="action_cancel" string="Cancelar" type="object" states="open,arrived,delivered,return,not_found"/>
+                        <button name="action_reopen" string="Re Abrir" type="object" states="cancel"/>
+                        <field name="state" widget="statusbar" statusbar_visible="open,arrived,delivered,done"/>
+                        <button name="button_print" string="Imprimir" states="done"
+                            type="object" class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <div class="oe_edit_only">
+                                <label for="name" string="Referencia"/>
+                            </div>
+                            <h1>
+                                <field name="name" class="oe_inline"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="picking_id" string="Salida de almacen" on_change="onchange_picking_id(picking_id)"/>
+                                <field name="route_id" string="Ruta" readonly="1"/>
+                                <field name="address_id" string="Cliente" readonly="1"/>
+                                <field name="r_line_id"/>
+                                <field name="r_line"/>
+                            </group>
+                            <group>
+                                <field name="visit_date" string="Fecha Entrega" attrs="{'invisible': [('state','in',['draft','planned','open'])]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Productos a entregar">
+                                <group>
+                                    <field name="move_lines" nolabel="1">
+                                        <tree editable="top">
+                                            <field name="product_id"/>
+                                            <field name="product_uom"/>
+                                            <field name="product_qty"/>
+                                            <field name="virtual_available"/>
+                                            <field name="location_dest_id"/>
+                                            <field name="date_expected"/>
+                                            <field name="state"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Informacion de Entrega">
+                                <group>
+                                    <group>
+                                        <label for="street" string="Direccion"/>
+                                        <div>
+                                            <field name="street" placeholder="Calle..." readonly="1"/>
+                                            <field name="l10n_mx_street3" placeholder="No. Exterior..."
+                                                   readonly="True"/>
+                                            <field name="l10n_mx_street4" placeholder="No. Interior..."
+                                                   style="width: 50%%" readonly="1"/>
+                                            <field name="street2" placeholder="Colonia.." readonly="1"/>
+                                            <div class="address_format">
+                                                <field name="city" placeholder="Ciudad" style="width: 40%%"
+                                                       readonly="1"/>
+                                                <field name="state_id" class="oe_no_button" placeholder="Estado"
+                                                       style="width: 37%%" options="{'no_open': True}"
+                                                       on_change="onchange_state(state_id)"  readonly="1"/>
+                                                <field name="zip" placeholder="C.P." style="width: 20%%"
+                                                       readonly="1"/>
+                                            </div>
+                                            <field name="l10n_mx_city2" placeholder="Delegacion" readonly="1"/>
+                                            <field name="zone_id" placeholder="Zona" class="oe_no_button"
+                                                   readonly="1"/>
+                                        </div>
+                                    </group>
+                                    <group>
+                                        <field name="partner_phone" readonly="1"/>
+                                        <field name="partner_mobile" readonly="1"/>
+                                        <field name="schedule_id" readonly="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Otra informacion">
+                                <group colspan="4" col="4">
+                                    <group>
+                                        <field name="driver_id"/>
+                                        <field name="driver_phone"/>
+                                    </group>
+                                    <group>
+                                        <field name="invoice_id" string="Factura"/>
+                                        <field name="sale_order_id" string="Pedido Venta"/>
+                                        <field name="qty" sum="Total Bultos"/>
+                                        <field name="weight" sum="Total Peso"/>
+                                        <field name="origin"/>
+                                        <field name="sequence" string="Orden Entrega"/>
+                                        <field name="delivered" invisible="1"/>
+                                    </group>
+                                </group>
+                                <div colspan="4" col="4">
+                                    <field name="note" nolabel="0"/>
+                                </div>
+                            </page>
+                            <page string="Registro" groups="delivery_routes.group_delivery_manager">
+                                <separator string="Registro Entregas"/>
+                                <field name="log_line_ids" readonly="1">
+                                    <tree string="Registro Entrega" create="0" edit="0" delete="0">
+                                        <field name="name"/>
+                                        <field name="date_start"/>
+                                        <field name="date_end"/>
+                                        <field name="time" widget="float_time" sum="Total Duracion"/>
+                                        <field name="route_id" invisble="1"/>
+                                        <field name="route_line_id" invisible="1"/>
+                                        <field name="picking_id"/>
+                                        <field name="user_id"/>
+                                        <field name="state" />
+                                        <field name="group_date" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Pagos">
+                                <field name="paid_log_ids"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Delivery route kanban view -->
+        <record model="ir.ui.view" id="delivery_route_line_kanban_view">
+            <field name="name">delivery.route.line.kanban.old</field>
+            <field name="model">delivery.route.line</field>
+            <field name="arch" type="xml">
+                <kanban version="7.0" default_group_by="route_id">
+                    <field name="picking_id"/>
+                    <field name="route_id"/>
+                    <field name="address_id"/>
+                    <field name="note"/>
+                    <field name="sequence"/>
+                    <templates>
+                        <!--
+                        <button name="action_delivered_do_line" string="WaKa" type="object"/>
+                        -->
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_dropdown_toggle oe_dropdown_kanban" groups="base.group_user">
+                                <span class="oe_e">í</span>
+                                <ul class="oe_dropdown_menu">
+                                    <t t-if="widget.view.is_action_enabled('edit')"><li><a type="edit">Edit...</a></li></t>
+                                    <t t-if="widget.view.is_action_enabled('delete')"><li><a type="delete">Delete</a></li></t>
+                                </ul>
+                            </div>
+                            <div class="oe_kanban_content">
+                                <div><b><field name="picking_id"/></b></div>
+                                <div>
+                                    <field name="address_id"/><br/>
+                                    <div class="oe_ellipsis"><t t-raw="record.note.value"/></div>
+                                </div>
+                            </div>
+                            <div class="oe_clear"></div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+        <record id="view_delivery_line_search" model="ir.ui.view">
+            <field name="name">delivery.line.search</field>
+            <field name="model">delivery.route.line</field>
+            <field name="arch" type="xml">
+                <search string="Delivery Line"> 
+                    <field name="picking_id" />
+                    <field name="address_id" />
+                    <field name="origin" />
+                    <filter name="no_route" string="no route" domain="[('route_id','=',None)]" help="line without route" />
+                    <group string="Agrupar por..." expand="0">
+                        <filter string="Zona" icon="terp-folder-orange" context="{'group_by': 'zone_id'}"/>
+                        <filter string="Cliente" icon="terp-folder-orange" context="{'group_by': 'address_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <record id="action_delivery_route_line" model="ir.actions.act_window">
+            <field name="name">Lineas de Rutas de entrega</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">delivery.route.line</field>
+            <field name="view_type">form</field>
+            <field name="context">{'active_test':False,'search_default_today': True}</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="search_view_id" ref="view_delivery_line_search"/>
+        </record>
+        <record id="action_delivery_line_form_tree_cs" model="ir.actions.act_window.view">
+            <field name="view_mode">tree</field>
+            <field name="sequence">1</field>
+            <field name="view_id" ref="view_delivery_route_line_tree"/>
+            <field name="act_window_id" ref="action_delivery_route_line"/>
+        </record>
+
+        
+        
+<!--
+        Ruta de Entrega
+-->
+        
+        <record id="view_delivery_route_tree" model="ir.ui.view">
+            <field name="name">delivery.route.tree</field>
+            <field name="model">delivery.route</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Delivery Routes">
+                    <field name="name" string="Referencia"/>
+                    <field name="date" string="Fecha"/>
+                    <field name="driver_id" string="Conductor"/>
+                    <field name="carrier_id"/>
+                    <field name="km"/>
+                    <field name="state" string="Estado"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_delivery_route_form" model="ir.ui.view">
+            <field name="name">delivery.route.form</field>
+            <field name="model">delivery.route</field>
+            <field name="arch" type="xml">
+            <form string="Delivery Route" version="7.0">
+                <header>
+                    <button name="action_draft" string="Cambiar a Borrador" type="object" states="cancel" groups="delivery_routes.group_delivery_user"/>
+                    <button name="action_confirm" string="Confirmar Ruta" type="object" class="oe_highlight" attrs="{'invisible':['|',('state','not in',['draft']),('weight_max','=',False)]}"
+                            confirm="La ruta rebasa la capacidad de carga del vehiculo. ¿Desea continuar?" groups="delivery_routes.group_delivery_user"/>
+                    <button name="action_confirm" string="Confirmar Ruta" type="object" class="oe_highlight" attrs="{'invisible':['|',('state','not in',['draft']),('weight_max','=',True)]}" groups="delivery_routes.group_delivery_user"/>
+                    <button name="action_load" string="Cargar Vehiculo" type="object" class="oe_highlight" groups="delivery_routes.group_delivery_manager" attrs="{'invisible':['|',('state','not in',['confirm']),('is_carrier', '=', True)]}"/>
+                    <button name="action_load_carrier" string="Cargar transportista" type="object" class="oe_highlight" groups="delivery_routes.group_delivery_manager" attrs="{'invisible':['|',('state','not in',['confirm']),('is_carrier', '=', False)]}"/>
+                    
+                    <button name="action_cancel" string="Cancelar" type="object" states="confirm" groups="delivery_routes.group_delivery_user"/>
+                    <!--<button name="%(action_prepare_move_stock_route)d" string="Preparar Embarque" class="oe_highlight" type="action" states="load" groups="delivery_routes.group_delivery_manager"/>-->
+                    <button name="action_departure" string="Preparar Salida" class="oe_highlight" type="object" attrs="{'invisible':['|', '|', ('state','not in',['load']), ('loaded','=',False), ('is_carrier', '=', True)]}" groups="delivery_routes.group_delivery_manager"/>
+                    <button name="action_shipping_carrier" string="Salida transportista" class="oe_highlight" type="object" attrs="{'invisible':['|', '|', ('state','not in',['load']), ('loaded','=',False), ('is_carrier', '=', False)]}" groups="delivery_routes.group_delivery_manager"/>
+                    
+                    <button name="action_prepare_move_stock" string="Preparar Embarque" class="oe_highlight" attrs="{'invisible':['|','|', ('state','not in',['load']), ('loaded','=',True), ('is_carrier', '=', True)]}" type="object"  groups="delivery_routes.group_delivery_manager"/>
+                    <button name="action_prepare_out_route_move" string="Preparar Embarque Transportista" class="oe_highlight" attrs="{'invisible':['|', '|',('state','not in',['load']),('loaded','=',True), ('is_carrier', '=', False)]}" type="object"  groups="delivery_routes.group_delivery_manager"/>
+                    
+                    <button name="action_entry" string="Recepcion Vehiculo" class="oe_highlight" states="return" type="object"  groups="delivery_routes.group_delivery_manager"/>
+                    <button name="action_unload" string="Preparar Desembarque" class="oe_highlight" states="entry" type="object"  groups="delivery_routes.group_delivery_manager"/>
+                    <button name="prepare_unload_stock_route" string="Preparar Desembarque" type="object" class="oe_highlight" attrs="{'invisible':['|',('state','not in',['unload']),('unloaded','=',True)]}" groups="delivery_routes.group_delivery_manager"/>
+                    <button name="action_done" string="Finalizar ruta" class="oe_highlight" attrs="{'invisible':['|', '|', ('state','not in',['entry','unload']), ('is_carrier', '=', True),('unloaded','=',False)]}" type="object"  groups="delivery_routes.group_delivery_manager"/>
+                    <button name="action_done_carrier" string="Finalizar ruta transportista" class="oe_highlight" attrs="{'invisible':['|', ('state','not in',['shipping_carrier']), ('is_carrier', '=', False)]}" type="object"  groups="delivery_routes.group_delivery_manager"/>
+                    <field name="state" widget="statusbar" statusbar_visible="confirm,done" statusbar_colors='{"done":"green","cancel":"red","shipping":"blue"}'/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <div class="oe_edit_only">
+                            <label for="name" string="Referencia"/>
+                        </div>
+                        <h1>
+                            <field name="name" class="oe_inline" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="is_carrier" attrs="{'invisible': [('state','!=','draft')]}"/>
+                            <field name="van_id" string="Vehiculo" on_change="onchange_van_id(van_id,context)" attrs="{'invisible':[('is_carrier','=',True)], 'required':[('is_carrier','=',False)]}"/>
+                            <field name="driver_id" string="Chofer" attrs="{'invisible':[('is_carrier','=',True)], 'required':[('is_carrier','=',False)]}"/>
+                            <field name="location_id" required="1"/>
+                            <field name="lot_stock_id" attrs="{'invisible':[('is_carrier','=',True)], 'required':[('is_carrier','=',False)]}"/>
+                            <field name="lot_virtual_id" attrs="{'invisible':[('is_carrier','=',True)], 'required':[('is_carrier','=',False)]}"/>
+                            <field name="carrier_id" attrs="{'invisible':[('is_carrier','=',False)], 'required':[('is_carrier','=',True)]}"
+                                domain="[('customer', '=', False), ('carrier_bol', '=', True)]"/>
+                            <field name="purchase_order_id" attrs="{'invisible': ['|', ('is_carrier', '=', False),
+                                ('state', 'in', 'draft')]}" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="departure_date" string="Fecha Salida" readonly="1" attrs="{'invisible':[('state','in',['draft','confirm','load'])]}"/>
+                            <field name="entry_date" string="Fecha Salida" readonly="1" attrs="{'invisible':[('state','in',['draft','confirm','load','shipping','return'])]}"/>
+                            <field name="user_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Entregas">
+                            <field name="line_ids" colspan="4" nolabel="1" context="{'form_view_ref':'delivery_routes.view_delivery_route_line_form'}">
+                                <tree colors="red:invoice_id==False;blue:state in ('arrived','delivered');grey:state in ('cancel','draft','not_fuound','return');red:state in ('exeption');green:state=='open';">
+                                    <field name="sequence"/>
+                                    <field name="name"/>
+                                    <field name="picking_id" string="salida de almacen"/>
+                                    <field name="invoice_id"/>
+                                    <field name="qty" sum="Total Bultos"/>
+                                    <field name="weight" sum="Total Peso"/>
+                                    <field name="address_id" string="Cliente"/>
+                                    <field name="street"/>
+                                    <field name="visit_date" string="Fecha de visita"/>
+                                    <field name="user_id"/>
+                                    <field name="state" string="Estado"/>
+                                    <field name="schedule_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Registro" groups="delivery_routes.group_delivery_manager">
+                            <separator string="Registro Ruta"/>
+                            <field name="log_ids" readonly="1">
+                                <tree string="Registro Rutas de Entrega" create="0" edit="0" delete="0">
+                                    <field name="name"/>
+                                    <field name="date_start"/>
+                                    <field name="date_end"/>
+                                    <field name="time" widget="float_time" sum="Total Duracion"/>
+                                    <field name="route_id" invisible="1"/>
+                                    <field name="user_id"/>
+                                    <field name="state"/>
+                                    <field name="group_date" invisible="1"/>
+                                </tree>
+                            </field>
+                            <separator string="Registro Entregas"/>
+                            <field name="log_line_ids" readonly="1">
+                                <tree string="Registro Entrega" create="0" edit="0" delete="0">
+                                    <field name="name"/>
+                                    <field name="date_start"/>
+                                    <field name="date_end"/>
+                                    <field name="time" widget="float_time" sum="Total Duracion"/>
+                                    <field name="route_id" invisble="1"/>
+                                    <field name="route_line_id" invisible="1"/>
+                                    <field name="picking_id"/>
+                                    <field name="user_id"/>
+                                    <field name="state" />
+                                    <field name="group_date" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Otra Informacion">
+                            <group>
+                                <group>
+                                    <field name="loaded" readonly="1"/>
+                                    <field name="unloaded" readonly="1" states="unload"/>
+                                </group>
+                                <group>
+                                    <field name="weight" readonly="1"/>
+                                    <field name="weight_max" invisible="1"/>
+                                </group>
+                                <group>
+                                    <field name="km_init"/>
+                                    <field name="km_end"/>
+                                    <field name="km"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Notas">
+                            <field name="note" nolabel="1" attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+            </field>
+        </record>
+        <record id="view_delivery_search" model="ir.ui.view">
+            <field name="name">delivery.route.search</field>
+            <field name="model">delivery.route</field>
+            <field name="arch" type="xml">
+                <search string="Delivery Route"> 
+                    <field name="date" />
+                    <filter icon="terp-go-today" string="Today" domain="[('date','=',time.strftime('%%Y-%%m-%%d'))]" help="Delivery Route for Today" name="today"/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Chofer" icon="terp-folder-orange" domain="[]" context="{'group_by':'driver_id'}"/>
+                        <filter string="Transportista" icon="terp-folder-orange" domain="[]" context="{'group_by':'carrier_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="action_delivery_route_form" model="ir.actions.act_window">
+            <field name="name">Ruta de Entrega</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">delivery.route</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="view_delivery_search"/>
+        </record>
+        <record id="action_delivery_route_form_tree" model="ir.actions.act_window.view">
+            <field name="view_mode">tree</field>
+            <field name="sequence">1</field>
+            <field name="view_id" ref="view_delivery_route_tree"/>
+            <field name="act_window_id" ref="action_delivery_route_form"/>
+        </record>
+        <record id="action_delivery_route_form_form" model="ir.actions.act_window.view">
+            <field name="view_mode">form</field>
+            <field name="sequence">2</field>
+            <field name="view_id" ref="view_delivery_route_form"/>
+            <field name="act_window_id" ref="action_delivery_route_form"/>
+        </record> 
+
+        
+
+<!--
+        Choferes
+-->
+        <record id="view_delivery_driver_tree" model="ir.ui.view">
+            <field name="name">delivery.driver.tree</field>
+            <field name="model">delivery.driver</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Delivery Drivers">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_delivery_driver_form" model="ir.ui.view">
+            <field name="name">delivery.driver.form</field>
+            <field name="model">delivery.driver</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Delivery Driver">
+                    <field name="name"/>
+                    <field name="active"/>
+                    <group colspan="2" col="4">
+                        <field name="employee_id" string="Empleado"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_delivery_driver_form" model="ir.actions.act_window">
+            <field name="name">Choferes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">delivery.driver</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+<!--
+        Vehiculos
+-->
+        <record id="delivery_van_tree_view" model="ir.ui.view">
+            <field name="name">delivery.van.tree</field>
+            <field name="model">delivery.van</field>
+            <field name="arch" type="xml">
+                <tree string="Vehiculos">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="brand"/>
+                    <field name="model"/>
+                    <field name="plate"/>
+                    <field name="km"/>
+                    <field name="partner_id"/>
+                    <field name="driver_id"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="delivery_van_form_view" model="ir.ui.view">
+            <field name="name">delivery.van.form</field>
+            <field name="model">delivery.van</field>
+            <field name="arch" type="xml">
+                <form string="Vehiculos" version="7.0">
+                    <sheet>
+                        <div class="oe_title">
+                            <div class="oe_edit_only">
+                                <label for="name" string="Nombre"/>
+                            </div>
+                            <h1>
+                                <field name="name" class="oe_inline"/>
+                            </h1>
+                        </div>
+                        <group >
+                            <group >
+                                <field name="code"/>
+                                <field name="partner_id"/>
+                                <field name="driver_id"/>
+                                <field name="km"/>
+                            </group>
+                            <group >
+                                <field name="brand"/>
+                                <field name="model"/>
+                                <field name="plate"/>
+                                <field name="wheels"/>
+                            </group>
+                            <group>
+                                <field name="lot_stock_id" />
+                                <field name="lot_virtual_id" />
+                                <field name="weight_limit" />
+                                <field name="qty_limit" />
+                            </group>
+                            <group>
+                                <field name="active"/>
+                                <field name="description"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Historico de kilometraje">
+                                <field name="van_km_ids">
+                                    <tree string="Historico de kilometraje" create="0" edit="0">
+                                        <field name="datetime"/>
+                                        <field name="type"/>
+                                        <field name="value"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Filtros para Bitacora de Vehiculos -->
+        <record id="delivery_van_filter" model="ir.ui.view">
+            <field name="name">delivery.van.list.select</field>
+            <field name="model">delivery.van</field>
+            <field name="arch" type="xml">
+                <search string="Filtrar rutas de entrega">
+                    <field name="name"/>
+                    <field name="brand"/>
+                    <field name="model"/>
+                    <field name="partner_id"/>
+                    <field name="driver_id"/>
+                    <field name="active"/>
+                    <separator/>
+                    <filter icon="terp-document-new" name="active" string="Activo" domain="[('active','=',True)]" />
+                    <filter icon="terp-document-new" name="inactive" string="Inactivo" domain="[('active','=',False)]" />
+                    <separator/>
+                    <group expand="0" string="Agrupar por...">
+                        <filter string="Marca" icon="terp-partner" domain="[]" context="{'group_by':'brand'}"/>
+                        <filter string="Modelo" icon="terp-partner" domain="[]" context="{'group_by':'model'}"/>
+                        <filter string="Hubicacion" icon="terp-partner" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="Chofer" icon="terp-partner" domain="[]" context="{'group_by':'driver'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="delivery_van_action">
+            <field name="name">Vehiculos</field>
+            <field name="res_model">delivery.van</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+            <field name="search_view_id" ref="delivery_van_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Registro de Vehiculos para la gestion de rutas.</p>
+            </field>
+        </record>
+
+<!--
+        Bitacora de Rutas
+-->
+        <record id="delivery_route_log_tree_view" model="ir.ui.view">
+            <field name="name">delivery.route.log.tree</field>
+            <field name="model">delivery.route.log</field>
+            <field name="arch" type="xml">
+                <tree string="Rutas de Entrega" create="0" edit="0" delete="0">
+                    <field name="name"/>
+                    <field name="route_id"/>
+                    <field name="user_id"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="time" widget="float_time" sum="Total Duracion"/>
+                    <field name="state"/>
+                    <field name="group_date" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="delivery_route_log_form_view" model="ir.ui.view">
+            <field name="name">delivery.route.log.form</field>
+            <field name="model">delivery.route.log</field>
+            <field name="arch" type="xml">
+                <form string="Rutas de entrega" version="7.0" create="0" edit="0" delete="0">
+                    <sheet>
+                        <group col="4" colspan="4">
+                            <field name="name"/>
+                        </group>
+                        <group >
+                            <group >
+                                <field name="route_id"/>
+                                <field name="user_id"/>
+                            </group>
+                            <group >
+                                <field name="date_start"/>
+                                <field name="date_end"/>
+                                <field name="time" widget="float_time"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Filtros para Bitacora de Rutas de entrega -->
+        <record id="delivery_route_log_filter" model="ir.ui.view">
+            <field name="name">delivery.route.log.list.select</field>
+            <field name="model">delivery.route.log</field>
+            <field name="arch" type="xml">
+                <search string="Filtrar rutas de entrega">
+                    <field name="name"/>
+                    <field name="group_date"/>
+                    <field name="state"/>
+                    <field name="user_id"/>
+                    <field name="route_id"/>
+                    <separator/>
+                    <filter icon="terp-document-new" name="state_confirm" string="Confirmado" domain="[('state','=','confirm')]" help="Filtrar por estado de la ruta"/>
+                    <filter icon="terp-document-new" name="state_load" string="Embarque" domain="[('state','=','load')]" help="Filtrar por estado de la ruta"/>
+                    <filter icon="terp-document-new" name="state_shipping" string="En Transito" domain="[('state','=','shipping')]" help="Filtrar por estado de la ruta"/>
+                    <filter icon="terp-document-new" name="state_unload" string="Desembarque" domain="[('state','=','unload')]" help="Filtrar por estado de la ruta"/>
+                    <separator/>
+                    <group expand="0" string="Agrupar por...">
+                        <filter string="Ruta" icon="terp-partner" domain="[]" context="{'group_by':'route_id'}"/>
+                        <filter string="Estado" icon="terp-partner" domain="[]" context="{'group_by':'state'}"/>
+                        <filter string="Usuario" icon="terp-partner" domain="[]" context="{'group_by':'user_id'}"/>
+                        <filter string="Mes" icon="terp-partner" domain="[]" context="{'group_by':'group_date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="delivery_route_log_action">
+            <field name="name">Registro Rutas</field>
+            <field name="res_model">delivery.route.log</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+            <field name="search_view_id" ref="delivery_route_log_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Registro de Bitacora de Rutas de entrega de mercancia</p>
+            </field>
+        </record>
+    
+<!--
+        Bitacora de lineas de ruta de entrega
+-->
+       
+        <record id="delivery_route_line_log_tree_view" model="ir.ui.view">
+            <field name="name">delivery.route.line.log.tree</field>
+            <field name="model">delivery.route.line.log</field>
+            <field name="arch" type="xml">
+                <tree string="Rutas de Entrega" create="0" edit="0" delete="0">
+                    <field name="name"/>
+                    <field name="route_id"/>
+                    <field name="route_line_id" invisible="1"/>
+                    <field name="picking_id"/>
+                    <field name="user_id"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="time" widget="float_time" sum="Total Duracion"/>
+                    <field name="state"/>
+                    <field name="group_date" invisible="1"/>
+                    <field name="partner_id" invisible="1"/>
+                    <field name="zone_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="delivery_route_line_log_form_view" model="ir.ui.view">
+            <field name="name">delivery.route.line.log.form</field>
+            <field name="model">delivery.route.line.log</field>
+            <field name="arch" type="xml">
+                <form string="Rutas de entrega" version="7.0" create="0" edit="0" delete="0">
+                    <sheet>
+                        <group col="4" colspan="4">
+                            <field name="name"/>
+                            <field name="picking_id"/>
+                        </group>
+                        <group >
+                            <group >
+                                <field name="route_id"/>
+                                <field name="route_line_id"/>
+                                <field name="user_id"/>
+                            </group>
+                            <group >
+                                <field name="date_start"/>
+                                <field name="date_end"/>
+                                <field name="time" widget="float_time"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Filtros para Bitacora de Rutas de entrega -->
+        <record id="delivery_route_line_log_filter" model="ir.ui.view">
+            <field name="name">delivery.route.line.log.list.select</field>
+            <field name="model">delivery.route.line.log</field>
+            <field name="arch" type="xml">
+                <search string="Filtrar rutas de entrega">
+                    <field name="name"/>
+                    <field name="group_date"/>
+                    <field name="state"/>
+                    <field name="user_id"/>
+                    <field name="route_id"/>
+                    <field name="picking_id"/>
+                    <separator/>
+                    <filter icon="terp-document-new" name="state_open" string="Por surtir" domain="[('state','=','open')]" help="Filtrar por estado de la ruta"/>
+                    <filter icon="terp-document-new" name="state_arrived" string="Arribado" domain="[('state','=','arrived')]" help="Filtrar por estado de la ruta"/>
+                    <filter icon="terp-document-new" name="state_wait" string="En Espera" domain="[('state','=','wait')]" help="Filtrar por estado de la ruta"/>
+                    <filter icon="terp-document-new" name="state_done" string="Entregado" domain="[('state','=','done')]" help="Filtrar por estado de la ruta"/>
+                    <filter icon="terp-document-new" name="state_not_found" string="No encontrado" domain="[('state','=','not_found')]" help="Filtrar por estado de la ruta"/>
+                    <filter icon="terp-document-new" name="state_return" string="Devuelto" domain="[('state','=','return')]" help="Filtrar por estado de la ruta"/>
+                    <separator/>
+                    <group expand="0" string="Agrupar por...">
+                        <filter string="Ruta" icon="terp-partner" domain="[]" context="{'group_by':'route_id'}"/>
+                        <filter string="Linea Ruta" icon="terp-partner" domain="[]" context="{'group_by':'route_line_id'}"/>
+                        <filter string="Salida de almacen" icon="terp-partner" domain="[]" context="{'group_by':'picking_id'}"/>
+                        <filter string="Estado" icon="terp-partner" domain="[]" context="{'group_by':'state'}"/>
+                        <filter string="Usuario" icon="terp-partner" domain="[]" context="{'group_by':'user_id'}"/>
+                        <filter string="Mes" icon="terp-partner" domain="[]" context="{'group_by':'group_date'}"/>
+                        <filter string="Cliente" icon="terp-partner" domain="[]" context="{'group_by': 'partner_id'}"/>
+                        <filter string="Zona de entrega" icon="terp-partner" domain="[]"
+                                context="{'group_by': 'zone_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="delivery_route_line_log_action">
+            <field name="name">Registro lineas de ruta</field>
+            <field name="res_model">delivery.route.line.log</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+            <field name="search_view_id" ref="delivery_route_line_log_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Registro de Bitacora lineas de Rutas de entrega de mercancia</p>
+            </field>
+        </record>
+    
+<!--
+        Plazos de entrega
+-->
+        <record id="delivery_term_tree_view" model="ir.ui.view">
+            <field name="name">delivery.term.tree</field>
+            <field name="model">delivery.term</field>
+            <field name="arch" type="xml">
+                <tree colors="grey:active==False" string="Plazos de entrega">
+                    <field name="name"/>
+                    <field name="value"/>
+                    <field name="unit"/>
+                    <field name="active" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="delivery_term_form_view" model="ir.ui.view">
+            <field name="name">delivery.term.form</field>
+            <field name="model">delivery.term</field>
+            <field name="arch" type="xml">
+                <form string="Plazos de entrega" version="7.0">
+                    <sheet>
+                        <group >
+                            <group >
+                                <field name="name" string="Nombre"/>
+                                <label for="value" string="Plazo de entrega"/>
+                                <div>
+                                    <field name="value" nolabel="1" class="oe_inline"/>
+                                    <field name="unit" nolabel="1" class="oe_inline"/>
+                                </div>
+                            </group>
+                            <group >
+                                <field name="active"/>
+                            </group>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Descripcion">
+                                <field name="note" nolabel="1" />
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Filtros para plazos de entrega  -->
+        <record id="delivery_term_filter" model="ir.ui.view">
+            <field name="name">delivery.term.list.select</field>
+            <field name="model">delivery.term</field>
+            <field name="arch" type="xml">
+                <search string="Filtrar plazos de entrega">
+                    <field name="name"/>
+                    <field name="value"/>
+                    <field name="unit"/>
+                    <field name="active"/>
+                    <separator/>
+                    <filter icon="terp-document-new" name="active" string="Activos" domain="[('active','=',True)]" help="Filtrar por activos"/>
+                    <filter icon="terp-document-new" name="inactive" string="Inactivos" domain="[('active','=',False)]" help="Filtrar por inactivos"/>
+                    <separator/>
+                    <group expand="0" string="Agrupar por...">
+                        <filter string="Unidad" icon="terp-partner" domain="[]" context="{'group_by':'unit'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="delivery_term_action">
+            <field name="name">Plazo de entrega</field>
+            <field name="res_model">delivery.term</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+            <field name="search_view_id" ref="delivery_term_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Registrar plazos de entrega para los pedidos de venta</p>
+            </field>
+        </record>
+
+<!--
+        Zonas de entrega
+-->
+        <record id="delivery_zone_tree_view" model="ir.ui.view">
+            <field name="name">delivery.zone.tree</field>
+            <field name="model">delivery.zone</field>
+            <field name="arch" type="xml">
+                <tree colors="grey:active==False" string="Zonas para entregas">
+                    <field name="name"/>
+                    <field name="city"/>
+                    <field name="state_id"/>
+                    <field name="active" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="delivery_zone_form_view" model="ir.ui.view">
+            <field name="name">delivery.zone.form</field>
+            <field name="model">delivery.zone</field>
+            <field name="arch" type="xml">
+                <form string="Zonas para entrega" version="7.0">
+                    <sheet>
+                        <group >
+                            <group >
+                                <field name="name" string="Zona"/>
+                            </group>
+                            <group >
+                                <field name="state_id"/>
+                                <field name="city"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Descripcion">
+                                <field name="note" nolabel="1" />
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Filtros para Zonas de entrega -->
+        <record id="delivery_zone_filter" model="ir.ui.view">
+            <field name="name">delivery.zone.list.select</field>
+            <field name="model">delivery.zone</field>
+            <field name="arch" type="xml">
+                <search string="Filtrar zonas de entrega">
+                    <field name="name"/>
+                    <field name="state_id"/>
+                    <field name="city"/>
+                    <field name="active"/>
+                    <separator/>
+                    <filter icon="terp-document-new" name="active" string="Activos" domain="[('active','=',True)]" help="Filtrar por activos"/>
+                    <filter icon="terp-document-new" name="inactive" string="Inactivos" domain="[('active','=',False)]" help="Filtrar por inactivos"/>
+                    <separator/>
+                    <group expand="0" string="Agrupar por...">
+                        <filter string="Estado" icon="terp-partner" domain="[]" context="{'group_by':'state_id'}"/>
+                        <filter string="Ciudad" icon="terp-partner" domain="[]" context="{'group_by':'city'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="delivery_zone_action">
+            <field name="name">Zona de entrega</field>
+            <field name="res_model">delivery.zone</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+            <field name="search_view_id" ref="delivery_zone_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Registrar zonas de entrega para las salidas de mercancia</p>
+            </field>
+        </record>
+        
+        
+        <!--Horario de cliente entrega-->
+        <record model="ir.ui.view" id="delivery_schedule_form">
+            <field name="name">delivery.schedule.form</field>
+            <field name="model">delivery.schedule</field>
+            <field name="arch" type="xml">
+                <form string="Horario de cliente" version="7.0">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+                        <field name="line_ids">
+                            <tree string="Detalle de horario" editable="bottom">
+                                <field name="day_week"/>
+                                <field name="start_hour" widget="float_time"/>
+                                <field name="close_hour" widget="float_time"/>
+                                <field name="date"/>
+                            </tree>
+                        </field>
+                        <field name="note"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="delivery_schedule_tree">
+            <field name="name">delivery.schedule.tree</field>
+            <field name="model">delivery.schedule</field>
+            <field name="arch" type="xml">
+                <tree string="Horario del cliente">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="delivery_schedule_action">
+            <field name="name">Horario del cliente</field>
+            <field name="res_model">delivery.schedule</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Se registra el horario del cliente para la entrega</p>
+            </field>
+        </record>
+        
+        
+        <menuitem name="Logistica"
+            id="menu_delivery_root"
+            groups="delivery_routes.group_delivery_user"
+            action="action_delivery_route_form"
+            sequence="75"/>
+
+        <menuitem name="Entregas"
+            id="menu_delivery_delivery"
+            parent="menu_delivery_root"
+            sequence="40"/>
+
+        <menuitem name="Registro Entregas"
+            id="menu_delivery_log"
+            parent="menu_delivery_root"
+            sequence="60"/>
+        
+        <menuitem name="Configuracion"
+            id="menu_delivery_config"
+            parent="menu_delivery_root"
+            sequence="95"/>
+        
+        
+        <menuitem action="action_delivery_route_line" id="menu_action_delivery_route_line"
+            parent="menu_delivery_delivery" sequence="12"/>
+        
+        <menuitem action="action_delivery_route_form" name="Rutas de Entrega"
+            id="menu_action_delivery_route" parent="menu_delivery_delivery" sequence="0"/>
+        
+        <menuitem action="action_delivery_driver_form" name="Choferes" id="menu_action_delivery_driver"
+            parent="menu_delivery_config" sequence="30"/>
+        
+        <menuitem
+            action="delivery_van_action" id="delivery_van_action_menu" name="Vehiculos"
+            parent="menu_delivery_config" sequence="40"/>
+        
+        <menuitem
+            action="delivery_route_log_action" id="delivery_route_log_action_menu" name="Registro de Rutas"
+            parent="menu_delivery_log" sequence="25"/>
+        
+        <menuitem
+            action="delivery_route_line_log_action" id="delivery_route_line_log_action_menu"
+            name="Registro de lineas Rutas"
+            parent="menu_delivery_log" sequence="40"/>
+        
+        <menuitem
+            action="delivery_term_action" id="delivery_term_action_menu" name="Plazos de entrega"
+            parent="menu_delivery_config" sequence="15"/>
+        
+        <menuitem
+            action="delivery_zone_action" id="delivery_zone_action_menu" name="Zonas de entrega"
+            parent="menu_delivery_config" sequence="25"/>
+        
+        <menuitem
+            action="delivery_schedule_action" id="delivery_schedule_action_menu" name="Horario del cliente"
+            parent="menu_delivery_config" sequence="18"/>
+        
+    </data>
+</openerp>

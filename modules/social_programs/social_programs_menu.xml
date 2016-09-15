@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Top menu item -->
+        <menuitem name="Programas Sociales"
+            id="menu_base_social_programs"
+            groups="group_social_programs"
+            sequence="5"/>
+        
+        <menuitem name="Programas Sociales"
+            parent="menu_base_social_programs"
+            id="menu_social_programs"
+            groups="group_social_programs"
+            sequence="1"/>
+
+        <menuitem id="menu_config" parent="menu_base_social_programs" name="Configuracion" sequence="30" groups="base.group_system"/>
+        <menuitem id="base.menu_config_address_book" parent="menu_config" name="Libreta de Direcciones" sequence="30" groups="base.group_system"/>
+        
+<!--
+    Vista Productos
+-->
+
+        <menuitem id="menu_product" name="Productos" parent="menu_base_social_programs" sequence="10"/>
+        <menuitem action="product.product_normal_action" name="Productos" id="menu_social_programs_products" parent="menu_product" sequence="1"/>
+        
+    </data>
+</openerp>

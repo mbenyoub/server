@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <!-- Inherit from marketing_campaign form-->
+        <record model="ir.ui.view" id="view_marketing_campaign_form_inherit">
+            <field name="name">marketing.campaign.form.inherit</field>
+            <field name="model">marketing.campaign</field>
+            <field name="inherit_id" ref="marketing_campaign.view_marketing_campaign_form" />
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/group/group/field[@name='mode']" position="replace">
+                    <field name="mode" groups="marketing.group_marketing_config"></field>
+                </xpath>
+                <xpath expr="/form/sheet/group/group/field[@name='object_id']" position="replace">
+                    <field name="object_id" groups="marketing.group_marketing_config"></field>
+                </xpath>
+                <xpath expr="/form/sheet/group/group/field[@name='partner_field_id']" position="replace">
+                    <field name="partner_field_id" groups="marketing.group_marketing_config"></field>
+                </xpath>
+                <xpath expr="/form/sheet/group/group/field[@name='unique_field_id']" position="replace">
+                    <field name="unique_field_id" groups="marketing.group_marketing_config"></field>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- Inherit from marketing_campaign activity form-->
+        <record model="ir.ui.view" id="view_marketing_campaign_activity_form_inherit">
+            <field name="name">marketing.campaign.form.inherit</field>
+            <field name="model">marketing.campaign.activity</field>
+            <field name="inherit_id" ref="marketing_campaign.view_marketing_campaign_activity_form" />
+            <field name="arch" type="xml">
+                <xpath expr="/form/group/group/field[@name='signal']" position="replace">
+                    <field name="signal" groups="marketing.group_marketing_config"></field>
+                </xpath>
+                <xpath expr="/form/group/group/field[@name='condition']" position="replace">
+                    <field name="condition_activity" groups="marketing.group_marketing_manager" on_change="onchange_condition_activity(condition_activity)"></field>
+                    <field name="condition" groups="marketing.group_marketing_config"></field>
+                </xpath>
+                <xpath expr="/form/group/group/field[@name='type']" position="replace">
+                    <field name="type" groups="marketing.group_marketing_config"></field>
+                </xpath>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

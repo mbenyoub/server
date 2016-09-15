@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="tree_catalogo_bitacora" model="ir.ui.view">
+                <field name="name">tree.catalogo.bitacora</field>
+                <field name="model">catalogo.bitacora</field>
+                <field name="arch" type="xml">
+                    <tree string="Registro de analisis" editable="bottom">
+                        <field name="product_id"/>
+                        <field name="analisis_id"/>
+                        <field name="picking_id" invisible="1"/>
+                    </tree>
+                </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_picking_in_form">
+            <field name="name">stock.picking.form.inherit</field>
+            <field name="model">stock.picking.in</field>
+            <field name="inherit_id" ref="stock.view_picking_in_form"/>
+            <field name="priority" eval="300"/>
+            <field name="arch" type="xml">
+                <!--<xpath expr="//form/sheet/group" position="replace">-->
+                <!--    <group>-->
+                <!--        <group>-->
+                <!--            <field name="partner_id" on_change="onchange_partner_in(partner_id)"-->
+                <!--                string="Proveedor"-->
+                <!--                modifiers="{'readonly': [('state', 'in', ['cancel', 'done'])]}"/>-->
+                <!--            <field name="backorder_id" readonly="1"-->
+                <!--                attrs="{'invisible': [('backorder_id', '=, False')]}"-->
+                <!--                modifiers="{'invisible': [['backorder_id', '=', false]], 'readonly': true}"/>-->
+                <!--            <field name="invoice_state" string="Control factura"-->
+                <!--                attrs="{'invisible':[('invoice_state', '=', 'none')]}"-->
+                <!--                modifiers="{'invisible': [['invoice_state', '=', 'none']],-->
+                <!--                    'readonly': [['state', 'not in', ['draft']]], 'required': true}"/>-->
+                <!--            <field name="stock_journal_id" widget="selection"-->
+                <!--                modifiers="{'readonly': [['state', 'in', ['cancel', 'done']]]}"/>-->
+                <!--        </group>-->
+                <!--        <group>-->
+                <!--            <field name="date" modifiers="{'readonly': [['state', 'in', ['cancel',-->
+                <!--                'done']]]}"/>-->
+                <!--            <field name="min_date" readonly="1"-->
+                <!--                attrs="{'invisible': [('min_date','=',False)]}"-->
+                <!--                modifiers="{'invisible': [['min_date', '=', false]], 'readonly': true}"/>-->
+                <!--            <field name="origin" placeholder="e.g. PO0032" class="oe_inline"-->
+                <!--                modifiers="{'readonly': [['state', 'in', ['cancel', 'done']]]}"/>-->
+                <!--        </group>-->
+                <!--    </group>-->
+                <!--</xpath>-->
+                
+                <xpath expr="//notebook/page[1]/field[@name='move_lines']/tree" position="inside">
+                    <field name="si_inspeccion" />
+                    <field name="catalogo_producto_m2o_id"/>
+                    <button name="inspeccion"
+                        string="resgistrar analisis" type="object"
+                        icon="terp-mail-forward"
+                        attrs="{'invisible': [('si_inspeccion','=',False)]}"
+                        groups="base.group_user"
+                        confirm="Desea aplicar el analisis?"/>
+                </xpath>
+                
+                <xpath expr="//form/sheet/notebook/page[@string='Additional Info']" position="after">
+                    <page string="Bitacora">               
+                        <field name="catalogo_bitacora_ids"/>          
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

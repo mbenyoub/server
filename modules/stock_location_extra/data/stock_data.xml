@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="stock.journal" id="stock_location_extra.journal_delivery_default">
+            <field name="name">Delivery Orders</field>
+            <field name="user_id" eval="1"/>
+            <field name="default" eval="True"/>
+        </record>
+        <!--<record id="delivery_schedule_property" model="ir.property">
+            <field name="name">delivery_schedule_property</field>
+            <field name="fields_id" search="[('model','=','res.partner'),('name','=','schedule_id')]"/>
+            <field eval="'delivery.schedule,'+str(ref('delivery_routes.delivery_schedule_01'))"
+                   model="delivery.schedule" name="value"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>-->
+        <record model="ir.property" id="stock_journal_property">
+            <field name="name">stock_journal_property</field>
+            <field name="fields_id" search="[('model', '=', 'stock.picking'), ('name', '=', 'stock_journal_id')]"/>
+            <field eval="'stock.journal,'+str(ref('stock.journal_delivery'))"
+                   model="stock.journal" name="value"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+    </data>
+</openerp>

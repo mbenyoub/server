@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        
+        <!--
+            Documentos
+        -->
+        <record id="requisition_credit.document_1" model="requisition.credit.document.type">
+            <field name="name">Ife</field>
+            <field name="note">Entrego la ife de forma digital</field>
+            <field name="active">True</field>
+        </record>
+        <record id="requisition_credit.document_2" model="requisition.credit.document.type">
+            <field name="name">Comprobante de Domicilio</field>
+            <field name="note">Entrego el comprobante de domicilio de forma digital</field>
+            <field name="active">True</field>
+        </record>
+        <record id="requisition_credit.document_3" model="requisition.credit.document.type">
+            <field name="name">Comprobante de sueldo</field>
+            <field name="note">Entrego comprobante, pero no es el actual</field>
+            <field name="active">False</field>
+        </record>
+    </data>
+</openerp>

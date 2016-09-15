@@ -1,0 +1,4 @@
+id,name,company_class,active
+project_template_idea,Plantilla proyectos - Idea,IDEA,True
+project_template_desa,Plantilla proyectos - En desarrollo,DESA,True
+project_template_expan,Plantilla proyectos – En expansion,EXPAN,True

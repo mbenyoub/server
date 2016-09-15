@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <!--
+                Personalizacion de search de productos
+        -->
+        <record model="ir.ui.view" id="view_product_product_filter_inherit">
+            <field name="name">product.product.search.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_search_form_view" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="is_asset"/>
+                </field>
+                <filter  name="filter_to_sell" position="replace" >
+                    <filter string="Es un activo" name="is_asset_filter" icon="terp-accessories-archiver-minus" domain="[('is_asset','=',True)]"/>
+                </filter>
+            </field>
+        </record>
+        
+        <!--
+            Modificacion de Vista Productos
+        -->
+        
+        <record model="ir.ui.view" id="product_normal_form_view_inherit">
+            <field name="name">product.normal.form.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <div name="options" position="inside">
+                    <field name="is_asset"/>
+                    <label for="is_asset"/>
+                </div>
+                <field name="default_code" position="before">
+                    <field name="default_asset_category_id" attrs="{'invisible': [('is_asset','=',False)], 'required': [('is_asset','=',True)]}"/>
+                </field>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="product_normal_tree_view_inherit">
+            <field name="name">product.normal.tree.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_product_tree_view" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="state" position="after">
+                    <field name="is_asset" invisible="1"/>
+                </field>
+            </field>
+        </record>
+        
+        <record id="action_product_asset" model="ir.actions.act_window">
+            <field name="name">Producto Activo</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.product</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{"search_default_is_asset":True,"default_is_asset":True}</field>
+            <field name="search_view_id" ref="product.product_search_form_view"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to define a new product.
+              </p><p>
+                You must define a product for everything you sell, whether it's
+                a physical product, a consumable or a service you offer to
+                customers.
+              </p><p>
+                The product form contains information to simplify the sale
+                process: price, notes in the quotation, accounting data,
+                procurement methods, etc.
+              </p>
+            </field>
+        </record>
+        
+        <record id="action_product_asset_view1" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="product.product_kanban_view"/>
+            <field name="act_window_id" ref="action_product_asset"/>
+        </record>
+        <record id="action_product_asset_view2" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="product.product_product_tree_view"/>
+            <field name="act_window_id" ref="action_product_asset"/>
+        </record>
+        <record id="action_product_asset_view3" model="ir.actions.act_window.view">
+            <field eval="3" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="product.product_normal_form_view"/>
+            <field name="act_window_id" ref="action_product_asset"/>
+        </record>
+        
+        <menuitem action="action_product_asset" id="menu_product_asset" name="Productos Activos Fijos" parent="account_asset.menu_finance_assets" sequence="60"/>
+        
+    </data>
+</openerp>

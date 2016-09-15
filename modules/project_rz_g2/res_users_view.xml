@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="view_users_form_inherit">
+            <field name="name">res.users.form.inherit</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="active" position="before">
+                    <field name="type_contact"/>
+                    <field name="filter_category" invisible="1"/>
+                    <field name="category_ids" widget="many2many_tags" attrs="{'invisible':['|',('type_contact','!=','con'),('filter_category','=',False)]}"/>
+                </field>
+                <field name="state" position="before">
+                    <button name="action_view_partner" type="object" string="Ver Contacto" groups=""/>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_users_tree_inherit">
+            <field name="name">res.users.tree.inherit</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_tree" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="lang" position="after">
+                    <field name="type_contact"/>
+                    <field name="active" invisible="1"/>
+                </field>
+                <field name="lang" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_users_search_inherit">
+            <field name="name">res.users.search.inherit</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_search" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="company_ids" position="after">
+                    <field name="type_contact"/>
+                    <field name="active" invisible="1"/>
+                </field>
+                <field name="company_ids" position="after">
+                    <separator/>
+                    <filter string="Usuarios Activos" domain="[('active','=',True)]"/>
+                    <filter string="Usuarios inactivos" domain="[('active','=',False)]"/>
+                    <separator/>
+                    <filter string="Emprendedor" domain="[('type_contact','=','emp')]"/>
+                    <filter string="Consultor" domain="[('type_contact','=','con')]"/>
+                    <filter string="Evaluador" domain="[('type_contact','=','eval')]"/>
+                    <filter string="Otro" domain="[('type_contact','=','otr')]"/>
+                    <separator/>
+                    <group expand="0" string="Agrupar por...">
+                        <filter string="Tipo" name="group_type_contact"  icon="terp-folder-violet" domain="[]" context="{'group_by':'type_contact'}"/>
+                    </group>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>
+

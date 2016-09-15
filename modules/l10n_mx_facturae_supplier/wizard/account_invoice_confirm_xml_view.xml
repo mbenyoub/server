@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    
+<!--
+        Vista wizard Validar XML de Factura de proveedor
+-->
+        <!-- View Form - Valida XML Factura -->
+        <record model="ir.ui.view" id="wizard_account_invoice_confirm_xml_view">
+            <field name="name">account.invoice.confirm.xml.form</field>
+            <field name="model">account.invoice.confirm.xml</field>
+            <field name="arch" type="xml">
+                <form string="Valida XML Factura" version="7.0">
+                    <group col="4">
+                        <field name="invoice_id" invisible="1"/>
+                        <field name="xml_file"/>
+                        <field name="state" invisible="1"/>
+                    </group>
+                    <footer>
+                        <button name="action_validate_xml" type="object" string="Continuar" class="oe_highlight"/>
+                        , 
+                        <button name="action_validate_xml_and_confirm" type="object" string="Validar y Continuar" class="oe_highlight" attrs="{'invisible':[('state','not in',['draft'])]}"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Action - Valida XML Factura -->
+        <record model="ir.actions.act_window" id="action_wizard_account_invoice_confirm_xml_view">
+            <field name="name">Valida XML Factura</field>
+            <field name="res_model">account.invoice.confirm.xml</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_account_invoice_confirm_xml_view"/>
+            <field name="target">new</field>
+        </record>
+        
+    </data>
+</openerp>   

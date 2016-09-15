@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+        <!--VISTA TREE-->
+        
+        <record model="ir.ui.view" id="sale_product_view_tree_inherit1">
+            <field name="name">sale.product.view.tree.inherit1</field>
+            <field name="model">account.invoice.line</field>
+            <field name="inherit_id" ref="sale_report.sale_product_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='price_subtotal']" position="replace" >
+                    <field name="price_subtotal2" sum="Total importe c/desc"/>
+                </xpath>
+                <xpath expr="//field[@name='price_subtotal2']" position="replace" >
+                    <field name="price_subtotal" sum="Total importe s/desc"/>
+                </xpath>
+                <xpath expr="//field[@name='discount']" position="after" >
+                    <field name="discount_com"/>
+                    <field name="discount_vol"/>
+                    <field name="discount_mez"/>
+                    <field name="discount_fin"/>
+                </xpath>
+                <xpath expr="//field[@name='discount']" position="attributes" >
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

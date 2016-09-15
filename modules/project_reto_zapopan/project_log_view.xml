@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <!-- Menu item -->
+        <menuitem id="base.menu_activity_management" name="Actividades" parent="base.menu_main_pm" sequence="20"/>
+
+        <!--
+            Bitacora Reuniones
+        -->
+        
+        <!--View Tree - Task log -->
+        <record model="ir.ui.view" id="project_log_meeting_tree_view">
+            <field name="name">Bitacora - Registro Reuniones</field>
+            <field name="model">project.log.meeting</field>
+            <field name="arch" type="xml">
+                <tree string="Bitacora" editable="top">
+                    <field name="date"/>
+                    <field name="project_id" on_change="onchange_project(project_id,meeting_id,context)"/>
+                    <field name="meeting_id" required="1" on_change="onchange_meeting(meeting_id,context)"/>
+                    <field name="time" widget="float_time"/>
+                    <field name="description"/>
+                    <field name="type" attrs="{'invisible':[('is_manager','!=',True)]}" />
+                    <field name="user_id" invisible="1"/>
+                    <field name="date_string" invisible="1"/>
+                    <field name="type_contact" invisible="1"/>
+                    <field name="is_manager" invisible="1"/>
+                    <button string="Nueva Reunion"
+                        icon="gtk-redo"
+                        name="action_make_meeting" type="object"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- View form - Task log -->
+        <record model="ir.ui.view" id="act_project_log_meeting_form_view">
+            <field name="name">project.log.meeting.form</field>
+            <field name="model">project.log.meeting</field>
+            <field name="arch" type="xml">
+                <form string="Bitacora" version="7.0">
+                    <sheet string="Bitacora">
+                        <group colspan="4" col="4">
+                            <group colspan="2" col="2">
+                                <field name="meeting_id" required="1" on_change="onchange_meeting(meeting_id,context)"/>
+                                <field name="time" widget="float_time"/>
+                            </group>
+                            <group colspan="2" col="2">
+                                <field name="date"/>
+                                <field name="type"/>
+                                <field name="project_id" on_change="onchange_project(project_id,meeting_id,context)"/>
+                                <field name="user_id" attrs="{'invisible':[('meeting_id','=',False)]}"/>
+                                <field name="type_contact" attrs="{'invisible':[('user_id','=',False)]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page >
+                                <field name="description"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Search - Task log  -->
+        <record id="view_project_log_meeting_filter" model="ir.ui.view">
+            <field name="name">project.log.meeting.list.select</field>
+            <field name="model">project.log.meeting</field>
+            <field name="arch" type="xml">
+                <search string="Filtrar Bitacora">
+                    <field name="id"/>
+                    <field name="confirm_time"/>
+                    <field name="project_id"/>
+                    <field name="user_id"/>
+                    <field name="meeting_id"/>
+                    <field name="type_contact"/>
+                    <field name="type"/>
+                    <field name="type_meeting"/>
+                    <field name="date"/>
+                    <separator/>
+                    <filter name="My_activitys" string="Mis Actividades" domain="[('user_id','=',uid)]" help="Mis actividades registradas" icon="terp-check"/>
+                    <filter name="My_projects" string="Mis proyectos a evaluar" domain="[('project_id.user_id','=',uid)]" help="Actividades de mis proyectos" icon="terp-check"/>
+                    <separator/>
+                    <filter string="Pendiente" domain="[('type','=','draft')]" icon="terp-check"/>
+                    <filter string="Realizada" domain="[('type','=','done')]" icon="terp-check"/>
+                    <filter string="Inasistencia" domain="[('type','=','absent')]" icon="terp-check"/>
+                    <filter string="Modificada" domain="[('type','=','modify')]" icon="terp-check"/>
+                    <filter string="Cancelada" domain="[('type','=','cancel')]" icon="terp-check"/>
+                    <separator/>
+                    <filter string="Reunion de Evaluacion" domain="[('type_meeting','=','eval')]" icon="terp-check"/>
+                    <filter string="Reunion de Asesoria" domain="[('type_meeting','=','ase')]" icon="terp-check"/>
+                    <filter string="Reunion de Seguimiento" domain="[('type_meeting','=','seg')]" icon="terp-check"/>
+                    <filter string="Reunion de Resultados" domain="[('type_meeting','=','result')]" icon="terp-check"/>
+                    <separator/>
+                    <filter string="Posterior a la fecha actual" domain="[('date','&lt;=',time.strftime('%%Y-%%m-%%d'))]" icon="terp-check"/>
+                    <group expand="0" string="Agrupar por...">
+                        <field name="date"/>
+                        <filter string="Proyecto" icon="terp-partner" domain="[]" context="{'group_by':'project_id'}"/>
+                        <filter string="Reunion" icon="terp-gtk-jump-to-rtl" domain="[]" context="{'group_by':'meeting_id'}"/>
+                        <filter string="Mes" icon="terp-go-month" domain="[]" context="{'group_by':'date'}"/>
+                        <filter string="Dia" icon="terp-go-month" domain="[]" context="{'group_by':'date_string'}"/>
+                        <filter string="Usuario" icon="terp-go-month" domain="[]" context="{'group_by':'user_id'}"/>
+                        <filter string="Tipo Contacto" icon="terp-gtk-jump-to-rtl" domain="[]" context="{'group_by':'type_contact'}"/>
+                        <filter string="Confirmacion Emprendedor Consultoria" icon="terp-gtk-jump-to-rtl" domain="[('type','=','consulting')]" context="{'group_by':'confirm_time'}"/>
+                        <filter string="Tipo" icon="terp-gtk-jump-to-rtl" domain="[]" context="{'group_by':'type'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <!-- action windows - Task log -->
+        <record model="ir.actions.act_window" id="action_project_log_meeting_view">
+            <field name="name">Bitacora de Reuniones</field>
+            <field name="res_model">project.log.meeting</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','!=','consulting')]</field>
+            <field name="context">{'search_default_user_id':uid}</field>
+            <field name="view_id" ref="project_log_meeting_tree_view"/>
+            <field name="search_view_id" ref="view_project_log_meeting_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Bitacora sobre modificaciones o cambios aplicados a las reuniones del proyecto </p>
+            </field>
+        </record>
+
+        <!-- Menu Task log -->
+        <menuitem action="action_project_log_meeting_view" name="Bitacora de Reuniones" id="menu_action_project_log_meeting" parent="base.menu_activity_management" sequence="3" groups="base.group_project_log_meeting"/>
+        
+        <!--
+            Bitacora Reunion - Valida emprendedor
+        -->
+        
+        <!--View Tree - Task log -->
+        <record model="ir.ui.view" id="project_valid_log_meeting_tree_view">
+            <field name="name">Bitacora de Reuniones</field>
+            <field name="model">project.log.meeting</field>
+            <field name="arch" type="xml">
+                <tree string="Bitacora" create="0" edit="0" delete="0">
+                    <field name="date"/>
+                    <field name="project_id"/>
+                    <field name="meeting_id"/>
+                    <field name="time" widget="float_time"/>
+                    <field name="description"/>
+                    <field name="type" attrs="{'invisible':[('is_manager','!=',True)]}" />
+                    <field name="user_id" invisible="1"/>
+                    <field name="emprendedor_ids" invisible="1"/>
+                    <field name="date_string" invisible="1"/>
+                    <field name="type_contact" invisible="1"/>
+                    <field name="is_manager" invisible="1"/>
+                    <field name="type_meeting" invisible="1"/>
+                    <field name="confirm_time" />
+                    <button string="Validar consultoria"
+                        icon="gtk-apply"
+                        name="action_validate_consulting" type="object" attrs="{'invisible': [('confirm_time', '!=', 'no')]}" groups="base.group_project_log_meeting_validate"/>
+                    <button string="Invalidar consultoria"
+                        icon="gtk-cancel"
+                        name="action_decline_consulting" type="object" attrs="{'invisible': [('confirm_time', '!=', 'no')]}" groups="base.group_project_log_meeting_validate"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- action windows - Task log -->
+        <record model="ir.actions.act_window" id="action_project_valid_log_meeting_view">
+            <field name="name">Bitacora de Reuniones</field>
+            <field name="res_model">project.log.meeting</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="domain">[('type','=','consulting'),('emprendedor_ids','in',uid)]</field>
+            <field name="context">{'search_default_confirm_time': 'no'}</field>
+            <field name="view_id" ref="project_valid_log_meeting_tree_view"/>
+            <field name="search_view_id" ref="view_project_log_meeting_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Bitacora sobre consultoria aplicada a las reuniones del proyecto </p>
+            </field>
+        </record>
+
+        <!-- Menu Task log -->
+        <menuitem action="action_project_valid_log_meeting_view" name="Validar consultoria de reuniones" id="menu_action_project_valid_log_meeting" parent="base.menu_activity_management" sequence="4" groups="base.group_project_log_meeting_validate"/>
+        
+        <!--View Tree - Task log -->
+        <record model="ir.ui.view" id="project_log_meeting_con_tree_view">
+            <field name="name">Bitacora de Reuniones de Consultoria</field>
+            <field name="model">project.log.meeting</field>
+            <field name="arch" type="xml">
+                <tree string="Bitacora" editable="top">
+                    <field name="date" attrs="{'readonly':[('is_manager','!=',True)]}"/>
+                    <field name="project_id" attrs="{'readonly':[('is_manager','!=',True)]}"/>
+                    <field name="meeting_id" required="1" attrs="{'readonly':[('is_manager','!=',True)]}"/>
+                    <field name="time" widget="float_time" attrs="{'readonly':[('is_manager','!=',True)]}"/>
+                    <field name="description"/>
+                    <field name="type" invisible="1"/>
+                    <field name="user_id" attrs="{'invisible':[('is_manager','!=',True)]}"/>
+                    <field name="emprendedor_ids" invisible="1"/>
+                    <field name="date_string" invisible="1"/>
+                    <field name="type_contact" invisible="1"/>
+                    <field name="is_manager" invisible="1"/>
+                    <field name="confirm_time" />
+                </tree>
+            </field>
+        </record>
+        
+        <!-- action windows - Task log -->
+        <record model="ir.actions.act_window" id="action_project_valid_log_meeting_view2">
+            <field name="name">Bitacora de Reuniones</field>
+            <field name="res_model">project.log.meeting</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="domain">[('type','=','consulting')]</field>
+            <field name="context">{'search_default_confirm_time': 'no'}</field>
+            <field name="view_id" ref="project_log_meeting_con_tree_view"/>
+            <field name="search_view_id" ref="view_project_log_meeting_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Bitacora sobre consultoria aplicada a las reuniones del proyecto </p>
+            </field>
+        </record>
+
+        <!-- Menu Task log -->
+        <menuitem action="action_project_valid_log_meeting_view2" name="Bitacora de reuniones de consultoria" id="menu_action_project_valid_log_meeting" parent="base.menu_activity_management" sequence="4" groups="base.group_project_log_meeting"/>
+        
+        <!-- action windows - Se agrega otro por problemas de permisos para el consultor-->
+        <record model="ir.actions.act_window" id="action_project_valid_log_meeting_view3">
+            <field name="name">Bitacora de Reuniones</field>
+            <field name="res_model">project.log.meeting</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="domain">[('user_id','=',uid),('type','=','consulting')]</field>
+            <field name="context">{'search_default_confirm_time': 'no'}</field>
+            <field name="view_id" ref="project_log_meeting_con_tree_view"/>
+            <field name="search_view_id" ref="view_project_log_meeting_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Bitacora sobre consultoria aplicada a las reuniones del proyecto </p>
+            </field>
+        </record>
+        
+        <!--
+            Bitacora Proyecto
+        -->
+        
+        <!-- Search - Task log  -->
+        <record id="view_project_log_project_filter" model="ir.ui.view">
+            <field name="name">project.log.project.list.select</field>
+            <field name="model">project.log.project</field>
+            <field name="arch" type="xml">
+                <search string="Filtrar Bitacora">
+                    <field name="project_id"/>
+                    <field name="user_id"/>
+                    <field name="phase_id"/>
+                    <field name="type_contact"/>
+                    <separator/>
+                        <filter name="My_activitys" string="Mis Actividades" domain="[('user_id','=',uid)]" help="Mis actividades registradas" icon="terp-check"/>
+                        <filter name="My_projects" string="Mis proyectos a evaluar" domain="[('project_id.user_id','=',uid)]" help="Actividades de mis proyectos" icon="terp-check"/>
+                    <separator/>
+                    <group expand="0" string="Agrupar por...">
+                        <field name="date"/>
+                        <field name="date_string"/>
+                        <filter string="Proyecto" icon="terp-partner" domain="[]" context="{'group_by':'project_id'}"/>
+                        <filter string="Fase" icon="terp-partner" domain="[]" context="{'group_by':'project_id','group_by':'phase_id'}"/>
+                        <filter string="Mes" icon="terp-go-month" domain="[]" context="{'group_by':'date'}"/>
+                        <filter string="Dia" icon="terp-go-month" domain="[]" context="{'group_by':'date_string'}"/>
+                        <filter string="Usuario" icon="terp-go-month" domain="[]" context="{'group_by':'user_id'}"/>
+                        <filter string="Tipo Contacto" icon="terp-gtk-jump-to-rtl" domain="[]" context="{'group_by':'type_contact'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <!-- action windows - Task log -->
+        <record model="ir.actions.act_window" id="action_project_log_project_view">
+            <field name="name">Bitacora de Proyecto</field>
+            <field name="res_model">project.log.project</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{'search_default_user_id':uid}</field>
+            <field name="search_view_id" ref="view_project_log_project_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Bitacora sobre modificaciones o cambios sobre el proyecto </p>
+            </field>
+        </record>
+
+        <!-- Menu Task log -->
+        <menuitem action="action_project_log_project_view" name="Bitacora Proyecto" id="menu_action_project_log_project" parent="base.menu_activity_management" sequence="3" groups="project.group_project_user,project.group_project_manager"/>
+        
+        <!--View Tree - Task log -->
+        <record model="ir.ui.view" id="project_log_project_tree_view">
+            <field name="name">Bitacora - Registro Proyecto</field>
+            <field name="model">project.log.project</field>
+            <field name="arch" type="xml">
+                <tree string="Bitacora" editable="top">
+                    <field name="date"/>
+                    <field name="time" widget="float_time"/>
+                    <field name="project_id" on_change="onchange_project(project_id,phase_id,context)"/>
+                    <field name="phase_id" domain="[]" on_change="onchange_phase(phase_id,context)"/>
+                    <field name="description"/>
+                    <field name="user_id" readonly="1"/>
+                    <field name="type_contact" invisible="1"/>
+                    <field name="date_string" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- View form - Task log -->
+        <record model="ir.ui.view" id="act_project_log_project_form_view">
+            <field name="name">project.log.project.form</field>
+            <field name="model">project.log.project</field>
+            <field name="arch" type="xml">
+                <form string="Bitacora" version="7.0">
+                    <sheet string="Bitacora">
+                        <group colspan="4" col="4">
+                            <group colspan="2" col="2">
+                                <field name="project_id" on_change="onchange_project(project_id,phase_id,context)"/>
+                                <field name="phase_id" on_change="onchange_phase(phase_id,context)"/>
+                                <field name="time" widget="float_time"/>
+                            </group>
+                            <group colspan="2" col="2">
+                                <field name="date"/>
+                                <field name="user_id"/>
+                                <field name="type_contact" readonly="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page >
+                                <field name="description"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

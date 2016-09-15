@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+        <record id="view_admon_active_user_wizard" model="ir.ui.view">
+            <field name="name">admon.active.user.wizard.form</field>
+            <field name="model">admon.active.user.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Activar usuario" version="7.0">
+                    <group>
+                        <field name="date"/>
+                    </group>
+                    <footer>
+                        <button string="Continuar" name="action_active_user" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</openerp>

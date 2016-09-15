@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <!--
+            Modificacion de Vista Formulario de Plantilla de Impuestos
+        -->
+        
+        <record model="ir.ui.view" id="view_account_tax_template_form_inherit">
+            <field name="name">account.tax.template.inherit</field>
+            <field name="model">account.tax.template</field>
+            <field name="inherit_id" ref="account.view_account_tax_template_form" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="account_collected_id" position="attributes">
+                    <attribute name="string" >Cuenta impuestos de facturas por Trasladar</attribute>
+                </field>
+                <field name="account_collected_id" position="after">
+                    <field name="account_collected_id_apply" string="Cuenta impuestos de facturas Trasladado"/>
+                </field>
+                <field name="account_paid_id" position="attributes">
+                    <attribute name="string" >Cuenta de Impuesto de Nota de credito</attribute>
+                </field>
+                <field name="account_paid_id" position="after">
+                    <field name="account_paid_id_apply" string="Cuenta impuestos de Nota de credito Trasladado"/>
+                </field>
+            </field>
+        </record>
+        
+        <!--
+            Modificacion de Vista Formulario de Impuestos
+        -->
+        
+        <record model="ir.ui.view" id="view_tax_form_inherit">
+            <field name="name">account.tax.inherit</field>
+            <field name="model">account.tax</field>
+            <field name="inherit_id" ref="account.view_tax_form" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="account_collected_id" position="attributes">
+                    <attribute name="string" >Cuenta impuestos de facturas por Trasladar</attribute>
+                </field>
+                <field name="account_collected_id" position="after">
+                    <field name="account_collected_id_apply" string="Cuenta impuestos de facturas Trasladado"/>
+                </field>
+                <field name="account_paid_id" position="attributes">
+                    <attribute name="string" >Cuenta de Impuesto de Nota de credito</attribute>
+                </field>
+                <field name="account_paid_id" position="after">
+                    <field name="account_paid_id_apply" string="Cuenta impuestos de Nota de credito Trasladado"/>
+                </field>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

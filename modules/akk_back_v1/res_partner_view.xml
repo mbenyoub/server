@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+        <record id="res_partner_view_inherit_v1" model="ir.ui.view">
+            <field name="name">res.partner.view.inherit.v1</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="priority" eval="22"/>
+            <field name="arch" type="xml">
+                <field name="regimen_fiscal_id" position="replace"/>
+                <field name="property_account_position" position="replace"/>
+                <xpath expr="//notebook/page[@name='accounting']/group/group/label[@for='vat']" position="attributes">
+                    <attribute name="string">RFC Facturacion</attribute>
+                </xpath>
+                <!-- Campos para credito -->
+                <field name="to_pay" position="replace"/>
+                <field name="to_collect" position="replace"/>
+                <field name="credit" position="replace"/>
+                <notebook position="before">
+                        <group name="group-accounting">
+                            <group name="group_rfc">
+                                <field string="Regimen Fiscal" name="regimen_fiscal_id" style="width: 40%%" groups="account.group_account_invoice"/>
+                                <field string="RFC" name="rfc" style="width: 40%%" on_change="onchange_rfc(rfc,context)" groups="account.group_account_invoice"/>
+                            </group>
+                            <group name="to_collect" attrs="{'invisible':[('customer','=',False)]}">
+                                <field name="to_pay" />
+                                <field name="to_collect" />
+                                <field name="credit" />
+                            </group>
+                        </group>
+                </notebook>
+                
+                <field name="street2" position="attributes">
+                    <attribute name="placeholder">Colonia...</attribute>
+                </field>
+                <xpath expr="//div[@name='buttons']/button[@string='Opportunities']" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_partner_advanced</attribute>
+                </xpath>
+                <xpath expr="//div[@name='buttons']/button[@string='Meetings']" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_partner_advanced</attribute>
+                </xpath>
+                <xpath expr="//div[@name='buttons']/button[@string='Calls']" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_partner_advanced</attribute>
+                </xpath>
+                <page string="Sales &amp; Purchases" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_partner_advanced</attribute>
+                </page>
+                <page string="History" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_partner_advanced</attribute>
+                </page>
+                <page string="Warnings" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_partner_advanced</attribute>
+                </page>
+                <!--<page name="followup_tab" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_partner_advanced</attribute>
+                </page>-->
+                <page name="accounting" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_partner_advanced</attribute>
+                </page>
+                <page name="accounting_disabled" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_partner_advanced</attribute>
+                </page>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

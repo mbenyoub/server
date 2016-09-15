@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_exportar_search" model="ir.ui.view">
+            <field name="name">reportes.search</field>
+            <field name="model">reportes</field>
+            <field name="arch" type="xml">
+                <search string="reportes">
+                    <field name="reporte" string="Reporte"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_exportar_tree" model="ir.ui.view">
+            <field name="name">reportes.tree</field>
+            <field name="model">reportes</field>
+            <field name="arch" type="xml">
+                <tree string="Reportes">
+                    <field name="reporte"/>
+                    <field name="periodo" readonly="1"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_exportar_form" model="ir.ui.view">
+            <field name="name">reportes.form</field>
+            <field name="model">reportes</field>
+            <field name="arch" type="xml">
+                <form string="reportes" version="7.0">
+                    <header>
+                        <button name="exportar" type="object" string="Exportar" class="oe_highlight"/>  
+                    </header>
+                    <group col="4">
+                        <!--<field name="balance"/>-->
+                        <field name="reporte"/>
+                        <field name="cero" attrs="{'invisible':['|', ('reporte','not in', ('com'))]}"/>
+                        <field name="movimiento" attrs="{'invisible':['|', ('reporte','not in', ('bal'))], 'required':[('reporte','in',['bal'])]}"/>
+                        <field name="nivel" attrs="{'invisible':['|', ('reporte','not in', ('com'))]}"/>
+                        <field name="periodo" attrs="{'invisible':['|', ('reporte','not in', ('bal','com','est'))]}"/>
+                        <field name="mensual" attrs="{'invisible':['|', ('reporte','not in', ('com','est'))]}"/>
+                        <field name="mes" attrs="{'invisible':['|', ('reporte','not in', ('com','est')), ('mensual','in', (False))]}"/>
+                        <field name="binario" filename="name" string="Archivo EXCEL" attrs="{'invisible':['|', ('reporte','not in', ('bal','com','est'))]}" readonly="1"/>
+                        <field name="name" invisible="1"/>
+                        <!--<field name="bpdf" filename="namepdf" string="Archivo PDF" attrs="{'invisible':['|', ('reporte','not in', ('bal','com','est'))]}" readonly="1"/>
+                        <field name="namepdf" invisible="1"/>-->
+                        <!--<a href="Excel.xls" attrs="{'invisible':['|', ('reporte','not in', ('bal','com','est'))]}">Descargar</a>-->
+                    </group>                
+                </form>
+            </field>
+        </record>
+        <record id="action_exportar_form" model="ir.actions.act_window">
+            <field name="name">Reportes</field>
+            <field name="res_model">reportes</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field><!--tree,-->
+            <field name="search_view_id" ref="view_exportar_search"/>
+        </record>
+
+        <record id="view_catalogo_search" model="ir.ui.view">
+            <field name="name">catalogo.search</field>
+            <field name="model">catalogo</field>
+            <field name="arch" type="xml">
+                <search string="Catalogo">
+                    <field name="Productos" string="Productos"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_catalogo_tree" model="ir.ui.view">
+            <field name="name">catalogo.tree</field>
+            <field name="model">catalogo</field>
+            <field name="arch" type="xml">
+                <tree string="Catalogo">
+                    <field name="Productos"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_catalogo_form" model="ir.ui.view">
+            <field name="name">catalogo.form</field>
+            <field name="model">catalogo</field>
+            <field name="arch" type="xml">
+                <form string="Catalogo" version="7.0">
+                    <field name="Productos" filename="Productos" string="Archivo EXCEL" readonly="1"/>
+                    <field name="pname" invisible="1"/>                
+                </form>
+            </field>
+        </record>
+
+        <record id="action_catalogo_form" model="ir.actions.act_window">
+            <field name="name">Productos</field>
+            <field name="res_model">catalogo</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_catalogo_search"/>
+        </record>
+
+        <menuitem action="action_exportar_form" id="menu_action_exportar_form" sequence="15"/>
+        <menuitem name="Menu" id="listar_menu" parent="menu_action_exportar_form" sequence="2"/>
+        <!--<menuitem name="Exportacion" id="Exportacion" parent="listar_menu" sequence="3"/>-->
+        <menuitem name="reportes" id="listar_exportacion" parent="listar_menu" action="action_exportar_form" sequence="4"/>
+        <!--<menuitem name="Importacion" id="Importacion" parent="listar_menu" sequence="3"/>
+        <menuitem name="Importar" id="listar_importacion" parent="Importacion" action="action_exportar_form" sequence="4"/>
+        <menuitem name="Catalogos" id="listar_catalogos" parent="Importacion" action="action_catalogo_form" sequence="4"/>-->
+        <!-- 
+            Currency Rate Type
+        -->
+        <!--<record id="view_currency_rate_type_form" model="ir.ui.view">
+            <field name="name">res.currency.rate.type.form</field>
+            <field name="model">res.currency.rate.type</field>
+            <field name="arch" type="xml">
+                <form string="Currency Rate Type" version="7.0">
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_currency_rate_type_form" model="ir.actions.act_window">
+            <field name="name">Currency Rate Type</field>
+            <field name="res_model">res.currency.rate.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="view_currency_rate_type_search" model="ir.ui.view">
+            <field name="name">res.currency.rate.type.search</field>
+            <field name="model">res.currency.rate.type</field>
+            <field name="arch" type="xml">
+                <search string="Currency Rate Type">
+                    <field name="name" string="Name"/>
+                </search>
+            </field>
+        </record>-->
+
+
+    </data>
+</openerp>

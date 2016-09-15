@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        
+        <!--
+            Diario para gasto disponible
+        -->
+        
+        <!-- Resource: Secuencias y diarios -->
+        <record id="account_expense_ir_seq_01" model="ir.sequence">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="name">Sequence expense</field>
+            <field name="active" eval="True"/>
+            <field name="prefix" >EXPENSE/%(year)s/%(month)s/</field>
+            <field name="padding">4</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">no_gap</field>
+        </record>
+        <record id="account_expense_account_journal_01" model="account.journal">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="sequence_id" ref="account_expense_ir_seq_01"/>
+            <field name="name">Diario de Gasto</field>
+            <field name="code">EXPEN</field>
+            <field name="type">purchase</field>
+            <field name="prefix2"></field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="company2_id" ref="base.main_company"/>
+            <field name="address_invoice_company_id" ref="base.main_company"/>
+            <field name="update_posted" eval="True"/>
+        </record>
+    
+    <!--
+        Secuencia para registros de gasto
+    -->
+        
+        <record id="hr_expense_sequence_number_type" model="ir.sequence.type">
+            <field name="name">Expense</field>
+            <field name="code">hr.expense.expense.sequence</field>
+        </record>
+        <record id="sequence_hr_expense_sequence_number" model="ir.sequence">
+            <field name="name">Expense default</field>
+            <field name="code">hr.expense.expense.sequence</field>
+            <field name="prefix">GASTO/%(year)s/%(month)s/</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+        </record>
+    
+    </data>
+</openerp>

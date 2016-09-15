@@ -1,0 +1,12 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+kober.crm_access_branch,model_crm_access_branch_all,crm_access_branch.model_crm_access_branch,,1,1,1,1
+kober.res_partner_agreement,model_res_partner_agreement_all,model_res_partner_agreement,,1,0,0,0
+kober.crm_swot,model_crm_swot_all,model_crm_swot,,1,1,1,1
+kober.product_list_price,model_product_list_price_all,model_product_list_price,,1,1,1,1
+kober.res_partner_agreement_response,model_res_partner_agreement_response,model_res_partner_agreement,base.group_sale_manager,1,1,1,1
+kober.res_partner_agreement_manager,model_res_partner_agreement_manager,model_res_partner_agreement,base.group_sale_salesman_all_leads,1,1,1,1
+kober.project_gtd_timebox,model_project_gtd_timebox_all,project_gtd.model_project_gtd_timebox,,1,1,1,1
+kober.project_gtd_context,model_project_gtd_context_all,project_gtd.model_project_gtd_context,,1,1,1,1
+kober.project_task_work,model_project_task_work_all,project.model_project_task_work,,1,1,1,1
+kober.res_request_link,model_res_request_link,base.model_res_request_link,,1,1,1,1
+kober.account_period_all,model_account_period_all,account.model_account_period,,1,1,1,1

@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+<!--
+        Edicion de vista de gasto
+-->
+        <!-- Nuevos estados para el flujo de gasto -->
+        
+        <record id="hr_expense.act_open" model="workflow.activity">
+            <field name="wkf_id" ref="hr_expense.wkf_expenses"/>
+            <field name="name">open</field>
+            <field name="action">action_validate()
+action_move_create()
+            </field>
+            <field name="kind">function</field>
+        </record>
+        <record id="hr_expense.act_open_test" model="workflow.activity">
+            <field name="wkf_id" ref="hr_expense.wkf_expenses"/>
+            <field name="name">re-open</field>
+            <field name="action">write({'state':'done'})</field>
+            <field name="kind">function</field>
+        </record>
+        <record id="hr_expense.act_paid" model="workflow.activity">
+            <field name="wkf_id" ref="hr_expense.wkf_expenses"/>
+            <field name="name">paid</field>
+            <!--<field name="flow_stop">True</field>-->
+            <field name="action">confirm_paid()</field>
+            <field name="kind">function</field>
+            <field name="signal_send">subflow.paid</field>
+        </record>
+        <record id="hr_expense.act_cancel" model="workflow.activity">
+            <field name="wkf_id" ref="hr_expense.wkf_expenses"/>
+            <field name="name">cancel</field>
+            <!--<field name="flow_stop">True</field>-->
+            <field name="action">action_cancel()
+write({'state':'cancelled'})</field>
+            <field name="kind">function</field>
+        </record>
+        
+        <!-- Transiciones de estados -->
+        
+        <record id="hr_expense.trans1" model="workflow.transition">
+            <field name="act_from" ref="hr_expense.act_draft"/>
+            <field name="act_to" ref="hr_expense.act_open"/>
+            <field name="signal">open</field>
+        </record>
+        <record id="hr_expense.trans2" model="workflow.transition">
+            <field name="act_from" ref="hr_expense.act_open"/>
+            <field name="act_to" ref="hr_expense.act_paid"/>
+            <field name="trigger_model">account.move.line</field>
+            <field name="trigger_expr_id">move_line_id_payment_get()</field>
+            <field name="condition">test_paid()</field>
+        </record>
+        <record id="hr_expense.trans3" model="workflow.transition">
+            <field name="act_from" ref="hr_expense.act_draft"/>
+            <field name="act_to" ref="hr_expense.act_cancel"/>
+            <field name="signal">cancel</field>
+        </record>
+        <record id="hr_expense.trans4" model="workflow.transition">
+            <field name="act_from" ref="hr_expense.act_open"/>
+            <field name="act_to" ref="hr_expense.act_cancel"/>
+            <field name="signal">cancel</field>
+        </record>
+        <record id="hr_expense.trans5" model="workflow.transition">
+            <field name="act_from" ref="hr_expense.act_open_test"/>
+            <field name="act_to" ref="hr_expense.act_cancel"/>
+            <field name="signal">cancel</field>
+        </record>
+        <record id="hr_expense.trans6" model="workflow.transition">
+            <field name="act_from" ref="hr_expense.act_paid"/>
+            <field name="act_to" ref="hr_expense.act_open_test"/>
+            <field name="signal">open_test</field>
+        </record>
+        <record id="hr_expense.trans7" model="workflow.transition">
+            <field name="act_from" ref="hr_expense.act_open_test"/>
+            <field name="act_to" ref="hr_expense.act_paid"/>
+            <field name="trigger_model">account.move.line</field>
+            <field name="trigger_expr_id">move_line_id_payment_get()</field>
+            <field name="condition">test_paid()</field>
+        </record>
+        <record id="hr_expense.trans8" model="workflow.transition">
+            <field name="act_from" ref="hr_expense.act_cancel"/>
+            <field name="act_to" ref="hr_expense.act_draft"/>
+            <field name="signal">to_draft</field>
+            <field name="condition">draft_invoice()</field>
+        </record>
+        
+    </data>
+</openerp>

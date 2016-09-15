@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+<!--
+        Vista wizard relacion cuentas SAT
+-->
+        
+        <!-- View Form - Relacionar cuentas SAT -->
+        <record model="ir.ui.view" id="account_sat_related_wizard_form_view">
+            <field name="name">account.sat.related.wizard.form</field>
+            <field name="model">account.sat.related.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Relacionar Cuentas SAT" version="7.0" create="0" edit="0" delete="0">
+                    <header>
+                        <button name="action_related_account" type="object" string="Aplicar" class="oe_highlight"/>
+                        <button name="action_related_cancel" type="object" string="Cancelar" />
+                    </header>
+                    <sheet>
+                        <group col="4">
+                            <group col="2" colspan="2">
+                                <field name="name" invisible="1"/>
+                                <div>
+                                    <div>
+                                        <div>
+                                            <label for="account_sat_id"/>
+                                            <button name="button_dummy" string="" icon="gtk-refresh" class="oe_link oe_inline"  type="object" help="Actualizar lista de cuentas relacionadas a cuenta SAT"/>
+                                        </div>
+                                        <div>
+                                            <field name="account_sat_id" style="width:55%%" on_change="onchange_account_sat_id(account_sat_id,store,context)"/>
+                                        </div>
+                                        <field name="store" invisible="1"/>
+                                    </div>
+                                    <separator string="Cuentas Aplicadas"/>
+                                    <div>
+                                        <!--<label for="account_apply_ids"/>-->
+                                        <field name="account_apply_ids" nolabel="1" context="{'default_wizard_id': active_id}">
+                                            <tree editable="bottom" edit="0" create="0" delete="0" string="Cuentas Relacionadas">
+                                                <button name="action_break_apply" string="Elimnar" class="oe_edit_only" type="object" icon="kanban-stop" help=""/>
+                                                <field name="wizard_id" invisible="1"/>
+                                                <field name="account_id"/>
+                                            </tree>
+                                        </field>
+                                    </div>
+                                </div>
+                            </group>
+                            <group col="2" colspan="2">
+                                <div>
+                                    <label for="account_ids"/>
+                                    <field name="account_ids" nolabel="1" context="{'default_wizard_id': active_id}">
+                                        <tree editable="bottom" edit="0" create="0" delete="0" string="Cuentas sin relacionar">
+                                            <button name="action_apply" string="Agregar" type="object" icon="kanban-apply" help=""/>
+                                            <field name="wizard_id" invisible="1"/>
+                                            <field name="account_id"/>
+                                        </tree>
+                                    </field>
+                                </div>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Action - Conciliacion banco -->
+        <record model="ir.actions.act_window" id="action_account_sat_related_wizard_view">
+            <field name="name">Relacionar cuentas SAT</field>
+            <field name="res_model">account.sat.related.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="account_sat_related_wizard_form_view"/>
+            <field name="target">current</field>
+        </record>
+    
+    <!-- Contabilidad Electronica/Configuracion/Cuentas/Relacionar cuentas SAT -->
+    <menuitem id="menu_account_sat_config_account_acc_sat_related" action="action_account_sat_related_wizard_view" name="Relacionar cuentas SAT" parent="menu_account_sat_config_account" sequence="40"/>
+    
+    </data>
+</openerp>   

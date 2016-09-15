@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--<record id="base.group_sale_salesman" model="res.groups">
+            <field name="name">User: Own Leads Only</field>
+            <field name="category_id" ref="base.module_category_sales_management"/>
+            <field name="comment">the user will have access to his own data in the sales application.</field>
+        </record>
+        <record id="base.group_sale_salesman_all_leads" model="res.groups">
+            <field name="name">User: All Leads</field>
+            <field name="category_id" ref="base.module_category_sales_management"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_sale_salesman'))]"/>
+            <field name="comment">the user will have access to all records of everyone in the sales application.</field>
+        </record>-->
+        
+        <record model="res.groups" id="grp_hidden">
+            <field name="name">grp.hidden</field>
+        </record>
+        
+        <!-- Permiso para visualizar el pedido de venta de forma basica -->
+        <record id="canis.sale_order_basic" model="res.groups">
+            <field name="name">Pedido de venta - Acceso rapido</field>
+        </record>
+        
+        <!-- Permiso para delimitar accesos -->
+        <record id="access_branch_manager" model="res.groups">
+            <field name="name">Delimitar accesos usuarios</field>
+        </record>
+        
+<!--
+        Reglas de acceso
+-->
+        
+        <!-- Se agregan permisos para que vendedores no puedan crear productos -->
+        <record id="sale_can_view_products" model="ir.rule">
+            <field name="name">Vendedor no puede crear productos</field>
+            <field name="model_id" ref="product.model_product_product"/>
+            <field name="groups" eval="[(4, ref('base.group_sale_salesman')),(4, ref('base.group_sale_salesman_all_leads'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="domain_force">[]</field>
+        </record>
+        
+        <!-- Se agregan permisos para que Gerentes puedan crear productos -->
+        <record id="sale_manager_edit_products" model="ir.rule">
+            <field name="name">Gerente ventas puede crear productos</field>
+            <field name="model_id" ref="product.model_product_product"/>
+            <field name="groups" eval="[(4, ref('base.group_sale_manager'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">[]</field>
+        </record>
+        
+        <!-- Se agregan permisos para que vendedores no puedan ver nada que no este en su acceso (sucursal) -->
+        <!--<record id="sale_can_view_partner_branch" model="ir.rule">
+            <field name="name">Vendedor ve contactos de su acceso</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="groups" eval="[(4, ref('base.group_sale_salesman')),(4, ref('base.group_sale_salesman_all_leads'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">['|',('branch_id.user_ids','in',(user.id)),('branch_id','=',False)]</field>
+        </record>-->
+        
+    </data>
+</openerp>

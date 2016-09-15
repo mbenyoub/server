@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    
+<!--
+        Vista wizard Validar XML de Factura de proveedor
+-->
+        <!-- View Form - Importar movimientos bancos -->
+        <record model="ir.ui.view" id="wizard_account_bank_statement_import_view">
+            <field name="name">account.bank.statement.import.form</field>
+            <field name="model">account.bank.statement.import</field>
+            <field name="arch" type="xml">
+                <form string="Valida XML Factura" version="7.0">
+                    <group col="4">
+                        <field name="statement_id" invisible="1"/>
+                        <field name="file"/>
+                    </group>
+                    <group name="import_help" class="oe_grey">
+                        <p >
+                                
+Para cargar el listado de los movimientos de banco se debe generar un archivo en formato 'csv'
+que contenga las columnas de fecha, descripcion y monto(El monto debe ser positivo o neativo
+segun su aplicacion como cago o abono a la cuenta).
+                                
+                        </p>
+                    </group>
+                    <footer>
+                        <button name="action_import_data" type="object" string="Continuar" class="oe_highlight"/>
+                        , 
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Action - Importar movimientos bancos -->
+        <record model="ir.actions.act_window" id="action_wizard_account_bank_statement_import_view">
+            <field name="name">Importar datos</field>
+            <field name="res_model">account.bank.statement.import</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_account_bank_statement_import_view"/>
+            <field name="target">new</field>
+        </record>
+        
+    </data>
+</openerp>   

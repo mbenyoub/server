@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <!-- Vista formulario para attendee -->
+        <record model="ir.ui.view" id="prepare_departure_route_form_view">
+            <field name="name">prepare.departure.route.form</field>
+            <field name="model">prepare.departure.route</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Salida de Ruta" col="4" version="7.0">
+                    <div name="info_route">
+                        <label for="route_id" string="Ruta "/>
+                        <field name="route_id" class="oe_inline" />
+                    </div>
+                    <div name="info_van">
+                        <label for="van_id" string="Vehiculo "/>
+                        <field name="van_id" class="oe_inline" />
+                    </div>
+                    <group>
+                        <group>
+                            <field name="km_init"/>
+                        </group>
+                        <group>
+                            <field name="departure_date"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button type="object" name="action_departure"
+                            string="Guardar y Continuar" class="oe_highlight"/>
+                        <button type="special" special="cancel" string="Cancelar"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+<!--
+        Action para ejecutar wizard de preparacion de embarque
+-->
+        <record model="ir.actions.act_window" id="action_prepare_departure_route">
+            <field name="name">Preparar Embarque</field>
+            <field name="res_model">prepare.departure.route</field>
+            <field name="context">{'default_route_id': active_id}</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
+    </data>
+</openerp>

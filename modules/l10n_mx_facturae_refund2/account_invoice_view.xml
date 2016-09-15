@@ -1,0 +1,783 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+        <!-- View Form - Facturacion Notas de credito -->
+        <record id="invoice_refund_form" model="ir.ui.view">
+            <field name="name">account.invoice.refund.form</field>
+            <field name="model">account.invoice</field>
+            <field name="arch" type="xml">
+                <form string="Invoice"  create="0" version="7.0">
+                <header>
+                    <button name="action_invoice_sent" type="object" string="Send by Email" attrs="{'invisible':['|',('sent','=',True), ('state', '!=', 'open')]}" class="oe_highlight" groups="base.group_user"/>
+                    <button name="invoice_print" string="Imprimir" type="object" attrs="{'invisible':['|',('sent','=',True), ('state', '!=', 'open')]}" class="oe_highlight" groups="base.group_user"/>
+                    <button name="action_invoice_sent" type="object" string="Send by Email" attrs="{'invisible':['|',('sent','=',False), ('state', '!=', 'open')]}" groups="base.group_user"/>
+                    <button name="invoice_print" string="Imprimir" type="object" attrs="{'invisible':['|',('sent','=',False), ('state', '!=', 'open')]}" groups="base.group_user"/>
+                    <button name="invoice_open" states="draft" string="Validate" class="oe_highlight" groups="base.group_user"/>
+                    <button name="invoice_open" states="proforma2" string="Validate" groups="base.group_user"/>
+                    
+                    <button name="action_invoice_open_and_concile" type="object" string="Validar y Saldar" attrs="{'invisible': ['|',('state','not in',['draft']),('filter_refund','in',['none'])]}" class="oe_highlight" groups="base.group_user"/>
+                    <button name="action_invoice_open_and_concile" type="object" string="Validar y Saldar" attrs="{'invisible': ['|',('state','not in',['proforma2']),('filter_refund','in',['none'])]}" groups="base.group_user"/>
+                    
+                    <button name="action_invoice_concile" type="object" string="Saldar con factura" groups="base.group_user" attrs="{'invisible': ['|',('state','!=','open'),('invoice_id','=',False)]}"/>
+                    
+                    <button name="invoice_pay_customer" type="object" string="Generar devolucion"
+                        attrs="{'invisible': ['|', ('state','!=','open'), ('sent','=',True)]}" groups="base.group_user"/>
+                    <button name="invoice_pay_customer" type="object" string="Generar devolucion"
+                        attrs="{'invisible': ['|', ('state','!=','open'), ('sent','=',False)]}" class="oe_highlight" groups="base.group_user"/>
+                    <button name="invoice_proforma2" states="draft" string="PRO-FORMA" groups="account.group_proforma_invoices"/>
+                    <button name="%(account.action_account_invoice_refund)d" type='action' invisible="1" string='Generar Nota de credito' states='open,proforma2,paid' groups="base.group_user"/>
+                    <button name="invoice_cancel" states="draft,proforma2,open" string="Cancel Invoice" groups="base.group_no_one"/>
+                    <button name="action_cancel_draft" states="cancel" string="Reset to Draft" type="object" groups="base.group_user"/>
+                    <button name='%(account.action_account_state_open)d' type='action' string='Re-Open' groups="account.group_account_invoice" attrs="{'invisible':['|', ('state','&lt;&gt;','paid'), ('reconciled', '=', True)]}" help="This button only appears when the state of the invoice is 'paid' (showing that it has been fully reconciled) and auto-computed boolean 'reconciled' is False (depicting that it's not the case anymore). In other words, the invoice has been dereconciled and it does not fit anymore the 'paid' state. You should press this button to re-open it and let it continue its normal process after having resolved the eventual exceptions it may have created."/>
+                    <!--button name="%(account.account_invoices)d" string="#print Invoice" type="action" states="open,paid,proforma,sale,proforma2"/-->
+                    <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,open,paid" statusbar_colors='{"proforma":"blue","proforma2":"blue"}'/>
+                </header>
+                <sheet string="Invoice">
+                    <h1>
+                        <label string="Nota Credito Borrador " attrs="{'invisible': ['|',('state','not in',('draft',)), ('type','&lt;&gt;','out_refund')]}"/>
+                        <label string="Nota Credito " attrs="{'invisible': ['|',('state','in',('draft','proforma','proforma2')), ('type','&lt;&gt;','out_refund')]}"/>
+                        <field name="number" readonly="1" class="oe_inline"/>
+                    </h1>
+                    <field name="type" invisible="1"/>
+                    <group>
+                        <group>
+                            <field string="Customer" name="partner_id"
+                                on_change="onchange_partner_id(type,partner_id,date_invoice,payment_term, partner_bank_id,company_id)"
+                                groups="base.group_user" context="{'search_default_customer':1, 'show_address': 1}"
+                                options='{"always_reload": True}'
+                                domain="[('customer', '=', True)]"/>
+                            <field name="fiscal_position" invisible="1"/>
+                            <field name="debit_note" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="date_invoice"/>
+                            <field name="invoice_datetime"/>
+                            <field name="shop_id"/>
+                            <field name="journal_id" groups="account.group_account_user"
+                                on_change="onchange_journal_id(journal_id, context)" widget="selection"/>
+                            <field domain="[('company_id', '=', company_id),('type','=', 'receivable')]"
+                                name="account_id" groups="account.group_account_user"/>
+                            <label for="currency_id" groups="base.group_multi_currency"/>
+                            <div groups="base.group_multi_currency">
+                                <field name="currency_id" class="oe_inline"/>
+                                <!-- note fp: I don't think we need this feature ?
+                                <button name="%(account.action_account_change_currency)d" type="action"
+                                  icon="terp-stock_effects-object-colorize"
+                                  attrs="{'invisible':[('state','!=','draft')]}"
+                                  groups="account.group_account_user"/> -->
+                            </div>
+                        </group>
+                    </group>
+                    <field name="sent" invisible="1"/>
+                    <notebook colspan="4">
+                        <page string="Invoice Lines">
+                            <button name="action_create_line" string="Agregar" class="oe_highlight"  attrs="{'invisible':['|',('filter_refund','!=','none'),('state','in',['open','cancel','paid'])]}" type="object" help="Agregar nuevo concepto a la factura"/>
+                            <field name="invoice_line" nolabel="1" widget="one2many_list" context="{'type': type, 'state': state}">
+                                <tree string="Invoice Lines" editable="bottom" create="0" delete="0">
+                                    <field name="product_id" attrs="{'readonly': [('filter_refund','not in',['none'])]}"
+                                           on_change="product_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.currency_id, context, parent.company_id)"/>
+                                    <field name="name" attrs="{'readonly': [('filter_refund','not in',['none'])]}"/>
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="account_id" groups="account.group_account_user" attrs="{'readonly': [('filter_refund','not in',['none'])]}"
+                                           domain="[('company_id', '=', parent.company_id), ('journal_id', '=', parent.journal_id), ('type', '=', 'other')]" on_change="onchange_account_id(product_id, parent.partner_id, parent.type, parent.fiscal_position,account_id)"/>
+                                    <field name="account_analytic_id" attrs="{'readonly': [('filter_refund','not in',['none'])]}"
+                                           groups="analytic.group_analytic_accounting" domain="[('type','!=','view'), ('company_id', '=', parent.company_id)]"/>
+                                <field name="quantity" on_change="onchange_edit_refund(filter_refund,quantity,quantity_refund,discount,context)" attrs="{'readonly': [('edit_refund','not in',['all','dev_desc','dev'])]}"/>
+                                    <field name="uos_id" groups="product.group_uom" attrs="{'readonly': [('filter_refund','not in',['none'])]}"
+                                           on_change="uos_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.currency_id, context, parent.company_id)"/>
+                                    <field name="price_unit" attrs="{'readonly': [('filter_refund','not in',['none'])]}"/>
+                                <field name="discount" on_change="onchange_edit_refund(filter_refund,quantity,quantity_refund,discount,context)" attrs="{'readonly': [('edit_refund','not in',['all','dev_desc','desc'])]}" groups="sale.group_discount_per_so_line"/>
+                                    <field name="invoice_line_tax_id" widget="many2many_tags" attrs="{'readonly': [('filter_refund','not in',['none'])]}"
+                                           context="{'type':parent.type}" domain="[('parent_id','=',False),('company_id', '=', parent.company_id)]"/>
+                                    <field name="price_subtotal"/>
+                                    <field name="filter_refund" invisible="1"/>
+                                    <field name="line_id_ref" invisible="1"/>
+                                    <field name="quantity_refund" invisible="1"/>
+                                    <field name="discount_refund" invisible="1"/>
+                                    <field name="edit_refund" invisible="1"/>
+                                    <field name="inv_state" invisible="1"/>
+                                    <button name="action_delete_line" string="" class="oe_edit_only" type="object" icon="gtk-cancel" attrs="{'invisible':['|',('filter_refund','!=','none'),('inv_state','in',['open','cancel','paid'])]}"/>
+                                </tree>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <div>
+                                    <label for="amount_tax"/>
+                                    <button name="button_reset_taxes" states="draft,proforma2"
+                                        string="(update)" class="oe_link oe_edit_only"
+                                        type="object" help="Recompute taxes and total"/>
+                                </div>
+                                <field name="amount_tax" nolabel="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount_total" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="residual" groups="account.group_account_user" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="reconciled" invisible="1"/>
+                            </group>
+                            <group>
+                                    <field name="payment_term" class="oe_inline" invisible="1"/>
+                                    <field name="rate" readonly="1"/>
+                            </group>
+                            <div class="oe_clear">
+                                <label for="comment"/>
+                            </div>
+                            <field name="comment" class="oe_inline" placeholder="Additional notes..."/>
+                        </page>
+                        <page string="Other Info">
+                            <group col="4">
+                                <group>
+                                    <field name="company_id" on_change="onchange_company_id(company_id,partner_id,type,invoice_line,currency_id)" widget="selection" groups="base.group_multi_company"/>
+                                    <field name="user_id" groups="base.group_user"/>
+                                    <field domain="[('partner_id.ref_companies', 'in', [company_id])]" name="partner_bank_id"/>
+                                    <field name="period_id" domain="[('state', '=', 'draft'), ('company_id', '=', company_id)]"
+                                        groups="account.group_account_manager"
+                                        string="Accounting Period"
+                                        placeholder="force period"/>
+                                    <field name="filter_refund" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="address_issued_id" readonly="1"/>
+                                    <field name="company_emitter_id" readonly="1"/>
+                                    <field name="origin" invisible="1" groups="base.group_user"/>
+                                    <field name="name" string="Customer Reference"/>
+                                    <div name="invoice_ref" attrs="{'invisible': [('invoice_id','=',False)]}" class="oe_inline">
+                                        <label for="invoice_id" string="Factura Origen" attrs="{'invisible': [('type','!=','out_refund')]}" />
+                                        <label for="invoice_id" string="Nota de Credito" attrs="{'invisible': [('type','=','out_refund')]}" />
+                                    </div>
+                                    <field name="invoice_id" nolabel="1" context="{'form_view_ref': 'account.invoice_form'}" attrs="{'invisible': [('invoice_id','=',False)]}" class="oe_inline"/>
+                                    <field name="invoice_id2" string="Nota de cargo" context="{'form_view_ref': 'account.invoice_form'}" attrs="{'invisible': [('invoice_id2','=',False)]}" class="oe_inline"/>
+                                    <field name="move_id" groups="account.group_account_user"/>
+                                </group>
+                            </group>
+                            <field name="tax_line" attrs="{'readonly': [('filter_refund','not in',['none'])]}">
+                                <tree editable="bottom" string="Taxes">
+                                    <field name="name"/>
+                                    <field name="account_id" groups="account.group_account_user"/>
+                                    <field name="base" on_change="base_change(base,parent.currency_id,parent.company_id,parent.date_invoice)" readonly="1"/>
+                                    <field name="amount" on_change="amount_change(amount,parent.currency_id,parent.company_id,parent.date_invoice)"/>
+                                    <field invisible="True" name="base_amount"/>
+                                    <field invisible="True" name="tax_amount"/>
+                                    <field name="factor_base" invisible="True"/>
+                                    <field name="factor_tax" invisible="True"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Payments" groups="base.group_user">
+                            <field name="payment_ids">
+                                <tree string="Payments">
+                                    <field name="date"/>
+                                    <field name="move_id"/>
+                                    <field name="ref"/>
+                                    <field name="name"/>
+                                    <field name="journal_id" groups="base.group_user"/>
+                                    <field name="debit"/>
+                                    <field name="credit"/>
+                                    <field name="amount_currency" groups="base.group_multi_currency"/>
+                                    <field name="currency_id" groups="base.group_multi_currency"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Vista Tree - Notas de credito -->
+        <record model="ir.ui.view" id="invoice_refund_tree_view">
+            <field name="name">account.invoice.tree.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree colors="blue:state == 'draft';black:state in ('proforma','proforma2','open');gray:state == 'cancel'" create="0" string="Nota de Credito">
+                    <field name="partner_id" modifiers="{'readonly': [['state', 'not in', ['draft']]], 'required': true}" string="Cliente"/>
+                    <field name="date_invoice" modifiers="{'readonly': [['state', 'not in', ['draft']]]}"/>
+                    <field name="number" invisible="1" modifiers="{'readonly': true}"/>
+                    <field name="number2" modifiers="{'readonly': true}"/>
+                    <field name="reference" invisible="1" />
+                    <field name="name" invisible="1" modifiers="{'readonly': [['state', 'not in', ['draft']]]}"/>
+                    <field name="journal_id" invisible="1" modifiers="{'readonly': [['state', 'not in', ['draft']]], 'required': true}"/>
+                    <field name="period_id" invisible="1" modifiers="{'readonly': [['state', 'not in', ['draft']]]}"/>
+                    <field name="company_id" widget="selection" invisible="1" modifiers="{'invisible': true, 'readonly': [['state', 'not in', ['draft']]], 'required': true}"/>
+                    <field name="user_id" modifiers="{'readonly': [['state', 'not in', ['draft']]]}"/>
+                    <field name="date_due" modifiers="{'readonly': [['state', 'not in', ['draft']]]}"/>
+                    <field name="origin" modifiers="{'readonly': [['state', 'not in', ['draft']]]}"/>
+                    <field name="currency_id" modifiers="{'readonly': [['state', 'not in', ['draft']]], 'required': true}"/>
+                    <field name="residual" sum="Importe residual" modifiers="{'readonly': true}"/>
+                    <field name="amount_untaxed" sum="Base imponible" modifiers="{'readonly': true}"/>
+                    <field name="amount_total" sum="Importe total" modifiers="{'readonly': true}"/>
+                    <field name="state" modifiers="{'readonly': true}"/>
+                    <field name="shop_id" invisible="1" />
+                </tree>
+            </field>
+        </record>
+        
+        <!-- View Form - Modificacion Formulario Facturacion -->
+        <record model="ir.ui.view" id="view_account_invoice_form_inherit">
+            <field name="name">account.invoice.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="account_id" position="after">
+                    <field name="debit_note" invisible="1"/>
+                </field>
+                <field name="move_id" position="after">
+                    <div name="invoice_ref" attrs="{'invisible': [('invoice_id','=',False)]}" class="oe_inline">
+                        <label for="invoice_id" string="Factura Origen" attrs="{'invisible': [('type','!=','out_refund')]}" />
+                        <label for="invoice_id" string="Nota de Credito" attrs="{'invisible': [('type','=','out_refund')]}" />
+                    </div>
+                    <field name="invoice_id" nolabel="1" attrs="{'invisible': [('invoice_id','=',False)]}" context="{'form_view_ref': 'account.invoice_form'}" class="oe_inline"/>
+                    <field name="filter_refund" invisible="1" />
+                </field>
+                <xpath expr="/form/sheet/notebook/page[@string='Invoice Lines']/field[@name='invoice_line']" position="attributes">
+                    <attribute name="widget">one2many</attribute>
+                    <attribute name="context">{'filter_refund': filter_refund}</attribute>
+                </xpath>
+                <button string='Refund Invoice' position="replace">
+                    <button name="action_invoice_refund_partial" type='object' string='Generar Nota de credito' states='open,proforma2,paid' groups="base.group_user"/>
+                </button>
+                <field name="tax_line" position="after">
+                    <group string="Notas de Credito" attrs="{'invisible':['|',('type','not in',['out_invoice']),('state','=','draft')]}">
+                        <field name="refund_ids" readonly="1" nolabel="1" context="{'default_invoice_id': active_id, 'form_view_ref': 'l10n_mx_facturae_refund.invoice_refund_form'}">
+                            <tree>
+                                <field name="date_invoice"/>
+                                <field name="number"/>
+                                <field name="residual" sum="Residual Amount"/>
+                                <field name="amount_untaxed" sum="Untaxed Amount"/>
+                                <field name="amount_total" sum="Total Amount"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group string="Notas de Cargo" attrs="{'invisible':['|',('type','not in',['out_invoice']),('state','=','draft')]}">
+                        <field name="note_ids" readonly="1" nolabel="1" context="{'default_invoice_id': active_id, 'form_view_ref': 'l10n_mx_facturae_refund.invoice_refund_form'}">
+                            <tree>
+                                <field name="date_invoice"/>
+                                <field name="number"/>
+                                <field name="residual" sum="Residual Amount"/>
+                                <field name="amount_untaxed" sum="Untaxed Amount"/>
+                                <field name="amount_total" sum="Total Amount"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                    </group>
+                </field>
+            </field>
+        </record>
+        
+        <!-- Modificacion de tree view -->
+        <record model="ir.ui.view" id="invoice_tree_view_inherit">
+            <field name="name">account.invoice.tree.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_tree" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="number" position="after">
+                    <field name="debit_note" invisible="1"/>
+                </field>
+            </field>
+        </record>
+        
+        <!-- Modificacion de search -->
+        <record model="ir.ui.view" id="view_account_invoice_filter_inherit">
+            <field name="name">account.invoice.search.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="number" position="after">
+                    <field name="debit_note"/>
+                </field>
+                <filter name="unpaid" position="after">
+                    <separator/>
+                    <filter string="Es nota de cargo" domain="[('debit_note','=',True)]" context="{}"/>
+                    <filter string="No es nota de cargo" domain="[('debit_note','=',False)]" context="{}"/>
+                </filter>
+            </field>
+        </record>
+        
+<!--
+        Modificar vista factura de proveedor
+-->
+        <record id="view_invoice_supplier_inherit" model="ir.ui.view">
+            <field name="name">account.invoice.supplier.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <!--<xpath expr="//button[@name='invoice_pay_customer']" position="attributes">
+                    <attribute name="string">Cobrar</attribute>
+                </xpath>-->
+                <xpath expr="//button[@string='Ask Refund']" position="replace">
+                    <button name="action_invoice_refund_partial" type='object' string='Generar Nota de credito' states='open,proforma2,paid' groups="base.group_user"/>
+                </xpath>
+                
+                <field name="account_id" position="after">
+                    <field name="debit_note" invisible="1"/>
+                </field>
+                <field name="move_id" position="after">
+                    <div name="invoice_ref" attrs="{'invisible': [('invoice_id','=',False)]}" class="oe_inline">
+                        <label for="invoice_id" string="Factura Origen" attrs="{'invisible': [('type','not in',['out_refund','in_refund'])]}" />
+                        <label for="invoice_id" string="Nota de Credito" attrs="{'invisible': [('type','in',['out_refund','in_refund'])]}" />
+                    </div>
+                    <field name="invoice_id" nolabel="1" attrs="{'invisible': [('invoice_id','=',False)]}" context="{'form_view_ref': 'account.invoice_supplier_form'}" class="oe_inline"/>
+                    <field name="filter_refund" invisible="1" />
+                </field>
+                <xpath expr="/form/sheet/notebook/page[@string='Invoice']/field[@name='invoice_line']" position="attributes">
+                    <attribute name="widget">one2many</attribute>
+                    <attribute name="context">{'filter_refund': filter_refund}</attribute>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Other Info']" position="inside">
+                    <group string="Notas de Credito" attrs="{'invisible':['|',('type','not in',['in_invoice']),('state','=','draft')]}">
+                        <field name="refund_ids" readonly="1" nolabel="1" context="{'default_invoice_id': active_id, 'form_view_ref': 'l10n_mx_facturae_refund.invoice_supplier_refund_form'}">
+                            <tree>
+                                <field name="date_invoice"/>
+                                <field name="number"/>
+                                <field name="residual" sum="Residual Amount"/>
+                                <field name="amount_untaxed" sum="Untaxed Amount"/>
+                                <field name="amount_total" sum="Total Amount"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group string="Notas de Cargo" attrs="{'invisible':['|',('type','not in',['in_invoice']),('state','=','draft')]}">
+                        <field name="note_ids" readonly="1" nolabel="1" context="{'default_invoice_id': active_id, 'form_view_ref': 'l10n_mx_facturae_refund.invoice_refund_form'}">
+                            <tree>
+                                <field name="date_invoice"/>
+                                <field name="number"/>
+                                <field name="residual" sum="Residual Amount"/>
+                                <field name="amount_untaxed" sum="Untaxed Amount"/>
+                                <field name="amount_total" sum="Total Amount"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+        
+        
+        <!-- View Form - Facturacion Notas de credito para proveedor -->
+        <record id="invoice_supplier_refund_form" model="ir.ui.view">
+            <field name="name">account.invoice.refund.form</field>
+            <field name="model">account.invoice</field>
+            <field name="arch" type="xml">
+                <form string="Invoice" create="0" version="7.0">
+                <header>
+                    <button name="action_invoice_sent" type="object" string="Send by Email" attrs="{'invisible':['|',('sent','=',True), ('state', '!=', 'open')]}" class="oe_highlight" groups="base.group_user"/>
+                    <button name="invoice_print" string="Imprimir" type="object" attrs="{'invisible':['|',('sent','=',True), ('state', '!=', 'open')]}" class="oe_highlight" groups="base.group_user"/>
+                    <button name="action_invoice_sent" type="object" string="Send by Email" attrs="{'invisible':['|',('sent','=',False), ('state', '!=', 'open')]}" groups="base.group_user"/>
+                    <button name="invoice_print" string="Imprimir" type="object" attrs="{'invisible':['|',('sent','=',False), ('state', '!=', 'open')]}" groups="base.group_user"/>
+                    <button name="invoice_open" states="draft" string="Validate" class="oe_highlight" groups="base.group_user"/>
+                    <button name="invoice_open" states="proforma2" string="Validate" groups="base.group_user"/>
+                    
+                    <button name="action_invoice_open_and_concile" type="object" string="Validar y Saldar" attrs="{'invisible': ['|',('state','not in',['draft']),('filter_refund','in',['none'])]}" class="oe_highlight" groups="base.group_user"/>
+                    <button name="action_invoice_open_and_concile" type="object" string="Validar y Saldar" attrs="{'invisible': ['|',('state','not in',['proforma2']),('filter_refund','in',['none'])]}" groups="base.group_user"/>
+                    
+                    <button name="action_invoice_concile" type="object" string="Saldar con factura" groups="base.group_user" attrs="{'invisible': ['|',('state','!=','open'),('invoice_id','=',False)]}"/>
+                    
+                    <button name="invoice_pay_customer" type="object" string="Generar devolucion"
+                        attrs="{'invisible': ['|', ('state','!=','open'), ('sent','=',True)]}" groups="base.group_user"/>
+                    <button name="invoice_pay_customer" type="object" string="Generar devolucion"
+                        attrs="{'invisible': ['|', ('state','!=','open'), ('sent','=',False)]}" class="oe_highlight" groups="base.group_user"/>
+                    <button name="invoice_proforma2" states="draft" string="PRO-FORMA" groups="account.group_proforma_invoices"/>
+                    <button name="%(account.action_account_invoice_refund)d" type='action' invisible="1" string='Generar Nota de credito' states='open,proforma2,paid' groups="base.group_user"/>
+                    <button name="invoice_cancel" states="draft,proforma2,open" string="Cancel Invoice" groups="base.group_no_one"/>
+                    <button name="action_cancel_draft" states="cancel" string="Reset to Draft" type="object" groups="base.group_user"/>
+                    <button name='%(account.action_account_state_open)d' type='action' string='Re-Open' groups="account.group_account_invoice" attrs="{'invisible':['|', ('state','&lt;&gt;','paid'), ('reconciled', '=', True)]}" help="This button only appears when the state of the invoice is 'paid' (showing that it has been fully reconciled) and auto-computed boolean 'reconciled' is False (depicting that it's not the case anymore). In other words, the invoice has been dereconciled and it does not fit anymore the 'paid' state. You should press this button to re-open it and let it continue its normal process after having resolved the eventual exceptions it may have created."/>
+                    <!--button name="%(account.account_invoices)d" string="#print Invoice" type="action" states="open,paid,proforma,sale,proforma2"/-->
+                    <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,open,paid" statusbar_colors='{"proforma":"blue","proforma2":"blue"}'/>
+                </header>
+                <sheet string="Invoice">
+                    <h1>
+                        <label string="Nota Credito Borrador " attrs="{'invisible': ['|',('state','not in',('draft',)), ('type','&lt;&gt;','in_refund')]}"/>
+                        <label string="Nota Credito " attrs="{'invisible': ['|',('state','in',('draft','proforma','proforma2')), ('type','&lt;&gt;','in_refund')]}"/>
+                        <field name="number" readonly="1" class="oe_inline"/>
+                    </h1>
+                    <field name="type" invisible="1"/>
+                    <group>
+                        <group>
+                            <field string="Customer" name="partner_id"
+                                on_change="onchange_partner_id(type,partner_id,date_invoice,payment_term, partner_bank_id,company_id)"
+                                groups="base.group_user" context="{'search_default_customer':1, 'show_address': 1}"
+                                options='{"always_reload": True}'
+                                domain="[('customer', '=', True)]"/>
+                            <field name="fiscal_position" invisible="1"/>
+                            <field name="debit_note" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="date_invoice"/>
+                            <field name="invoice_datetime"/>
+                            <field name="shop_id"/>
+                            <field name="journal_id" groups="account.group_account_user"
+                                on_change="onchange_journal_id(journal_id, context)" widget="selection"/>
+                            <field domain="[('company_id', '=', company_id),('type','=', 'receivable')]"
+                                name="account_id" groups="account.group_account_user"/>
+                            <label for="currency_id" groups="base.group_multi_currency"/>
+                            <div groups="base.group_multi_currency">
+                                <field name="currency_id" class="oe_inline"/>
+                                <!-- note fp: I don't think we need this feature ?
+                                <button name="%(account.action_account_change_currency)d" type="action"
+                                  icon="terp-stock_effects-object-colorize"
+                                  attrs="{'invisible':[('state','!=','draft')]}"
+                                  groups="account.group_account_user"/> -->
+                            </div>
+                            <field name="check_total" groups="account.group_supplier_inv_check_total"/>
+                        </group>
+                    </group>
+                    <field name="sent" invisible="1"/>
+                    <notebook colspan="4">
+                        <page string="Invoice Lines">
+                            <button name="action_create_line" string="Agregar" class="oe_highlight"  attrs="{'invisible':['|',('filter_refund','!=','none'),('state','in',['open','cancel','paid'])]}" type="object" help="Agregar nuevo concepto a la factura"/>
+                            <field name="invoice_line" nolabel="1" widget="one2many_list" context="{'type': type, 'state': state}">
+                                <tree string="Invoice Lines" editable="bottom" create="0" delete="0">
+                                    <field name="product_id" attrs="{'readonly': [('filter_refund','not in',['none'])]}"
+                                           on_change="product_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.currency_id, context, parent.company_id)"/>
+                                    <field name="name" attrs="{'readonly': [('filter_refund','not in',['none'])]}"/>
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="account_id" groups="account.group_account_user" attrs="{'readonly': [('filter_refund','not in',['none'])]}"
+                                           domain="[('company_id', '=', parent.company_id), ('journal_id', '=', parent.journal_id), ('type', '=', 'other')]" on_change="onchange_account_id(product_id, parent.partner_id, parent.type, parent.fiscal_position,account_id)"/>
+                                    <field name="account_analytic_id" attrs="{'readonly': [('filter_refund','not in',['none'])]}"
+                                           groups="analytic.group_analytic_accounting" domain="[('type','!=','view'), ('company_id', '=', parent.company_id)]"/>
+                                <field name="quantity" on_change="onchange_edit_refund(filter_refund,quantity,quantity_refund,discount,context)" attrs="{'readonly': [('edit_refund','not in',['all','dev_desc','dev'])]}"/>
+                                    <field name="uos_id" groups="product.group_uom" attrs="{'readonly': [('filter_refund','not in',['none'])]}"
+                                           on_change="uos_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.currency_id, context, parent.company_id)"/>
+                                    <field name="price_unit" attrs="{'readonly': [('filter_refund','not in',['none'])]}"/>
+                                <field name="discount" on_change="onchange_edit_refund(filter_refund,quantity,quantity_refund,discount,context)" attrs="{'readonly': [('edit_refund','not in',['all','dev_desc','desc'])]}" groups="sale.group_discount_per_so_line"/>
+                                    <field name="invoice_line_tax_id" widget="many2many_tags" attrs="{'readonly': [('filter_refund','not in',['none'])]}"
+                                           context="{'type':parent.type}" domain="[('parent_id','=',False),('company_id', '=', parent.company_id)]"/>
+                                    <field name="price_subtotal"/>
+                                    <field name="filter_refund" invisible="1"/>
+                                    <field name="line_id_ref" invisible="1"/>
+                                    <field name="quantity_refund" invisible="1"/>
+                                    <field name="discount_refund" invisible="1"/>
+                                    <field name="edit_refund" invisible="1"/>
+                                    <field name="inv_state" invisible="1"/>
+                                    <button name="action_delete_line" string="" class="oe_edit_only" type="object" icon="gtk-cancel" attrs="{'invisible':['|',('filter_refund','!=','none'),('inv_state','in',['open','cancel','paid'])]}"/>
+                                </tree>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <div>
+                                    <label for="amount_tax"/>
+                                    <button name="button_reset_taxes" states="draft,proforma2"
+                                        string="(update)" class="oe_link oe_edit_only"
+                                        type="object" help="Recompute taxes and total"/>
+                                </div>
+                                <field name="amount_tax" nolabel="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount_total" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="residual" groups="account.group_account_user" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="reconciled" invisible="1"/>
+                            </group>
+                            <group>
+                                    <field name="payment_term" class="oe_inline" invisible="1"/>
+                                    <field name="rate" readonly="1"/>
+                            </group>
+                            <div class="oe_clear">
+                                <label for="comment"/>
+                            </div>
+                            <field name="comment" class="oe_inline" placeholder="Additional notes..."/>
+                        </page>
+                        <page string="Other Info">
+                            <group col="4">
+                                <group>
+                                    <field name="company_id" on_change="onchange_company_id(company_id,partner_id,type,invoice_line,currency_id)" widget="selection" groups="base.group_multi_company"/>
+                                    <field name="user_id" groups="base.group_user"/>
+                                    <field domain="[('partner_id.ref_companies', 'in', [company_id])]" name="partner_bank_id"/>
+                                    <field name="period_id" domain="[('state', '=', 'draft'), ('company_id', '=', company_id)]"
+                                        groups="account.group_account_manager"
+                                        string="Accounting Period"
+                                        placeholder="force period"/>
+                                    <field name="filter_refund" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="address_issued_id" readonly="1"/>
+                                    <field name="company_emitter_id" readonly="1"/>
+                                    <field name="origin" invisible="1" groups="base.group_user"/>
+                                    <field name="name" string="Customer Reference"/>
+                                    <div name="invoice_ref" attrs="{'invisible': [('invoice_id','=',False)]}" class="oe_inline">
+                                        <label for="invoice_id" string="Factura Origen" attrs="{'invisible': [('type','!=','out_refund')]}" />
+                                        <label for="invoice_id" string="Nota de Credito" attrs="{'invisible': [('type','=','out_refund')]}" />
+                                    </div>
+                                    <field name="invoice_id" nolabel="1" attrs="{'invisible': [('invoice_id','=',False)]}" context="{'form_view_ref': 'account.invoice_supplier_form'}" class="oe_inline"/>
+                                    <field name="invoice_id2" string="Nota de cargo" attrs="{'invisible': [('invoice_id2','=',False)]}" context="{'form_view_ref': 'account.invoice_supplier_form'}" class="oe_inline"/>
+                                    <field name="move_id" groups="account.group_account_user"/>
+                                </group>
+                            </group>
+                            <field name="tax_line" attrs="{'readonly': [('filter_refund','not in',['none'])]}">
+                                <tree editable="bottom" string="Taxes">
+                                    <field name="name"/>
+                                    <field name="account_id" groups="account.group_account_user"/>
+                                    <field name="base" on_change="base_change(base,parent.currency_id,parent.company_id,parent.date_invoice)" readonly="1"/>
+                                    <field name="amount" on_change="amount_change(amount,parent.currency_id,parent.company_id,parent.date_invoice)"/>
+                                    <field name="base_amount" invisible="True"/>
+                                    <field name="tax_amount" invisible="True"/>
+                                    <field name="factor_base" invisible="True"/>
+                                    <field name="factor_tax" invisible="True"/>
+                                    <field name="tax_code_id" invisible="True"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Payments" groups="base.group_user">
+                            <field name="payment_ids">
+                                <tree string="Payments">
+                                    <field name="date"/>
+                                    <field name="move_id"/>
+                                    <field name="ref"/>
+                                    <field name="name"/>
+                                    <field name="journal_id" groups="base.group_user"/>
+                                    <field name="debit"/>
+                                    <field name="credit"/>
+                                    <field name="amount_currency" groups="base.group_multi_currency"/>
+                                    <field name="currency_id" groups="base.group_multi_currency"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+                </form>
+            </field>
+        </record>
+        
+<!--
+        Modificar action facturas de cliente y de proveedor
+-->
+        
+        <record id="account.action_invoice_tree2" model="ir.actions.act_window">
+            <field name="name">Facturas de proveedor</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('type','=','in_invoice'),('debit_note','=',False)]</field>
+            <field name="context">{'default_type': 'in_invoice', 'type': 'in_invoice', 'journal_type': 'purchase'}</field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Pulse para registrar una nueva factura de proveedor.
+                </p><p>
+                Puede controlar la factura de su proveedor según lo que compro o recibio.
+                OpenERP también puede generar borradores de facturas automaticamente a partir
+                de pedidos o recibos de compra.
+                </p>
+            </field>
+        </record>
+        
+        <record id="account.action_invoice_tree2_view1" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="account.invoice_tree"/>
+            <field name="act_window_id" ref="account.action_invoice_tree2"/>
+        </record>
+        <record id="account.action_invoice_tree2_view2" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="account.invoice_supplier_form"/>
+            <field name="act_window_id" ref="account.action_invoice_tree2"/>
+        </record>
+        
+        <record id="account.action_invoice_tree1" model="ir.actions.act_window">
+            <field name="name">Facturas del cliente</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('type','=','out_invoice'),('debit_note','=',False)]</field>
+            <field name="context">{'default_type':'out_invoice', 'type':'out_invoice', 'debit_note':False, 'journal_type': 'sale'}</field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Pulse para crear una factura a un cliente.
+                </p><p>
+                La facturacion electronica de OpenERP permite facilitar y acelerar
+                el pago de los clientes. Su cliente recibe la factura por correo electronico
+                y puede pagarla en linea o importarla a su propio sistema.
+                </p><p>
+                Las discusiones con su cliente se muestran automaticamente al final de cada factura.
+                </p>
+            </field>
+        </record>
+    
+        <record id="account.action_invoice_tree1_view1" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="account.invoice_tree"/>
+            <field name="act_window_id" ref="account.action_invoice_tree1"/>
+        </record>
+        <record id="account.action_invoice_tree1_view2" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="account.invoice_form"/>
+            <field name="act_window_id" ref="account.action_invoice_tree1"/>
+        </record>
+        
+    
+<!--
+        Modificar referencia vista facturas del proveedor
+-->
+        
+        <record id="account.action_invoice_tree4" model="ir.actions.act_window">
+            <field name="name">Notas de crédito del proveedor</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('type','=','in_refund')]</field>
+            <field name="context">{'default_type':'in_refund', 'type':'in_refund', 'journal_type':'purchase_refund'}</field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Pulse para crear una Nota de Credito. 
+                </p><p>
+                Una Nota de Credito es un documento que abona una factura total o parcialmente.
+                </p><p>
+                En lugar de crear una Nota de Credito  manualmente, puede generarla directamente
+                desde la misma factura origen.
+                </p>
+            </field>
+        </record>
+
+        <record id="account.action_invoice_tree4_view1" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="invoice_refund_tree_view"/>
+            <field name="act_window_id" ref="account.action_invoice_tree4"/>
+        </record>
+        <record id="account.action_invoice_tree4_view2" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="invoice_supplier_refund_form"/>
+            <field name="act_window_id" ref="account.action_invoice_tree4"/>
+        </record>
+        
+<!--
+        Modificar en el domain de los action de factura del cliente y Facturas de proveedor que no aparezcan las de activo
+-->
+        <record id="account.action_invoice_tree3" model="ir.actions.act_window">
+            <field name="name">Notas de crédito del cliente</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('type','=','out_refund')]</field>
+            <field name="context">{'default_type':'out_refund', 'type':'out_refund', 'journal_type':'sale_refund'}</field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Pulse para crear una Nota de Credito. 
+                </p><p>
+                Una Nota de Credito es un documento que abona una factura total o parcialmente.
+                </p><p>
+                En lugar de crear una Nota de Credito  manualmente, puede generarla directamente
+                desde la misma factura origen.
+                </p>
+            </field>
+        </record>
+        
+        <record id="account.action_invoice_tree3_view1" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="invoice_refund_tree_view"/>
+            <field name="act_window_id" ref="account.action_invoice_tree3"/>
+        </record>
+        <record id="account.action_invoice_tree3_view2" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="invoice_refund_form"/>
+            <field name="act_window_id" ref="account.action_invoice_tree3"/>
+        </record>
+        
+        <!-- Modificacion menu Notas de Credito Cliente -->
+        <delete model="ir.ui.menu" id="account.menu_action_invoice_tree3"/>
+        <menuitem id="account.menu_action_invoice_tree3" action="account.action_invoice_tree3" name="Notas de crédito cliente" parent="account.menu_finance_receivables" sequence="10"/>
+        
+        <!-- Modificacion menu Notas de Credito proveedor -->
+        <delete model="ir.ui.menu" id="account.menu_action_invoice_tree4"/>
+        <menuitem id="account.menu_action_invoice_tree4" action="account.action_invoice_tree4" name="Notas de crédito proveedor" parent="account.menu_finance_payables" sequence="10"/>
+
+<!--
+        Genera menu sobre notas de cargo
+-->
+        <!-- Notas de cargo proveedor -->
+        <record id="account.action_invoice_debit_note_supplier" model="ir.actions.act_window">
+            <field name="name">Notas de cargo del proveedor</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('type','=','in_invoice'),('debit_note','=',True)]</field>
+            <field name="context">{'default_type':'in_invoice', 'type':'in_invoice', 'default_debit_note': True, 'journal_type':'purchase'}</field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Pulse para crear una Nota de Cargo. 
+                </p><p>
+                Una Nota de Credito es un documento que abona una factura total o parcialmente.
+                </p><p>
+                En lugar de crear una Nota de Credito  manualmente, puede generarla directamente
+                desde la misma factura origen.
+                </p>
+            </field>
+        </record>
+
+        <record id="account.action_invoice_debit_note_supplier_view1" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="invoice_refund_tree_view"/>
+            <field name="act_window_id" ref="account.action_invoice_debit_note_supplier"/>
+        </record>
+        <record id="account.action_invoice_debit_note_supplier_view2" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="invoice_supplier_refund_form"/>
+            <field name="act_window_id" ref="account.action_invoice_debit_note_supplier"/>
+        </record>
+        
+        <menuitem id="account.menu_action_invoice_debit_note_supplier" action="account.action_invoice_debit_note_supplier" name="Notas de cargo proveedor" parent="account.menu_finance_payables" sequence="11"/>
+        
+        <!-- Notas de cargo cliente -->
+        <record id="account.action_invoice_debit_note_customer" model="ir.actions.act_window">
+            <field name="name">Notas de cargo del cliente</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('type','=','out_invoice'),('debit_note','=',True)]</field>
+            <field name="context">{'default_type':'out_invoice', 'type':'out_invoice', 'default_debit_note':True, 'journal_type':'sale'}</field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Pulse para crear una Nota de Cargo. 
+                </p><p>
+                Una Nota de Credito es un documento que abona una factura total o parcialmente.
+                </p><p>
+                En lugar de crear una Nota de Credito  manualmente, puede generarla directamente
+                desde la misma factura origen.
+                </p>
+            </field>
+        </record>
+        
+        <record id="account.action_invoice_debit_note_customer_view1" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="invoice_refund_tree_view"/>
+            <field name="act_window_id" ref="account.action_invoice_debit_note_customer"/>
+        </record>
+        <record id="account.action_invoice_debit_note_customer_view2" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="invoice_refund_form"/>
+            <field name="act_window_id" ref="account.action_invoice_debit_note_customer"/>
+        </record>
+        
+        <menuitem id="account.menu_action_invoice_debit_note_customer" action="account.action_invoice_debit_note_customer" name="Notas de cargo cliente" parent="account.menu_finance_receivables" sequence="11"/>
+        
+    </data>
+</openerp>

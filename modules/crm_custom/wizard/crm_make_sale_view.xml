@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <!-- Form Inherit - crm.make.sale -->
+        <record model="ir.ui.view" id="view_crm_make_sale_inherit">
+            <field name="name">crm.make.sale.form.inherit</field>
+            <field name="model">crm.make.sale</field>
+            <field name="inherit_id" ref="sale_crm.view_crm_make_sale" />
+            <field name="arch" type="xml">
+                <field name="close" position="after">
+                    <field name="have_ref" invisible="1"/>
+                </field>
+                <footer position="replace">
+                    <footer>
+                        <button name="makeOrder" string="_Create" type="object" class="oe_highlight" confirm="Ya existe una cotizacion para esta oportunidad, ¿Desea continuar?" attrs="{'invisible': [('have_ref','=',False)]}"/>
+                        <button name="makeOrder" string="_Create" type="object" class="oe_highlight" attrs="{'invisible': [('have_ref','=',True)]}"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </footer>
+            </field>
+        </record>
+
+    </data>
+</openerp>

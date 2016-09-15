@@ -1,0 +1,5 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+requisition_credit_all,requisition_credit_all,model_requisition_credit_credit,base.group_sale_salesman_all_leads,1,1,1,1
+requisition_wizard_all,requisition_wizard_all,model_requisition_credit_cancel_wizard,base.group_sale_manager,1,1,1,1
+requisition_credit_document_all,requisition_credit_document_all,model_requisition_credit_document,,1,1,1,1
+requisition_credit_document_type_all,requisition_credit_document_type_all,model_requisition_credit_document_type,,1,1,1,1

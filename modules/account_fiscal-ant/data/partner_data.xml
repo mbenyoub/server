@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+        
+        <record id="partner_acc_category_01" model="res.partner.account.category">
+            <field name="name">Nacionales</field>
+            <field name="type">normal</field>
+            <field name="sequence">1</field>
+            <field name="property_account_payable" search="[('code','=','2122001000')]" model="account.account"/>
+            <field name="property_account_receivable" search="[('code','=','1122001000')]" model="account.account"/>
+            <field name="property_account_asset" search="[('code','=','1124001000')]" model="account.account"/>
+            <field name="property_account_advance_customer" search="[('code','=','2131001000')]" model="account.account"/>
+            <field name="property_account_advance_supplier" search="[('code','=','1129008000')]" model="account.account"/>
+            <field name="active" eval="True"/>
+        </record>
+        
+        <record id="partner_acc_category_02" model="res.partner.account.category">
+            <field name="name">Extranjeros</field>
+            <field name="type">normal</field>
+            <field name="sequence">1</field>
+            <field name="property_account_payable" search="[('code','=','2121001000')]" model="account.account"/>
+            <field name="property_account_receivable" search="[('code','=','1123001000')]" model="account.account"/>
+            <field name="property_account_asset" search="[('code','=','1124001000')]" model="account.account"/>
+            <field name="property_account_advance_customer" search="[('code','=','2131001000')]" model="account.account"/>
+            <field name="property_account_advance_supplier" search="[('code','=','1129008000')]" model="account.account"/>
+            <field name="active" eval="True"/>
+        </record>
+        
+    </data>
+</openerp>

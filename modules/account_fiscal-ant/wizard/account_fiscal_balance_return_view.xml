@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    
+<!--
+        Vista wizard Aplicar Devolucion del Saldo Fiscal
+-->
+        <!-- View Form - Aplicar Devolucion -->
+        <record model="ir.ui.view" id="wizard_account_fiscal_balance_return_view">
+            <field name="name">account.fiscal.balance.return.form</field>
+            <field name="model">account.fiscal.balance.return</field>
+            <field name="arch" type="xml">
+                <form string="Aplicar Devolucion saldo fiscal" version="7.0">
+                    <group col="4">
+                        <group>
+                            <field name="update_amount" string="Saldo Actual" readonly="1"/>
+                            <field name="amount"/>
+                            <field name="journal_id"/>
+                        </group>
+                        <group>
+                            <field name="date" />
+                            <field name="period_id"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="action_balance_return" type="object" string="Aplicar" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Action - Aplicar Devolucion Saldo fiscal -->
+        <record model="ir.actions.act_window" id="action_wizard_account_fiscal_balance_return_view">
+            <field name="name">Aplicar Devolucion Saldo fiscal</field>
+            <field name="res_model">account.fiscal.balance.return</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_account_fiscal_balance_return_view"/>
+            <field name="target">new</field>
+        </record>
+    
+    </data>
+</openerp>   

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Module XML -->
+
+<openerp>
+    <data>
+        
+        <!-- Tree View Records -->    
+        <record model="ir.ui.view" id="view__saas_catalogo_tree">         
+            <field name="name">catalogo_producto.tree</field>
+            <field name="model">catalogo.producto</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Tipo de Inspección">
+                    
+                    <field name= "name"/>
+                    
+                </tree>
+            </field>
+        </record>
+    
+        <!-- Form View Records -->    
+    
+        <record model="ir.ui.view" id="view__saas_catalogo_form">
+            <field name="name">catalogo_producto.form</field>
+            <field name="model">catalogo.producto</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Tipo de inspección" version="7.0">
+                    <sheet>
+                        <group>
+                            <field name="name" style="width: 10cm" required="1"/>
+                            <field name="fecha_analisis"/>
+                            <field name="laboratorio" style="width: 10cm"/>
+                            <!--<field name="ingrediente"/>-->
+                            <!--<field name="proveedor"/>-->
+                        </group>
+                        <font color="red">
+                            <h2>
+                                <label string = "Analisis a realizar"/>
+                            </h2>
+                        </font>
+                        <group>
+                        <group cols="4">
+                            <html><title></title><head></head>
+                                <body>
+                                    <table>
+                                        <tr>
+                                            <td style="text-align: center;"><b>PROTEINA</b></td>
+                                            <td style="text-align: center;"><b>GRASA</b></td>
+                                            <td style="text-align: center;"><b>CENIZA</b></td>
+                                            <td style="text-align: center;"><b>BVT</b></td>
+                                            <td style="text-align: center;"><b>AFLOTOX</b></td>
+                                            <td style="text-align: center;"><b>HUMEDAD</b></td>
+                                            <td style="text-align: center;"><b>IP</b></td>
+                                            <td style="text-align: center;"><b>AGL</b></td>
+                                            <td style="text-align: center;"><b>ACIDEZ</b></td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td><field name="proteina"/></td>
+                                            <td><field name="grasa" /></td>
+                                            <td><field name="ceniza" /></td>
+                                            <td><field name="bvt" /></td>
+                                            <td><field name="aflotox" /></td>
+                                            <td><field name="humedad" /></td>
+                                            <td><field name="ip" /></td>
+                                            <td><field name="agl" /></td>
+                                            <td><field name="acidez" /></td>
+                                        </tr>
+                                    </table>
+                                    
+                                </body>
+                            </html>
+                            <!--<field name="proteina" />-->
+                            <!--<field name="grasa" />-->
+                            <!--<field name="ceniza" />-->
+                            <!--<field name="bvt" />-->
+                            <!--<field name="aflotox" />-->
+                            <!--<field name="humedad" />-->
+                            <!--<field name="ip" />-->
+                            <!--<field name="agl" />-->
+                            <!--<field name="acidez" />-->
+                            <!--<field name="c_proteina" />-->
+                            <!--<field name="c_grasa" />-->
+                            <!--<field name="c_ceniza" />-->
+                            <!--<field name="c_bvt" />-->
+                            <!--<field name="c_aflotox" />-->
+                            <!--<field name="c_humedad" />-->
+                            <!--<field name="c_ip" />-->
+                            <!--<field name="c_agl" />-->
+                            <!--<field name="c_acidez" />    -->
+                        </group>
+                        <group cols="4">
+                            <!--<field name="proteina" />-->
+                            <!--<field name="grasa" />-->
+                            <!--<field name="ceniza" />-->
+                            <!--<field name="bvt" />-->
+                            <!--<field name="aflotox" />-->
+                            <!--<field name="humedad" />-->
+                            <!--<field name="ip" />-->
+                            <!--<field name="agl" />-->
+                            <!--<field name="acidez" />-->
+                        </group>
+                        </group>    
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Search View Records -->
+    
+        <record  model="ir.ui.view" id="view__saas_catalogo_search">
+            <field name="name">catalogo_producto.search</field>
+            <field name="model">catalogo.producto</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">                    
+                <search string="Tipo de inspección">
+                    
+                
+                
+                </search>
+            </field>
+        </record>
+    
+        <!-- Action Records -->    
+    
+        <record model="ir.actions.act_window" id="action__saas_catalogo">
+            <field name="name">Catalogos</field>
+            <field name="view_id" ref="view__saas_catalogo_tree"/>
+            <field name="res_model">catalogo.producto</field>
+        </record>
+        
+        <!-- Menu Items -->    
+        
+        <!--<menuitem name="Empleado"-->
+        <!--                    parent="prueba.saas_tipografia"-->
+        <!--                    id="lista_empleado"-->
+        <!--                    action="action__saas_empleado"/>-->
+        
+    </data>
+</openerp>

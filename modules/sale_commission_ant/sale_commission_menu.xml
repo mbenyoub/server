@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!--MENU PADRE-->
+        
+        <!-- Menu - Configuracion comisiones-->
+        <menuitem id="menu_sale_commission"
+                  name="Calculo"
+                  parent="base.menu_base_partner" sequence="25" groups=""/>
+        
+        <!--<menuitem id="menu_commission"
+                  name="Comisión"
+                  parent="base.menu_base_partner"
+                  sequence="26"
+                  groups=""/>-->
+        
+
+        <!--ACCIONES-->
+
+        <record model="ir.actions.act_window" id="commission_configure_action">
+            <field name="name">Objetivos generales</field>
+            <field name="res_model">sale.commission.objective</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="sale_commission_objective_search_view"/>
+        </record>
+
+        <record model="ir.actions.act_window" id="commission_version_action">
+            <field name="name">Versión de comisiones</field>
+            <field name="res_model">sale.commission.objective.version</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="action_commission_calculated">
+            <field name="name">Comisiones</field>
+            <field name="res_model">sale.commission.commission</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="action_commission_acumulate">
+            <field name="name">Detalle de comisiones</field>
+            <field name="res_model">sale.commission.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="action_commission_details">
+            <field name="name">Detalle de comisiones</field>
+            <field name="res_model">sale.commission.line.objective</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!--MENU ITEMS-->
+
+        <record model="ir.ui.menu" id="commission_configure_menu">
+            <field name="name">Comisiones</field>
+            <field name="action"></field>
+            <field name="parent_id" ref="base.menu_base_config"/>
+        </record>
+
+        <record model="ir.ui.menu" id="commission_configure_item">
+            <field name="name">Objetivos generales</field>
+            <field name="action" ref="commission_configure_action"/>
+            <field name="parent_id" ref="commission_configure_menu"/>
+            <field name="sequence" eval="1"/>
+        </record>
+
+        <record model="ir.ui.menu" id="commission_version_item">
+            <field name="name">Versión de comisiones</field>
+            <field name="action" ref="commission_version_action"/>
+            <field name="parent_id" ref="commission_configure_menu"/>
+            <field name="sequence" eval="1"/>
+        </record>
+        
+        <record model="ir.ui.menu" id="menu_sale_commission_compute_view">
+            <field name="name">Comisiones calculadas</field>
+            <field name="action" ref="action_commission_calculated"/>
+            <field name="parent_id" ref="menu_sale_commission"/>
+            <field name="sequence" eval="2"/>
+            <!--<field name="groups">base.group_sale_manager</field>-->
+        </record>
+        
+        <record model="ir.ui.menu" id="menu_sale_commission_acumulate_view">
+            <field name="name">Comisiones acumuladas</field>
+            <field name="action" ref="action_commission_acumulate"/>
+            <field name="parent_id" ref="menu_sale_commission"/>
+            <field name="sequence" eval="3"/>
+            <!--<field name="groups">base.group_sale_manager</field>-->
+        </record>
+        
+        <record model="ir.ui.menu" id="menu_sale_commission_details_view">
+            <field name="name">Detalle de objetivos</field>
+            <field name="action" ref="action_commission_details"/>
+            <field name="parent_id" ref="menu_sale_commission"/>
+            <field name="sequence" eval="4"/>
+            <!--<field name="groups">base.group_sale_manager</field>-->
+        </record>
+
+    </data>
+</openerp>

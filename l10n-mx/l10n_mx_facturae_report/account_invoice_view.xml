@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record id="account_invoice_form_inherit" model="ir.ui.view">
+            <field name="name">account.invoice.form.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="priority" eval="17"/>
+            <field name="arch" type="xml">
+                <field name="move_id" position="before">
+                    <field name="part_sh_id" domain="[('type','=','delivery')]" context="{'default_type':'delivery'}" attrs="{'readonly':[('state','!=','draft')]}"/>
+                </field>
+                <field name="fiscal_position" position="after">
+                    <field name="reference" string="Referencia" attrs="{'readonly':[('state','!=','draft')]}"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

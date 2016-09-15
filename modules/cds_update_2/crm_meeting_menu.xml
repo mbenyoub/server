@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+    <record id="action_crm_meeting_helpdesk" model="ir.actions.act_window">
+        <field name="name">Meetings</field>
+        <field name="res_model">crm.meeting</field>
+        <field name="view_mode">calendar,tree,form,gantt</field>
+        <field name="view_id" ref="base_calendar.view_crm_meeting_calendar"/>
+        <field name="search_view_id" ref="base_calendar.view_crm_meeting_search"/>
+        <field name="context">{"calendar_default_user_id": uid}</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click to schedule a new meeting.
+          </p><p>
+            The calendar is shared between employees and fully integrated with
+            other applications such as the employee holidays or the business
+            opportunities.
+          </p>
+        </field>
+    </record>
+    
+    <menuitem name="Calendario"
+        id="crm_helpdesk_calendar"
+        parent="menu_help_support"
+        sequence="10"
+        action="action_crm_meeting_helpdesk"
+        groups="group_support_manager,group_support_user"/>
+    
+    <record id="view_meeting_cds_form_inherit" model="ir.ui.view">
+            <field name="name">ContratoCDS_para_Reunion</field>
+            <field name="model">crm.meeting</field>
+            <field name="inherit_id" ref="base_calendar.view_crm_meeting_form"/>
+            <field name="arch" type="xml">
+                <field name="categ_ids" position="after">
+                    <field name="contracts_id"/>
+                </field>
+            </field>
+    </record>
+
+</data>
+</openerp>

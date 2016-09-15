@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <!-- Vista formulario para desembarque ruta -->
+        <record model="ir.ui.view" id="prepare_unload_stock_route_form_view">
+            <field name="name">prepare.unload.stock.route.form</field>
+            <field name="model">prepare.unload.stock.route</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Preparar Desembarque" col="4" version="7.0">
+                    <div name="info_route">
+                        <label for="route_id" string="Ruta "/>
+                        <field name="route_id" class="oe_inline" on_change="onchange_route_id(route_id,context)"/>
+                    </div>
+                    <separator/>
+                    <div name="move_stock">
+                        <label for="line_ids" string="Embarque"/>
+                        <field name="line_ids" nolabel="1" colspan="4" domain="[('route_id','=',route_id)]" options="{'no_create_edit':'1','no_create':'1'}" >
+                            <tree string="Movimientos de Desembarque" editable="top" create="0" delete="0" select="0" colors="grey:state=='done';red:state=='cancel';">
+                                <field name="name" style="width: 30%%" readonly="1"/>
+                                <field name="product_id" invisible="1" readonly="1"/>
+                                <field name="product_qty" readonly="1"/>
+                                <field name="product_uom" readonly="1"/>
+                                <field name="location_id" readonly="1"/>
+                                <field name="location_dest_id" readonly="1"/>
+                                <field name="virtual_available" readonly="1"/>
+                                <field name="state" readonly="1"/>
+                                <button name="action_done" states="draft,confirmed,waiting,assigned" string="Cargar a Vehiculo" type="object" icon="gtk-go-forward"/>
+                            </tree>
+                        </field>
+                    </div>
+                    <footer>
+                        <!--<button type="object" name="action_evaluate_project"
+                            string="Guardar y Continuar" icon="gtk-ok"/>-->
+                        <button type="special" special="cancel"
+                            string="Cerrar" class="oe_hightlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+<!--
+        Action para ejecutar wizard de preparacion de embarque
+-->
+        <record model="ir.actions.act_window" id="action_prepare_unload_stock_route">
+            <field name="name">Preparar Desembarque</field>
+            <field name="res_model">prepare.unload.stock.route</field>
+            <field name="context">{'default_route_id': active_id}</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    
+        
+    </data>
+</openerp>

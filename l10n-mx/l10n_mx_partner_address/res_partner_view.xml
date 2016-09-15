@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+        <record id="view_partner_form_inherit" model="ir.ui.view">
+            <field name="name">res.partner.view.form.inherti</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <label for="type" position="attributes">
+                    <attribute name="attrs">{}</attribute>
+                </label>
+                <div name="div_type" position="attributes">
+                    <attribute name="attrs">{}</attribute>
+                </div>
+                <field name="street2" position="before">
+                    <field name="l10n_mx_street3" placeholder="No. Exterior..." style="width: 49%%" attrs="{'readonly':[('use_parent_address','=',True)]}"/>
+                    <field name="l10n_mx_street4" placeholder="No. Interior..." style="width: 49%%" attrs="{'readonly':[('use_parent_address','=',True)]}"/>
+                </field>
+                <field name="country_id" position="before">
+                    <field name="l10n_mx_city2" placeholder="Localidad" attrs="{'readonly':[('use_parent_address','=',True)]}"/>
+                </field>
+                <field name="child_ids" position="attributes">
+                    <attribute name="context">{'default_parent_id': active_id, 'default_street': street, 'default_street2': street2, 'default_l10n_mx_street3': l10n_mx_street3, 'default_l10n_mx_street4': l10n_mx_street4, 'default_city': city, 'default_state_id': state_id, 'default_zip': zip, 'default_country_id': country_id, 'default_supplier': supplier, 'default_customer': customer, 'default_use_parent_address': True, 'default_type': 'contact'}</attribute>
+                </field>
+                <xpath expr="//field[@name='child_ids']/form/sheet/group/div[@name='div_address']/field[@name='street2']" position="before">
+                    <field name="l10n_mx_street3" placeholder="No. Exterior..." style="width: 49%%" attrs="{'readonly':[('use_parent_address','=',True)]}"/>
+                    <field name="l10n_mx_street4" placeholder="No. Interior..." style="width: 49%%" attrs="{'readonly':[('use_parent_address','=',True)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='child_ids']/form/sheet/group/div[@name='div_address']/field[@name='country_id']" position="before">
+                    <field name="l10n_mx_city2" placeholder="Localidad" attrs="{'readonly':[('use_parent_address','=',True)]}"/>
+                </xpath>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+	<data>
+		<!-- Tree View Records -->
+		
+		<!-- Form View Records -->
+		<record id="producto_analisis_view" model="ir.ui.view">
+			<field name="name">Configuracion</field>
+			<field name="model">canis.configuracion</field>
+			<field name="arch" type="xml">
+        <form string="Anlisis de productos" class="oe_form_configuration" version="7.0">
+			<header>
+				<button name="execute" string="Aplicar" type="object" class='oe_highlight'/>
+				or
+				<button string="cancelar" class="oe_link" special="cancel"/>
+			</header>
+			<group>
+				<group>
+					<field name="config_id" on_change="onchange_actualiza_monto(config_id)"/>
+					<field name="ultimo_monto"/>
+				</group>
+				<group>
+				</group>
+			</group>
+        </form>
+			</field>
+		</record>
+		
+		<!-- Search View Records -->
+		<!-- Action View Records -->
+       <record id="canis_configuracion_config" model="ir.actions.act_window">
+			<field name="name">Configuracion</field>
+			<field name="res_model">canis.configuracion</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">form</field>
+			<field name="target">inline</field>
+			<field name="context">{}</field>
+		</record>
+
+		<menuitem name="Configurar monto"
+							action="canis_configuracion_config"
+							id="canis_configuracion"
+							parent="purchase.menu_purchase_config_purchase"
+							sequence="4"/>
+	</data>
+</openerp>

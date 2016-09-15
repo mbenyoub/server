@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <!--
+            Control Webservice
+        -->
+        
+        <!-- action windows - Access Branch -->
+        <record model="ir.actions.act_window" id="act_access_branch_view">
+            <field name="name">Permisos de Acceso</field>
+            <field name="res_model">access.branch</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Agrupaciones de acceso por las que se delimita lo que se puede visualizar para cada area establecida</p>
+            </field>
+        </record>
+
+        <!-- Menu item -->
+        <menuitem action="act_access_branch_view" id="base.menu_config_branch" name="Permisos de Acceso" parent="base.menu_base_config" sequence="99" groups="base.group_sale_manager"/>
+        
+        <!--View Tree - Task log -->
+        <record model="ir.ui.view" id="access_branch_tree_view">
+            <field name="name">Accesos</field>
+            <field name="model">access.branch</field>
+            <field name="arch" type="xml">
+                <tree string="Control Webservice" editable="top">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="notes"/>
+                    <field name="user_ids" groups="base.group_sale_manager"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- View form - Task log -->
+        <record model="ir.ui.view" id="access_branch_form_view">
+            <field name="name">access.branch.form</field>
+            <field name="model">access.branch</field>
+            <field name="arch" type="xml">
+                <form string="Acceso" version="7.0">
+                    <sheet string="Acceso">
+                        <group colspan="4" col="4">
+                            <group colspan="2" col="2">
+                                <field name="code"/>
+                            </group>
+                            <group colspan="2" col="2">
+                                <field name="name"/>
+                            </group>
+                        </group>
+                        <notebook >
+                            <page string="Acceso Usuarios" groups="base.group_sale_manager">
+                                <field name="user_ids"/>
+                            </page>
+                            <page string="Notas">
+                                <field name="notes"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    
+    </data>
+</openerp>

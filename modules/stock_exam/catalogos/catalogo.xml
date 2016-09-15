@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Module XML -->
+
+<openerp>
+    <data>
+        
+        
+    
+        <!-- Form View Records -->    
+    
+        <record model="ir.ui.view" id="view__saas_catalogo_form">
+            <field name="name">catalogo_producto_form</field>
+            <field name="type">form</field>
+            <field name="model">catalogo.producto</field>
+            <field name="arch" type="xml">
+                <form string="Tipo de inspección" version="7.0">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="fecha_analisis"/>
+                            <field name="laboratorio"/>
+                            <field name="type"/>
+                            <!--<field name="ingrediente"/>-->
+                            <!--<field name="proveedor"/>-->
+                        </group>
+                        <font color="red">
+                            <h2>
+                                <label string = "Analisis a realizar"/>
+                            </h2>
+                        </font>
+                        <group>
+                            <div>
+                                <group>
+                                    <field name="proteina"/>
+                                    <field name="liminf1" attrs="{'required':[('used1','=',True)],'readonly':[('used1','=',False)]}"/>
+                                    <field name="limsup1" attrs="{'required':[('used1','=',True)],'readonly':[('used1','=',False)]}"/>
+                                    <field name="used1"/>
+                                </group>
+                                <group>
+                                    <field name="proteina_sol"/>
+                                    <field name="liminf2" attrs="{'required':[('used2','=',True)],'readonly':[('used2','=',False)]}"/>
+                                    <field name="limsup2" attrs="{'required':[('used2','=',True)],'readonly':[('used2','=',False)]}"/>
+                                    <field name="used2"/>
+                                </group>
+                                <group>
+                                    <field name="grasa" />
+                                    <field name="liminf3" attrs="{'required':[('used3','=',True)],'readonly':[('used3','=',False)]}"/>
+                                    <field name="limsup3" attrs="{'required':[('used3','=',True)],'readonly':[('used3','=',False)]}"/>
+                                    <field name="used3"/>
+                                </group>
+                                <group>
+                                    <field name="ceniza" />
+                                    <field name="liminf4" attrs="{'required':[('used4','=',True)],'readonly':[('used4','=',False)]}"/>
+                                    <field name="limsup4" attrs="{'required':[('used4','=',True)],'readonly':[('used4','=',False)]}"/>
+                                    <field name="used4"/>
+                                </group>
+                                <group>
+                                    <field name="bvt" />
+                                    <field name="liminf5" attrs="{'required':[('used5','=',True)],'readonly':[('used5','=',False)]}"/>
+                                    <field name="limsup5" attrs="{'required':[('used5','=',True)],'readonly':[('used5','=',False)]}"/>
+                                    <field name="used5"/>
+                                </group>
+                                <group>
+                                    <field name="aflatox" />
+                                    <field name="liminf6" attrs="{'required':[('used6','=',True)],'readonly':[('used6','=',False)]}"/>
+                                    <field name="limsup6" attrs="{'required':[('used6','=',True)],'readonly':[('used6','=',False)]}"/>
+                                    <field name="used6"/>
+                                </group>
+                                <group>
+                                    <field name="humedad" />
+                                    <field name="liminf7" attrs="{'required':[('used7','=',True)],'readonly':[('used7','=',False)]}"/>
+                                    <field name="limsup7" attrs="{'required':[('used7','=',True)],'readonly':[('used7','=',False)]}"/>
+                                    <field name="used7"/>
+                                </group>
+                                <group>
+                                    <field name="fibra" />
+                                    <field name="liminf11" attrs="{'required':[('used11','=',True)],'readonly':[('used11','=',False)]}"/>
+                                    <field name="limsup11" attrs="{'required':[('used11','=',True)],'readonly':[('used11','=',False)]}"/>
+                                    <field name="used11"/>
+                                </group>
+                                <group>
+                                    <field name="impurezas" />
+                                    <field name="liminf8" attrs="{'required':[('used8','=',True)],'readonly':[('used8','=',False)]}"/>
+                                    <field name="limsup8" attrs="{'required':[('used8','=',True)],'readonly':[('used8','=',False)]}"/>
+                                    <field name="used8"/>
+                                
+                                </group>
+                                <group>
+                                    <field name="agl" />
+                                    <field name="liminf9" attrs="{'required':[('used9','=',True)],'readonly':[('used9','=',False)]}"/>
+                                    <field name="limsup9" attrs="{'required':[('used9','=',True)],'readonly':[('used9','=',False)]}"/>
+                                    <field name="used9"/>
+                                </group>
+                                <group>
+                                    <field name="digest" />
+                                    <field name="liminf20" attrs="{'required':[('used20','=',True)],'readonly':[('used20','=',False)]}"/>
+                                    <field name="limsup20" attrs="{'required':[('used20','=',True)],'readonly':[('used20','=',False)]}"/>
+                                    <field name="used20"/>
+                                </group>
+                                <group>
+                                    <field name="act_ure" />
+                                    <field name="liminf21" attrs="{'required':[('used21','=',True)],'readonly':[('used21','=',False)]}"/>
+                                    <field name="limsup21" attrs="{'required':[('used21','=',True)],'readonly':[('used21','=',False)]}"/>
+                                    <field name="used21"/>
+                                </group>
+                                <group>
+                                    <field name="grasa_hidro" />
+                                    <field name="liminf22" attrs="{'required':[('used22','=',True)],'readonly':[('used22','=',False)]}"/>
+                                    <field name="limsup22" attrs="{'required':[('used22','=',True)],'readonly':[('used22','=',False)]}"/>
+                                    <field name="used22"/>
+                                </group>
+                                
+                            </div>
+                            <div>
+                                <group>
+                                    <field name="peroxidos" />
+                                    <field name="liminf12" attrs="{'required':[('used12','=',True)],'readonly':[('used12','=',False)]}"/>
+                                    <field name="limsup12" attrs="{'required':[('used12','=',True)],'readonly':[('used12','=',False)]}"/>
+                                    <field name="used12"/>
+                                </group>
+                                <group>
+                                    <field name="bromato" />
+                                    <field name="liminf13" attrs="{'required':[('used13','=',True)],'readonly':[('used13','=',False)]}"/>
+                                    <field name="limsup13" attrs="{'required':[('used13','=',True)],'readonly':[('used13','=',False)]}"/>
+                                    <field name="used13"/>
+                                </group>
+                                <group>
+                                    <field name="indi_putre" />
+                                    <field name="liminf14" attrs="{'required':[('used14','=',True)],'readonly':[('used14','=',False)]}"/>
+                                    <field name="limsup14" attrs="{'required':[('used14','=',True)],'readonly':[('used14','=',False)]}"/>
+                                    <field name="used14"/>
+                                </group>
+                                <group>
+                                    <field name="calcio" />
+                                    <field name="liminf15" attrs="{'required':[('used15','=',True)],'readonly':[('used15','=',False)]}"/>
+                                    <field name="limsup15" attrs="{'required':[('used15','=',True)],'readonly':[('used15','=',False)]}"/>
+                                    <field name="used15"/>
+                                </group>
+                                <group>
+                                    <field name="peso_es" />
+                                    <field name="liminf16" attrs="{'required':[('used16','=',True)],'readonly':[('used16','=',False)]}"/>
+                                    <field name="limsup16" attrs="{'required':[('used16','=',True)],'readonly':[('used16','=',False)]}"/>
+                                    <field name="used16"/>
+                                </group>
+                                <group>
+                                    <field name="grano_da" />
+                                    <field name="liminf17" attrs="{'required':[('used17','=',True)],'readonly':[('used17','=',False)]}"/>
+                                    <field name="limsup17" attrs="{'required':[('used17','=',True)],'readonly':[('used17','=',False)]}"/>
+                                    <field name="used17"/>
+                                </group>
+                                <group>
+                                    <field name="plaga" />
+                                    <field name="liminf18" attrs="{'required':[('used18','=',True)],'readonly':[('used18','=',False)]}"/>
+                                    <field name="limsup18" attrs="{'required':[('used18','=',True)],'readonly':[('used18','=',False)]}"/>
+                                    <field name="used18"/>
+                                </group>
+                                <group>
+                                    <field name="temperatura" />
+                                    <field name="liminf19" attrs="{'required':[('used19','=',True)],'readonly':[('used19','=',False)]}"/>
+                                    <field name="limsup19" attrs="{'required':[('used19','=',True)],'readonly':[('used19','=',False)]}"/>
+                                    <field name="used19"/>
+                                </group>
+                                <group>
+                                    <field name="bacteri" />
+                                    <field name="liminf23" attrs="{'required':[('used23','=',True)],'readonly':[('used23','=',False)]}"/>
+                                    <field name="limsup23" attrs="{'required':[('used23','=',True)],'readonly':[('used23','=',False)]}"/>
+                                    <field name="used23"/>
+                                </group>
+                                <group>
+                                    <field name="taninos" />
+                                    <field name="liminf24" attrs="{'required':[('used24','=',True)],'readonly':[('used24','=',False)]}"/>
+                                    <field name="limsup24" attrs="{'required':[('used24','=',True)],'readonly':[('used24','=',False)]}"/>
+                                    <field name="used24"/>
+                                </group>
+                            </div>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Tree View Records -->    
+        <record model="ir.ui.view" id="view__saas_catalogo_tree">         
+            <field name="name">catalogo_producto_tree</field>
+            <field name="model">catalogo.producto</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Tipo de Inspección">
+                    
+                    <field name= "name"/>
+                    
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Search View Records 
+    
+        <record  model="ir.ui.view" id="view__saas_catalogo_search">
+            <field name="name">catalogo_producto.search</field>
+            <field name="model">catalogo.producto</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">                    
+                <search string="Tipo de inspección">
+                </search>
+            </field>
+        </record>-->
+        
+        <!-- Action Records --> 
+        <record model="ir.actions.act_window" id="catalogo_action">
+            <field name="name">Catalogos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">catalogo.producto</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+                
+        <!-- Menu Items     
+        <menuitem
+            id="catalogo_padre"
+            name="Catalogos de Analisis"
+            parent=""
+            action=""
+            sequence="10"/>-->
+        
+        <menuitem
+                  name="Catalogos de analisis"
+                  parent="stock.menu_stock_root"
+                  id="lista_catalogo1"
+                  action=""
+                  sequence="8"/>
+        <menuitem
+                  name="Catalogo"
+                  parent="lista_catalogo1"
+                  id="lista_catalogo"
+                  action="catalogo_action"
+                  sequence="8"/>
+        
+        
+        
+    </data>
+</openerp>

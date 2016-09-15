@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <!--  SeflHelp Support Form View  -->
+
+        <record model="ir.ui.view" id="autoayuda_form_view">
+            <field name="name">Autoayuda</field>
+            <field name="model">selfhelp</field>
+            <field name="arch" type="xml">
+                <form string="Autoayuda" version="7.0">
+				<sheet string="Auto-Ayuda">
+					<div>
+						<h1><field name="name" string="Titulo"/></h1>
+					</div>
+					<separator/>
+					<group>
+						<field name="more1" nolabel="1"/>
+						<separator/>
+						<field name="more2" nolabel="1"/>
+						<separator/>
+						<field name="more3" nolabel="1"/>
+						<separator/>
+						<field name="more4" nolabel="1"/>
+						<separator/>
+						<field name="more5" nolabel="1"/>
+						<separator/>
+						<field name="more6" nolabel="1"/>
+						<separator/>
+						<field name="more7" nolabel="1"/>
+					</group>
+					<separator/>
+					<group>
+						<field name="description1" nolabel="1"/>
+						<separator/>
+						<field name="description2" nolabel="1"/>
+						<separator/>
+						<field name="image1" widget="image" class="oe_image_large_self" nolabel="1"/>
+					</group>
+					
+					<separator/>
+					<group>
+						<field name="description3" nolabel="1"/>
+						<separator/>
+						<field name="description4" nolabel="1"/>
+						<separator/>
+						<field name="image2" widget="image" class="oe_image_large_self" nolabel="1"/>
+					</group>
+					
+					<label for="image2" string="CDS-Automatico"/>
+				</sheet>
+                </form>
+            </field>
+        </record>
+		
+        <!-- SelfHelp Support Tree View  -->
+        <record model="ir.ui.view" id="autoayuda_tree_view">
+            <field name="name">Autoayuda</field>
+            <field name="model">selfhelp</field>
+            <field name="arch" type="xml">
+                <tree string="Autoayuda">
+                    <field name="name" string="Titulo" />
+                </tree>
+            </field>
+        </record>
+		
+        
+		
+        <record model="ir.actions.act_window.view" id="action_selfhelp_tree_view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="autoayuda_tree_view"/>
+        </record>
+
+		<!-- Action View -->
+		<record model="ir.actions.act_window" id="selfhelp_action_config">
+            <field name="name">Auto-Ayuda</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">selfhelp</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+			<field name="view_id" ref="action_selfhelp_tree_view"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click para crear Nuevos Registros. 
+              </p><p>
+                Configuracion de AutoAyuda.
+              </p><p>
+                Usa para configurar los diferentes tipos de fallos presentados en los equipos
+                con sus respectivos hijos.
+              </p>
+            </field>
+        </record>
+		
+        <record model="ir.actions.act_window.view" id="action_selfhelp_tree_view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="autoayuda_tree_view"/>
+            <field name="act_window_id" ref="selfhelp_action_config"/>
+        </record>
+		
+        <record model="ir.actions.act_window.view" id="action_selfhelp_form_view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="autoayuda_form_view"/>
+            <field name="act_window_id" ref="selfhelp_action_config"/>
+        </record>
+		
+		<menuitem name="Configuracion Auto-Ayuda"
+                  id="menu_selfhelp_conf"
+                  groups="group_support_manager,group_support_user"
+                  parent="crm_help_config"
+                  action="selfhelp_action_config"
+                  sequence="20"/>
+		 
+    </data>
+</openerp>

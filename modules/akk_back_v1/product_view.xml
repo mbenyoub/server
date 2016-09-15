@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+<!--
+        Modificacion de Vista Productos
+-->
+        <record model="ir.ui.view" id="product_normal_form_view_inherit">
+            <field name="name">product.normal.form.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view" />
+            <field name="priority" eval="28"/>
+            <field name="arch" type="xml">
+                <page string="Procurements" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_stock_manager</attribute>
+                </page>
+                <page string="Inventory" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_stock_manager</attribute>
+                </page>
+                <page string="Sales" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_sales_manager</attribute>
+                </page>
+                <field name="description" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <!-- Configuracion avanzada productos -->
+                
+                <div name="options" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_product_advanced</attribute>
+                </div>
+                
+                <button string="Request Procurement" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_product_advanced</attribute>
+                </button>
+                <button string="Orderpoints" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_product_advanced</attribute>
+                </button>
+                <field name="property_account_income" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_product_advanced</attribute>
+                </field>
+                <field name="property_account_expense" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_product_advanced</attribute>
+                </field>
+                <separator string="Inventory Valuation" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_product_advanced</attribute>
+                </separator>
+                <field name="valuation" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_product_advanced</attribute>
+                </field>
+                <field name="property_stock_account_input" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_product_advanced</attribute>
+                </field>
+                <field name="property_stock_account_output" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_product_advanced</attribute>
+                </field>
+                
+            </field>
+        </record>
+        
+    </data>
+</openerp>

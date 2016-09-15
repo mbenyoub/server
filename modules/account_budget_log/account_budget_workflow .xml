@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="account_budget.act_validate" model="workflow.activity">
+            <field name="wkf_id" ref="account_budget.wkf_crossovered_budget"/>
+            <field name="name">validate</field>
+            <field name="split_mode">OR</field>
+            <field name="kind">function</field>
+            <field name="action">budget_validate()
+wkf_budget_approve_amount()</field>
+        </record>
+
+        <record id="account_budget.act_draft" model="workflow.activity">
+            <field name="wkf_id" ref="account_budget.wkf_crossovered_budget"/>
+            <field name="flow_start">True</field>
+            <field name="name">draft</field>
+            <field name="kind">function</field>
+            <field name="action">wkf_draft_budget()</field>
+        </record>
+
+        <record id="account_budget.act_confirm" model="workflow.activity">
+            <field name="wkf_id" ref="account_budget.wkf_crossovered_budget"/>
+            <field name="name">confirm</field>
+            <field name="split_mode">OR</field>
+            <field name="kind">function</field>
+            <field name="action">budget_confirm()</field>
+        </record>
+
+        <record id="account_budget.act_cancel" model="workflow.activity">
+            <field name="wkf_id" ref="account_budget.wkf_crossovered_budget"/>
+            <field name="name">cancel</field>
+            <field name="kind">function</field>
+            <field name="action">budget_cancel_validate()
+budget_cancel()</field>
+        </record>
+
+    </data>
+</openerp>

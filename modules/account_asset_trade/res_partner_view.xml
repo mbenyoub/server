@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+        <record id="res_partner_view_sale_buttons" model="ir.ui.view">
+            <field name="name">res.partner.view.sale.buttons</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="priority" eval="19"/>
+            <field name="arch" type="xml">
+                <field name="pay_method_id" position="before">
+                    <field name="property_account_asset"/>
+                </field>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <!-- Menu - Configuracion/Contabilidad Fiscal -->
+        <menuitem name="Contabilidad Fiscal" id="account.menu_account_fiscal_configuration" parent="account.menu_finance_configuration" sequence="2"/>
+        
+<!--
+        INPC
+-->
+        <!-- View Form - INPC -->
+        <record id="view_account_fiscal_inpc_form" model="ir.ui.view">
+            <field name="name">account.fiscal.inpc.form</field>
+            <field name="model">account.fiscal.inpc</field>
+            <field name="arch" type="xml">
+                <form string="INPC" version="7.0">
+                    <group>
+                        <field name="name"/>
+                        <field name="period"/>
+                        <field name="fiscalyear"/>
+                        <field name="value"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+        <!-- View Tree - INPC -->
+        <record id="view_account_fiscal_inpc_tree" model="ir.ui.view">
+            <field name="name">account.fiscal.inpc.tree</field>
+            <field name="model">account.fiscal.inpc</field>
+            <field name="arch" type="xml">
+                <tree string="INPC">
+                    <field name="name"/>
+                    <field name="period" invisible="1"/>
+                    <field name="period_char"/>
+                    <field name="fiscalyear"/>
+                    <field name="value"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!--  Filtros - INPC -->
+        <record id="view_account_fiscal_inpc_filter" model="ir.ui.view">
+            <field name="name">account.fiscal.inpc.select</field>
+            <field name="model">account.fiscal.inpc</field>
+            <field name="arch" type="xml">
+                <search string="Buscar">
+                    <field name="name"/>
+                    <field name="period"/>
+                    <field name="fiscalyear"/>
+                    <field name="value"/>
+                    <separator/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Ejercicio Fiscal" context="{'group_by': 'fiscalyear'}"/>
+                        <filter string="Periodo" context="{'group_by': 'period'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+        
+        <!-- Action - INPC -->
+        <record id="action_account_fiscal_inpc" model="ir.actions.act_window">
+            <field name="name">INPC</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.fiscal.inpc</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+            <field name="search_view_id" ref="view_account_fiscal_inpc_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click para registrar INPC
+              </p>
+            </field>
+        </record>
+        
+        <!-- Menu - Indices Fiscales -->
+        <menuitem action="action_account_fiscal_inpc" id="menu_account_fiscal_inpc" parent="account.menu_account_fiscal_configuration" sequence="25"/>
+    
+<!--
+        Reporte Tabla INPC
+-->
+        <!-- View Tree - INPC -->
+        <record id="view_account_fiscal_inpc_report_view_tree" model="ir.ui.view">
+            <field name="name">account.fiscal.inpc.report.view.tree</field>
+            <field name="model">account.fiscal.inpc.report.view</field>
+            <field name="arch" type="xml">
+                <tree string="INPC" colors="blue:value_01 == 0.0;blue:value_02 == 0.0;blue:value_03 == 0.0;blue:value_04 == 0.0;blue:value_05 == 0.0;blue:value_06 == 0.0;blue:value_07 == 0.0;blue:value_08 == 0.0;blue:value_09 == 0.0;blue:value_10 == 0.0;blue:value_11 == 0.0;blue:value_12 == 0.0;">
+                    <field name="fiscalyear"/>
+                    <field name="value_01"/>
+                    <field name="value_02"/>
+                    <field name="value_03"/>
+                    <field name="value_04"/>
+                    <field name="value_05"/>
+                    <field name="value_06"/>
+                    <field name="value_07"/>
+                    <field name="value_08"/>
+                    <field name="value_09"/>
+                    <field name="value_10"/>
+                    <field name="value_11"/>
+                    <field name="value_12"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Action - INPC -->
+        <record id="action_account_fiscal_inpc_report_view" model="ir.actions.act_window">
+            <field name="name">Tabla de INPC Anual</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.fiscal.inpc.report.view</field>
+            <field name="view_type">tree</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+        </record>
+        
+        <!-- Menu - Indices Fiscales -->
+        <menuitem action="action_account_fiscal_inpc_report_view" id="menu_account_fiscal_inpc_report_view" parent="account.menu_finance_charts" sequence="25"/>
+    
+    </data>
+</openerp>

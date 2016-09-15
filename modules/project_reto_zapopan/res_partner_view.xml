@@ -1,0 +1,673 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+        <record model="ir.ui.view" id="res_partner_kanban_view_inherit">
+            <field name="name">res.partner.view.kanban.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.res_partner_kanban_view" />
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="type_contact" invisible="1"/>
+                    <field name="user_ids" invisible="1"/>
+                </field>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="res_partner_view_inherit">
+            <field name="name">res.partner.view.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="priority" eval="25"/>
+            <field name="arch" type="xml">
+                <field name="title" position="after">
+                    <field name="sex" attrs="{'invisible': [('is_company','=',True)], 'readonly': [('is_manager','=',False)]}"/>
+                </field>
+                <field name="website" position="after">
+                    <field name="is_manager" invisible="1"/>
+                </field>
+                <xpath expr="//page[@string='Sales &amp; Purchases']" position="attributes">
+                    <attribute name="string">Informacion Adicional</attribute>
+                    <attribute name="name">information</attribute>
+                    <attribute name="attrs">{'invisible': [('is_manager','=',False)]}</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@name='information']/group/group/field[@name='user_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                    <attribute name="attrs">{'readonly': [('is_manager','=',False)]}</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@name='information']/group/group/field[@name='section_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                    <attribute name="attrs">{'readonly': [('is_manager','=',False)]}</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@name='information']/group/group/field[@name='customer']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                    <attribute name="attrs">{'readonly': [('is_manager','=',False)]}</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@name='information']/group/group/field[@name='supplier']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                    <attribute name="attrs">{'readonly': [('is_manager','=',False)]}</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@name='information']/group/group/field[@name='supplier']" position="after">
+                    <field name="type_contact" on_change="onchange_type_contact(type_contact, evaluation_ids, context)" attrs="{'readonly': [('is_manager','=',False)]}"></field>
+                </xpath>
+                <button string="Opportunities" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </button>
+                <page name="page_history" position="attributes">
+                    <attribute name="attrs">{'invisible': ['|',('type_contact','in',['con','eval']),('is_manager','=',False)]}</attribute>
+                    <attribute name="modifiers">{'invisible': ['|',('type_contact','in',['con','eval']),('is_manager','=',False)]}</attribute>
+                </page>
+                <notebook position="inside">
+                    <page name="evaluation_consultor" string="Perfil de Consultor" attrs="{'invisible': [('type_contact','!=','con')]}">
+                        <label for="evaluation_ids" string="Sectores de experiencia por Area"/>
+                        <field name="evaluation_ids" attrs="{'readonly': [('is_manager','=',False)]}">
+                            <tree editable="top" create="0" delete="0">
+                                <field name="category_id" ></field>
+                                <field name="name" ></field>
+                                <field name="experience"></field>
+                                <field name="sector_ids" widget="many2many_tags"></field>
+                                <field name="notes"></field>
+                            </tree>
+                        </field>
+                        <separator/>
+                        <label for="evaluation_notes1" string="En este espacio usted podra mencionar el testimonio de alguno de sus clientes atendidos. (Favor de incluir el nombre de la empresa)"/>
+                        <field name="evaluation_notes1" attrs="{'readonly': [('is_manager','=',False)]}"/>
+                        <label for="evaluation_notes2" string="Mencione al menos un ejemplo de los resultados obtenidos en el area que usted se califica como experto"/>
+                        <field name="evaluation_notes2" attrs="{'readonly': [('is_manager','=',False)]}"/>
+                    </page>
+                </notebook>
+                <field name="sex" position="after">
+                    <field name="rfc" attrs="{'readonly': [('is_manager','=',False)]}"></field>
+                </field>
+                <field name="comment" position="after">
+                    <field name="user_ids" readonly="1" invisible="1"></field>
+                    <button string="Agregar Eval Consultoria" invisible="1"
+                        icon="terp-partner"
+                        name="action_update_eval_consulting"
+                        type="object"/>
+                </field>
+                <xpath expr="//page[@name='information']/group" position="after">
+                    <div name="matter" attrs="{'invisible': [('type_contact','not in',['con'])]}" modifiers="{'invisible': [('type_contact','not in',['con'])]}">
+                        <label for="consultor_matter" string="MATERIAS DE CONSULTORIA/CAPACITACIÓN"/>
+                        <field name="consultor_matter" attrs="{'readonly': [('is_manager','=',False)]}"/>
+                    </div>
+                </xpath>
+                <field name="ref" position="before">
+                    <field name="speciality" attrs="{'invisible': [('type_contact','not in',['con'])], 'readonly': [('is_manager','=',False)]}" modifiers="{'invisible': [('type_contact','not in',['con'])], 'readonly': [('is_manager','=',False)]}" />
+                    <field name="consulting_hr_cost" attrs="{'invisible': [('type_contact','not in',['con'])], 'readonly': [('is_manager','=',False)]}" modifiers="{'invisible': [('type_contact','not in',['con'])], 'readonly': [('is_manager','=',False)]}" groups="base.group_project_reto_zapopan_con,base.group_project_reto_zapopan_eval"/>
+                </field>
+                <field name="is_company" position="attributes">
+                    <attribute name="attrs">{'readonly': [('is_manager','=',False)]}</attribute>
+                </field>
+                <field name="name" position="attributes">
+                    <attribute name="attrs">{'readonly': [('is_manager','=',False)]}</attribute>
+                </field>
+                <field name="parent_id" position="attributes">
+                    <attribute name="attrs">{'invisible': [('is_company','=', True)],'readonly': [('is_manager','=',False)]}</attribute>
+                </field>
+                <field name="category_id" position="attributes">
+                    <attribute name="attrs">{'readonly': [('is_manager','=',False)]}</attribute>
+                </field>
+                <field name="street" position="attributes">
+                    <attribute name="attrs">{'readonly': [('is_manager','=',False)]}</attribute>
+                </field>
+                <field name="street2" position="attributes">
+                    <attribute name="attrs">{'readonly': [('is_manager','=',False)]}</attribute>
+                </field>
+                <field name="city" position="attributes">
+                    <attribute name="attrs">{'readonly': [('is_manager','=',False)]}</attribute>
+                </field>
+                <field name="state_id" position="attributes">
+                    <attribute name="attrs">{'readonly': [('is_manager','=',False)]}</attribute>
+                </field>
+                <field name="country_id" position="attributes">
+                    <attribute name="attrs">{'readonly': [('is_manager','=',False)]}</attribute>
+                </field>
+                <field name="zip" position="attributes">
+                    <attribute name="attrs">{'readonly': [('is_manager','=',False)]}</attribute>
+                </field>
+                <field name="website" position="attributes">
+                    <attribute name="attrs">{'readonly': [('is_manager','=',False)]}</attribute>
+                </field>
+                <field name="function" position="attributes">
+                    <attribute name="attrs">{'invisible': [('is_company','=', True)],'readonly': [('is_manager','=',False)]}</attribute>
+                </field>
+                <field name="phone" position="attributes">
+                    <attribute name="attrs">{'readonly': [('is_manager','=',False)]}</attribute>
+                </field>
+                <field name="mobile" position="attributes">
+                    <attribute name="attrs">{'readonly': [('is_manager','=',False)]}</attribute>
+                </field>
+                <field name="fax" position="attributes">
+                    <attribute name="attrs">{'readonly': [('is_manager','=',False)]}</attribute>
+                </field>
+                <field name="email" position="attributes">
+                    <attribute name="attrs">{'readonly': [('is_manager','=',False)]}</attribute>
+                </field>
+                <field name="title" position="attributes">
+                    <attribute name="attrs">{'invisible': [('is_company','=', True)],'readonly': [('is_manager','=',False)]}</attribute>
+                </field>
+                <field name="comment" position="attributes">
+                    <attribute name="attrs">{'readonly': [('is_manager','=',False)]}</attribute>
+                </field>
+                <field name="image" position="attributes">
+                    <attribute name="attrs">{'readonly': [('is_manager','=',False)]}</attribute>
+                </field>
+                <field name="use_parent_address" position="attributes">
+                    <attribute name="attrs">{'readonly': [('is_manager','=',False)]}</attribute>
+                </field>
+                <field name="type" position="attributes">
+                    <attribute name="attrs">{'readonly': [('is_manager','=',False)]}</attribute>
+                    <attribute name="modifiers">{'readonly': [('is_manager','=',False)]}</attribute>
+                </field>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_partner_tree_inherit">
+            <field name="name">res.partner.view.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="email" position="after">
+                    <field name="sex" invisible="1"/>
+                    <field name="type_contact" invisible="1"/>
+                    <field name="state_id" invisible="1"/>
+                    <field name="user_ids" invisible="1"/>
+                </field>
+            </field>
+        </record>
+        
+<!--
+        Personalizacion de Action y search de partner
+-->
+        
+        <record id="view_res_partner_filter" model="ir.ui.view">
+            <field name="name">res.partner.select</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <search string="Search Partner">
+                   <field name="name"
+                       filter_domain="['|','|',('name','ilike',self),('parent_id','ilike',self),('ref','=',self)]"/>
+                   <field name="user_ids"/>
+                   <filter string="Mi usuario" name="my_user" domain="[('user_ids','in',uid)]"/>
+                   <separator/>
+                   <filter string="Persons" name="type_person" domain="[('is_company','=',0)]"/>
+                   <filter string="Companies" name="type_company" domain="[('is_company','=',1)]"/>
+                   <separator/>
+                   <filter string="Emprendedores" name="emprendedor" domain="[('type_contact','=','emp')]" help="Mostrar los Emprendedores"/>
+                   <filter string="Evaluadores" name="evaluador" domain="[('type_contact','=','eval')]" help="Mostrar los Evaluadores"/>
+                   <filter string="Consultores" name="consultor" domain="[('type_contact','=','con')]" help="Mostrar los Consultores"/>
+                   <separator/>
+                   <field name="category_id" string="Tag" filter_domain="[('category_id','ilike', self)]"/>
+                   <field name="user_id"/>
+                   <field name="state_id"/>
+                   <field name="sex"/>
+                   <field name="parent_id" domain="[('is_company','=',1)]" filter_domain="[('parent_id','child_of',[self])]"/>
+                   <group expand="0" string="Group By...">
+                       <filter string="Tipo" name="group_type_contact" context="{'group_by': 'type_contact'}"/>
+                       <separator/>
+                       <filter string="Company" context="{'group_by': 'parent_id'}"/>
+                       <filter string="Country" context="{'group_by': 'country_id'}"/>
+                       <filter string="Estado" context="{'group_by': 'state_id'}"/>
+                       <filter string="Sexo" context="{'group_by': 'sex'}"/>
+                   </group>
+               </search>
+            </field>
+        </record>
+        
+        <record id="action_partner_form" model="ir.actions.act_window">
+            <field name="name">Contactos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+            <field name="search_view_id" ref="view_res_partner_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click para agregar contactos a la libreta de direcciones.
+              </p>
+            </field>
+        </record>
+        <record id="action_partner_form_view1" model="ir.actions.act_window.view">
+            <field eval="0" name="sequence"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="base.res_partner_kanban_view"/>
+            <field name="act_window_id" ref="action_partner_form"/>
+        </record>
+        <record id="action_partner_form_view2" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="base.view_partner_form"/>
+            <field name="act_window_id" ref="action_partner_form"/>
+        </record>
+        <record id="action_partner_tree_view1" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="base.view_partner_tree"/>
+            <field name="act_window_id" ref="action_partner_form"/>
+        </record>
+        
+        <!--
+            Action para acceso para emprendedor y consultor
+            Edicion de Contacto
+        -->
+        
+        <!-- Partner Kanban View -->
+        <record model="ir.ui.view" id="res_partner_kanban_view_rz">
+            <field name="name">res.partner.kanban</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <kanban create="0" edit="1" delete="0">
+                    <field name="color"/>
+                    <field name="name"/>
+                    <field name="title"/>
+                    <field name="email"/>
+                    <field name="parent_id"/>
+                    <field name="is_company"/>
+                    <field name="function"/>
+                    <field name="phone"/>
+                    <field name="street"/>
+                    <field name="street2"/>
+                    <field name="zip"/>
+                    <field name="city"/>
+                    <field name="country_id"/>
+                    <field name="mobile"/>
+                    <field name="state_id"/>
+                    <field name="category_id"/>
+                    <field name="has_image"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_vignette oe_semantic_html_override">
+                                <a type="open">
+                                    <t t-if="record.has_image.raw_value === true">
+                                        <img t-att-src="kanban_image('res.partner', 'image_small', record.id.value)" class="oe_kanban_image"/>
+                                    </t>
+                                    <t t-if="record.has_image.raw_value === false">
+                                        <t t-if="record.is_company.raw_value === true">
+                                            <img t-att-src='_s + "/base/static/src/img/company_image.png"' class="oe_kanban_image"/>
+                                        </t>
+                                        <t t-if="record.is_company.raw_value === false">
+                                            <img t-att-src='_s + "/base/static/src/img/avatar.png"' class="oe_kanban_image"/>
+                                        </t>
+                                    </t>
+                                </a>
+                                <div class="oe_kanban_details">
+                                    <h4 class="oe_partner_heading"><a type="open"><field name="name"/></a></h4>
+                                    <div class="oe_kanban_partner_categories"/>
+                                    <div class="oe_kanban_partner_links"/>
+                                    <ul>
+                                        <li t-if="record.parent_id.raw_value and !record.function.raw_value"><field name="parent_id"/></li>
+                                        <li t-if="!record.parent_id.raw_value and record.function.raw_value"><field name="function"/></li>
+                                        <li t-if="record.parent_id.raw_value and record.function.raw_value"><field name="function"/> at <field name="parent_id"/></li>
+                                        <li t-if="record.city.raw_value and !record.country.raw_value"><field name="city"/></li>
+                                        <li t-if="!record.city.raw_value and record.country.raw_value"><field name="country"/></li>
+                                        <li t-if="record.city.raw_value and record.country.raw_value"><field name="city"/>, <field name="country"/></li>
+                                        <li t-if="record.email.raw_value"><a t-attf-href="mailto:#{record.email.raw_value}"><field name="email"/></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        
+        <!-- res.partner form view -->
+        <record model="ir.ui.view" id="res_partner_form_view_rz">
+            <field name="name">res.partner.view.edit</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <form string="Empresas" version="7.0" create="0" delete="0" edit="1">
+                    <sheet>
+                        <field name="image" widget='image' class="oe_left oe_avatar" options='{"preview_image": "image_medium", "size": [90, 90]}' attrs="{'readonly': [('is_manager','=',False)]}"/>
+                        <div class="oe_title">
+                            <div class="oe_edit_only">
+                                <label for="name"/> (
+                                <field name="is_company" on_change="onchange_type(is_company)" class="oe_inline" attrs="{'readonly': [('is_manager','=',False)]}"/> <label for="is_company" string="Is a Company?"/>)
+                            </div>
+                            <h1>
+                                <field name="name" default_focus="1" placeholder="Name" attrs="{'readonly': [('is_manager','=',False)]}"/>
+                            </h1>
+                            <field name="parent_id"
+                                placeholder="Company"
+                                domain="[('is_company', '=', True)]" context="{'default_is_company': True, 'default_supplier': supplier}"
+                                attrs="{'invisible': [('is_company','=', True),('parent_id', '=', False)], 'readonly': [('is_manager','=',False)]}"
+                                on_change="onchange_address(use_parent_address, parent_id)"/>
+                            <field name="category_id" widget="many2many_tags" placeholder="Tags..." attrs="{'readonly': [('is_manager','=',False)]}"/>
+                        </div>
+                        <div class="oe_right oe_button_box" name="buttons"> </div>
+                        <group>
+                            <group>
+                                <field name="id" invisible="1"/>
+                                <field name="is_manager" invisible="1"/>
+                                <label for="type" attrs="{'invisible': [('parent_id','=', False)]}" modifiers="{'invisible': [['parent_id', '=', false]]}"/>
+                                <div attrs="{'invisible': [('parent_id','=', False)]}" name="div_type" modifiers="{'invisible': [['parent_id', '=', false]]}">
+                                    <field class="oe_inline" name="type" modifiers="{}" attrs="{'readonly': [('is_manager','=',False)]}"/>
+                                </div>
+                                <label for="street" string="Direccion"/>
+                                <div>
+                                    <field name="use_parent_address" class="oe_edit_only oe_inline" on_change="onchange_address(use_parent_address, parent_id)" attrs="{'invisible': [('parent_id','=', False),('use_parent_address','=',False)], 'readonly': [('is_manager','=',False)]}" modifiers="{'invisible': [['parent_id', '=', false], ['use_parent_address', '=', false]], 'readonly': [('is_manager','=',False)]}"/>
+                                    <label for="use_parent_address" class="oe_edit_only" attrs="{'invisible': [('parent_id','=', False),('use_parent_address','=',False)]}" modifiers="{'invisible': [['parent_id', '=', false], ['use_parent_address', '=', false]]}"/>
+                                    <button name="open_parent" type="object" string="(editar direccion de la compañia)" class="oe_link oe_edit_only" attrs="{'invisible': ['|',('parent_id','=', False),('use_parent_address','=',False)], 'readonly': [('is_manager','=',False)]}" modifiers="{'invisible': ['|', ['parent_id', '=', false], ['use_parent_address', '=', false]], 'readonly': [('is_manager','=',False)]}"/>
+                                    <field name="street" placeholder="Calle..." attrs="{'readonly': ['|',('use_parent_address','=',True),('is_manager','=',False)]}" modifiers="{'readonly': ['|',('use_parent_address', '=', true),('is_manager','=',False)]}"/>
+                                    <field name="street2" attrs="{'readonly': ['|',('use_parent_address','=',True),('is_manager','=',False)]}" modifiers="{'readonly': ['|',('use_parent_address', '=', true),('is_manager','=',False)]}"/>
+                                    <div class="address_format">
+                                        <field name="city" placeholder="Ciudad" style="width: 40%%" attrs="{'readonly': ['|',('use_parent_address','=',True),('is_manager','=',False)]}" modifiers="{'readonly': [['use_parent_address', '=', true]]}"/>
+                                        <field name="state_id" class="oe_no_button" placeholder="Provincia" style="width: 37%%" options="{'no_open': True}" on_change="onchange_state(state_id)" attrs="{'readonly': ['|',('use_parent_address','=',True),('is_manager','=',False)]}" modifiers="{'readonly': [['use_parent_address', '=', true]]}"/>
+                                        <field name="zip" placeholder="C.P." style="width: 20%%" attrs="{'readonly': ['|',('use_parent_address','=',True),('is_manager','=',False)]}" modifiers="{'readonly': [['use_parent_address', '=', true]]}"/>
+                                    </div>
+                                    <field name="country_id" placeholder="Pais" class="oe_no_button" options="{'no_open': True}" attrs="{'readonly': ['|',('use_parent_address','=',True),('is_manager','=',False)]}" modifiers="{'readonly': [['use_parent_address', '=', true]]}"/>
+                                </div>
+                                <field name="website" widget="url" placeholder="Por ejemplo, www.openerp.com" modifiers="{}" attrs="{'readonly': [('is_manager','=',False)]}"/>
+                            </group>
+                            <group>
+                                <field name="function" placeholder="Por ejemplo, Director de ventas" attrs="{'invisible': [('is_company','=', True)],'readonly': [('is_manager','=',False)]}" modifiers="{'invisible': [['is_company', '=', true]]}"/>
+                                <field name="phone" placeholder="Por ejemplo, +32.81.81.37.00" modifiers="{}" attrs="{'readonly': [('is_manager','=',False)]}"/>
+                                <field name="mobile" modifiers="{}" attrs="{'readonly': [('is_manager','=',False)]}"/>
+                                <field name="fax" modifiers="{}" attrs="{'readonly': [('is_manager','=',False)]}"/>
+                                <field name="email" widget="email" modifiers="{}" attrs="{'readonly': [('is_manager','=',False)]}"/>
+                                <field name="title" domain="[('domain', '=', 'contact')]" options="{'no_open': True}" attrs="{'invisible': [('is_company','=', True)],'readonly': [('is_manager','=',False)]}" modifiers="{'invisible': [['is_company', '=', true]]}"/>
+                                <field name="sex" attrs="{'invisible': [('is_company','=',True)], 'readonly': [('is_manager','=',False)]}" modifiers="{'invisible': [['is_company', '=', true]],'readonly': [('is_manager','=',False)]}"/>
+                                <field name="rfc" modifiers="{}" attrs="{'readonly': [('is_manager','=',False)]}"/>
+                            </group>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Contactos" attrs="{'invisible': [('is_company','=',False), ('child_ids', '=', [])], 'readonly': [('is_manager','=',False)]}" autofocus="autofocus" modifiers="{'invisible': [['is_company', '=', false], ['child_ids', '=', []]]}">
+                                <field name="child_ids" mode="kanban" context="{'default_parent_id': active_id, 'default_street': street, 'default_street2': street2, 'default_city': city, 'default_state_id': state_id, 'default_zip': zip, 'default_country_id': country_id, 'default_supplier': supplier}" modifiers="{}"/>
+                            </page>
+                            <page string="Notas internas">
+                                <field name="comment" placeholder="Poner una nota interna..." modifiers="{}" attrs="{'readonly': [('is_manager','=',False)]}"/>
+                                <field name="user_ids" invisible="1" readonly="1" modifiers="{'readonly': true}"/>
+                            </page>
+                            <page string="Informacion Adicional" name="information" attrs="{'invisible': [('is_manager','=',False)]}">
+                                <group>
+                                    <group>
+                                        <field name="customer" invisible="1"/>
+                                        <field name="supplier" invisible="1"/>
+                                        <field name="type_contact" readonly="1" on_change="onchange_type_contact(type_contact, evaluation_ids, context)" modifiers="{}"/>
+                                        <field name="consulting_hr_cost" attrs="{'invisible': [('type_contact','not in',['con'])]}" modifiers="{'invisible': [('type_contact','not in',['con'])]}" groups="base.group_project_reto_zapopan_con,base.group_project_reto_zapopan_eval"/>
+                                        <field name="speciality" attrs="{'invisible': [('type_contact','not in',['con'])]}" modifiers="{'invisible': [['type_contact', 'not in', ['con']]]}"/>
+                                        <field name="ref" modifiers="{}"/>
+                                        <field name="lang" modifiers="{}"/>
+                                        <field name="date" modifiers="{}"/>
+                                    </group>
+                                    <group>
+                                        <field name="active" modifiers="{}"/>
+                                        <field name="opt_out" modifiers="{}"/>
+                                        <field name="notification_email_send" modifiers="{'required': true}"/>
+                                    </group>
+                                </group>
+                                <div name="matter" attrs="{'invisible': [('type_contact','not in',['con'])]}" modifiers="{'invisible': [['type_contact', 'not in', ['con']]]}">
+                                    <label for="consultor_matter" string="MATERIAS DE CONSULTORIA/CAPACITACIÓN"/>
+                                    <field name="consultor_matter" modifiers="{}"/>
+                                </div>
+                                <group>
+                                    <group name="pricelists" attrs="{'invisible': [('is_company','=',False),('parent_id','!=',False)]}" modifiers="{'invisible': [['is_company', '=', false], ['parent_id', '!=', false]]}">
+                                        <field name="property_product_pricelist" invisible="1" modifiers="{'invisible': true}"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Historial" name="page_history" invisible="False" attrs="{'invisible': ['|',('type_contact','in',['con','eval']),('is_manager','=',False)]}" modifiers="{'invisible': [['type_contact', 'in', ['con', 'eval']]]}">
+                                <group name="grp_task" string="Tareas">
+                                    <field name="task_ids" colspan="4" nolabel="1" modifiers="{}"/>
+                                </group>
+                            </page>
+                            <page name="evaluation_consultor" string="Perfil de Consultor" attrs="{'invisible': [('type_contact','!=','con')]}" modifiers="{'invisible': [['type_contact', '!=', 'con']]}">
+                                <label for="evaluation_ids" string="Sectores de experiencia por Area"/>
+                                <field name="evaluation_ids" modifiers="{}" attrs="{'invisible': [('is_manager','=',False)]}">
+                                    <tree string="Evaluaciones" editable="top" create="0" delete="0">
+                                        <field name="category_id" readonly="1"/>
+                                        <field name="name" readonly="1" />
+                                        <field name="experience"/>
+                                        <field name="sector_ids" widget="many2many_tags"/>
+                                        <field name="notes"/>
+                                    </tree>
+                                </field>
+                                <separator/>
+                                <label for="evaluation_notes1" string="En este espacio usted podra mencionar el testimonio de alguno de sus clientes atendidos. (Favor de incluir el nombre de la empresa)"/>
+                                <field name="evaluation_notes1" modifiers="{}" attrs="{'invisible': [('is_manager','=',False)]}"/>
+                                <label for="evaluation_notes2" string="Mencione al menos un ejemplo de los resultados obtenidos en el area que usted se califica como experto"/>
+                                <field name="evaluation_notes2" modifiers="{}" attrs="{'invisible': [('is_manager','=',False)]}"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" modifiers="{}"/>
+                        <field name="message_ids" widget="mail_thread" options="{'thread_level': 1}" modifiers="{}"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="res_partner_edit_kanban_view">
+            <field name="name">res.partner.view.kanban.inherit</field>
+            <field name="model">res.partner.edit</field>
+            <field name="inherit_id" ref="base.res_partner_kanban_view" />
+            <field name="priority" eval="22"/>
+            <field name="arch" type="xml">
+                <kanban position="attributes">
+                    <attribute name="create">0</attribute>
+                    <attribute name="delete">0</attribute>
+                    <attribute name="edit">1</attribute>
+                </kanban>
+            </field>
+        </record>
+        
+        <record id="action_partner_edit_form_view" model="ir.actions.act_window">
+            <field name="name">Informacion Personal</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,form</field>
+            <field name="search_view_id" ref="view_res_partner_filter"/>
+            <field name="domain">[('user_ids','in',uid)]</field>
+            <field name="context">{}</field>
+        </record>
+        <record id="action_partner_form_edit_view1" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="res_partner_kanban_view_rz"/>
+            <field name="act_window_id" ref="action_partner_edit_form_view"/>
+        </record>
+        <record id="action_partner_form_edit_view2" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="res_partner_form_view_rz"/>
+            <field name="act_window_id" ref="action_partner_edit_form_view"/>
+        </record>
+        
+        <!--
+            Action para acceso para emprendedor y consultor
+            Lectura de Contactos
+        -->
+        
+        <record model="ir.ui.view" id="res_partner_read_form_view">
+            <field name="name">res.partner.view.inherit</field>
+            <field name="model">res.partner.read</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="arch" type="xml">
+                <xpath expr="/form" position="replace">
+                    <form string="Empresas" version="7.0" create="0" delete="0" edit="0">
+                        <sheet>
+                            <field name="image" widget='image' class="oe_left oe_avatar" options='{"preview_image": "image_medium", "size": [90, 90]}'/>
+                            <div class="oe_title">
+                                <div class="oe_edit_only">
+                                    <label for="name"/> (
+                                    <field name="is_company" on_change="onchange_type(is_company)" class="oe_inline"/> <label for="is_company" string="Is a Company?"/>)
+                                </div>
+                                <h1>
+                                    <field name="name" default_focus="1" placeholder="Name" />
+                                </h1>
+                                <field name="parent_id"
+                                    placeholder="Company"
+                                    domain="[('is_company', '=', True)]" context="{'default_is_company': True, 'default_supplier': supplier}"
+                                    attrs="{'invisible': [('is_company','=', True),('parent_id', '=', False)]}"
+                                    on_change="onchange_address(use_parent_address, parent_id)"/>
+                                <field name="category_id" widget="many2many_tags" placeholder="Tags..."/>
+                            </div>
+                            <div class="oe_right oe_button_box" name="buttons"> </div>
+                            <group>
+                                <group>
+                                    <field name="id" invisible="1"/>
+                                    <label for="type" attrs="{'invisible': [('parent_id','=', False)]}" modifiers="{'invisible': [['parent_id', '=', false]]}"/>
+                                    <div attrs="{'invisible': [('parent_id','=', False)]}" name="div_type" modifiers="{'invisible': [['parent_id', '=', false]]}">
+                                        <field class="oe_inline" name="type" modifiers="{}"/>
+                                    </div>
+                                    <label for="street" string="Direccion"/>
+                                    <div>
+                                        <field name="use_parent_address" class="oe_edit_only oe_inline" on_change="onchange_address(use_parent_address, parent_id)" attrs="{'invisible': [('parent_id','=', False),('use_parent_address','=',False)]}" modifiers="{'invisible': [['parent_id', '=', false], ['use_parent_address', '=', false]]}"/>
+                                        <label for="use_parent_address" class="oe_edit_only" attrs="{'invisible': [('parent_id','=', False),('use_parent_address','=',False)]}" modifiers="{'invisible': [['parent_id', '=', false], ['use_parent_address', '=', false]]}"/>
+                                        <button name="open_parent" type="object" string="(editar direccion de la compañia)" class="oe_link oe_edit_only" attrs="{'invisible': ['|',('parent_id','=', False),('use_parent_address','=',False)]}" modifiers="{'invisible': ['|', ['parent_id', '=', false], ['use_parent_address', '=', false]]}"/>
+                                        <field name="street" placeholder="Calle..." attrs="{'readonly': [('use_parent_address','=',True)]}" modifiers="{'readonly': [['use_parent_address', '=', true]]}"/>
+                                        <field name="street2" attrs="{'readonly': [('use_parent_address','=',True)]}" modifiers="{'readonly': [['use_parent_address', '=', true]]}"/>
+                                        <div class="address_format">
+                                            <field name="city" placeholder="Ciudad" style="width: 40%%" attrs="{'readonly': [('use_parent_address','=',True)]}" modifiers="{'readonly': [['use_parent_address', '=', true]]}"/>
+                                            <field name="state_id" class="oe_no_button" placeholder="Provincia" style="width: 37%%" options="{'no_open': True}" on_change="onchange_state(state_id)" attrs="{'readonly': [('use_parent_address','=',True)]}" modifiers="{'readonly': [['use_parent_address', '=', true]]}"/>
+                                            <field name="zip" placeholder="C.P." style="width: 20%%" attrs="{'readonly': [('use_parent_address','=',True)]}" modifiers="{'readonly': [['use_parent_address', '=', true]]}"/>
+                                        </div>
+                                        <field name="country_id" placeholder="Pais" class="oe_no_button" options="{'no_open': True}" attrs="{'readonly': [('use_parent_address','=',True)]}" modifiers="{'readonly': [['use_parent_address', '=', true]]}"/>
+                                    </div>
+                                    <field name="website" widget="url" placeholder="Por ejemplo, www.openerp.com" modifiers="{}"/>
+                                </group>
+                                <group>
+                                    <field name="function" placeholder="Por ejemplo, Director de ventas" attrs="{'invisible': [('is_company','=', True)]}" modifiers="{'invisible': [['is_company', '=', true]]}"/>
+                                    <field name="phone" placeholder="Por ejemplo, +32.81.81.37.00" modifiers="{}"/>
+                                    <field name="mobile" modifiers="{}"/>
+                                    <field name="fax" modifiers="{}"/>
+                                    <field name="email" widget="email" modifiers="{}"/>
+                                    <field name="title" domain="[('domain', '=', 'contact')]" options="{'no_open': True}" attrs="{'invisible': [('is_company','=', True)]}" modifiers="{'invisible': [['is_company', '=', true]]}"/>
+                                    <field name="sex" attrs="{'invisible': [('is_company','=',True)]}" modifiers="{'invisible': [['is_company', '=', true]]}"/>
+                                    <field name="rfc" modifiers="{}"/>
+                                </group>
+                            </group>
+                            <notebook colspan="4">
+                                <page string="Contactos" attrs="{'invisible': [('is_company','=',False), ('child_ids', '=', [])]}" autofocus="autofocus" modifiers="{'invisible': [['is_company', '=', false], ['child_ids', '=', []]]}">
+                                    <field name="child_ids" mode="kanban" context="{'default_parent_id': active_id, 'default_street': street, 'default_street2': street2, 'default_city': city, 'default_state_id': state_id, 'default_zip': zip, 'default_country_id': country_id, 'default_supplier': supplier}" modifiers="{}"/>
+                                </page>
+                                <page string="Notas internas">
+                                    <field name="comment" placeholder="Poner una nota interna..." modifiers="{}"/>
+                                    <field name="user_ids" invisible="1" readonly="1" modifiers="{'readonly': true}"/>
+                                </page>
+                                <page string="Informacion Adicional" name="information">
+                                    <group>
+                                        <group>
+                                            <field name="customer" invisible="1"/>
+                                            <field name="supplier" invisible="1"/>
+                                            <field name="type_contact" on_change="onchange_type_contact(type_contact, evaluation_ids, context)" modifiers="{}"/>
+                                            <field name="consulting_hr_cost" attrs="{'invisible': [('type_contact','not in',['con'])]}" modifiers="{'invisible': [('type_contact','not in',['con'])]}" groups="base.group_project_reto_zapopan_con,base.group_project_reto_zapopan_eval"/>
+                                            <field name="speciality" attrs="{'invisible': [('type_contact','not in',['con'])]}" modifiers="{'invisible': [['type_contact', 'not in', ['con']]]}"/>
+                                            <field name="ref" modifiers="{}"/>
+                                            <field name="lang" modifiers="{}"/>
+                                            <field name="date" modifiers="{}"/>
+                                        </group>
+                                        <group>
+                                            <field name="active" modifiers="{}"/>
+                                            <field name="opt_out" modifiers="{}"/>
+                                            <field name="notification_email_send" modifiers="{'required': true}"/>
+                                        </group>
+                                    </group>
+                                    <div name="matter" attrs="{'invisible': [('type_contact','not in',['con'])]}" modifiers="{'invisible': [['type_contact', 'not in', ['con']]]}">
+                                        <label for="consultor_matter" string="MATERIAS DE CONSULTORIA/CAPACITACIÓN"/>
+                                        <field name="consultor_matter" modifiers="{}"/>
+                                    </div>
+                                    <group>
+                                        <group name="pricelists" attrs="{'invisible': [('is_company','=',False),('parent_id','!=',False)]}" modifiers="{'invisible': [['is_company', '=', false], ['parent_id', '!=', false]]}">
+                                            <field name="property_product_pricelist" invisible="1" modifiers="{'invisible': true}"/>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="Historial" name="page_history" invisible="False" attrs="{'invisible': [('type_contact','in',['con','eval'])]}" modifiers="{'invisible': [['type_contact', 'in', ['con', 'eval']]]}">
+                                    <group name="grp_task" string="Tareas">
+                                        <field name="task_ids" colspan="4" nolabel="1" modifiers="{}"/>
+                                    </group>
+                                </page>
+                                <page name="evaluation_consultor" string="Perfil de Consultor" attrs="{'invisible': [('type_contact','!=','con')]}" modifiers="{'invisible': [['type_contact', '!=', 'con']]}">
+                                    <label for="evaluation_ids" string="Sectores de experiencia por Area"/>
+                                    <field name="evaluation_ids" modifiers="{}"/>
+                                    <separator/>
+                                    <label for="evaluation_notes1" string="En este espacio usted podra mencionar el testimonio de alguno de sus clientes atendidos. (Favor de incluir el nombre de la empresa)"/>
+                                    <field name="evaluation_notes1" modifiers="{}"/>
+                                    <label for="evaluation_notes2" string="Mencione al menos un ejemplo de los resultados obtenidos en el area que usted se califica como experto"/>
+                                    <field name="evaluation_notes2" modifiers="{}"/>
+                                </page>
+                            </notebook>
+                        </sheet>
+                        <div class="oe_chatter">
+                            <field name="message_follower_ids" widget="mail_followers" modifiers="{}"/>
+                            <field name="message_ids" widget="mail_thread" options="{'thread_level': 1}" modifiers="{}"/>
+                        </div>
+                    </form>
+                </xpath>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="res_partner_read_kanban_view">
+            <field name="name">res.partner.view.kanban.inherit</field>
+            <field name="model">res.partner.read</field>
+            <field name="inherit_id" ref="base.res_partner_kanban_view" />
+            <field name="priority" eval="22"/>
+            <field name="arch" type="xml">
+                <kanban position="attributes">
+                    <attribute name="create">0</attribute>
+                    <attribute name="delete">0</attribute>
+                    <attribute name="edit">0</attribute>
+                </kanban>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_partner_read_tree_view">
+            <field name="name">res.partner.view.inherit</field>
+            <field name="model">res.partner.read</field>
+            <field name="inherit_id" ref="base.view_partner_tree" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <tree position="attributes">
+                    <attribute name="create">0</attribute>
+                    <attribute name="delete">0</attribute>
+                    <attribute name="edit">0</attribute>
+                </tree>
+                <field name="email" position="after">
+                    <field name="sex" invisible="1"/>
+                    <field name="type_contact" invisible="1"/>
+                    <field name="state_id" invisible="1"/>
+                    <field name="user_ids" invisible="1"/>
+                </field>
+            </field>
+        </record>
+        
+        <record id="action_partner_form_read_view" model="ir.actions.act_window">
+            <field name="name">Contactos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner.read</field>
+            <field name="target">current</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="search_view_id" ref="view_res_partner_filter"/>
+            <field name="domain">[]</field>
+            <field name="context">{'search_default_emprendedor': 1}</field>
+        </record>
+        <record id="action_partner_form_read_view1" model="ir.actions.act_window.view">
+            <field eval="0" name="sequence"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="res_partner_read_kanban_view"/>
+            <field name="act_window_id" ref="action_partner_form_read_view"/>
+        </record>
+        <record id="action_partner_tree_read_view2" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_partner_read_tree_view"/>
+            <field name="act_window_id" ref="action_partner_form_read_view"/>
+        </record>
+        <record id="action_partner_form_read_view3" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="res_partner_read_form_view"/>
+            <field name="act_window_id" ref="action_partner_form_read_view"/>
+        </record>
+        
+    </data>
+</openerp>

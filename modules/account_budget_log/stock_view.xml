@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+<!--
+        Modificacion de la vista formulario de Albaranes de entrada
+-->
+<!--
+        <record id="view_pricking_form_inherit" model="ir.ui.view">
+            <field name="name">stock_picking.form.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <field name="purchase_id" position="replace" />
+            </field>
+        </record>
+-->
+
+<!--
+        <record id="view_picking_in_form_inherit" model="ir.ui.view">
+            <field name="name">stock_picking.in.form.inherit</field>
+            <field name="model">stock.picking.in</field>
+            <field name="inherit_id" ref="stock.view_picking_in_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='purchase_id']" position="replace" />
+            </field>
+        </record>
+-->
+
+<!--
+        <record id="stock_picking_in_inherit_purchase_inherit" model="ir.ui.view">
+            <field name="name">stock_picking.in.form.inherit</field>
+            <field name="model">stock.picking.in</field>
+            <field name="inherit_id" ref="stock.view_picking_in_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='purchase_id']" position="replace" >
+                </xpath>
+            </field>
+        </record>
+-->
+
+        <record id="stock_picking_in_inherit_purchase_inherit" model="ir.ui.view">
+            <field name="name">stock_picking.form.inherit</field>
+            <field name="model">stock.picking.in</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="priority" eval="17"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/group" position="replace" >
+                    <group>
+                        <group>
+                            <field name="partner_id" on_change="onchange_partner_in(partner_id)" string="Proveedor" modifiers="{'readonly': [['state', 'in', ['cancel', 'done']]]}"/>
+                            <field name="backorder_id" readonly="1" attrs="{'invisible': [('backorder_id','=',False)]}" modifiers="{'invisible': [['backorder_id', '=', false]], 'readonly': true}"/>
+                            <field name="invoice_state" string="Control factura" attrs="{'invisible':[('invoice_state', '=', 'none')]}" modifiers="{'invisible': [['invoice_state', '=', 'none']], 'readonly': [['state', 'not in', ['draft']]], 'required': true}"/>
+                            <field name="stock_journal_id" widget="selection" modifiers="{'readonly': [['state', 'in', ['cancel', 'done']]]}"/>
+                        </group>
+                        <group>
+<!--
+                            <field name="purchase_id" domain="[('invoice_method','=','picking')]" context="{'search_default_partner_id':partner_id,'default_partner_id':partner_id, 'default_invoice_method':'picking'}" modifiers="{}"/>
+-->
+                            <field name="date" modifiers="{'readonly': [['state', 'in', ['cancel', 'done']]]}"/>
+                            <field name="min_date" readonly="1" attrs="{'invisible': [('min_date','=',False)]}" modifiers="{'invisible': [['min_date', '=', false]], 'readonly': true}"/>
+                            <field name="origin" placeholder="e.g. PO0032" class="oe_inline" modifiers="{'readonly': [['state', 'in', ['cancel', 'done']]]}"/>
+                        </group>
+                    </group>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</openerp>

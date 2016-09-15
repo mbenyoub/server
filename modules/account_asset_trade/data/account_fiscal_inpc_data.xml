@@ -1,0 +1,1039 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        
+        <!--
+            Account INPC de 2000-2013
+        -->
+        
+        <record id="af_inpc_1" model="account.fiscal.inpc">
+            <field name="name">01/2000</field>
+            <field name="period">01</field>
+            <field name="fiscalyear">2000</field>
+            <field name="value">59.808326584513</field>
+        </record>
+        <record id="af_inpc_2000_2" model="account.fiscal.inpc">
+            <field name="name">02/2000</field>
+            <field name="period">02</field>
+            <field name="fiscalyear">2000</field>
+            <field name="value">60.338844724266</field>
+        </record>
+        <record id="af_inpc_2000_3" model="account.fiscal.inpc">
+            <field name="name">03/2000</field>
+            <field name="period">03</field>
+            <field name="fiscalyear">2000</field>
+            <field name="value">60.673355802583</field>
+        </record>
+        <record id="af_inpc_2000_4" model="account.fiscal.inpc">
+            <field name="name">04/2000</field>
+            <field name="period">04</field>
+            <field name="fiscalyear">2000</field>
+            <field name="value">61.018565121748</field>
+        </record>
+        <record id="af_inpc_2000_5" model="account.fiscal.inpc">
+            <field name="name">05/2000</field>
+            <field name="period">05</field>
+            <field name="fiscalyear">2000</field>
+            <field name="value">61.246666912622</field>
+        </record>
+        <record id="af_inpc_2000_6" model="account.fiscal.inpc">
+            <field name="name">06/2000</field>
+            <field name="period">06</field>
+            <field name="fiscalyear">2000</field>
+            <field name="value">61.609451911208</field>
+        </record>
+        <record id="af_inpc_2000_7" model="account.fiscal.inpc">
+            <field name="name">07/2000</field>
+            <field name="period">07</field>
+            <field name="fiscalyear">2000</field>
+            <field name="value">61.84978026108</field>
+        </record>
+        <record id="af_inpc_2000_8" model="account.fiscal.inpc">
+            <field name="name">08/2000</field>
+            <field name="period">08</field>
+            <field name="fiscalyear">2000</field>
+            <field name="value">62.189640459821</field>
+        </record>
+        <record id="af_inpc_2000_9" model="account.fiscal.inpc">
+            <field name="name">09/2000</field>
+            <field name="period">09</field>
+            <field name="fiscalyear">2000</field>
+            <field name="value">62.643933633536</field>
+        </record>
+        <record id="af_inpc_2000_10" model="account.fiscal.inpc">
+            <field name="name">10/2000</field>
+            <field name="period">10</field>
+            <field name="fiscalyear">2000</field>
+            <field name="value">63.07530200051</field>
+        </record>
+        <record id="af_inpc_2000_11" model="account.fiscal.inpc">
+            <field name="name">11/2000</field>
+            <field name="period">11</field>
+            <field name="fiscalyear">2000</field>
+            <field name="value">63.614607979974</field>
+        </record>
+        <record id="af_inpc_2000_12" model="account.fiscal.inpc">
+            <field name="name">12/2000</field>
+            <field name="period">12</field>
+            <field name="fiscalyear">2000</field>
+            <field name="value">64.303307262108</field>
+        </record>
+        
+        <record id="af_inpc_2001_01" model="account.fiscal.inpc">
+            <field name="name">01/2001</field>
+            <field name="period">01</field>
+            <field name="fiscalyear">2001</field>
+            <field name="value">64.65978794315</field>
+        </record>
+        <record id="af_inpc_2001_02" model="account.fiscal.inpc">
+            <field name="name">02/2001</field>
+            <field name="period">02</field>
+            <field name="fiscalyear">2001</field>
+            <field name="value">64.61699497976</field>
+        </record>
+        <record id="af_inpc_2001_03" model="account.fiscal.inpc">
+            <field name="name">03/2001</field>
+            <field name="period">03</field>
+            <field name="fiscalyear">2001</field>
+            <field name="value">65.026393744009</field>
+        </record>
+        <record id="af_inpc_2001_04" model="account.fiscal.inpc">
+            <field name="name">04/2001</field>
+            <field name="period">04</field>
+            <field name="fiscalyear">2001</field>
+            <field name="value">65.354409466737</field>
+        </record>
+        <record id="af_inpc_2001_05" model="account.fiscal.inpc">
+            <field name="name">05/2001</field>
+            <field name="period">05</field>
+            <field name="fiscalyear">2001</field>
+            <field name="value">65.504375883541</field>
+        </record>
+        <record id="af_inpc_2001_06" model="account.fiscal.inpc">
+            <field name="name">06/2001</field>
+            <field name="period">06</field>
+            <field name="fiscalyear">2001</field>
+            <field name="value">65.659309337784</field>
+        </record>
+        <record id="af_inpc_2001_07" model="account.fiscal.inpc">
+            <field name="name">07/2001</field>
+            <field name="period">07</field>
+            <field name="fiscalyear">2001</field>
+            <field name="value">65.48871059836</field>
+        </record>
+        <record id="af_inpc_2001_08" model="account.fiscal.inpc">
+            <field name="name">08/2001</field>
+            <field name="period">08</field>
+            <field name="fiscalyear">2001</field>
+            <field name="value">65.87671288781</field>
+        </record>
+        <record id="af_inpc_2001_09" model="account.fiscal.inpc">
+            <field name="name">09/2001</field>
+            <field name="period">09</field>
+            <field name="fiscalyear">2001</field>
+            <field name="value">66.489951356085</field>
+        </record>
+        <record id="af_inpc_2001_10" model="account.fiscal.inpc">
+            <field name="name">10/2001</field>
+            <field name="period">10</field>
+            <field name="fiscalyear">2001</field>
+            <field name="value">66.790457310724</field>
+        </record>
+        <record id="af_inpc_2001_11" model="account.fiscal.inpc">
+            <field name="name">11/2001</field>
+            <field name="period">11</field>
+            <field name="fiscalyear">2001</field>
+            <field name="value">67.042057015578</field>
+        </record>
+        <record id="af_inpc_2001_12" model="account.fiscal.inpc">
+            <field name="name">12/2001</field>
+            <field name="period">12</field>
+            <field name="fiscalyear">2001</field>
+            <field name="value">67.134902470813</field>
+        </record>
+        
+        
+        <record id="af_inpc_2002_01" model="account.fiscal.inpc">
+            <field name="name">01/2002</field>
+            <field name="period">01</field>
+            <field name="fiscalyear">2002</field>
+            <field name="value">67.754636301573</field>
+        </record>
+        <record id="af_inpc_2002_02" model="account.fiscal.inpc">
+            <field name="name">02/2002</field>
+            <field name="period">02</field>
+            <field name="fiscalyear">2002</field>
+            <field name="value">67.711079179108</field>
+        </record>
+        <record id="af_inpc_2002_03" model="account.fiscal.inpc">
+            <field name="name">03/2002</field>
+            <field name="period">03</field>
+            <field name="fiscalyear">2002</field>
+            <field name="value">68.057434733438</field>
+        </record>
+        <record id="af_inpc_2002_04" model="account.fiscal.inpc">
+            <field name="name">04/2002</field>
+            <field name="period">04</field>
+            <field name="fiscalyear">2002</field>
+            <field name="value">68.429198616676</field>
+        </record>
+        <record id="af_inpc_2002_05" model="account.fiscal.inpc">
+            <field name="name">05/2002</field>
+            <field name="period">05</field>
+            <field name="fiscalyear">2002</field>
+            <field name="value">68.567893678498</field>
+        </record>
+        <record id="af_inpc_2002_06" model="account.fiscal.inpc">
+            <field name="name">06/2002</field>
+            <field name="period">06</field>
+            <field name="fiscalyear">2002</field>
+            <field name="value">68.902213711874</field>
+        </record>
+        <record id="af_inpc_2002_07" model="account.fiscal.inpc">
+            <field name="name">07/2002</field>
+            <field name="period">07</field>
+            <field name="fiscalyear">2002</field>
+            <field name="value">69.100011723087</field>
+        </record>
+        <record id="af_inpc_2002_08" model="account.fiscal.inpc">
+            <field name="name">08/2002</field>
+            <field name="period">08</field>
+            <field name="fiscalyear">2002</field>
+            <field name="value">69.362746788219</field>
+        </record>
+        <record id="af_inpc_2002_09" model="account.fiscal.inpc">
+            <field name="name">09/2002</field>
+            <field name="period">09</field>
+            <field name="fiscalyear">2002</field>
+            <field name="value">69.779950763035</field>
+        </record>
+        <record id="af_inpc_2002_10" model="account.fiscal.inpc">
+            <field name="name">10/2002</field>
+            <field name="period">10</field>
+            <field name="fiscalyear">2002</field>
+            <field name="value">70.087509395709</field>
+        </record>
+        <record id="af_inpc_2002_11" model="account.fiscal.inpc">
+            <field name="name">11/2002</field>
+            <field name="period">11</field>
+            <field name="fiscalyear">2002</field>
+            <field name="value">70.654355126782</field>
+        </record>
+        <record id="af_inpc_2002_12" model="account.fiscal.inpc">
+            <field name="name">12/2002</field>
+            <field name="period">12</field>
+            <field name="fiscalyear">2002</field>
+            <field name="value">70.961913759456</field>
+        </record>
+        
+        <record id="af_inpc_2003_01" model="account.fiscal.inpc">
+            <field name="name">01/2003</field>
+            <field name="period">01</field>
+            <field name="fiscalyear">2003</field>
+            <field name="value">71.248784591726</field>
+        </record>
+        <record id="af_inpc_2003_02" model="account.fiscal.inpc">
+            <field name="name">02/2003</field>
+            <field name="period">02</field>
+            <field name="fiscalyear">2003</field>
+            <field name="value">71.446697882259</field>
+        </record>
+        <record id="af_inpc_2003_03" model="account.fiscal.inpc">
+            <field name="name">03/2003</field>
+            <field name="period">03</field>
+            <field name="fiscalyear">2003</field>
+            <field name="value">71.897691931068</field>
+        </record>
+        <record id="af_inpc_2003_04" model="account.fiscal.inpc">
+            <field name="name">04/2003</field>
+            <field name="period">04</field>
+            <field name="fiscalyear">2003</field>
+            <field name="value">72.020439546799</field>
+        </record>
+        <record id="af_inpc_2003_05" model="account.fiscal.inpc">
+            <field name="name">05/2003</field>
+            <field name="period">05</field>
+            <field name="fiscalyear">2003</field>
+            <field name="value">71.788046588927</field>
+        </record>
+        <record id="af_inpc_2003_06" model="account.fiscal.inpc">
+            <field name="name">06/2003</field>
+            <field name="period">06</field>
+            <field name="fiscalyear">2003</field>
+            <field name="value">71.847351616752</field>
+        </record>
+        <record id="af_inpc_2003_07" model="account.fiscal.inpc">
+            <field name="name">07/2003</field>
+            <field name="period">07</field>
+            <field name="fiscalyear">2003</field>
+            <field name="value">71.951480212119</field>
+        </record>
+        <record id="af_inpc_2003_08" model="account.fiscal.inpc">
+            <field name="name">08/2003</field>
+            <field name="period">08</field>
+            <field name="fiscalyear">2003</field>
+            <field name="value">72.167322929668</field>
+        </record>
+        <record id="af_inpc_2003_09" model="account.fiscal.inpc">
+            <field name="name">09/2003</field>
+            <field name="period">09</field>
+            <field name="fiscalyear">2003</field>
+            <field name="value">72.596939584727</field>
+        </record>
+        <record id="af_inpc_2003_10" model="account.fiscal.inpc">
+            <field name="name">10/2003</field>
+            <field name="period">10</field>
+            <field name="fiscalyear">2003</field>
+            <field name="value">72.863122616593</field>
+        </record>
+        <record id="af_inpc_2003_11" model="account.fiscal.inpc">
+            <field name="name">11/2003</field>
+            <field name="period">11</field>
+            <field name="fiscalyear">2003</field>
+            <field name="value">73.46789598174</field>
+        </record>
+        <record id="af_inpc_2003_12" model="account.fiscal.inpc">
+            <field name="name">12/2003</field>
+            <field name="period">12</field>
+            <field name="fiscalyear">2003</field>
+            <field name="value">73.783729734576</field>
+        </record>
+        
+            
+            
+            
+        <record id="af_inpc_2004_01" model="account.fiscal.inpc">
+            <field name="name">01/2004</field>
+            <field name="period">01</field>
+            <field name="fiscalyear">2004</field>
+            <field name="value">74.2423093102</field>
+        </record>
+        <record id="af_inpc_2004_02" model="account.fiscal.inpc">
+            <field name="name">02/2004</field>
+            <field name="period">02</field>
+            <field name="fiscalyear">2004</field>
+            <field name="value">74.686407425541</field>
+        </record>
+        <record id="af_inpc_2004_03" model="account.fiscal.inpc">
+            <field name="name">03/2004</field>
+            <field name="period">03</field>
+            <field name="fiscalyear">2004</field>
+            <field name="value">74.939488183818</field>
+        </record>
+        <record id="af_inpc_2004_04" model="account.fiscal.inpc">
+            <field name="name">04/2004</field>
+            <field name="period">04</field>
+            <field name="fiscalyear">2004</field>
+            <field name="value">75.052581492694</field>
+        </record>
+        <record id="af_inpc_2004_05" model="account.fiscal.inpc">
+            <field name="name">05/2004</field>
+            <field name="period">05</field>
+            <field name="fiscalyear">2004</field>
+            <field name="value">74.864322509016</field>
+        </record>
+        <record id="af_inpc_2004_06" model="account.fiscal.inpc">
+            <field name="name">06/2004</field>
+            <field name="period">06</field>
+            <field name="fiscalyear">2004</field>
+            <field name="value">74.98431175136</field>
+        </record>
+        <record id="af_inpc_2004_07" model="account.fiscal.inpc">
+            <field name="name">07/2004</field>
+            <field name="period">07</field>
+            <field name="fiscalyear">2004</field>
+            <field name="value">75.180845855199</field>
+        </record>
+        <record id="af_inpc_2004_08" model="account.fiscal.inpc">
+            <field name="name">08/2004</field>
+            <field name="period">08</field>
+            <field name="fiscalyear">2004</field>
+            <field name="value">75.644942177598</field>
+        </record>
+        <record id="af_inpc_2004_09" model="account.fiscal.inpc">
+            <field name="name">09/2004</field>
+            <field name="period">09</field>
+            <field name="fiscalyear">2004</field>
+            <field name="value">76.270403343149</field>
+        </record>
+        <record id="af_inpc_2004_10" model="account.fiscal.inpc">
+            <field name="name">10/2004</field>
+            <field name="period">10</field>
+            <field name="fiscalyear">2004</field>
+            <field name="value">76.7986318468</field>
+        </record>
+        <record id="af_inpc_2004_11" model="account.fiscal.inpc">
+            <field name="name">11/2004</field>
+            <field name="period">11</field>
+            <field name="fiscalyear">2004</field>
+            <field name="value">77.453745526263</field>
+        </record>
+        <record id="af_inpc_2004_12" model="account.fiscal.inpc">
+            <field name="name">12/2004</field>
+            <field name="period">12</field>
+            <field name="fiscalyear">2004</field>
+            <field name="value">77.613731182722</field>
+        </record>
+        
+        <record id="af_inpc_2005_01" model="account.fiscal.inpc">
+            <field name="name">01/2005</field>
+            <field name="period">01</field>
+            <field name="fiscalyear">2005</field>
+            <field name="value">77.616489556109</field>
+        </record>
+        <record id="af_inpc_2005_02" model="account.fiscal.inpc">
+            <field name="name">02/2005</field>
+            <field name="period">02</field>
+            <field name="fiscalyear">2005</field>
+            <field name="value">77.87508706116</field>
+        </record>
+        <record id="af_inpc_2005_03" model="account.fiscal.inpc">
+            <field name="name">03/2005</field>
+            <field name="period">03</field>
+            <field name="fiscalyear">2005</field>
+            <field name="value">78.226090074683</field>
+        </record>
+        <record id="af_inpc_2005_04" model="account.fiscal.inpc">
+            <field name="name">04/2005</field>
+            <field name="period">04</field>
+            <field name="fiscalyear">2005</field>
+            <field name="value">78.504685786792</field>
+        </record>
+        <record id="af_inpc_2005_05" model="account.fiscal.inpc">
+            <field name="name">05/2005</field>
+            <field name="period">05</field>
+            <field name="fiscalyear">2005</field>
+            <field name="value">78.307462089606</field>
+        </record>
+        <record id="af_inpc_2005_06" model="account.fiscal.inpc">
+            <field name="name">06/2005</field>
+            <field name="period">06</field>
+            <field name="fiscalyear">2005</field>
+            <field name="value">78.232296414804</field>
+        </record>
+        <record id="af_inpc_2005_07" model="account.fiscal.inpc">
+            <field name="name">07/2005</field>
+            <field name="period">07</field>
+            <field name="fiscalyear">2005</field>
+            <field name="value">78.538475860785</field>
+        </record>
+        <record id="af_inpc_2005_08" model="account.fiscal.inpc">
+            <field name="name">08/2005</field>
+            <field name="period">08</field>
+            <field name="fiscalyear">2005</field>
+            <field name="value">78.63226055595</field>
+        </record>
+        <record id="af_inpc_2005_09" model="account.fiscal.inpc">
+            <field name="name">09/2005</field>
+            <field name="period">09</field>
+            <field name="fiscalyear">2005</field>
+            <field name="value">78.947404715439</field>
+        </record>
+        <record id="af_inpc_2005_10" model="account.fiscal.inpc">
+            <field name="name">10/2005</field>
+            <field name="period">10</field>
+            <field name="fiscalyear">2005</field>
+            <field name="value">79.141180445891</field>
+        </record>
+        <record id="af_inpc_2005_11" model="account.fiscal.inpc">
+            <field name="name">11/2005</field>
+            <field name="period">11</field>
+            <field name="fiscalyear">2005</field>
+            <field name="value">79.710784550351</field>
+        </record>
+        <record id="af_inpc_2005_12" model="account.fiscal.inpc">
+            <field name="name">12/2005</field>
+            <field name="period">12</field>
+            <field name="fiscalyear">2005</field>
+            <field name="value">80.200395826581</field>
+        </record>
+        
+        
+        <record id="af_inpc_2006_01" model="account.fiscal.inpc">
+            <field name="name">01/2006</field>
+            <field name="period">01</field>
+            <field name="fiscalyear">2006</field>
+            <field name="value">80.670698489101</field>
+        </record>
+        <record id="af_inpc_2006_02" model="account.fiscal.inpc">
+            <field name="name">02/2006</field>
+            <field name="period">02</field>
+            <field name="fiscalyear">2006</field>
+            <field name="value">80.794135698179</field>
+        </record>
+        <record id="af_inpc_2006_03" model="account.fiscal.inpc">
+            <field name="name">03/2006</field>
+            <field name="period">03</field>
+            <field name="fiscalyear">2006</field>
+            <field name="value">80.895505920159</field>
+        </record>
+        <record id="af_inpc_2006_04" model="account.fiscal.inpc">
+            <field name="name">04/2006</field>
+            <field name="period">04</field>
+            <field name="fiscalyear">2006</field>
+            <field name="value">81.014115975809</field>
+        </record>
+        <record id="af_inpc_2006_05" model="account.fiscal.inpc">
+            <field name="name">05/2006</field>
+            <field name="period">05</field>
+            <field name="fiscalyear">2006</field>
+            <field name="value">80.653458655431</field>
+        </record>
+        <record id="af_inpc_2006_06" model="account.fiscal.inpc">
+            <field name="name">06/2006</field>
+            <field name="period">06</field>
+            <field name="fiscalyear">2006</field>
+            <field name="value">80.723107583458</field>
+        </record>
+        <record id="af_inpc_2006_07" model="account.fiscal.inpc">
+            <field name="name">07/2006</field>
+            <field name="period">07</field>
+            <field name="fiscalyear">2006</field>
+            <field name="value">80.944467047782</field>
+        </record>
+        <record id="af_inpc_2006_08" model="account.fiscal.inpc">
+            <field name="name">08/2006</field>
+            <field name="period">08</field>
+            <field name="fiscalyear">2006</field>
+            <field name="value">81.357533462517</field>
+        </record>
+        <record id="af_inpc_2006_09" model="account.fiscal.inpc">
+            <field name="name">09/2006</field>
+            <field name="period">09</field>
+            <field name="fiscalyear">2006</field>
+            <field name="value">82.17883913856</field>
+        </record>
+        <record id="af_inpc_2006_10" model="account.fiscal.inpc">
+            <field name="name">10/2006</field>
+            <field name="period">10</field>
+            <field name="fiscalyear">2006</field>
+            <field name="value">82.538117272245</field>
+        </record>
+        <record id="af_inpc_2006_11" model="account.fiscal.inpc">
+            <field name="name">11/2006</field>
+            <field name="period">11</field>
+            <field name="fiscalyear">2006</field>
+            <field name="value">82.971181894037</field>
+        </record>
+        <record id="af_inpc_2006_12" model="account.fiscal.inpc">
+            <field name="name">12/2006</field>
+            <field name="period">12</field>
+            <field name="fiscalyear">2006</field>
+            <field name="value">83.451138863412</field>
+        </record>
+        
+        <record id="af_inpc_2007_01" model="account.fiscal.inpc">
+            <field name="name">01/2007</field>
+            <field name="period">01</field>
+            <field name="fiscalyear">2007</field>
+            <field name="value">83.882134705164</field>
+        </record>
+        <record id="af_inpc_2007_02" model="account.fiscal.inpc">
+            <field name="name">02/2007</field>
+            <field name="period">02</field>
+            <field name="fiscalyear">2007</field>
+            <field name="value">84.116596443078</field>
+        </record>
+        <record id="af_inpc_2007_03" model="account.fiscal.inpc">
+            <field name="name">03/2007</field>
+            <field name="period">03</field>
+            <field name="fiscalyear">2007</field>
+            <field name="value">84.298649086634</field>
+        </record>
+        <record id="af_inpc_2007_04" model="account.fiscal.inpc">
+            <field name="name">04/2007</field>
+            <field name="period">04</field>
+            <field name="fiscalyear">2007</field>
+            <field name="value">84.248308772317</field>
+        </record>
+        <record id="af_inpc_2007_05" model="account.fiscal.inpc">
+            <field name="name">05/2007</field>
+            <field name="period">05</field>
+            <field name="fiscalyear">2007</field>
+            <field name="value">83.837311137622</field>
+        </record>
+        <record id="af_inpc_2007_06" model="account.fiscal.inpc">
+            <field name="name">06/2007</field>
+            <field name="period">06</field>
+            <field name="fiscalyear">2007</field>
+            <field name="value">83.937991766255</field>
+        </record>
+        <record id="af_inpc_2007_07" model="account.fiscal.inpc">
+            <field name="name">07/2007</field>
+            <field name="period">07</field>
+            <field name="fiscalyear">2007</field>
+            <field name="value">84.294511526553</field>
+        </record>
+        <record id="af_inpc_2007_08" model="account.fiscal.inpc">
+            <field name="name">08/2007</field>
+            <field name="period">08</field>
+            <field name="fiscalyear">2007</field>
+            <field name="value">84.637929013261</field>
+        </record>
+        <record id="af_inpc_2007_09" model="account.fiscal.inpc">
+            <field name="name">09/2007</field>
+            <field name="period">09</field>
+            <field name="fiscalyear">2007</field>
+            <field name="value">85.295111472765</field>
+        </record>
+        <record id="af_inpc_2007_10" model="account.fiscal.inpc">
+            <field name="name">10/2007</field>
+            <field name="period">10</field>
+            <field name="fiscalyear">2007</field>
+            <field name="value">85.627495465924</field>
+        </record>
+        <record id="af_inpc_2007_11" model="account.fiscal.inpc">
+            <field name="name">11/2007</field>
+            <field name="period">11</field>
+            <field name="fiscalyear">2007</field>
+            <field name="value">86.231579237724</field>
+        </record>
+        <record id="af_inpc_2007_12" model="account.fiscal.inpc">
+            <field name="name">12/2007</field>
+            <field name="period">12</field>
+            <field name="fiscalyear">2007</field>
+            <field name="value">86.588098998021</field>
+        </record>
+        
+        
+        <record id="af_inpc_2008_01" model="account.fiscal.inpc">
+            <field name="name">01/2008</field>
+            <field name="period">01</field>
+            <field name="fiscalyear">2008</field>
+            <field name="value">86.98944232586</field>
+        </record>
+        <record id="af_inpc_2008_02" model="account.fiscal.inpc">
+            <field name="name">02/2008</field>
+            <field name="period">02</field>
+            <field name="fiscalyear">2008</field>
+            <field name="value">87.248039830912</field>
+        </record>
+        <record id="af_inpc_2008_03" model="account.fiscal.inpc">
+            <field name="name">03/2008</field>
+            <field name="period">03</field>
+            <field name="fiscalyear">2008</field>
+            <field name="value">87.88039692993</field>
+        </record>
+        <record id="af_inpc_2008_04" model="account.fiscal.inpc">
+            <field name="name">04/2008</field>
+            <field name="period">04</field>
+            <field name="fiscalyear">2008</field>
+            <field name="value">88.080379000503</field>
+        </record>
+        <record id="af_inpc_2008_05" model="account.fiscal.inpc">
+            <field name="name">05/2008</field>
+            <field name="period">05</field>
+            <field name="fiscalyear">2008</field>
+            <field name="value">87.985215118645</field>
+        </record>
+        <record id="af_inpc_2008_06" model="account.fiscal.inpc">
+            <field name="name">06/2008</field>
+            <field name="period">06</field>
+            <field name="fiscalyear">2008</field>
+            <field name="value">88.349320405757</field>
+        </record>
+        <record id="af_inpc_2008_07" model="account.fiscal.inpc">
+            <field name="name">07/2008</field>
+            <field name="period">07</field>
+            <field name="fiscalyear">2008</field>
+            <field name="value">88.841690055374</field>
+        </record>
+        <record id="af_inpc_2008_08" model="account.fiscal.inpc">
+            <field name="name">08/2008</field>
+            <field name="period">08</field>
+            <field name="fiscalyear">2008</field>
+            <field name="value">89.354747505396</field>
+        </record>
+        <record id="af_inpc_2008_09" model="account.fiscal.inpc">
+            <field name="name">09/2008</field>
+            <field name="period">09</field>
+            <field name="fiscalyear">2008</field>
+            <field name="value">89.963658430623</field>
+        </record>
+        <record id="af_inpc_2008_10" model="account.fiscal.inpc">
+            <field name="name">10/2008</field>
+            <field name="period">10</field>
+            <field name="fiscalyear">2008</field>
+            <field name="value">90.576706915932</field>
+        </record>
+        <record id="af_inpc_2008_11" model="account.fiscal.inpc">
+            <field name="name">11/2008</field>
+            <field name="period">11</field>
+            <field name="fiscalyear">2008</field>
+            <field name="value">91.606269782709</field>
+        </record>
+        <record id="af_inpc_2008_12" model="account.fiscal.inpc">
+            <field name="name">12/2008</field>
+            <field name="period">12</field>
+            <field name="fiscalyear">2008</field>
+            <field name="value">92.240695661768</field>
+        </record>
+        
+        <record id="af_inpc_2009_01" model="account.fiscal.inpc">
+            <field name="name">01/2009</field>
+            <field name="period">01</field>
+            <field name="fiscalyear">2009</field>
+            <field name="value">92.454469599277</field>
+        </record>
+        <record id="af_inpc_2009_02" model="account.fiscal.inpc">
+            <field name="name">02/2009</field>
+            <field name="period">02</field>
+            <field name="fiscalyear">2009</field>
+            <field name="value">92.658589229931</field>
+        </record>
+        <record id="af_inpc_2009_03" model="account.fiscal.inpc">
+            <field name="name">03/2009</field>
+            <field name="period">03</field>
+            <field name="fiscalyear">2009</field>
+            <field name="value">93.19164488701</field>
+        </record>
+        <record id="af_inpc_2009_04" model="account.fiscal.inpc">
+            <field name="name">04/2009</field>
+            <field name="period">04</field>
+            <field name="fiscalyear">2009</field>
+            <field name="value">93.517822540048</field>
+        </record>
+        <record id="af_inpc_2009_05" model="account.fiscal.inpc">
+            <field name="name">05/2009</field>
+            <field name="period">05</field>
+            <field name="fiscalyear">2009</field>
+            <field name="value">93.245433168061</field>
+        </record>
+        <record id="af_inpc_2009_06" model="account.fiscal.inpc">
+            <field name="name">06/2009</field>
+            <field name="period">06</field>
+            <field name="fiscalyear">2009</field>
+            <field name="value">93.417141911415</field>
+        </record>
+        <record id="af_inpc_2009_07" model="account.fiscal.inpc">
+            <field name="name">07/2009</field>
+            <field name="period">07</field>
+            <field name="fiscalyear">2009</field>
+            <field name="value">93.671601856385</field>
+        </record>
+        <record id="af_inpc_2009_08" model="account.fiscal.inpc">
+            <field name="name">08/2009</field>
+            <field name="period">08</field>
+            <field name="fiscalyear">2009</field>
+            <field name="value">93.895719694096</field>
+        </record>
+        <record id="af_inpc_2009_09" model="account.fiscal.inpc">
+            <field name="name">09/2009</field>
+            <field name="period">09</field>
+            <field name="fiscalyear">2009</field>
+            <field name="value">94.366711949963</field>
+        </record>
+        <record id="af_inpc_2009_10" model="account.fiscal.inpc">
+            <field name="name">10/2009</field>
+            <field name="period">10</field>
+            <field name="fiscalyear">2009</field>
+            <field name="value">94.65220359554</field>
+        </record>
+        <record id="af_inpc_2009_11" model="account.fiscal.inpc">
+            <field name="name">11/2009</field>
+            <field name="period">11</field>
+            <field name="fiscalyear">2009</field>
+            <field name="value">95.143194058464</field>
+        </record>
+        <record id="af_inpc_2009_12" model="account.fiscal.inpc">
+            <field name="name">12/2009</field>
+            <field name="period">12</field>
+            <field name="fiscalyear">2009</field>
+            <field name="value">95.536951859488</field>
+        </record>
+        
+        <record id="af_inpc_2010_01" model="account.fiscal.inpc">
+            <field name="name">01/2010</field>
+            <field name="period">01</field>
+            <field name="fiscalyear">2010</field>
+            <field name="value">96.575479439774</field>
+        </record>
+        <record id="af_inpc_2010_02" model="account.fiscal.inpc">
+            <field name="name">02/2010</field>
+            <field name="period">02</field>
+            <field name="fiscalyear">2010</field>
+            <field name="value">97.134050050685</field>
+        </record>
+        <record id="af_inpc_2010_03" model="account.fiscal.inpc">
+            <field name="name">03/2010</field>
+            <field name="period">03</field>
+            <field name="fiscalyear">2010</field>
+            <field name="value">97.823643397489</field>
+        </record>
+        <record id="af_inpc_2010_04" model="account.fiscal.inpc">
+            <field name="name">04/2010</field>
+            <field name="period">04</field>
+            <field name="fiscalyear">2010</field>
+            <field name="value">97.511947204733</field>
+        </record>
+        <record id="af_inpc_2010_05" model="account.fiscal.inpc">
+            <field name="name">05/2010</field>
+            <field name="period">05</field>
+            <field name="fiscalyear">2010</field>
+            <field name="value">96.897519532732</field>
+        </record>
+        <record id="af_inpc_2010_06" model="account.fiscal.inpc">
+            <field name="name">06/2010</field>
+            <field name="period">06</field>
+            <field name="fiscalyear">2010</field>
+            <field name="value">96.867177425472</field>
+        </record>
+        <record id="af_inpc_2010_07" model="account.fiscal.inpc">
+            <field name="name">07/2010</field>
+            <field name="period">07</field>
+            <field name="fiscalyear">2010</field>
+            <field name="value">97.077503396247</field>
+        </record>
+        <record id="af_inpc_2010_08" model="account.fiscal.inpc">
+            <field name="name">08/2010</field>
+            <field name="period">08</field>
+            <field name="fiscalyear">2010</field>
+            <field name="value">97.347134394847</field>
+        </record>
+        <record id="af_inpc_2010_09" model="account.fiscal.inpc">
+            <field name="name">09/2010</field>
+            <field name="period">09</field>
+            <field name="fiscalyear">2010</field>
+            <field name="value">97.857433471482</field>
+        </record>
+        <record id="af_inpc_2010_10" model="account.fiscal.inpc">
+            <field name="name">10/2010</field>
+            <field name="period">10</field>
+            <field name="fiscalyear">2010</field>
+            <field name="value">98.461517243282</field>
+        </record>
+        <record id="af_inpc_2010_11" model="account.fiscal.inpc">
+            <field name="name">11/2010</field>
+            <field name="period">11</field>
+            <field name="fiscalyear">2010</field>
+            <field name="value">99.250412032025</field>
+        </record>
+        <record id="af_inpc_2010_012" model="account.fiscal.inpc">
+            <field name="name">12/2010</field>
+            <field name="period">12</field>
+            <field name="fiscalyear">2010</field>
+            <field name="value">99.742092088296</field>
+        </record>
+        
+        <record id="af_inpc_2011_01" model="account.fiscal.inpc">
+            <field name="name">01/2011</field>
+            <field name="period">01</field>
+            <field name="fiscalyear">2011</field>
+            <field name="value">100.228</field>
+        </record>
+        <record id="af_inpc_2011_02" model="account.fiscal.inpc">
+            <field name="name">02/2011</field>
+            <field name="period">02</field>
+            <field name="fiscalyear">2011</field>
+            <field name="value">100.604</field>
+        </record>
+        <record id="af_inpc_2011_03" model="account.fiscal.inpc">
+            <field name="name">03/2011</field>
+            <field name="period">03</field>
+            <field name="fiscalyear">2011</field>
+            <field name="value">100.797</field>
+        </record>
+        <record id="af_inpc_2011_04" model="account.fiscal.inpc">
+            <field name="name">04/2011</field>
+            <field name="period">04</field>
+            <field name="fiscalyear">2011</field>
+            <field name="value">100.789</field>
+        </record>
+        <record id="af_inpc_2011_05" model="account.fiscal.inpc">
+            <field name="name">05/2011</field>
+            <field name="period">05</field>
+            <field name="fiscalyear">2011</field>
+            <field name="value">100.046</field>
+        </record>
+        <record id="af_inpc_2011_06" model="account.fiscal.inpc">
+            <field name="name">06/2011</field>
+            <field name="period">06</field>
+            <field name="fiscalyear">2011</field>
+            <field name="value">100.041</field>
+        </record>
+        <record id="af_inpc_2011_07" model="account.fiscal.inpc">
+            <field name="name">07/2011</field>
+            <field name="period">07</field>
+            <field name="fiscalyear">2011</field>
+            <field name="value">100.521</field>
+        </record>
+        <record id="af_inpc_2011_08" model="account.fiscal.inpc">
+            <field name="name">08/2011</field>
+            <field name="period">08</field>
+            <field name="fiscalyear">2011</field>
+            <field name="value">100.68</field>
+        </record>
+        <record id="af_inpc_2011_09" model="account.fiscal.inpc">
+            <field name="name">09/2011</field>
+            <field name="period">09</field>
+            <field name="fiscalyear">2011</field>
+            <field name="value">100.927</field>
+        </record>
+        <record id="af_inpc_2011_10" model="account.fiscal.inpc">
+            <field name="name">10/2011</field>
+            <field name="period">10</field>
+            <field name="fiscalyear">2011</field>
+            <field name="value">101.608</field>
+        </record>
+        <record id="af_inpc_2011_11" model="account.fiscal.inpc">
+            <field name="name">11/2011</field>
+            <field name="period">11</field>
+            <field name="fiscalyear">2011</field>
+            <field name="value">102.707</field>
+        </record>
+        <record id="af_inpc_2011_12" model="account.fiscal.inpc">
+            <field name="name">12/2011</field>
+            <field name="period">12</field>
+            <field name="fiscalyear">2011</field>
+            <field name="value">103.551</field>
+        </record>
+        
+        
+        <record id="af_inpc_2012_01" model="account.fiscal.inpc">
+            <field name="name">01/2012</field>
+            <field name="period">01</field>
+            <field name="fiscalyear">2012</field>
+            <field name="value">104.284</field>
+        </record>
+        <record id="af_inpc_2012_02" model="account.fiscal.inpc">
+            <field name="name">02/2012</field>
+            <field name="period">02</field>
+            <field name="fiscalyear">2012</field>
+            <field name="value">104.496</field>
+        </record>
+        <record id="af_inpc_2012_03" model="account.fiscal.inpc">
+            <field name="name">03/2012</field>
+            <field name="period">03</field>
+            <field name="fiscalyear">2012</field>
+            <field name="value">104.556</field>
+        </record>
+        <record id="af_inpc_2012_04" model="account.fiscal.inpc">
+            <field name="name">04/2012</field>
+            <field name="period">04</field>
+            <field name="fiscalyear">2012</field>
+            <field name="value">104.228</field>
+        </record>
+        <record id="af_inpc_2012_05" model="account.fiscal.inpc">
+            <field name="name">05/2012</field>
+            <field name="period">05</field>
+            <field name="fiscalyear">2012</field>
+            <field name="value">103.899</field>
+        </record>
+        <record id="af_inpc_2012_06" model="account.fiscal.inpc">
+            <field name="name">06/2012</field>
+            <field name="period">06</field>
+            <field name="fiscalyear">2012</field>
+            <field name="value">104.378</field>
+        </record>
+        <record id="af_inpc_2012_07" model="account.fiscal.inpc">
+            <field name="name">07/2012</field>
+            <field name="period">07</field>
+            <field name="fiscalyear">2012</field>
+            <field name="value">104.964</field>
+        </record>
+        <record id="af_inpc_2012_08" model="account.fiscal.inpc">
+            <field name="name">08/2012</field>
+            <field name="period">08</field>
+            <field name="fiscalyear">2012</field>
+            <field name="value">105.279</field>
+        </record>
+        <record id="af_inpc_2012_09" model="account.fiscal.inpc">
+            <field name="name">09/2012</field>
+            <field name="period">09</field>
+            <field name="fiscalyear">2012</field>
+            <field name="value">105.743</field>
+        </record>
+        <record id="af_inpc_2012_10" model="account.fiscal.inpc">
+            <field name="name">10/2012</field>
+            <field name="period">10</field>
+            <field name="fiscalyear">2012</field>
+            <field name="value">106.278</field>
+        </record>
+        <record id="af_inpc_2012_11" model="account.fiscal.inpc">
+            <field name="name">11/2012</field>
+            <field name="period">11</field>
+            <field name="fiscalyear">2012</field>
+            <field name="value">107</field>
+        </record>
+        <record id="af_inpc_2012_12" model="account.fiscal.inpc">
+            <field name="name">12/2012</field>
+            <field name="period">12</field>
+            <field name="fiscalyear">2012</field>
+            <field name="value">107.246</field>
+        </record>
+        
+        <record id="af_inpc_2013_01" model="account.fiscal.inpc">
+            <field name="name">01/2013</field>
+            <field name="period">01</field>
+            <field name="fiscalyear">2013</field>
+            <field name="value">107.678</field>
+        </record>
+        <record id="af_inpc_2013_02" model="account.fiscal.inpc">
+            <field name="name">02/2013</field>
+            <field name="period">02</field>
+            <field name="fiscalyear">2013</field>
+            <field name="value">108.208</field>
+        </record>
+        <record id="af_inpc_2013_03" model="account.fiscal.inpc">
+            <field name="name">03/2013</field>
+            <field name="period">03</field>
+            <field name="fiscalyear">2013</field>
+            <field name="value">109.002</field>
+        </record>
+        <record id="af_inpc_2013_04" model="account.fiscal.inpc">
+            <field name="name">04/2013</field>
+            <field name="period">04</field>
+            <field name="fiscalyear">2013</field>
+            <field name="value">109.074</field>
+        </record>
+        <record id="af_inpc_2013_05" model="account.fiscal.inpc">
+            <field name="name">05/2013</field>
+            <field name="period">05</field>
+            <field name="fiscalyear">2013</field>
+            <field name="value">108.711</field>
+        </record>
+        <record id="af_inpc_2013_06" model="account.fiscal.inpc">
+            <field name="name">06/2013</field>
+            <field name="period">06</field>
+            <field name="fiscalyear">2013</field>
+            <field name="value">108.645</field>
+        </record>
+        <record id="af_inpc_2013_07" model="account.fiscal.inpc">
+            <field name="name">07/2013</field>
+            <field name="period">07</field>
+            <field name="fiscalyear">2013</field>
+            <field name="value">108.609</field>
+        </record>
+        <record id="af_inpc_2013_08" model="account.fiscal.inpc">
+            <field name="name">08/2013</field>
+            <field name="period">08</field>
+            <field name="fiscalyear">2013</field>
+            <field name="value">108.918</field>
+        </record>
+        <record id="af_inpc_2013_09" model="account.fiscal.inpc">
+            <field name="name">09/2013</field>
+            <field name="period">09</field>
+            <field name="fiscalyear">2013</field>
+            <field name="value">109.328</field>
+        </record>
+        <record id="af_inpc_2013_10" model="account.fiscal.inpc">
+            <field name="name">10/2013</field>
+            <field name="period">10</field>
+            <field name="fiscalyear">2013</field>
+            <field name="value">109.848</field>
+        </record>
+        <record id="af_inpc_2013_11" model="account.fiscal.inpc">
+            <field name="name">11/2013</field>
+            <field name="period">11</field>
+            <field name="fiscalyear">2013</field>
+            <field name="value">0</field>
+        </record>
+        <record id="af_inpc_2013_12" model="account.fiscal.inpc">
+            <field name="name">12/2013</field>
+            <field name="period">12</field>
+            <field name="fiscalyear">2013</field>
+            <field name="value">0</field>
+        </record>
+        
+    </data>
+</openerp>

@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record model="crm.case.channel" id="crm_case_channel_email">
+            <field name="name">Portal</field>
+        </record>
+
+        <record id="cds_helpdesk_issue_portal" model="ir.actions.act_window">
+            <field name="name">Helpdesk Requests</field>
+            <field name="res_model">crm.helpdesk</field>
+            <field name="view_mode">tree,calendar,form</field>
+            <field name="domain"></field>
+            <field name="view_id" ref="crm_case_tree_view_helpdesk"/>
+            <field name="search_view_id" ref="view_crm_case_helpdesk_filter"/>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a new request. 
+              </p><p>
+                Helpdesk and Support allow you to track your interventions.
+              </p><p>
+                Use the OpenERP Issues system to manage your support
+                activities. Issues can be connected to the email gateway: new
+                emails may create issues, each of them automatically gets the
+                history of the conversation with the customer.
+              </p>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window.view" id="action_crm_sec_tree_portal_view_act111">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="crm_case_tree_view_portal_helpdesk"/>
+            <field name="act_window_id" ref="cds_helpdesk_issue_portal"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_crm_sec_calendar_portal_view_act111">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">calendar</field>
+            <field name="view_id" ref="crm_case_helpdesk_portal_calendar_view"/>
+            <field name="act_window_id" ref="cds_helpdesk_issue_portal"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_crm_sec_form_portal_view_act111">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="crm_case_form_view_helpdesk_portal"/>
+            <field name="act_window_id" ref="cds_helpdesk_issue_portal"/>
+        </record>
+
+        <menuitem name="Solicitud de soporte" id="portal_after_sales_helpdeskrequest" parent="portal.portal_after_sales" 
+            action="cds_helpdesk_issue_portal" groups="portal.group_portal" sequence="10"/>
+
+    </data>
+</openerp>

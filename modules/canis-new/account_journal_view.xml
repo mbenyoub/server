@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_account_journal_form_inherit2">
+            <field name="name">view.account.journal.form.inherit</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[1]/group/group[1]/field[@name='journal_debit_id']" position="after">
+                    <field name="journal_refund_id" attrs="{'invisible': [('type', 'not in', ['sale','purchase'])],'required': [('type', 'in', ['purchase','sale'])]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

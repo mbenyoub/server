@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+<!--
+        Ejercicio Fiscal
+--> 
+        <!-- View Form - Ejercicio Fiscal -->
+        <record model="ir.ui.view" id="view_account_fiscalyear_form_inherit">
+            <field name="name">account.fiscalyear.form.inherit</field>
+            <field name="model">account.fiscalyear</field>
+            <field name="inherit_id" ref="account.view_account_fiscalyear_form" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <button name="create_period3" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </button>
+                <field name="end_journal_period_id" position="after">
+                    <field name="type"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>
+

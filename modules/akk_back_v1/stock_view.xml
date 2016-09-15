@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+<!--
+        Albaranes de entrada
+-->
+        <!-- Vista formulario -->
+        <record id="stock_picking_in_form_inherit" model="ir.ui.view">
+            <field name="name">stock.picking.in.form.inherit</field>
+            <field name="model">stock.picking.in</field>
+            <field name="inherit_id" ref="stock.view_picking_in_form" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_stock_picking_advanced</attribute>
+                </field>
+                <field name="stock_journal_id" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_stock_picking_advanced</attribute>
+                </field>
+                <field name="min_date" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_stock_picking_advanced</attribute>
+                </field>
+                <page string="Additional Info" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_stock_picking_advanced</attribute>
+                </page>
+                <xpath expr="//field[@name='move_lines']" position="replace">
+                    <field name="move_lines" context="{'address_in_id': partner_id, 'picking_type': 'in', 'form_view_ref':'view_move_picking_form'}">
+                        <tree colors="grey:scrapped == True" string="Stock Moves" editable="bottom">
+                            <field name="name" invisible="1"/>
+                            <field name="origin" invisible="1"/>
+                            <field name="product_id" on_change="onchange_product_id(product_id,location_id,location_dest_id, False)"/>
+                            <field name="product_qty" on_change="onchange_quantity(product_id, product_qty, product_uom, product_uos)"/>
+                            <field name="product_uom" string="Unit of Measure" groups="product.group_uom"/>
+                            <field name="product_uos" groups="product.group_uos"/>
+                            <field name="virtual_available" readonly="1" groups="base.group_akk_back_v1_stock_picking_advanced"/>
+                            <field name="location_id" groups="stock.group_locations" invisible="1"/>
+                            <field name="picking_id" invisible="1" />
+                            <field name="create_date" invisible="1" />
+                            <field name="date_expected" invisible="1" />
+                            <button name="%(stock.move_scrap)d"
+                               string="Scrap Products" type="action"
+                               icon="terp-gtk-jump-to-ltr" context="{'scrap': True}"
+                               states="draft,waiting,confirmed,assigned"
+                               groups="base.group_user"/>
+                            <field name="scrapped" invisible="1"/>
+                            <field name="prodlot_id" groups="stock.group_production_lot"/>
+                            <button
+                               name="%(stock.track_line)d"
+                               string="Split in Serial Number"
+                               groups="stock.group_production_lot"
+                               type="action" icon="gtk-justify-fill"
+                               states="draft,waiting,confirmed,assigned"/>
+                             <field groups="stock.group_tracking_lot" name="tracking_id"/>
+                             <button name="stock.setlast_tracking" string="Put in current pack" type="object"
+                                attrs="{'invisible': [('tracking_id','&lt;&gt;',False)]}"
+                                icon="terp-accessories-archiver"
+                                groups="stock.group_tracking_lot"
+                                states="draft,assigned,confirmed"/>
+                             <button name="%(stock.split_into)d" string="Put in a new pack" type="action"
+                                groups="product.group_stock_packaging"
+                                icon="terp-accessories-archiver+"
+                                states="draft,assigned,confirmed"/>
+                            <field name="location_dest_id" groups="stock.group_locations"/>
+                            <field name="type" on_change="onchange_move_type(type)" invisible="1"/>
+                            <field name="create_date" invisible="1" groups="base.group_no_one"/>
+                            <field name="state"/>
+                        </tree>
+                        
+                    </field>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="stock_picking_in_inherit_purchase" model="ir.ui.view">
+            <field name="name">Incoming Picking Inherited</field>
+            <field name="model">stock.picking.in</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='purchase_id']" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_stock_picking_advanced</attribute>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- Vista lista -->
+        <record id="stock_picking_in_tree_inherit" model="ir.ui.view">
+            <field name="name">stock.picking.in.tree.inherit</field>
+            <field name="model">stock.picking.in</field>
+            <field name="inherit_id" ref="stock.view_picking_in_tree" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_stock_picking_advanced</attribute>
+                </field>
+                <field name="backorder_id" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_stock_picking_advanced</attribute>
+                </field>
+                <field name="min_date" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_stock_picking_advanced</attribute>
+                </field>
+                <field name="invoice_state" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_stock_picking_advanced</attribute>
+                </field>
+                <field name="stock_journal_id" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_stock_picking_advanced</attribute>
+                </field>
+            </field>
+        </record>
+        
+<!--
+        Albaranes de salida
+-->
+        <!-- Vista formulario -->
+        <record id="stock_picking_out_form_inherit" model="ir.ui.view">
+            <field name="name">stock.picking.out.form.inherit</field>
+            <field name="model">stock.picking.out</field>
+            <field name="inherit_id" ref="stock.view_picking_out_form" />
+            <field name="priority" eval="22"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_stock_picking_advanced</attribute>
+                </field>
+                <field name="stock_journal_id" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_stock_picking_advanced</attribute>
+                </field>
+                <field name="min_date" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_stock_picking_advanced</attribute>
+                </field>
+                <page string="Additional Info" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_stock_picking_advanced</attribute>
+                </page>
+                <button string="Claims" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_stock_picking_advanced</attribute>
+                </button>
+                <xpath expr="//field[@name='move_lines']" position="replace">
+                    <field name="move_lines" context="{'address_out_id': partner_id, 'picking_type': 'out', 'form_view_ref':'view_move_picking_form'}">
+                        <tree colors="grey:state == 'cancel';red:(state not in ('cancel','done')) and date > current_date" string="Moves" editable="bottom">
+                            <field name="name" invisible="1"/>
+                            <field name="picking_id" string="Reference" invisible="1"/>
+                            <field name="origin" invisible="1"/>
+                            <field name="type" on_change="onchange_move_type(type)" invisible="1"/>
+                            <field name="create_date" invisible="1" groups="base.group_no_one"/>
+                            <field name="product_id" on_change="onchange_product_id(product_id,location_id,location_dest_id, False)"/>
+                            <field name="product_qty" on_change="onchange_quantity(product_id, product_qty, product_uom, product_uos)"/>
+                            <field name="virtual_available" readonly="1"/>
+                            <field name="product_uom" string="Unit of Measure" groups="product.group_uom"/>
+                            <field name="product_uos" groups="product.group_uos" />
+                            <field name="product_uos_qty" groups="product.group_uos" />
+                            <button name="%(stock.move_scrap)d"
+                                string="Scrap Products" type="action"
+                                icon="terp-gtk-jump-to-ltr" context="{'scrap': True}"
+                                states="draft,waiting,confirmed,assigned"/>
+                            <field name="prodlot_id" groups="stock.group_production_lot"/>
+                            <field name="tracking_id" groups="stock.group_tracking_lot"/>
+                            <field name="location_id" groups="stock.group_locations"/>
+                            <field name="location_dest_id" groups="stock.group_locations"/>
+                            <field name="date" groups="base.group_no_one" invisible="1"/>
+                            <field name="date_expected" invisible="1"/>
+                            <field name="state" invisible="1"/>
+                        </tree>
+                    </field>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="stock_picking_out_form_inherit2" model="ir.ui.view">
+            <field name="name">stock.picking.out.form.inherit</field>
+            <field name="model">stock.picking.out</field>
+            <field name="inherit_id" ref="stock.view_picking_form" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="carrier_id" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_stock_picking_advanced</attribute>
+                </field>
+                <field name="carrier_tracking_ref" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_stock_picking_advanced</attribute>
+                </field>
+                <field name="number_of_packages" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_stock_picking_advanced</attribute>
+                </field>
+            </field>
+        </record>
+        
+        <!-- Vista lista -->
+        <record id="stock_picking_out_tree_inherit" model="ir.ui.view">
+            <field name="name">stock.picking.out.tree.inherit</field>
+            <field name="model">stock.picking.out</field>
+            <field name="inherit_id" ref="stock.view_picking_out_tree" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_stock_picking_advanced</attribute>
+                </field>
+                <field name="backorder_id" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_stock_picking_advanced</attribute>
+                </field>
+                <field name="min_date" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_stock_picking_advanced</attribute>
+                </field>
+                <field name="invoice_state" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_stock_picking_advanced</attribute>
+                </field>
+                <field name="stock_journal_id" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_stock_picking_advanced</attribute>
+                </field>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <record model="ir.cron" id="crm_custom_notify_cron">
+            <field name="name">Meeting/Phonecall reminder</field>
+            <field name="interval_number">2</field>
+            <field name="interval_type">minutes</field>
+            <field name="user_id" ref="base.user_root" />
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model">crm.custom.notify</field>
+            <field name="function">cron_notify_event</field>
+            <field name="args">()</field>
+            <field name="active" eval="True"/>
+        </record>
+        
+    </data>
+</openerp>

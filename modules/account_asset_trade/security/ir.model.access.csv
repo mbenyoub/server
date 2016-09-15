@@ -1,0 +1,3 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+account_asset_trade_model_1,model_account_fiscal_inpc,model_account_fiscal_inpc,,1,1,1,1
+account_asset_trade_model_2,model_account_fiscal_inpc_report_view,model_account_fiscal_inpc_report_view,,1,1,1,1

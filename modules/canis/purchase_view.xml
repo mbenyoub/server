@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--MODIFICACION 19/04/2014-->
+        <!--Modifcacion al atributo 'attrs' de los botones 'validar_monto' y 'purchase_confirm' donde el
+            primero es invisible si se encuentra en el estado 'approved' y al segundo boton se le agrego
+            el operador 'or (|)'-->
+        
+        <record model="ir.ui.view" id="purchase_order_form">
+            <field name="name">purchase.order.form.inherit</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button type="object" name="validar_monto" string="Validar monto"
+                            attrs="{'invisible': ['|', ('state', 'in', ['verificacion', 'approved']),
+                                ('exceeded_limit', '=', False)]}"
+                            confirm="Si el monto de la compra es mayor al monot configurado
+                                pasara al estado pendiente"
+                    />
+                </xpath>
+                <xpath expr="//sheet/group[1]/group[1]" position="inside">
+                    <field name="exceeded_limit" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']"
+                    position="after">
+                    <field name="to_weight_product"/>
+                </xpath>
+                
+                <!--MODIFICACION 14/04/2015-->
+                <!--Reemplazo del boton 'purchase_confirm' por otro con el mismo nombre
+                    pero con distintos atributos-->
+                
+                <xpath expr="//button[@name='purchase_confirm']" position="replace"></xpath>
+                <xpath expr="//button[@name='print_quotation']" position="after">
+                    <button name="purchase_confirm" string="Confirmar" class="oe_highlight"
+                        attrs="{'invisible': ['|', ('exceeded_limit', '=', True),
+                            ('state', 'in', ['approved','verificacion']),]}"/>
+                    <button name="purchase_confirm" string="Confirmar pedido" class="oe_highlight"
+                        attrs="{'invisible': [('state', 'not in', ['verificacion'])]}"
+                        groups="purchase.group_purchase_manager"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

@@ -1,0 +1,11 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+database_all,database_all,model_admon_database,base.group_admon_database,1,1,1,1
+database_info,database_info,model_admon_database_info,base.group_admon_database,1,1,1,1
+database_import,database_import,model_admon_database_import,base.group_admon_database,1,1,1,1
+database_module_all,database_module_all,model_admon_database_module,base.group_admon_database,1,1,1,1
+database_module_rel,database_module_rel,model_admon_database_module_relation,base.group_admon_database,1,1,1,1
+active_user,admonactive_user,model_admon_active_user_wizard,base.group_admon_database,1,1,1,1
+database_user,database_user,model_admon_database_user,base.group_admon_database_user,1,1,1,1
+database_user_prof,database_user_prof,model_admon_database_user_profile,base.group_admon_database_user,1,1,1,1
+database_user_groups,database_user_groups,model_admon_database_user_profile_groups,base.group_admon_database_user,1,1,1,1
+admon_settings,admon_settings,model_admon_config_settings,base.group_no_one,1,1,1,1

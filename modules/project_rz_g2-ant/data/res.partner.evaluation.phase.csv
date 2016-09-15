@@ -1,0 +1,5 @@
+id,name,code,sequence
+res_partner_con_template_phase_01,ESTUDIO ESTRUCTURAL (EE),EE,1
+res_partner_con_template_phase_02,ESTUDIO DE MERCADO (EM),EM,2
+res_partner_con_template_phase_03,ESTUDIO TÉCNICO (ET),ET,3
+res_partner_con_template_phase_04,ESTUDIO ORGANIZACIONAL (EO),EO,4

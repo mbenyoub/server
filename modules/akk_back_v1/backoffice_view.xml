@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <!--
+            Facturacion Electronica
+        -->
+
+        <!-- Menu Facturacion -->
+        <menuitem id="menu_backoffice_invoicing" name="Facturacion Electronica" parent="base.menu_custom_backoffice" sequence="45" groups="base.group_akk_back_v1_backoffice"/>
+            <!-- Menu Facturacion/Facturacion -->
+            <menuitem action="action_invoice_cfdi" name="Facturacion" id="menu_backoffice_invoicing_invoice" parent="menu_backoffice_invoicing" sequence="5" />
+            <!-- Menu Facturacion/Cobros -->
+            <menuitem action="account_voucher.action_vendor_receipt" name="Cobros" id="menu_backoffice_invoicing_voucher" parent="menu_backoffice_invoicing" sequence="10" />
+            <!-- Menu Facturacion/Clientes -->
+            <menuitem action="base.action_partner_form" name="Clientes" id="menu_backoffice_invoicing_partner" parent="menu_backoffice_invoicing" sequence="15" />
+            <!-- Menu Facturacion/Productos -->
+            <menuitem action="product.product_normal_action" name="Productos" id="menu_backoffice_invoicing_product" parent="menu_backoffice_invoicing" sequence="20" />
+            <!-- Menu Facturacion/Egreso Financiero -->
+            <menuitem action="account_fiscal.action_account_fiscal_statement_expense" name="Egreso Financiero" id="menu_backoffice_invoicing_statement_expense" parent="menu_backoffice_invoicing" sequence="25" />
+            <!-- Menu Facturacion/Control de Inventario -->
+            <menuitem name="Inventario" id="menu_backoffice_invoicing_stock" parent="menu_backoffice_invoicing" sequence="30" />
+                <!-- Menu Albaranes de Entrada -->
+                <menuitem action="stock.action_picking_tree4" name="Control de Ingresos" id="menu_backoffice_invoicing_stock_picking_in" parent="menu_backoffice_invoicing_stock" sequence="10" /> 
+                <!-- Menu Albaranes de Salida -->
+                <menuitem action="stock.action_picking_tree" name="Control de Egresos" id="menu_backoffice_invoicing_stock_picking_out" parent="menu_backoffice_invoicing_stock" sequence="20" /> 
+        
+            <!-- Menu Configuracion/Tiendas -->
+            <menuitem action="sale.action_shop_form" name="Tiendas" id="menu_backoffice_config_shop" parent="base.menu_backoffice_config" sequence="5" groups="stock.group_locations" /> 
+        
+        <!-- Menu TOP Contabilidad -->
+        <menuitem id="backoffice.menu_backoffice_account" name="Contabilidad" parent="base.menu_custom_backoffice_saas" sequence="40" groups="account.group_account_manager,base.group_akk_back_v1_account"/>
+        <!-- Quita al empleado de las opciones del menu de Almacen-->
+        <record id="backoffice.menu_backoffice_account" model="ir.ui.menu">
+            <field name="groups_id" eval="[(3,ref('account.group_account_user')),(3,ref('account.group_account_invoice'))]"/>
+        </record>
+        
+        <!-- Menu TOP Recursos Humanos -->
+        <menuitem id="backoffice.menu_backoffice_hr" name="Recursos Humanos" parent="base.menu_custom_backoffice_saas" sequence="50" groups="base.group_hr_user,base.group_hr_manager"/>
+        
+        <!-- Menu TOP Almacen -->
+        <menuitem id="backoffice.menu_backoffice_stock" name="Almacen" parent="base.menu_custom_backoffice_saas" sequence="30" groups="stock.group_stock_manager"/>
+        <!-- Quita al empleado de las opciones del menu de Almacen-->
+        <record id="backoffice.menu_backoffice_stock" model="ir.ui.menu">
+            <field name="groups_id" eval="[(3,ref('stock.group_stock_user'))]"/>
+        </record>
+        
+        <!-- Menu Informes/Almacen -->
+        <menuitem action="stock.open_board_warehouse" name="Almacen" id="backoffice.menu_backoffice_reporting_warehouse" parent="backoffice.menu_backoffice_reporting" sequence="4" groups="base.group_akk_back_v1_stock_manager"/> 
+        <!-- Quita al empleado de las opciones del menu de Almacen-->
+        <record id="backoffice.menu_backoffice_reporting_warehouse" model="ir.ui.menu">
+            <field name="groups_id" eval="[(3,ref('stock.group_stock_user'))]"/>
+        </record>
+        
+        <!-- Menu Informes/Contabilidad -->
+        <menuitem action="account.open_board_account" name="Contabilidad" id="backoffice.menu_backoffice_reporting_account" parent="backoffice.menu_backoffice_reporting" sequence="5" groups="account.group_account_manager,base.group_akk_back_v1_account"/> 
+        
+        <!-- Menu Informes/Situacion Actual -->
+        <menuitem action="action_current_situtation_board" name="Situacion Actual" id="backoffice.menu_backoffice_reporting_actual_situation" parent="backoffice.menu_backoffice_reporting" sequence="10" groups="base.group_akk_back_v1_backoffice" /> 
+        
+        <!-- Reuniones-->
+        <menuitem name="Reuniones" id="backoffice.menu_backoffice_meeting" parent="base.menu_custom_backoffice_saas" sequence="15" groups="base.group_akk_back_v1_crm"/>
+        <!-- Quita la referencia de permisos sobre ventas-->
+        <record id="backoffice.menu_backoffice_stock" model="ir.ui.menu">
+            <field name="groups_id" eval="[(3,ref('stock.group_stock_user'))]"/>
+        </record>
+        
+        <!-- Llamadas -->
+        <menuitem name="Llamadas telefonicas" id="backoffice.menu_backoffice_crm_case_phone" parent="base.menu_custom_backoffice_saas" sequence="18" groups="base.group_akk_back_v1_crm"/>
+        <!-- Quita la referencia de permisos sobre ventas-->
+        <record id="backoffice.menu_backoffice_stock" model="ir.ui.menu">
+            <field name="groups_id" eval="[(3,ref('base.group_sale_salesman')),(3,ref('base.group_sale_manager'))]"/>
+        </record>
+        
+        <!--
+            Modificacion de Menus de Albaran por entrada y salida
+        -->
+        
+        <!-- Backoffice/Almacen/Albaran de entrada -->
+        <delete model="ir.ui.menu" id="backoffice.menu_backoffice_stock_picking_in"/>
+        <menuitem id="backoffice.menu_backoffice_stock_picking_in" action="stock.action_picking_tree4" name="Entrada de Almacen" sequence="1" parent="backoffice.menu_backoffice_stock" groups=""/>
+        
+        <!-- Backoffice/Almacen/Albaran de salida -->
+        <delete model="ir.ui.menu" id="backoffice.menu_backoffice_stock_picking_out"/>
+        <menuitem id="backoffice.menu_backoffice_stock_picking_out" action="stock.action_picking_tree" name="Salida de Almacen" sequence="2" parent="backoffice.menu_backoffice_stock" groups=""/>
+        
+    </data>
+</openerp>

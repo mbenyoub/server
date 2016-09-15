@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <!-- Menu item -->
+        <menuitem id="base.menu_base_contact_config_project" name="Proyectos" parent="base.menu_base_contact_config" sequence="80"/>
+
+        <!--
+            Plantilla proyectos
+        -->
+        
+        <!--View Tree - Plantilla proyectos -->
+        <record model="ir.ui.view" id="project_template_project_tree_view">
+            <field name="name">project.template.project.tree</field>
+            <field name="model">project.template.project</field>
+            <field name="arch" type="xml">
+                <tree string="Plantilla proyectos">
+                    <field name="name"/>
+                    <field name="company_class"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- View form - Plantilla proyectos  -->
+        <record model="ir.ui.view" id="act_project_template_project_form_view">
+            <field name="name">project.template_project.form</field>
+            <field name="model">project.template.project</field>
+            <field name="arch" type="xml">
+                <form string="Plantilla proyectos" version="7.0">
+                    <sheet string="Plantilla proyectos">
+                        <group colspan="4" col="4">
+                            <group colspan="2" col="2">
+                                <field name="name"/>
+                                <field name="company_class"/>
+                            </group>
+                            <group colspan="2" col="2">
+                                <field name="date" invisible="1"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Fases">
+                                <field name="phase_ids">
+                                    <tree>
+                                        <field name="sequence"/>
+                                        <field name="name"/>
+                                    </tree>
+                                    <form>
+                                        <group colspan="4" rowspan="4">
+                                            <group>
+                                                <field name="name"/>
+                                                <field name="code"/>
+                                                <field name="meeting_time" invisible="1"/>
+                                            </group>
+                                            <group>
+                                                <field name="sequence"/>
+                                                <field name="validate_time"/>
+                                                <field name="active"/>
+                                            </group>
+                                        </group>
+                                        <notebook>
+                                            <page string="Entregables">
+                                                <field name="task_ids">
+                                                    <tree editable="top">
+                                                        <field name="sequence"/>
+                                                        <field name="name"/>
+                                                        <field name="time"/>
+                                                        <field name="days"/>
+                                                        <field name="priority"/>
+                                                        <field name="description"/>
+                                                    </tree>
+                                                </field>
+                                            </page>
+                                            <page string="Notas">
+                                                <field name="description" nolabel="1"/>
+                                            </page>
+                                        </notebook>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Notas">
+                                <field name="description" nolabel="1"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Search - Plantilla proyectos -->
+        <record id="view_project_template_project_filter" model="ir.ui.view">
+            <field name="name">project.template_project.select</field>
+            <field name="model">project.template.project</field>
+            <field name="arch" type="xml">
+                <search string="Filtrar Plantilla">
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="active"/>
+                    <field name="company_class"/>
+                    <separator/>
+                    <filter name="active_true" string="Plantillas activas" domain="[('active','=',True)]" help="Plantillas que se encuentren activas en el sistema" icon="terp-check"/>
+                    <separator/>
+                    <filter string="Idea" domain="[('company_class','=','IDEA')]" icon="terp-check"/>
+                    <filter string="En desarrollo" domain="[('company_class','=','DESA')]" icon="terp-check"/>
+                    <filter string="En expansion" domain="[('company_class','=','EXPAN')]" icon="terp-check"/>
+                    <separator/>
+                    <group expand="0" string="Agrupar por...">
+                        <field name="date"/>
+                        <filter string="Tipo proyecto" icon="terp-partner" domain="[]" context="{'group_by':'company_class'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <!-- action windows - Plantilla proyectos -->
+        <record model="ir.actions.act_window" id="action_project_template_project_view">
+            <field name="name">Plantilla proyecto</field>
+            <field name="res_model">project.template.project</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{'search_default_active':True}</field>
+            <field name="view_id" ref="project_template_project_tree_view"/>
+            <field name="search_view_id" ref="view_project_template_project_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Plantilla de proyectos </p>
+            </field>
+        </record>
+
+        <!-- Menu Task log -->
+        <menuitem action="action_project_template_project_view" name="Plantilla proyectos" id="menu_base_contact_config_template_project" parent="base.menu_base_contact_config_project" sequence="5"/>
+        
+        <!--
+            Plantilla fases
+        -->
+        
+        <!--View Tree - Plantilla fases -->
+        <record model="ir.ui.view" id="project_template_phase_tree_view">
+            <field name="name">project.template.phase.tree</field>
+            <field name="model">project.template.phase</field>
+            <field name="arch" type="xml">
+                <tree string="Plantilla fases">
+                    <field name="sequence"/>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="project_id"/>
+                    <field name="active"/>
+                    <field name="meeting_time" invisible="1"/>
+                    <field name="company_class" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- View form - Plantilla fases  -->
+        <record model="ir.ui.view" id="act_project_template_phase_form_view">
+            <field name="name">project.template.phase.form</field>
+            <field name="model">project.template.phase</field>
+            <field name="arch" type="xml">
+                <form string="Plantilla fase" version="7.0">
+                    <sheet string="Plantilla fase">
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="project_id"/>
+                                <field name="meeting_time" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="sequence"/>
+                                <field name="validate_time"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Entregables">
+                                <field name="task_ids">
+                                    <tree editable="top">
+                                        <field name="sequence"/>
+                                        <field name="name"/>
+                                        <field name="time"/>
+                                        <field name="days"/>
+                                        <field name="priority"/>
+                                        <field name="description"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Notas">
+                                <field name="description" nolabel="1"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Search - Plantilla fases -->
+        <record id="view_project_template_phase_filter" model="ir.ui.view">
+            <field name="name">project.template_phase.select</field>
+            <field name="model">project.template.phase</field>
+            <field name="arch" type="xml">
+                <search string="Filtrar Plantilla">
+                    <field name="name"/>
+                    <field name="active"/>
+                    <field name="project_id"/>
+                    <field name="company_class"/>
+                    <separator/>
+                    <filter name="active_true" string="Plantillas activas" domain="[('active','=',True)]" help="Plantillas que se encuentren activas en el sistema" icon="terp-check"/>
+                    <separator/>
+                    <filter string="Idea" domain="[('company_class','=','IDEA')]" icon="terp-check"/>
+                    <filter string="En desarrollo" domain="[('company_class','=','DESA')]" icon="terp-check"/>
+                    <filter string="En expansion" domain="[('company_class','=','EXPAN')]" icon="terp-check"/>
+                    <separator/>
+                    <group expand="0" string="Agrupar por...">
+                        <filter string="Proyecto" icon="terp-partner" domain="[]" context="{'group_by':'project_id'}"/>
+                        <filter string="Tipo proyecto" icon="terp-partner" domain="[]" context="{'group_by':'company_class'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <!-- action windows - Plantilla fase -->
+        <record model="ir.actions.act_window" id="action_project_template_phase_view">
+            <field name="name">Plantilla Fase proyecto</field>
+            <field name="res_model">project.template.phase</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{'search_default_active':True}</field>
+            <field name="view_id" ref="project_template_phase_tree_view"/>
+            <field name="search_view_id" ref="view_project_template_phase_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Plantilla de Fases proyectos </p>
+            </field>
+        </record>
+
+        <!-- Menu Task log -->
+        <menuitem action="action_project_template_phase_view" name="Plantilla Fase proyectos" id="menu_base_contact_config_template_phase" parent="base.menu_base_contact_config_project" sequence="10"/>
+        
+        
+        <!--
+            Plantilla entregables
+        -->
+        
+        <!--View Tree - Plantilla entregables -->
+        <record model="ir.ui.view" id="project_template_task_tree_view">
+            <field name="name">project.template.task.tree</field>
+            <field name="model">project.template.task</field>
+            <field name="arch" type="xml">
+                <tree string="Plantilla entregables">
+                    <field name="sequence"/>
+                    <field name="name"/>
+                    <field name="company_class" invisible="1"/>
+                    <field name="priority"/>
+                    <field name="phase_id"/>
+                    <field name="project_id"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- View form - Plantilla entregables  -->
+        <record model="ir.ui.view" id="act_project_template_task_form_view">
+            <field name="name">project.template_task.form</field>
+            <field name="model">project.template.task</field>
+            <field name="arch" type="xml">
+                <form string="Plantilla entregables" version="7.0">
+                    <header>
+                        <button name="update_task" type="object" string="Actualizar todas las tareas" invisible="1"/>
+                    </header>
+                    <sheet string="Plantilla entregables">
+                        <group colspan="4" col="4">
+                            <group colspan="2" col="2">
+                                <field name="name"/>
+                                <field name="phase_id"/>
+                                <field name="priority"/>
+                            </group>
+                            <group colspan="2" col="2">
+                                <field name="sequence"/>
+                                <field name="time"/>
+                                <field name="days"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Notas">
+                                <field name="description" nolabel="1"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Search - Plantilla proyectos -->
+        <record id="view_project_template_task_filter" model="ir.ui.view">
+            <field name="name">project.template_task.select</field>
+            <field name="model">project.template.task</field>
+            <field name="arch" type="xml">
+                <search string="Filtrar Plantilla">
+                    <field name="name"/>
+                    <field name="phase_id"/>
+                    <field name="project_id"/>
+                    <field name="priority"/>
+                    <field name="company_class"/>
+                    <separator/>
+                    <filter string="Idea" domain="[('company_class','=','IDEA')]" icon="terp-check"/>
+                    <filter string="En desarrollo" domain="[('company_class','=','DESA')]" icon="terp-check"/>
+                    <filter string="En expansion" domain="[('company_class','=','EXPAN')]" icon="terp-check"/>
+                    <separator/>
+                    <group expand="0" string="Agrupar por...">
+                        <filter string="Proyecto" icon="terp-partner" domain="[]" context="{'group_by':'project_id'}"/>
+                        <filter string="Fase" icon="terp-partner" domain="[]" context="{'group_by':'phase_id'}"/>
+                        <filter string="Prioridad" icon="terp-partner" domain="[]" context="{'group_by':'priority'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <!-- action windows - Plantilla proyectos -->
+        <record model="ir.actions.act_window" id="action_project_template_task_view">
+            <field name="name">Plantilla entregables</field>
+            <field name="res_model">project.template.task</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="view_id" ref="project_template_task_tree_view"/>
+            <field name="search_view_id" ref="view_project_template_task_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Plantilla de entregables </p>
+            </field>
+        </record>
+
+        <!-- Menu Task log -->
+        <menuitem action="action_project_template_task_view" name="Plantilla entregables" id="menu_base_contact_config_template_task" parent="base.menu_base_contact_config_project" sequence="15"/>
+        
+    </data>
+</openerp>

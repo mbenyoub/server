@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+        <!--VISTAS-->
+        <record model="ir.ui.view" id="mrp_production_form_view">
+            <field name="name">mrp.production.form.inherit</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[5]" position="after">
+                    <page string="Monitoreo de productos">
+                        <field name="monitoring_product_ids" context="{'tree_view_ref':'mrp_monitoring_product_tree',
+                            'form_view_ref':'mrp_monitoring_product_form', 'production_id': id}"/>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="mrp_monitoring_product_tree">
+            <field name="name">mrp.monitoring.product.tree</field>
+            <field name="model">mrp.monitoring.product</field>
+            <field name="arch" type="xml">
+                <tree string="Monitoreo">
+                    <field name="production_id"/>
+                    <field name="name"/>
+                    <field name="product_qty"/>
+                    <field name="product_humidity"/>
+                    <field name="product_size"/>
+                    <field name="dosage_percent"/>
+                    <!--<field name="lot_id"/>-->
+                </tree>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="mrp_monitoring_product_form">
+            <field name="name">mrp.monitoring.product.form</field>
+            <field name="model">mrp.monitoring.product</field>
+            <field name="arch" type="xml">
+                <form string="Monitoreo de producto" version="7.0">
+                    <sheet>
+                        <h1>
+                            <field name="name" placeholder="Nombre del examen"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="product_id" required="1"/>
+                                <field name="product_qty"/>
+                                <field name="lot_id"/>
+                                <field name="production_id"/>
+                            </group>
+                            <group>
+                                <field name="product_humidity"/>
+                                <field name="product_size"/>
+                                <field name="dosage_percent"/>
+                                <field name="move_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!--MENU E ITEMS-->
+        <record model="ir.actions.act_window" id="mrp_monitoring_product_action">
+            <field name="name">Monitoreos de producto</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mrp.monitoring.product</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Análisis de productos utilizados en la orden de manufactura</p>
+            </field>
+        </record>
+        
+        <record model="ir.ui.menu" id="mrp_monitoring_product_menu">
+            <field name="name">Monitoreo de productos</field>
+            <field name="action" ref="mrp_monitoring_product_action"/>
+            <field name="sequence" eval="2"/>
+            <field name="parent_id" ref="mrp.menu_mrp_bom"/>
+        </record>
+    </data>
+</openerp>

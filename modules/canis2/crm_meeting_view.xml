@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <!--
+            Modificacion de Vista Formulario Reuniones
+        -->
+        <record model="ir.ui.view" id="view_crm_meeting_form_inherit">
+            <field name="name">crm.meeting.form.inherit</field>
+            <field name="model">crm.meeting</field>
+            <field name="inherit_id" ref="base_calendar.view_crm_meeting_form" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="partner_ids" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <label for="partner_ids" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </label>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

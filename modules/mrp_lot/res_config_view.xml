@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+         <!--Configuracion de lote de produccion-->
+        
+        <record model="ir.ui.view" id="mrp_lot_config_settings_form">
+            <field name="name">mrp.lot.config.form</field>
+            <field name="model">mrp.lot.config.settings</field>
+            <field name="arch" type="xml">
+                <form string="Configuracion Lotes de produccion" class="oe_form_configuration" version="7.0">
+                    <header>
+                        <button name="execute" string="Aplicar" type="object" class="oe_highlight"/>
+                        or
+                        <button name="cancel" string="Cancelar" type="object" class="oe_link"/>
+                    </header>
+                    <label for="name"/>
+                    <h1>
+                        <field name="name" class="oe_inline"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="ref" class="oe_inline"/>
+                        </group>
+                        <group></group>
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+         <!--Configuracion Lote de produccion-->
+        
+        <record model="ir.actions.act_window" id="mrp_lot_conf_settings_action">
+            <field name="name">Configuracion lote de produccion</field>
+            <field name="res_model">mrp.lot.config.settings</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+        </record>
+        
+        <record model="ir.ui.menu" id="base.mrp_lot_conf_menu">
+            <field name="name">Configuracion lotes de produccion</field>
+            <field name="action" ref="mrp_lot_conf_settings_action"/>
+            <field name="sequence" eval="5"/>
+            <field name="parent_id" ref="mrp.menu_mrp_configuration"/>
+        </record>
+        
+        <!--Lote de produccion-->
+    </data>
+</openerp>

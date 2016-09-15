@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+
+    <record model="ir.actions.act_window" id="planning_project_crm_case_categ_phone0">
+        <field name="name">Phone Calls</field>
+        <field name="res_model">crm.phonecall</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,calendar</field>
+        <field name="view_id" ref="planning_project_crm_case_phone_tree_view"/>
+        <field name="context">{"search_default_user_id":uid, 'default_is_project': True}</field>
+        <field name="domain">[('is_project', '=', True)]</field>
+        <field name="search_view_id" ref="view_planning_project_crm_case_phonecalls_filter"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="action_planning_project_crm_tag_tree_phone0">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="planning_project_crm_case_phone_tree_view"/>
+        <field name="act_window_id" ref="planning_project_crm_case_categ_phone0"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="action_planning_project_crm_tag_calendar_phone0">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">calendar</field>
+        <field name="view_id" ref="planning_project_crm_case_phone_calendar_view"/>
+        <field name="act_window_id" ref="planning_project_crm_case_categ_phone0"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="action_planning_project_crm_tag_form_phone0">
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="planning_project_crm_case_phone_form_view"/>
+        <field name="act_window_id" ref="planning_project_crm_case_categ_phone0"/>
+    </record>
+
+    <menuitem name="Llamadas telefónicas" id="menu_planning_project_crm_case_phone"
+        parent="base.menu_main_pm" sequence="3" />
+
+    <record model="ir.actions.act_window" id="planning_project_crm_case_categ_phone_incoming0">
+        <field name="name">Logged Calls</field>
+        <field name="res_model">crm.phonecall</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,calendar</field>
+        <field name="view_id" ref="planning_project_crm_case_inbound_phone_tree_view"/>
+        <field name="domain">[('is_project', '=', True)]</field>
+        <field name="context">{'default_is_project': True, 'default_state': 'done', 'search_default_state': 'done'}</field>
+        <field name="search_view_id" ref="view_planning_project_crm_case_phonecalls_filter"/>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Haga click para registrar una llamada relacionada con el proyecto. 
+          </p><p>
+            OpenERP le permite registrar las llamadas entrantes en la marcha para realizar el seguimiento del
+            historial de comunicación con un cliente o para informar a otro miembro del equipo.
+          </p>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="action_planning_project_crm_tag_tree_phone_incoming0">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="planning_project_crm_case_inbound_phone_tree_view"/>
+        <field name="act_window_id" ref="planning_project_crm_case_categ_phone_incoming0"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="action_planning_project_crm_tag_calendar_phone_incoming0">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">calendar</field>
+        <field name="view_id" ref="planning_project_crm_case_phone_calendar_view"/>
+        <field name="act_window_id" ref="planning_project_crm_case_categ_phone_incoming0"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="action_planning_project_crm_tag_form_phone_incoming0">
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="planning_project_crm_case_phone_form_view"/>
+        <field name="act_window_id" ref="planning_project_crm_case_categ_phone_incoming0"/>
+    </record>
+
+    <menuitem name="Llamadas registradas" id="menu_planning_project_crm_case_phone_inbound"
+        parent="menu_planning_project_crm_case_phone"
+        action="planning_project_crm_case_categ_phone_incoming0" />
+
+    <record model="ir.actions.act_window" id="planning_project_crm_case_categ_phone_outgoing0">
+        <field name="name">Scheduled Calls</field>
+        <field name="res_model">crm.phonecall</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,calendar</field>
+        <field name="view_id" ref="planning_project_crm_case_phone_tree_view"/>
+        <field name="context">{'default_is_project': True, 'default_state': 'open', 'search_default_state': 'open'}</field>
+        <field name="domain">[('is_project', '=', True)]</field>
+        <field name="search_view_id" ref="view_planning_project_crm_case_phonecalls_filter"/>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Haga clic para programar una llamada
+          </p><p>
+            OpenERP le permite definir fácilmente todas las llamadas que hay que hacer
+            para darle seguimiento a los proyectos.
+          </p>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="action_planning_project_crm_tag_tree_phone_outgoing0">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="planning_project_crm_case_phone_tree_view"/>
+        <field name="act_window_id" ref="planning_project_crm_case_categ_phone_outgoing0"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="action_planning_project_crm_tag_calendar_phone_outgoing0">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">calendar</field>
+        <field name="view_id" ref="planning_project_crm_case_phone_calendar_view"/>
+        <field name="act_window_id" ref="planning_project_crm_case_categ_phone_outgoing0"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="action_planning_project_crm_tag_form_phone_outgoing0">
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="planning_project_crm_case_phone_form_view"/>
+        <field name="act_window_id" ref="planning_project_crm_case_categ_phone_outgoing0"/>
+    </record>
+
+    <menuitem name="Llamadas planificadas" id="menu_planning_project_crm_case_phone_outbound"
+        parent="menu_planning_project_crm_case_phone"
+        action="planning_project_crm_case_categ_phone_outgoing0" />
+
+</data>
+</openerp>

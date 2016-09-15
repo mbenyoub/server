@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+<!--
+        Vista wizard Actualizar equipo de ventas
+-->
+        
+        <!-- View Form - Actualizar equipo de ventas -->
+        <record model="ir.ui.view" id="wizard_update_serction_user_view">
+            <field name="name">update.section.user.wizard.form</field>
+            <field name="model">update.section.user.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Actualizar equipo de ventas" version="7.0">
+                    <group col="4">
+                        <group>
+                            <field name="section_id" on_change="onchange_section_id(section_id,context)"/>
+                        </group>
+                        <group>
+                            <div>
+                                <label for="user_ids"/>
+                                <field name="user_ids" nolabel="1" wizard="one2many" >
+                                    <tree editable="top" create="0" edit="0" delete="1" string="Usuarios" >
+                                        <field name="user_id" />
+                                    </tree>
+                                </field>
+                            </div>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="action_update_section" type="object" string="Actualizar" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+    </data>
+</openerp>   

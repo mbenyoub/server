@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+<!--
+        Categoria de producto
+-->
+        <record id="product_category_form_view_inherit" model="ir.ui.view">
+            <field name="name">Product Category Inherited</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="product.product_category_form_view"/>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <group name="account_property" position="replace"/>
+                <group name="account_stock_property" position="replace"/>
+                <div class="oe_title" position="inside" >
+                    <div name="options">
+                        <field name="sale_ok" modifiers="{}"/>
+                        <label for="sale_ok"/>
+                        <field name="purchase_ok" modifiers="{}"/>
+                        <label for="purchase_ok"/>
+                        <field name="hr_expense_ok" modifiers="{}"/>
+                        <label for="hr_expense_ok"/>
+                        <field name="is_asset" modifiers="{}"/>
+                        <label for="is_asset"/>
+                    </div>
+                </div>
+                <field name="parent_id" position="after">
+                    <field name="code" />
+                </field>
+                <sheet position="inside">
+                    <notebook>
+                        <page name="product" string="Informacion General">
+                            <group >
+                                <group>
+                                    <field name="type_product"/>
+                                    <field name="uom_id"/>
+                                </group>
+                                <group>
+                                    <field name="default_asset_category_id" attrs="{'invisible': [('is_asset','=',False)]}"/>
+                                </group>
+                                <group>
+                                    <field name="uom_po_id"/>
+                                    <field name="cost_method"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page name="account" string="Contabilidad">
+                            <group name="account_property" string="Propiedades de la cuenta">
+                                <group>
+                                    <field name="property_account_income_categ" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" modifiers="{}"/>
+                                    <field name="property_account_income_refund_categ" string="Cuenta categoria NDC ingresos" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" modifiers="{}"/>
+                                    <field name="taxes_id" colspan="2" attrs="{'readonly':[('sale_ok','=',0)]}" widget="many2many_tags" modifiers="{'readonly': [['sale_ok', '=', 0]]}"/>
+                                </group>
+                                <group>
+                                    <field name="property_account_expense_categ" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" modifiers="{}"/>
+                                    <field name="property_account_expense_refund_categ" string="Cuenta categoria NDC gastos" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" modifiers="{}"/>
+                                    <field name="supplier_taxes_id" colspan="2" widget="many2many_tags" attrs="{'readonly':[('purchase_ok','=',0)]}" modifiers="{'readonly': [['purchase_ok', '=', 0]]}"/>
+                                </group>
+                            </group>
+                            <group name="account_stock_property" string="Propiedades de cuenta de existencias" colspan="2">
+                                <field name="valuation" attrs="{'readonly':[('type', '=', 'service')]}" modifiers="{'readonly': [['type', '=', 'service']], 'required': true}"/>
+                                <field name="property_stock_account_input_categ" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" modifiers="{}"/>
+                                <field name="property_stock_account_output_categ" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" modifiers="{}"/>
+                                <field name="property_stock_valuation_account_id" domain="[('type','&lt;&gt;','view'), ('type','&lt;&gt;','consolidation')]" modifiers="{}"/>
+                                <field name="property_stock_journal" modifiers="{}"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </field>
+        </record>
+        
+        <record id="product_category_list_view_inherit" model="ir.ui.view">
+            <field name="name">Product Category Inherited</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="product.product_category_list_view"/>
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="complete_name" position="after">
+                    <field name="code" />
+                </field>
+            </field>
+        </record>
+        
+<!--
+        Producto
+-->
+        <record id="product_form_view_inherit" model="ir.ui.view">
+            <field name="name">Product Inherited</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <field name="categ_id" position="attributes">
+                    <attribute name="on_change">onchange_categ_id(categ_id,context)</attribute>
+                </field>
+                
+            </field>
+        </record>
+        
+    </data>
+</openerp>

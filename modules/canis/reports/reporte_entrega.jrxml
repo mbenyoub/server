@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_entrega" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<style name="Title" isDefault="false" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" isDefault="false" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" isDefault="false" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" isDefault="false" fontName="Arial" fontSize="12"/>
+	<style name="Row" isDefault="false" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style isDefault="false" style="Row" backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="dataset1"/>
+	<queryString>
+		<![CDATA[SELECT
+	drl.name as entrega,
+	dr.name as ruta,
+	
+	rp.name as cliente,
+	drl.visit_date as fecha_entrega,
+	drl.state as estado_entrega,
+	rp.street as calle_cliente,
+	rp.l10n_mx_street3 as numero,
+	rp.city as ciudad_cliente,
+	(SELECT 
+		rcs.name 
+	FROM 
+		res_country_state as rcs
+	WHERE 
+		rcs.id = rp.state_id) as estado_cliente,
+	rp.zip as cp_cliente,
+	rp.l10n_mx_city2 as cliente_ciudad2,
+	rp.street2 as cliente_colonia,
+	rp.phone as telefono_cliente, 
+	rp.mobile as mobil_cliente,
+	dz.name as zona_cliente,
+	ds.name as horario_cliente,
+	
+	dd.name as chofer_entrega,
+	dd.phone as telefono_chofer_entrega,
+
+	(SELECT
+		ai.number
+	FROM
+		account_invoice as ai
+	WHERE
+		ai.id = sp.invoice_id) as factura_entrega,
+	sp.invoice_id as factura_id,
+	
+	so.name as orden_venta_entrega,
+	
+	sp.number_of_packages as cantidad_entrega,
+	sp.weight as peso_entrega,
+
+	(SELECT 
+		pt.name
+	FROM
+		product_product as p
+	INNER JOIN product_template as pt ON pt.id = p.product_tmpl_id
+	WHERE
+		p.id = sm.product_id) as producto_entrega,
+	sm.product_qty as cantidad_producto_entrega
+	
+FROM
+	delivery_route_line as drl
+INNER JOIN delivery_route as dr ON dr.id = drl.route_id
+INNER JOIN res_partner as rp ON rp.id = drl.address_id 
+INNER JOIN delivery_zone as dz ON dz.id = drl.zone_id
+INNER JOIN delivery_schedule as ds ON ds.id = drl.schedule_id
+INNER JOIN delivery_driver as dd ON dd.id = drl.driver_id
+INNER JOIN stock_picking as sp ON sp.id = drl.picking_id
+INNER JOIN sale_order as so ON so.id = drl.sale_order_id
+INNER JOIN stock_move as sm ON sm.picking_id = sp.id
+WHERE
+	drl.id = r_line_id]]>
+	</queryString>
+	<field name="entrega" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ruta" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cliente" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha_entrega" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="estado_entrega" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="calle_cliente" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numero" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ciudad_cliente" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="estado_cliente" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cp_cliente" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cliente_ciudad2" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cliente_colonia" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="telefono_cliente" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="mobil_cliente" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="zona_cliente" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="horario_cliente" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="chofer_entrega" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="telefono_chofer_entrega" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="factura_entrega" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="factura_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="orden_venta_entrega" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cantidad_entrega" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="peso_entrega" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="producto_entrega" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cantidad_producto_entrega" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<group name="Group1">
+		<groupExpression><![CDATA[(int)($V{REPORT_COUNT}/15)]]></groupExpression>
+		<groupHeader>
+			<band height="35">
+				<frame>
+					<reportElement mode="Opaque" x="-21" y="7" width="597" height="24" forecolor="#B89F7D" backcolor="#F2EBDF"/>
+					<staticText>
+						<reportElement x="21" y="0" width="132" height="20"/>
+						<textElement/>
+						<text><![CDATA[PRODUCTO ENTREGADO]]></text>
+					</staticText>
+				</frame>
+			</band>
+			<band height="27">
+				<staticText>
+					<reportElement x="1" y="0" width="100" height="20"/>
+					<textElement/>
+					<text><![CDATA[PRODUCTO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="235" y="0" width="100" height="20"/>
+					<textElement/>
+					<text><![CDATA[Cantidad]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="94"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="190" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="170" y="0" width="263" height="62"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Canis]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="219" y="62" width="196" height="22"/>
+				<textElement>
+					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Canis Nutrition S. A. de C. v.]]></text>
+			</staticText>
+			<image>
+				<reportElement x="433" y="-115" width="267" height="209"/>
+				<imageExpression class="java.lang.String"><![CDATA["coffee_stain.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="1" y="10" width="158" height="113"/>
+				<imageExpression class="java.lang.String"><![CDATA["/home/hp/openerp/instancias/7.0/mis_modulos/canis/reports/icon.png"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="170" y="84" width="262" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="104" width="154" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{calle_cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="324" y="103" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{numero}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="124" width="154" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cliente_colonia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="324" y="123" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{ciudad_cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="424" y="123" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cp_cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="143" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{telefono_cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="270" y="143" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{mobil_cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="143" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{zona_cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="432" y="10" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{fecha_entrega}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="170" y="163" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[No. Factura]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="270" y="163" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{factura_entrega}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="132" height="15" forecolor="#736343"/>
+				<textElement/>
+				<text><![CDATA[VALE DE ENTREGA]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="15"/>
+			</frame>
+			<textField>
+				<reportElement x="1" y="0" width="138" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{producto_entrega}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="235" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cantidad_producto_entrega}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="43" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="39" y="4" width="131" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{chofer_entrega}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="412" y="4" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[Firma de Cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="23" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[Telefono del chofer]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="119" y="23" width="151" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{telefono_chofer_entrega}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

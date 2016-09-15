@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+<!--
+        Producto
+-->
+        <record id="product_form_view_analisis_inherit" model="ir.ui.view">
+            <field name="name">Product Analisis</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="canis.product_form_view_inherit"/>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='to_weight_product']" position="after">
+                    <field name="analisis_type" attrs="{'required':[('analisis','=',True)],'invisible': [('analisis','=',False)]}"/>
+                    <field name="analisis"/>
+                    
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

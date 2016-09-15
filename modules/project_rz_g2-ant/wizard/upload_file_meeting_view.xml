@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    
+<!--
+        Vista wizard Validar XML de Factura de proveedor
+-->
+        <!-- View Form - Valida XML Factura -->
+        <record model="ir.ui.view" id="wizard_upload_file_meeting_form_view">
+            <field name="name">upload.file.meeting.wizard.form</field>
+            <field name="model">upload.file.meeting.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Importar archivo" version="7.0">
+                    <group col="4">
+                        <field name="meeting_id" invisible="1" on_change="onchange_meeting(meeting_id,context)"/>
+                        <field name="phase_id" invisible="1"/>
+                        <field name="check_files" invisible="1"/>
+                        <field name="file_name" invisible="1"/>
+                        <field name="file" required="1"/>
+                    </group>
+                    <footer>
+                        <button name="import_file" type="object" string="Continuar" class="oe_highlight" attrs="{'invisible':[('check_files','=',True)]}"/>
+                        <button name="import_file" type="object" string="Continuar" class="oe_highlight" attrs="{'invisible':[('check_files','=',False)]}" confirm="Ya exite un archivo relacionado con este documento, se reemplazaran con el nuevo documento, ¿Desea continuar?"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+    </data>
+</openerp>   

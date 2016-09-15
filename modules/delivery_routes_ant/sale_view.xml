@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <!-- Vista del formulario de Cotizacion -->
+        <record model="ir.ui.view" id="view_order_form_inherit">
+            <field name="name">sale.order.form.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="priority" eval="18" />
+            <field name="arch" type="xml">
+                <field name="date_order" position="after">
+                    <field name="datetime_order" readonly="1" on_change="onchange_datetime_order(datetime_order,delivery_term_id,context)" attrs="{'invisible': [('state','in',['draft','sent'])], 'readonly': [('state','not in',['draft','sent'])]}"/>
+                    <field name="due_date" attrs="{'readonly': [('state','in',['cancel','progress','manual','invoice_except'])]}"/>
+                </field>
+                <field name="date_order" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="partner_shipping_id" position="attributes">
+                    <attribute name="on_change">onchange_partner_shipping_id(partner_id,partner_shipping_id,context)</attribute>
+                </field>
+                <notebook position="inside">
+                    <page name="delivery" string="Entregas" groups="delivery_routes.group_delivery_manager">
+                        <group name="delivery_route">
+                            <group>
+                                <field name="delivery_term_id" string="Plazo de entrega" on_change="onchange_datetime_order(datetime_order,delivery_term_id,context)"/>
+                                <field name="zone_id" string="Zona entrega"/>
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+    </data>
+</openerp>

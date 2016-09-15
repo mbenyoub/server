@@ -1,0 +1,60 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_cds_helpdesk_manager,crm.helpdesk.manager,cds_update_2.model_crm_helpdesk,group_support_manager,1,1,1,1
+access_cds_helpdesk_user,crm.helpdesk.user,cds_update_2.model_crm_helpdesk,group_support_user,1,1,1,0
+access_cds_helpdesk_manager_order,crm.helpdesk.manager,cds_update_2.model_products_order_line_helpdesk_support,group_support_manager,1,1,1,1
+access_cds_helpdesk_user_order,crm.helpdesk.user,cds_update_2.model_products_order_line_helpdesk_support,group_support_user,1,1,1,0
+access_cds_helpdesk_manager_type,crm.helpdesk.manager,cds_update_2.model_crm_helpdesk_consecutive,group_support_manager,1,1,1,1
+access_cds_helpdesk_user_type,crm.helpdesk.user,cds_update_2.model_crm_helpdesk_consecutive,group_support_user,1,1,1,0
+access_cds_helpdesk_manager_fam,crm.helpdesk.manager,cds_update_2.model_crm_helpdesk_principale,group_support_manager,1,1,1,1
+access_cds_helpdesk_user_fam,crm.helpdesk.user,cds_update_2.model_crm_helpdesk_principale,group_support_user,1,1,1,0
+access_cds_helpdesk_manager_des,crm.helpdesk.manager,cds_update_2.model_crm_helpdesk_family,group_support_manager,1,1,1,1
+access_cds_helpdesk_user_des,crm.helpdesk.user,cds_update_2.model_crm_helpdesk_family,group_support_user,1,1,1,0
+access_cds_helpdesk_manager_con,crm.helpdesk.manager,cds_update_2.model_crm_helpdesk_type,group_support_manager,1,1,1,1
+access_cds_helpdesk_user_con,crm.helpdesk.user,cds_update_2.model_crm_helpdesk_type,group_support_user,1,1,1,0
+access_report_crm_helpdesk_manager,report.crm.helpdesk.manager,cds_update_2.model_crm_helpdesk_report,group_support_manager,1,1,1,1
+access_cds_helpdesk_portal,crm.helpdesk.portal,cds_update_2.model_crm_helpdesk,portal.group_portal,1,1,1,0
+access_sale_order_hd,sale.order,sale.model_sale_order,group_support_user,1,0,0,0
+access_sale_order_line_hd,sale.order.line,sale.model_sale_order_line,group_support_user,1,0,0,0
+access_sale_order_line_accountant_hd,sale.order.line accountant,sale.model_sale_order_line,account.group_account_user,1,0,0,0
+access_account_invoice_tax_salesman_hd,account_invoice_tax salesman,account.model_account_invoice_tax,group_support_user,1,0,0,0
+access_account_invoice_salesman_hd,account_invoice salesman,account.model_account_invoice,group_support_user,1,0,0,0
+access_account_invoice_manager_hd,account_invoice manager,account.model_account_invoice,group_support_manager,1,0,0,0
+access_account_invoice_line_salesman_hd,account_invoice.line salesman,account.model_account_invoice_line,group_support_user,1,0,0,0
+access_account_payment_term_salesman_hd,account_payment_term salesman,account.model_account_payment_term,group_support_user,1,0,0,0
+access_account_analytic_account_salesman_hd,account_analytic_account salesman,analytic.model_account_analytic_account,group_support_user,1,0,0,0
+access_sale_order_manager_hd,sale.order.manager,sale.model_sale_order,group_support_manager,1,0,0,0
+access_sale_order_accountant_hd,sale.order.accountant,sale.model_sale_order,account.group_account_user,1,0,0,0
+access_sale_report_salesman_hd,sale.report,sale.model_sale_report,group_support_user,1,0,0,0
+access_sale_report_manager_hd,sale.report,sale.model_sale_report,group_support_manager,1,0,0,0
+access_ir_property_sales_hd,ir.property.sales,base.model_ir_property,group_support_user,1,0,0,0
+access_sale_account_journal_hd,account.journal sale order.user,account.model_account_journal,group_support_user,1,0,0,0
+access_res_partner_sale_user_hd,res.partner.sale.user,base.model_res_partner,group_support_user,1,0,0,0
+access_res_partner_sale_manager_hd,res.partner.sale.manager,base.model_res_partner,group_support_manager,1,0,0,0
+access_product_template_sale_user_hd,product.template sale use,product.model_product_template,group_support_user,1,0,0,0
+access_product_product_sale_user_hd,product.product sale use,product.model_product_product,group_support_user,1,0,0,0
+access_sale_shop_manager_hd,account.journal sale order.user,sale.model_sale_shop,group_support_manager,1,0,0,0
+access_account_fiscalyear_user_hd,account.fiscalyear.user,account.model_account_fiscalyear,group_support_user,1,0,0,0
+access_account_tax_user_hd,account.tax.user,account.model_account_tax,group_support_user,1,0,0,0
+access_ir_attachment_sales_hd,ir.attachment.sales,base.model_ir_attachment,group_support_user,1,0,0,0
+access_ir_attachment_manager_hd,ir.attachment.manager,base.model_ir_attachment,group_support_manager,1,0,0,0
+access_res_partner_bank_type_user_hd,res.partner.bank.type.user,base.model_res_partner_bank_type,group_support_user,1,0,0,0
+access_res_partner_bank_type_field_user_hd,res.partner.bank.type.field.user,base.model_res_partner_bank_type_field,group_support_user,1,0,0,0
+access_product_uom_user_hd,product.uom.user,product.model_product_uom,group_support_user,1,0,0,0
+access_product_pricelist_sale_user_hd,product.pricelist.sale.user,product.model_product_pricelist,group_support_user,1,0,0,0
+access_account_account_salesman_hd,account_account salesman,account.model_account_account,group_support_user,1,0,0,0
+access_product_uom_categ_sale_manager_hd,product.uom.categ salemanager,product.model_product_uom_categ,group_support_manager,1,0,0,0
+access_product_uom_sale_manager_hd,product.uom salemanager,product.model_product_uom,group_support_manager,1,0,0,0
+access_product_ul_sale_manager_hd,product.ul salemanager,product.model_product_ul,group_support_manager,1,0,0,0
+access_product_category_sale_manager_hd,product.category salemanager,product.model_product_category,group_support_manager,1,0,0,0
+access_product_supplierinfo_user_hd,product.supplierinfo.user,product.model_product_supplierinfo,group_support_user,1,0,0,0
+access_product_supplierinfo_sale_manager_hd,product.supplierinfo salemanager,product.model_product_supplierinfo,group_support_manager,1,0,0,0
+access_pricelist_partnerinfo_sale_manager_hd,pricelist.partnerinfo salemanager,product.model_pricelist_partnerinfo,group_support_manager,1,0,0,0
+access_product_price_type_sale_manager_hd,product.price.type salemanager,product.model_product_price_type,group_support_manager,1,0,0,0
+access_product_pricelist_type_sale_manager_hd,product.pricelist.type salemanager,product.model_product_pricelist_type,group_support_manager,1,0,0,0
+access_product_pricelist_sale_manager_hd,product.pricelist salemanager,product.model_product_pricelist,group_support_manager,1,0,0,0
+access_product_group_res_partner_sale_manager_hd,res_partner group_sale_manager,base.model_res_partner,group_support_manager,1,0,0,0
+access_product_pricelist_version_sale_manager_hd,product.pricelist.version sale_manager,product.model_product_pricelist_version,group_support_manager,1,0,0,0
+access_account_invoice_report_salesman_hd,account.invoice.report salesman,account.model_account_invoice_report,group_support_user,1,0,0,0
+access_account_move_line_salesman_hd,account.move.line invoice,account.model_account_move_line,group_support_user,1,0,0,0
+access_crm_case_channel_user_hd,crm.case.channel user,crm.model_crm_case_channel,group_support_user,1,0,0,0
+access_crm_case_channel_manager_hd,crm.case.channel manager,crm.model_crm_case_channel,group_support_manager,1,1,1,1

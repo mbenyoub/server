@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+<!--
+        Vista formulario de reporte
+-->
+        <record id="view_stock_location_product_form_inherit" model="ir.ui.view">
+            <field name="name">stock.location.product.form.inherit</field>
+            <field name="model">stock.location.product</field>
+            <field name="priority">17</field>
+            <field name="inherit_id" ref="stock.view_stock_location_product"/>
+            <field name="arch" type="xml">
+                <field name="type" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <button name="action_open_window" position="after">
+                    <button name="action_location_print" string="Imprimir reporte " type="object" class="oe_highlight"/>
+                </button>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="picking_quick_form_inherit">
+            <field name="name">stock.picking.form.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock_extra.picking_quick_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="replace">
+                    <field name="partner_id" on_change="onchange_partner_in(partner_id)" string="Responsable"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <act_window name="Productos por ubicacion"
+            res_model="stock.location.product"
+            src_model="stock.location"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"
+            context="{'default_type':'inventory'}"
+            id="stock.action_view_stock_location_product"/>
+        
+        <!--<menuitem action="stock.action_picking_tree6" id="stock.menu_action_picking_tree6"
+            parent="stock.menu_stock_warehouse_mgmt" sequence="2" groups="grp_hidden"/>-->
+            
+        
+        
+        <menuitem action="stock_extra.action_picking_quick" id="stock_extra.menu_action_picking_quick"
+                  name="Traspasos internos"
+                  parent="stock.menu_stock_warehouse_mgmt" sequence="-1"/>
+        
+        <delete model="ir.ui.menu" id="stock.menu_action_picking_tree6"/>
+        
+    </data>
+</openerp>

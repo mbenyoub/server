@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    
+<!--
+        Factura
+-->
+    
+        <!-- Modificacion de search -->
+        <record model="ir.ui.view" id="view_account_invoice_filter_inherit">
+            <field name="name">account.invoice.search.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="number" position="after">
+                    <field name="global_invoice"/>
+                </field>
+                <filter help="My Invoices" icon="terp-personal" position="after">
+                    <separator/>
+                    <filter name="invoice_global" string="Facturas Globales" domain="[('global_invoice','=',True)]" help="Facturas globales generadas de notas de venta"/>
+                </filter>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="invoice_tree_view_inherit">
+            <field name="name">account.invoice.tree.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_tree" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="state" position="after">
+                    <field name="global_invoice" invisible="1"/>
+                </field>
+            </field>
+        </record>
+        
+        <!-- Modificacion de la vista formulario -->
+        <record model="ir.ui.view" id="invoice_form_inherit">
+            <field name="name">account.invoice.form.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form" />
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <field name="date_due" position="after">
+                    <field name="global_invoice" invisible="1"/>
+                    <field name="note_sale" invisible="1"/>
+                    <field name="check_global" invisible="1" on_change="onchange_check_global(type,partner_id,journal_id,account_id,invoice_line,check_global,global_invoice,context)"/>
+                </field>
+                <field name="move_id" position="after">
+                    <field name="global_invoice_id" attrs="{'invisible':[('global_invoice_id','=',False)]}"/>
+                    <field name="note_paid" attrs="{'invisible':[('global_invoice_id','=',False)]}" readonly="1"/>
+                </field>
+                <notebook position="inside">
+                    <page string="Notas de Venta" name="invoice_note" attrs="{'invisible':[('global_invoice','=',False),('type','=','out_invoice')]}">
+                        <field name="global_ids">
+                            <tree string="Notas de venta" create="0" edit="0" delete="0">
+                                <field name="number"/>
+                                <field name="date_invoice"/>
+                                <field name="partner_id"/>
+                                <field name="amount_untaxed"/>
+                                <field name="amount_total"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+                <field name="invoice_line" position="attributes">
+                    <attribute name="attrs">{'readonly':['|',('state','not in',['draft']),('global_invoice','=',True)]}</attribute>
+                    <attribute name="context">{'type': type, 'journal_id': journal_id}</attribute>
+                </field>
+                <button name="invoice_pay_customer" position="attributes">
+                    <attribute name="attrs">{'invisible': ['|','|',('state','!=','open'),('sent','=',True),('global_invoice','=',True)]}</attribute>
+                </button>
+                <button name="invoice_pay_customer" class="oe_highlight" position="attributes">
+                    <attribute name="attrs">{'invisible': ['|','|',('state','!=','open'),('sent','=',False),('global_invoice','=',True)]}</attribute>
+                </button>
+            </field>
+        </record>
+    
+    </data>
+</openerp>

@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data noupdate="1">
+        <!-- Email tempalte -->
+        <record id="email_template_1" model="email.template">
+            <field name="name">Notificacion de Nuevo producto</field>
+            <field name="email_from">info@openerp.com</field>
+            <field name="subject">Tenemos nuevos productos para ti!</field>
+            <field name="email_to">${object.email or ''}</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="body_html">Hola, Te invitamos a conocer nuestros nuevos productos.</field>
+        </record>
+
+    </data>
+</openerp>

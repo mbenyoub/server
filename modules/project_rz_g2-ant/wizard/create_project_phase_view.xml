@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <!-- Vista formulario para crear fases -->
+        <record model="ir.ui.view" id="create_project_phase_form_view">
+            <field name="name">create.project.phase.wizard.form</field>
+            <field name="model">create.project.phase.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Calificar Evaluacion" col="4" version="7.0">
+                    <h2>
+                        <label for="project_id" class="oe_inline" string="Proyecto "/>
+                        <field name="project_id" class="oe_inline" readonly="1" required="1"/>
+                        <field name="template_id" class="oe_inline" invisible="1" on_change="onchange_template_id(template_id,context)"/>
+                    </h2>
+                    <separator/>
+                    <label for="line_ids" string="Fases de proyecto"/>
+                    <field name="line_ids" nolabel="1" colspan="4">
+                        <tree string="Fase" editable="top" create="0" delete="0">
+                            <field name="phase_id" style="width: 30%%" readonly="1"/>
+                            <field name="days"/>
+                            <field name="meeting_time"/>
+                        </tree>
+                    </field>
+                    <footer>
+                        <button string="Continuar" name="action_create_project_phase" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="action_create_project_phase_wizard">
+            <field name="name">Fases de proyecto</field>
+            <field name="res_model">create.project.phase.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
+    </data>
+</openerp>

@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+<!--
+          Codigos de Impuestos
+-->
+        
+        <!-- View Form - Codigo Impuestos -->
+        <record model="ir.ui.view" id="view_tax_code_form_inherit">
+            <field name="name">account.tax.code.form.inherit</field>
+            <field name="model">account.tax.code</field>
+            <field name="inherit_id" ref="account.view_tax_code_form" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="parent_id" position="after">
+                    <field name="apply_balance"/>
+                </field>
+                <separator string="Description" position="before">
+                    <group colspan="2" col="2">
+                        <group String ="Precio Base">
+                            <field name="base_period"/>
+                            <field name="base"/>
+                        </group>
+                    </group>
+                </separator> 
+                <field name="sign" position="after">
+                    <field name="percent"/>
+                </field>
+                <field name="sign" position="before">
+                    <field name="visible"/>
+                </field>
+                <field name="code" position="after">
+                    <field name="sequence"/>
+                </field>
+            </field>
+        </record>
+        
+        <!-- View Tree - Codigo Impuestos -->
+        <record model="ir.ui.view" id="view_tax_code_tree_inherit">
+            <field name="name">account.tax.code.form.inherit</field>
+            <field name="model">account.tax.code</field>
+            <field name="inherit_id" ref="account.view_tax_code_tree" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="sum" position="before">
+                    <field name="base"/>
+                </field>
+                <field name="sum_period" position="before">
+                    <field name="base_period"/>
+                </field>
+            </field>
+        </record>
+        
+        <record id="account.action_tax_code_tree" model="ir.actions.act_window">
+            <field name="name">Chart of Taxes</field>
+            <field name="res_model">account.tax.code</field>
+            <field name="domain">[('parent_id','=',False),('visible','=',True)]</field>
+            <field name="view_type">tree</field>
+            <field name="view_id" ref="account.view_tax_code_tree"/>
+        </record>
+        
+<!--
+          Impuestos
+-->
+        
+        <!-- View Form - Impuestos -->
+        <record model="ir.ui.view" id="view_tax_form_inherit">
+            <field name="name">account.tax.form.inherit</field>
+            <field name="model">account.tax</field>
+            <field name="inherit_id" ref="account.view_tax_form" />
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <field name="base_code_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="base_sign" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="ref_base_code_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="ref_base_sign" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+            </field>
+        </record>
+
+<!--
+       Historial de Codigos de Impuestos
+-->
+        <!-- View Tree - Codigos de Impuestos -->
+        <record id="view_account_tax_code_chart_history_tree" model="ir.ui.view">
+            <field name="name">account.tax.code.history.line.tree</field>
+            <field name="model">account.tax.code.history.line</field>
+            <field name="field_parent">child_ids</field>
+            <field name="priority">100</field>
+            <field name="arch" type="xml">
+                <tree string="Codigos de Impuestos" toolbar="1">
+                    <field name="fiscalyear_id" options='{"no_open":True}' invisible="1"/>
+                    <field name="code_id" invisible="1"/>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="parent_id" invisible="1"/>
+                    <field name="base_period"/>
+                    <field name="sum_period"/>
+                    <field name="base_year"/>
+                    <field name="sum_year"/>
+                    <field name="period_id" options='{"no_open":True}' invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="action_account_tax_code_chart_history_tree" model="ir.actions.act_window">
+            <field name="name">Codigos de Impuestos</field>
+            <field name="res_model">account.tax.code.history.line</field>
+            <field name="domain">[('parent_id','=',False)]</field>
+            <field name="view_type">tree</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_account_tax_code_chart_history_tree"/>
+        </record>
+        
+    </data>
+</openerp>
+

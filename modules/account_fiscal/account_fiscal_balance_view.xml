@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    
+<!--
+        Saldo Fiscal
+-->
+        <!-- View Form - Saldo Fiscal -->
+        <record id="view_account_fiscal_balance_form" model="ir.ui.view">
+            <field name="name">account.fiscal.balance.form</field>
+            <field name="model">account.fiscal.balance</field>
+            <field name="arch" type="xml">
+                <form string="Saldo Fiscal" version="7.0">
+                    <header>
+                        <button name="action_confirm" type="object" states="draft" string="Confirmar" class="oe_highlight"/>
+                        <button name="action_re_open" type="object" string="Abrir" class="oe_highlight" attrs="{'invisible':['|',('state','!=','close')]}"/>
+                        <button name="action_apply_balance_return" type="object" string="Aplicar devolucion saldo" attrs="{'invisible': [('state','=','draft')]}"/>
+                        <button name="action_apply_balance_apply_tax" type="object" string="Aplicar saldo sobre impuestos" attrs="{'invisible': ['|',('state','=','draft'),('type','=','code')]}"/>
+                        <button name="action_apply_balance_apply_code" type="object" string="Aplicar saldo" attrs="{'invisible': ['|',('state','=','draft'),('type','=','tax')]}"/>
+                        <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,open,close"/>
+                    </header>
+                    <separator/>
+                    <group>
+                        <group>
+                            <field name="amount" attrs="{'readonly':[('state','!=','draft')]}" on_change="onchange_amount(amount,context)"/>
+                            <field name="code_id" attrs="{'readonly':[('state','!=','draft')], 'invisible':[('type','=','tax')], 'required':[('type','=','code')]}" domain="[('parent_id','!=',False),('apply_balance','=',True)]"/>
+                            <field name="tax_code_id" attrs="{'readonly':[('state','!=','draft')], 'invisible':[('type','=','code')], 'required':[('type','=','tax')]}" domain="[('apply_balance','=',True)]"/>
+                            <field name="type_code" attrs="{'readonly':[('state','!=','draft')], 'invisible':[('type','=','tax')], 'required':[('type','=','code')]}" on_change="onchange_type_code(type_code,context)"/>
+                        </group>
+                        <group>
+                            <field name="date" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="balance" readonly="1" attrs="{'invisible':[('state','not in',['open'])]}"/>
+                            <field name="balance_update" invisible="0" attrs="{'invisible':[('state','not in',['open'])]}"/>
+                            <field name="type" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="period_id" attrs="{'readonly':[('state','!=','draft')], 'invisible':[('type','=','code'),('type_code','=','year')]}"/>
+                            <field name="fiscalyear_id" attrs="{'readonly':[('state','!=','draft')], 'invisible':['|',('type','=','tax'),('type_code','=','month')]}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Aplicacion de Saldos" readonly="1" attrs="{'invisible':[('state','=','draft')]}">
+                            <div>
+                                <field name="line_ids" widget="one2many_list" nolabel="1" >
+                                    <tree editable="bottom" edit="1" create="0" delete="0" string="Acumulados" >
+                                        <field name="type" readonly="1"/>
+                                        <field name="period_id" readonly="1"/>
+                                        <field name="balance_before" readonly="1"/>
+                                        <field name="update_factor" readonly="1" widget="monetary" />
+                                        <field name="balance_current"/>
+                                        <field name="amount" sum="Total Aplicado" readonly="1"/>
+                                        <field name="result" readonly="1"/>
+                                        <field name="state" readonly="1"/>
+                                        <field name="date" readonly="1"/>
+                                        <field name="check_balance" invisible="1"/>
+                                        <field name="reference" invisible="1"/>
+                                        <field name="reference2" invisible="0"/>
+                                        <button name="action_view_ref" string="" type="object" icon="gtk-file"
+                                            attrs="{'invisible':[('type','!=','dev')]}" help="Ver documento"/>
+                                        <button name="action_confirm_line" string="" type="object" icon="gtk-apply"
+                                            attrs="{'invisible':['|',('state','not in',['pending']),('type','!=','dev')]}" help="Aplicar pago"/>
+                                        <button name="action_delete_line" string="" type="object" icon="gtk-cancel"
+                                            attrs="{'invisible':[('check_balance','!=',True)]}"/>
+                                    </tree>
+                                </field>
+                            </div>
+                        </page>
+                    </notebook>
+                    <group string="Comentarios">
+                        <field name="info" nolabel="1"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+        <!-- View Tree - Saldo Fiscal -->
+        <record id="view_account_fiscal_balance_tree" model="ir.ui.view">
+            <field name="name">account.fiscal.balance.tree</field>
+            <field name="model">account.fiscal.balance</field>
+            <field name="arch" type="xml">
+                <tree string="Saldo Fiscal">
+                    <field name="name"/>
+                    <field name="period_id"/>
+                    <field name="amount"/>
+                    <field name="balance"/>
+                    <field name="date" />
+                    <field name="type" />
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+        
+        <!--  Filtros - Saldo Fiscal -->
+        <record id="view_account_fiscal_balance_filter" model="ir.ui.view">
+            <field name="name">account.fiscal.balance.select</field>
+            <field name="model">account.fiscal.balance</field>
+            <field name="arch" type="xml">
+                <search string="Buscar">
+                    <field name="tax_code_id"/>
+                    <field name="amount"/>
+                    <field name="balance"/>
+                    <field name="state"/>
+                    <field name="date"/>
+                    <separator/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Impuesto" context="{'group_by': 'tax_code_id'}"/>
+                        <filter string="Estado" context="{'group_by': 'state'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+        
+        <!-- Action - Saldo Fiscal -->
+        <record id="action_account_fiscal_balance" model="ir.actions.act_window">
+            <field name="name">Gestion de Saldos Fiscales</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.fiscal.balance</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+            <field name="search_view_id" ref="view_account_fiscal_balance_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+              </p>
+            </field>
+        </record>
+        
+        <!-- Menu - Saldo Fiscal en menu contabilidad Fiscal -->
+    
+    </data>
+</openerp>

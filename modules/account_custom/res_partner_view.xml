@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+        <record model="ir.ui.view" id="res_partner_view_inherit">
+            <field name="name">res.partner.view.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <sheet position="before">
+                    <header>
+                        <button name="action_create_diot" type="object" string="Generar DIOT" attrs="{'invisible':[('supplier','=',False)]}"/>
+                    </header>
+                </sheet>
+                <notebook position="inside">
+                    <page string="DIOT" attrs="{'invisible': [('supplier','=',False)]}">
+                        <group>
+                            <field name="diot_type1"></field>
+                            <field name="diot_type2"></field>
+                            <field name="diot_fiscal_number"></field>
+                            <field name="diot_name_ex"></field>
+                            <field name="diot_nationality"></field>
+                            <field name="diot_act_value" string="Valor de los actios o actividades pagados a la tasa del 15 o 16 de IVA"></field>
+                            <field name="diot_act_value2" string="Valor de los actos o actividades pagados a la tasa del 15 de IVA"></field>
+                            <field name="diot_act_value3" string="Valor de los actos o actividades pagados a la tasa del 10 u 11 de IVA"></field>
+                            <field name="diot_act_value4" string="Valor de los actos o actividades pagados a la tasa del 10 de IVA"></field>
+                            <field name="diot_act_value5" string="Monto del IVA pagado no acreditable a la tasa del 10 u 11"></field>
+                            <field name="diot_act_value6" string="Valor de los actos o actividades pagados en la importación de bienes y servicios  a la tasa del 15 o 16 de IVA"></field>
+                            <field name="diot_act_value7" string="Monto del IVA pagado no acreditable por la importacion  a la tasa del 15 o 16"></field>
+                            <field name="diot_act_value8" string="Monto del IVA pagado no acreditable por la importacion a la tasa del 10 u 11"></field>
+                            <field name="diot_act_value9" string="Valor de los actos o actividades pagados en la importación de bienes y servicios por los que no se paragá el IVA"></field>
+                            <field name="diot_act_value10" string="Valor de los demás actos o actividades pagados a la tasa del 0 de IVA"></field>
+                            <field name="diot_act_value11" string="Valor de los actos o actividades pagados por los que no se pagará el IVA"></field>
+                            <field name="diot_act_value12" string="IVA Retenido por el contribuyente"></field>
+                            <field name="diot_act_value13" string="IVA correspondiente a las devoluciones, descuentos y bonificaciones sobre compras"></field>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

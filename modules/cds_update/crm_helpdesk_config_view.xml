@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <!--  Helpdesk Config Support Form View -->
+
+        <record model="ir.ui.view" id="form_view_helpdesk_config_type">
+            <field name="name">Configuracion Helpdesk Fallos</field>
+            <field name="model">crm.helpdesk.type</field>
+            <field name="arch" type="xml">
+                <form string="Tipos de Fallos" version="7.0">
+                <sheet string="Soporte">
+                    <group>
+                        <field name="name"/>
+                        <field name="product"/>
+                        <field name="family"/>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="form_view_helpdesk_config_family">
+            <field name="name">Configuracion Helpdesk Familia</field>
+            <field name="model">crm.helpdesk.family</field>
+            <field name="arch" type="xml">
+                <form string="Familias" version="7.0">
+                <sheet string="Soporte">
+                    <group>
+                        <field name="name"/>
+                        <field name="parent_id"/>
+                        <field name="principale"/>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="form_view_helpdesk_config_principale">
+            <field name="name">Configuracion Helpdesk Principales</field>
+            <field name="model">crm.helpdesk.principale</field>
+            <field name="arch" type="xml">
+                <form string="Principales" version="7.0">
+                <sheet string="Soporte">
+                    <group>
+                        <field name="name"/>
+                        <field name="parent_id"/>
+                        <field name="consecutives"/>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="form_view_helpdesk_config_consecutive">
+            <field name="name">Configuracion Helpdesk</field>
+            <field name="model">crm.helpdesk.consecutive</field>
+            <field name="arch" type="xml">
+                <form string="Consecutivos" version="7.0">
+                <sheet string="Soporte">
+                    <group>
+                        <field name="name"/>
+                        <field name="parent_id"/>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Helpdesk Config Support Tree View -->
+
+        <record model="ir.ui.view" id="tree_view_helpdesk_config_type">
+            <field name="name">Helpdesk Config Support Tree</field>
+            <field name="model">crm.helpdesk.type</field>
+            <field name="arch" type="xml">
+                <tree string="Helpdesk Support Tree">
+                    <field name="name" string="Nombre" />
+                    <field name="product" string="Producto"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Helpdesk Actions Support -->
+        <record model="ir.actions.act_window" id="help_config_action">
+            <field name="name">Helpdesk Configuraciones</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">crm.helpdesk.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a new types. 
+              </p><p>
+                Configuracion de tipos de Fallos en los equipos.
+              </p><p>
+                Usa para configurar los diferentes tipos de fallos presentados en los equipos
+                con sus respectivos hijos.
+              </p>
+            </field>
+        </record>
+        
+        <!-- Helpdesk Menu Support -->
+
+        <menuitem action="help_config_action" name="Tipos de Fallos"
+            id="menu_config_help_issues" parent="crm_help_config" groups="base.group_no_one,group_support_manager"/>
+        
+    </data>
+</openerp>

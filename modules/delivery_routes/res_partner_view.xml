@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+        <record model="ir.ui.view" id="res_partner_view_inherit">
+            <field name="name">res.partner.view.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="country_id" position="after">
+                    <field name="property_delivery_zone" placeholder="Zona del cliente" required="1" class="oe_no_button" options="{'no_open': True}" attrs="{'readonly': [('use_parent_address','=',True)]}" modifiers="{'readonly': [('use_parent_address', '=', true)(]}"/>
+                </field>
+                <field name="property_stock_supplier" position="after">
+                    <field name="property_delivery_term" widget="selection" domain="[('active','=',True)]"/>
+                    <field name="schedule_id" widget="selection"/>
+                </field>
+                <xpath expr="//group/field[@name='supplier']" position="after">
+                    <field name="carrier_bol" attrs="{'invisible':[('customer', '=', True)]}"/>
+                    <field name="concept_id" string="Concepto"
+                        attrs="{'invisible': [('carrier_bol', '=', False)],
+                        'required': [('carrier_bol', '=', True)]}"/>
+                </xpath>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

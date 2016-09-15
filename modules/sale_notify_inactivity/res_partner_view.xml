@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+<!--
+        Personalizacion de search de partner
+-->
+        <record model="ir.ui.view" id="view_res_partner_filter_inherit">
+            <field name="name">res.partner.search.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter" />
+            <field name="priority" eval="17"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="notify"/>
+                    <field name="activity_ref" widget="calendar"/>
+                    <field name="activity" widget="calendar"/>
+                </field>
+                <filter name="type_company" position="before">
+                    <separator/>
+                    <filter string="Clientes sin actividad" name="activity_partner" domain="[('activity_ref','&lt;=',time.strftime('%%Y-%%m-%%d'))]" context="{'group_by':'activity'}" help="Clientes a los que no se les ha contactado en mas de 30 dias"/>
+                    <separator/>
+                </filter>
+                <filter name="type_company" position="after">
+                    <separator/>
+                    <filter string="Cliente con notificacion a Vendedor" name="notify_sale" domain="[('notify','=',True)]" groups="base.group_sale_manager,base.group_sale_salesman_all_leads" help="Lista de los clientes a los que se les va a notificar el vendedor por inactividad"/>
+                    <filter string="Cliente sin notificacion a Vendedor" name="not_notify_sale" domain="[('notify','=',False)]" groups="base.group_sale_manager,base.group_sale_salesman_all_leads" help="Lista de los clientes a los que no se les va a notificar el vendedor por inactividad"/>
+                </filter>
+            </field>
+        </record>
+    
+<!--
+        Editar form vista de partner
+-->
+        <record model="ir.ui.view" id="res_partner_view_inherit">
+            <field name="name">res.partner.view.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <field name="section_id" position="replace"/>
+                <field name="user_id" position="replace">
+                    <group col="2" colspan="2" name="notify_info" groups="base.group_sale_manager,base.group_sale_salesman_all_leads">
+                        <field name="notify_sale" attrs="{'invisible': [('is_company','=', False)]}"/>
+                        <field name="activity_sale" attrs="{'invisible': [('notify_sale','=', False)]}"/>
+                        <field name="notify_activity_sale" readonly="0" invisible="1"/>
+                        <field name="notify_scale_sale" readonly="0" invisible="1"/>
+                        <field name="notify" attrs="{'invisible': [('is_company','=', False)]}"/>
+                        <field name="activity" attrs="{'invisible': [('notify','=', False)]}"/>
+                        <field name="notify_activity" readonly="0" invisible="1"/>
+                        <field name="notify_scale" readonly="0" invisible="1"/>
+                        <field name="user_id" modifiers="{}" attrs="{'required': ['|',('notify','=',True),('notify_sale','=',True)]}"/>
+                        <field name="section_id" completion="1" modifiers="{}" attrs="{'required': ['|',('notify','=',True),('notify_sale','=',True)]}"/>
+                    </group>
+                    <group col="2" colspan="2" name="notify_buttons" groups="base.group_sale_manager">
+                        <button name="button_scale_sale" type="object" string="Escalar Vendedor" class="oe_right"/>
+                    </group>
+                </field>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_partner_tree_view">
+            <field name="name">res.partner.view.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree" />
+            <field name="priority" eval="17"/>
+            <field name="arch" type="xml">
+                <field name="email" position="after">
+                    <field name="notify" invisible="1"/>
+                    <field name="activity" invisible="1"/>
+                    <field name="activity_ref" invisible="1"/>
+                </field>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

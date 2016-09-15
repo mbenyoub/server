@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+<!--
+        Resource: stock.location
+-->
+        <record id="stock.journal_delivery" model="stock.journal">
+            <field name="name">Ordenes de Entrega</field>
+            <field name="default">True</field>
+        </record>
+
+    </data>
+</openerp>

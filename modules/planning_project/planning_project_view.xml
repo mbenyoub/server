@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <!-- Menu item -->
+        <menuitem id="menu_ticket_management" name="Tickets" parent="base.menu_main_pm" sequence="1"/>
+
+        <!-- Menu item -->
+        <menuitem id="menu_activity_management" name="Actividades" parent="base.menu_main_pm" sequence="2"/>
+        
+        <!-- Menu item - Mover de lugar task -->
+        <menuitem action="project.action_view_task" id="project.menu_action_view_task" parent="menu_activity_management" sequence="1"/>
+        
+        <!-- Menu item - Mover de lugar Issue -->
+        <menuitem name="Incidencias" id="project_issue.menu_project_issue_track"  parent="project.menu_project_management"
+            action="project_issue.project_issue_categ_act0" sequence="3"/>
+        
+        <!-- Action para issues de ticket-->
+        <record id="act_planning_project_ticket_project_issue_all" model="ir.actions.act_window">
+            <field name="res_model">project.issue</field>
+            <field name="view_type">form</field>
+            <field name="name">Issues</field>
+            <field name="search_view_id" ref="project_issue.view_project_issue_filter"/>
+            <field name="view_mode">kanban,tree,form,calendar,graph</field>
+            <field name="context">{'search_default_ticket_id': [active_id], 'default_ticket_id': active_id}</field>
+        </record>
+
+        <!-- Action para task de ticket-->
+        <record id="act_planning_project_ticket_project_task_all" model="ir.actions.act_window">
+            <field name="name">Tasks</field>
+            <field name="res_model">project.task</field>
+            <field name="search_view_id" ref="project.view_task_search_form"/>
+            <field name="view_mode">kanban,tree,form,calendar,gantt,graph</field>
+            <field name="context">{'search_default_ticket_id': [active_id], 'default_ticket_id': active_id }</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a new task.
+              </p><p>
+                OpenERP's project management allows you to manage the pipeline
+                of tasks in order to get things done efficiently. You can
+                track progress, discuss on tasks, attach documents, etc.
+              </p>
+            </field>
+        </record>
+
+        <!-- Search - Ticket -->
+        <record id="view_planning_project_ticket_filter" model="ir.ui.view">
+            <field name="name">planning.project.ticket.list.select</field>
+            <field name="model">planning.project.ticket</field>
+            <field name="arch" type="xml">
+                <search string="Filtrar Ticket">
+                    <field name="name" string="Nombre"/>
+                    <separator/>
+                        <field name="state"/>
+                        <filter icon="terp-document-new" name="state_request" string="Solicitud Ticket" domain="[('state','=','request')]" help="Informacion de Solicitudes de tickets"/>
+                        <filter icon="terp-document-new" name="state_approve" string="Tickets Activos" domain="[('state','=','ticket')]" help="Informacion de tickets que se encuentran activos"/>
+                        <filter icon="terp-check" name="state_cancel" string="Tickets Cancelados" domain="[('state','=','cancel')]" help="Informacion de tickets cancelados"/>
+                        <filter icon="terp-check" name="priority_higth" string="Prioridad Muy Alta" domain="[('priority','=','1')]" help="Tickets con prioridad muy alta"/>
+                    <separator/>
+                    <group expand="0" string="Agrupar por...">
+                        <field name="project_id"/>
+                        <field name="partner_id"/>
+                        <field name="user_id"/>
+                        <field name="priority"/>
+                        <filter string="Proyecto" icon="terp-partner" domain="[]" context="{'group_by':'project_id'}"/>
+                        <filter string="Solicitante" icon="terp-gtk-jump-to-rtl" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="Encargado" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'user_id'}"/>
+                        <filter string="Estado" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
+                        <filter string="Fecha" icon="terp-go-month" domain="[]" context="{'group_by':'date'}"/>
+                        <filter string="Prioridad" icon="terp-go-month" domain="[]" context="{'group_by':'priority'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- action windows - Solicitud Ticket -->
+        <record model="ir.actions.act_window" id="act_planning_project_request_ticket_view">
+            <field name="name">Solicitud de Ticket</field>
+            <field name="res_model">planning.project.ticket</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state','in',('request','cancel'))]</field>
+            <field name="search_view_id" ref="view_planning_project_ticket_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Solicitudes de clientes para la realizacion de nuevas tareas sobre un proyecto </p>
+            </field>
+        </record>
+
+        <!-- Menu Solicitud ticket -->
+        <menuitem action="act_planning_project_request_ticket_view" id="menu_action_request_ticket" parent="planning_project.menu_ticket_management" sequence="1"/>
+
+        <!-- View form - Solicitud Ticket -->
+        <record model="ir.ui.view" id="act_planning_project_request_ticket_form_view">
+            <field name="name">planning.project.request.ticket.form</field>
+            <field name="model">planning.project.ticket</field>
+            <field name="arch" type="xml">
+                <form string="Solicitud" version="7.0">
+                    <header>
+                        <button name="action_ticket_confirm" states="request" string="Confirmar" type="object" class="oe_highlight" groups="project.group_project_manager"/>
+                        <button name="action_ticket_done" states="ticket" string="Hecho" type="object" class="oe_highlight"  groups="project.group_project_manager"/>
+                        <button name="action_cancel" states="request,ticket" string="Cancelar" type="object"  groups="project.group_project_manager"/>
+                        <button name="action_cancel_to_request" states="cancel" type="object" string="Convertir en Solicitud"  groups="project.group_project_manager"/>
+                        <field name="state" widget="statusbar" statusbar_visible="request,ticket,done" statusbar_colors='{"cancel":"red"}' readonly="1"/>
+                    </header>
+                    <sheet string="Solicitud">
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <div class="oe_right oe_button_box" name="buttons" attrs="{'invisible': [('state','not in',('ticket','done','cancel'))]}">
+                            <button name="%(act_planning_project_ticket_project_task_all)d" string="Tareas" type="action"/>
+                            <button name="%(act_planning_project_ticket_project_issue_all)d" string="Incidencias" type="action" />
+                        </div>
+                        <group colspan="4" col="4">
+                            <group colspan="2" col="2">
+                                <field name="partner_id"/>
+                                <field name="project_id"/>
+                                <field name="user_id" attrs="{'invisible': [('state','in',('request'))]}"/>
+                                <field name="priority"/>
+                                <field name="task_log_time_function" widget="float_time" invisible="1"/>
+                                <field name="task_log_time" widget="float_time" attrs="{'invisible': [('state','not in',('ticket','done','cancel'))]}"/>
+                            </group>
+                            <group colspan="2" col="2">
+                                <field name="reference"/>
+                                <field name="date"/>
+                                <field name="delivery_date"/>
+                                <field name="date_approve" attrs="{'invisible': [('state','in',('request'))]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Descripcion">
+                                <field name="description"/>
+                            </page>
+                            <page string="Notas" attrs="{'invisible': [('state','in',('request'))]}">
+                                <field name="note"/>
+                            </page>
+                            <page string="Etapas ticket" attrs="{'invisible': [('state','not in',('ticket','done','cancel'))]}" name="project_stages">
+                                <field name="type_ids"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_crm_tag_form_view_request_ticket">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="act_planning_project_request_ticket_form_view"/>
+            <field name="act_window_id" ref="act_planning_project_request_ticket_view"/>
+        </record>
+
+        <!-- View Tree - Solicitud Ticket -->
+        <record model="ir.ui.view" id="act_planning_project_request_ticket_tree_view">
+            <field name="name">planning.project.ticket.tree</field>
+            <field name="model">planning.project.ticket</field>
+            <field name="arch" type="xml">
+                <tree fonts="bold:ticket_expired==True" colors="grey:state=='cancel';red:priority=='1';red:priority=='2';blue:state=='ticket'" string="Solicitud Ticket">
+                    <field name="name" />
+                    <field name="project_id" />
+                    <field name="partner_id"/>
+                    <field name="state" />
+                    <field name="date" />
+                    <field name="priority"/>
+                    <field name="ticket_expired" invisible="1"/>
+                    <field name="task_log_time_function" widget="float_time" invisible="1"/>
+                    <field name="task_log_time" widget="float_time" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_crm_tag_tree_view_request_ticket">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="act_planning_project_request_ticket_tree_view"/>
+            <field name="act_window_id" ref="act_planning_project_request_ticket_view"/>
+        </record>
+
+        <!-- action windows - Ticket -->
+        <record model="ir.actions.act_window" id="act_planning_project_ticket_view">
+            <field name="name">Tickets</field>
+            <field name="res_model">planning.project.ticket</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[('state','not in',('request','cancel'))]</field>
+            <field name="search_view_id" ref="view_planning_project_ticket_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Tickets generados para la planeacion y asignacion de nuevas tareas al proyecto </p>
+            </field>
+        </record>
+
+        <!-- Menu ticket -->
+        <menuitem action="act_planning_project_ticket_view" id="menu_action_ticket" parent="planning_project.menu_ticket_management" sequence="2"/>
+
+        <!-- View form - Ticket -->
+        <record model="ir.ui.view" id="act_planning_project_ticket_form_view">
+            <field name="name">planning.project.ticket.form</field>
+            <field name="model">planning.project.ticket</field>
+            <field name="arch" type="xml">
+                <form string="Tickets" version="7.0">
+                    <header>
+                        <button name="action_ticket_confirm" states="request" string="Confirmar" type="object" class="oe_highlight"  groups="project.group_project_manager"/>
+                        <button name="action_ticket_done" states="ticket" string="Hecho" type="object" class="oe_highlight"  groups="project.group_project_manager"/>
+                        <button name="action_cancel" states="request,ticket" string="Cancelar" type="object"  groups="project.group_project_manager"/>
+                        <button name="action_cancel_to_request" states="cancel" type="object" string="Convertir en Solicitud"  groups="project.group_project_manager"/>
+                        <field name="state" widget="statusbar" statusbar_visible="request,ticket,done" statusbar_colors='{"cancel":"red"}' readonly="1"/>
+                    </header>
+                    <sheet string="Tickets">
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <div class="oe_right oe_button_box" name="buttons" attrs="{'invisible': [('state','not in',('ticket','done','cancel'))]}">
+                            <button name="%(act_planning_project_ticket_project_task_all)d" string="Tareas" type="action"/>
+                            <button name="attachment_tree_view" string="Documents" type="object"/>
+                            <button name="%(act_planning_project_ticket_project_issue_all)d" string="Incidencias" type="action" />
+                        </div>
+                        <group colspan="4" col="4">
+                            <group colspan="2" col="2">
+                                <field name="partner_id"/>
+                                <field name="project_id"/>
+                                <field name="user_id"/>
+                                <field name="priority"/>
+                                <field name="task_log_time_function" widget="float_time" invisible="1"/>
+                                <field name="task_log_time" widget="float_time" attrs="{'invisible': [('state','not in',('ticket','done','cancel'))]}"/>
+                            </group>
+                            <group colspan="2" col="2">
+                                <field name="reference"/>
+                                <field name="date"/>
+                                <field name="delivery_date"/>
+                                <field name="date_approve" attrs="{'invisible': [('state','not in',('ticket','done','cancel'))]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Descripcion">
+                                <field name="description"/>
+                            </page>
+                            <page string="Notas" attrs="{'invisible': [('state','not in',('ticket','done','cancel'))]}">
+                                <field name="note"/>
+                            </page>
+                            <page string="Etapas ticket" attrs="{'invisible': [('state','not in',('ticket','done','cancel'))]}" name="project_stages">
+                                <field name="type_ids"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_crm_tag_form_view_ticket">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="act_planning_project_ticket_form_view"/>
+            <field name="act_window_id" ref="act_planning_project_ticket_view"/>
+        </record>
+
+        <!-- View Tree - Ticket -->
+        <record model="ir.ui.view" id="act_planning_project_ticket_tree_view">
+            <field name="name">planning.project.ticket.tree</field>
+            <field name="model">planning.project.ticket</field>
+            <field name="arch" type="xml">
+                <tree fonts="bold:ticket_expired==True" colors="grey:state=='cancel';red:priority=='1';red:priority=='2';blue:state=='ticket'" string="Ticket">
+                    <field name="name" />
+                    <field name="project_id" />
+                    <field name="partner_id"/>
+                    <field name="state" />
+                    <field name="delivery_date" />
+                    <field name="reference" />
+                    <field name="user_id" />
+                    <field name="priority" />
+                    <field name="task_log_time_function" widget="float_time" invisible="1"/>
+                    <field name="task_log_time" widget="float_time" attrs="{'invisible': [('state','not in',('ticket','done'))]}"/>
+                    <field name="ticket_expired" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_crm_tag_tree_view_ticket">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="act_planning_project_ticket_tree_view"/>
+            <field name="act_window_id" ref="act_planning_project_ticket_view"/>
+        </record>
+
+        <!-- View Kanban - Ticket -->
+        <record model="ir.ui.view" id="act_planning_project_ticket_kanban_view">
+            <field name="name">planning.project.ticket.kanban</field>
+            <field name="model">planning.project.ticket</field>
+            <field name="arch" type="xml">
+                <kanban version="7.0" class="oe_background_grey">
+                    <field name="name"/>
+                    <field name="user_id"/>
+                    <field name="state"/>
+                    <field name="project_id"/>
+                    <field name="date"/>
+                    <field name="color"/>
+                    <field name="task_count"/>
+                    <field name="issue_count"/>
+                    <field name="doc_count"/>
+                    <field name="task_log_time_function" invisible="1"/>
+                    <field name="task_log_time" invisible="1"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_project oe_kanban_global_click">
+                                <div class="oe_dropdown_toggle oe_dropdown_kanban" groups="base.group_user">
+                                    <span class="oe_e">í</span>
+                                    <ul class="oe_dropdown_menu">
+                                        <t t-if="widget.view.is_action_enabled('edit')"><li><a type="edit">Configuracion del Ticket</a></li></t>
+                                        <t t-if="widget.view.is_action_enabled('delete')"><li><a type="delete">Eliminar</a></li></t>
+                                        <li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
+                                    </ul>
+                                </div>
+                                <div class="oe_kanban_content">
+                                    <h4><field name="name"/></h4>
+                                    <div style="margin-top:-5px;">
+                                        <span t-if="record.project_id.raw_value">
+                                            <field name="project_id"/>
+                                        </span>
+                                    </div>
+                                    <div class="oe_kanban_project_list">
+                                        <a name="%(act_planning_project_ticket_project_task_all)d" type="action" style="margin-right: 10px">
+                                            <span t-if="record.task_count.raw_value gt 1"><field name="task_count"/> Tareas</span>
+                                            <span t-if="record.task_count.raw_value lt 2"><field name="task_count"/> Tarea</span>
+                                        </a>
+                                        <a name="%(act_planning_project_ticket_project_issue_all)d" type="action" style="margin-right: 10px">
+                                            <span t-if="record.issue_count.raw_value gt 1"><field name="issue_count"/> Incidencias</span>
+                                            <span t-if="record.issue_count.raw_value lt 2"><field name="issue_count"/> Incidencia</span>
+                                        </a>
+                                    </div>
+                                    <div class="oe_kanban_project_list">
+                                        <a t-if="record.doc_count.raw_value" name="attachment_tree_view" type="object" style="margin-right: 10px"> <field name="doc_count"/> Documents</a>
+                                    </div>
+                                    <div class="oe_kanban_footer_left">
+                                        <span t-if="record.date.raw_value">
+                                            <span class="oe_e">N</span>
+                                            <field name="date"/>
+                                        </span>
+                                    </div>
+                                    <div class="oe_kanban_project_avatars">
+                                        <t t-name="user-image" t-if="record.user_id.raw_value">
+                                            <img t-att-src="kanban_image('res.users', 'image_small', record.user_id.raw_value[0])"  t-att-title="record.user_id.value" />
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_crm_tag_kanban_view_ticket">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="act_planning_project_ticket_kanban_view"/>
+            <field name="act_window_id" ref="act_planning_project_ticket_view"/>
+        </record>
+        
+        <!--
+            Bitacora
+        -->
+        
+        <!-- Search - Task log  -->
+        <record id="view_planning_project_task_log_filter" model="ir.ui.view">
+            <field name="name">planning.project.task.log.list.select</field>
+            <field name="model">planning.project.task.log</field>
+            <field name="arch" type="xml">
+                <search string="Filtrar Bitacora">
+                    <field name="project_id"/>
+                    <field name="user_id"/>
+                    <separator/>
+                        <filter name="My_projects" string="Mi projecto" domain="[('project_id.user_id','=',uid)]" help="Actividades de mis proyectos" icon="terp-check"/>
+                        <filter name="My_activitys" string="Mis Actividades" domain="[('user_id','=',uid)]" help="Mis actividades registradas" icon="terp-check"/>
+                    <separator/>
+                    <group expand="0" string="Agrupar por...">
+                        <field name="ticket_id"/>
+                        <field name="task_id"/>
+                        <field name="date"/>
+                        <filter string="Proyecto" icon="terp-partner" domain="[]" context="{'group_by':'project_id'}"/>
+                        <filter string="Ticket" icon="terp-gtk-jump-to-rtl" domain="[]" context="{'group_by':'ticket_id'}"/>
+                        <filter string="Tarea" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'task_id'}"/>
+                        <filter string="Mes" icon="terp-go-month" domain="[]" context="{'group_by':'date'}"/>
+                        <filter string="Dia" icon="terp-go-month" domain="[]" context="{'group_by':'date_string'}"/>
+                        <filter string="Usuario" icon="terp-go-month" domain="[]" context="{'group_by':'user_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <!-- action windows - Task log -->
+        <record model="ir.actions.act_window" id="act_planning_project_task_log_view">
+            <field name="name">Bitacora de Actividades</field>
+            <field name="res_model">planning.project.task.log</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{'search_default_user_id':uid}</field>
+            <field name="search_view_id" ref="view_planning_project_task_log_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Bitacora de Actividades registradas en las tareas </p>
+            </field>
+        </record>
+
+        <!-- Menu Task log -->
+        <menuitem action="act_planning_project_task_log_view" id="menu_action_task_log" parent="planning_project.menu_activity_management" sequence="3"/>
+        
+        <!--View Tree - Task log -->
+        <record model="ir.ui.view" id="planning_project_task_log_tree_view">
+            <field name="name">Bitacora - Registro</field>
+            <field name="model">planning.project.task.log</field>
+            <field name="arch" type="xml">
+                <tree string="Bitacora" editable="top">
+                    <field name="date"/>
+                    <field name="task_id"/>
+                    <field name="time"/>
+                    <field name="description"/>
+                    <field name="task_finish" invisible="1"/>
+                    <field name="state" invisible="1"/>
+                    <field name="project_id" invisible="1"/>
+                    <field name="ticket_id" invisible="1"/>
+                    <field name="user_id" invisible="1"/>
+                    <field name="date_string" invisible="1"/>
+                    <button string="Finalizar tarea"
+                         icon="gtk-redo"
+                         name="action_finish_task" type="object" attrs="{'invisible':['|', ('task_id','=',False),('task_finish','=','True')]}"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- View form - Task log -->
+        <record model="ir.ui.view" id="act_planning_project_task_log_form_view">
+            <field name="name">planning.project.task.log.form</field>
+            <field name="model">planning.project.task.log</field>
+            <field name="arch" type="xml">
+                <form string="Bitacora" version="7.0">
+                    <header>
+                        <button name="action_finish_task" string="Finalizar Tarea" type="object" class="oe_highlight" attrs="{'invisible':['|', ('task_id','=',False),('task_finish','=','True')]}"/>
+                    </header>
+                    <sheet string="Bitacora">
+                        <group colspan="4" col="4">
+                            <group colspan="2" col="2">
+                                <field name="task_id"/>
+                                <field name="time"/>
+                            </group>
+                            <group colspan="2" col="2">
+                                <field name="date"/>
+                                <field name="task_finish" invisible="1"/>
+                                <field name="project_id" attrs="{'invisible':[('task_id','=',False)]}"/>
+                                <field name="ticket_id" attrs="{'invisible':[('task_id','=',False)]}"/>
+                                <field name="user_id" attrs="{'invisible':[('task_id','=',False)]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page >
+                                <field name="description"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+            
+    </data>
+</openerp>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        
+        <!--
+            Account SAT Sequences
+        -->
+        
+        <record id="account_sat_sequence_type" model="ir.sequence.type">
+            <field name="name">Account Sat Sequence</field>
+            <field name="code">account.sat.related.sequence</field>
+        </record>
+        <record id="sequence_account_sat_related" model="ir.sequence">
+            <field name="name">Account sat related Default sequence</field>
+            <field name="code">account.sat.related.sequence</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+        </record>
+        
+    </data>
+</openerp>

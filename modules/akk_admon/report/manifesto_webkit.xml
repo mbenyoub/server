@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <report
+            auto="False"
+            id="report_admon_database_info_manifesto"
+            model="admon.database.info"
+            name="report.admon.database.info.webkit"
+            file="akk_admon/report/manifesto_webkit.mako"
+            string="Manifiesto Timbrado"
+            report_type="webkit"
+            
+            menu="True"/>
+    </data>
+</openerp>
+
+        <!-- replace by account.account_invoices 
+           
+            attachment="(object.state in ('open','paid')) and ('INV'+(object.number or '').replace('/',''))"
+            attachment_use="2"
+            multi="True"
+            
+            -->
+
+

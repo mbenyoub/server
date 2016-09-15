@@ -1,0 +1,64 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data>
+
+        <!--workflow definition-->
+        <record id="workflow_planning_project_ticket" model="workflow">
+            <field eval="1" name="on_create"/>
+            <field name="name">planning.project.ticket.workflow</field>
+            <field name="osv">planning.project.ticket</field>
+        </record>
+
+        <!--activity-->
+        <record id="workflow_activity_ticket_request" model="workflow.activity">
+            <field name="kind">dummy</field>
+            <field name="name">request</field>
+            <field model="workflow" name="wkf_id" ref="workflow_planning_project_ticket"/>
+            <field eval="0" name="flow_stop"/>
+            <field eval="1" name="flow_start"/>
+        </record>
+        <record id="workflow_activity_ticket_ticket" model="workflow.activity">
+            <field name="kind">dummy</field>
+            <field name="name">ticket</field>
+            <field model="workflow" name="wkf_id" ref="workflow_planning_project_ticket"/>
+        </record>
+        <record id="workflow_activity_ticket_done" model="workflow.activity">
+            <field name="kind">dummy</field>
+            <field name="name">done</field>
+            <field model="workflow" name="wkf_id" ref="workflow_planning_project_ticket"/>
+            <field eval="1" name="flow_stop"/>
+            <field eval="0" name="flow_start"/>
+        </record>
+        <record id="workflow_activity_ticket_cancel" model="workflow.activity">
+            <field name="kind">dummy</field>
+            <field name="name">cancel</field>
+            <field model="workflow" name="wkf_id" ref="workflow_planning_project_ticket"/>
+        </record>
+
+        <!--trasition-->
+        <record id="workflow_transition_request_to_ticket" model="workflow.transition">
+            <field name="signal">action_ticket_confirm</field>
+            <field model="workflow.activity" name="act_from" ref="workflow_activity_ticket_request"/>
+            <field model="workflow.activity" name="act_to" ref="workflow_activity_ticket_ticket"/>
+            <field name="condition">True</field>
+        </record>
+        <record id="workflow_transition_ticket_to_done" model="workflow.transition">
+            <field name="signal">action_ticket_done</field>
+            <field model="workflow.activity" name="act_from" ref="workflow_activity_ticket_ticket"/>
+            <field model="workflow.activity" name="act_to" ref="workflow_activity_ticket_done"/>
+            <field name="condition">True</field>
+        </record>
+        <record id="workflow_transition_ticket_to_cancel" model="workflow.transition">
+            <field name="signal">action_cancel</field>
+            <field model="workflow.activity" name="act_from" ref="workflow_activity_ticket_ticket"/>
+            <field model="workflow.activity" name="act_to" ref="workflow_activity_ticket_cancel"/>
+            <field name="condition">True</field>
+        </record>
+        <record id="workflow_transition_cancel_to_request" model="workflow.transition">
+            <field name="signal">action_cancel_to_request</field>
+            <field model="workflow.activity" name="act_from" ref="workflow_activity_ticket_cancel"/>
+            <field model="workflow.activity" name="act_to" ref="workflow_activity_ticket_request"/>
+            <field name="condition">True</field>
+        </record>
+    </data>
+</openerp>

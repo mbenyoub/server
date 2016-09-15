@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    
+<!--
+        Vista wizard Aplicar Perdida/Utilidad del Ejercicio Fiscal
+-->
+        <!-- View Form - Aplicar Perdida/Utilidad -->
+        <record model="ir.ui.view" id="wizard_account_fiscal_utility_validate_view">
+            <field name="name">account.fiscal.utility.validate.form</field>
+            <field name="model">account.fiscal.utility.validate</field>
+            <field name="arch" type="xml">
+                <form string="Aplicar Perdida/Utilidad" version="7.0">
+                    <group col="4">
+                        <group>
+                            <field name="fiscalyear_id" on_change="onchange_fiscalyear_id(fiscalyear_id,remnant_before,context)"/>
+                            <field name="code_id" invisible="1"/>
+                            <field name="close"/>
+                        </group>
+                        <group>
+                            <field name="utility2" string="Utilidad"/>
+                            <field name="lost" string="Perdida" readonly="1"/>
+                            <field name="balance" string="Saldo" readonly="1" attrs="{'invisible': [('lost','>',0.0)]}"/>
+                            <field name="balance2" string="Saldo" readonly="1" attrs="{'invisible': [('lost','&lt;=',0.0)]}"/>
+                            <field name="utility" invisible="1"/>
+                            <field name="remnant_before" string="Perdida Actualizada" attrs="{'invisible': [('lost','>',0.0)]}"/>
+                            <field name="remnant" string="Utilidad amortizada" attrs="{'invisible': [('lost','>',0.0)]}"/>
+                            <field name="total"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="action_utility_validate" type="object" string="Guardar" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Action - Aplicar Perdida/Utilidad -->
+        <record model="ir.actions.act_window" id="action_wizard_account_fiscal_utility_validate_view">
+            <field name="name">Aplicar Perdida/Utilidad</field>
+            <field name="res_model">account.fiscal.utility.validate</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_account_fiscal_utility_validate_view"/>
+            <field name="target">new</field>
+        </record>
+    
+        <!-- Menu - Perdida/Utilidad Fiscal -->
+        <menuitem icon="STOCK_INDENT"
+                  action="action_wizard_account_fiscal_utility_validate_view"
+                  id="menu_account_fiscal_utility_validate"
+                  groups="account.group_account_user,account.group_account_manager"
+                  parent="account.menu_account_fiscal" sequence="15"/>
+        
+    </data>
+</openerp>   

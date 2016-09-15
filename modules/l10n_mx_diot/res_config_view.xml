@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+        <record id="view_account_diot_configuration" model="ir.ui.view">
+            <field name="name">account DIOT settings</field>
+            <field name="model">account.diot.config.settings</field>
+            <field name="arch" type="xml">
+                <form string="Configuracion Reporte DIOT" class="oe_form_configuration" version="7.0">
+                    <header>
+                        <button string="Aplicar" type="object" name="execute" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" type="object" name="cancel" class="oe_link"/>
+                    </header>
+                    <separator string="Configuracion de Impuestos a calcular sobre la diot"/>
+                    <group>
+                        <label for="diot_account_id1" string="Valor de los actos o actividades pagados a la tasa del 15 o 16 porciento de IVA"/>
+                        <div>
+                            <field name="diot_account_id1" class="oe_inline"/>
+                        </div>
+                        <label for="diot_account_id2" string="Valor de los actos o actividades pagados a la tasa del 15 porciento de IVA"/>
+                        <div>
+                            <field name="diot_account_id2" class="oe_inline"/>
+                        </div>
+                        <label for="diot_account_id3" string="Monto del iva pagado no acreditable a la tasa del 15 o 16 porciento (Correspondiente en la proporcion de las deducciones autorizadas)"/>
+                        <div>
+                            <field name="diot_account_id3" class="oe_inline"/>
+                        </div>
+                        <label for="diot_account_id4" string="Valor de los actos o actividades pagados a la tasa del 10 u 11 porciento de IVA"/>
+                        <div>
+                            <field name="diot_account_id4" class="oe_inline"/>
+                        </div>
+                        <label for="diot_account_id5" string="Valor de los actos o actividades pagados a la tasa del 10 porciento de IVA"/>
+                        <div>
+                            <field name="diot_account_id5" class="oe_inline"/>
+                        </div>
+                        <label for="diot_account_id6" string="Monto del IVA pagado no acreditable a la tasa del 10 u 11 porciento"/>
+                        <div>
+                            <field name="diot_account_id6" class="oe_inline"/>
+                        </div>
+                        <label for="diot_account_id7" string="Valor de los actos o actividades pagados en la importacion de bienes y servicios  a la tasa del 15 o 16 porciento de IVA"/>
+                        <div>
+                            <field name="diot_account_id7" class="oe_inline"/>
+                        </div>
+                        <label for="diot_account_id8" string="Monto del IVA pagado no acreditable por la importacion  a la tasa del 15 o 16 porciento de IVA"/>
+                        <div>
+                            <field name="diot_account_id8" class="oe_inline"/>
+                        </div>
+                        <label for="diot_account_id9" string="Valor de los actos o actividades pagados en la importacion de bienes y servicios a la tasa del 10 u 11 porciento de iva"/>
+                        <div>
+                            <field name="diot_account_id9" class="oe_inline"/>
+                        </div>
+                        <label for="diot_account_id10" string="Monto del iva pagado no acreditable por la importacion a la tasa del 10 u 11 porciento (Correspondiente en la proporcion de las deducciones autorizadas)"/>
+                        <div>
+                            <field name="diot_account_id10" class="oe_inline"/>
+                        </div>
+                        <label for="diot_account_id11" string="Valor de los actos o actividades pagados en la importacion de bienes y servicios por los que no se paraga el IVA (Exento)"/>
+                        <div>
+                            <field name="diot_account_id11" class="oe_inline"/>
+                        </div>
+                        <label for="diot_account_id12" string="Valor de los demas actos o actividades pagados a la tasa del 0 de IVA"/>
+                        <div>
+                            <field name="diot_account_id12" class="oe_inline"/>
+                        </div>
+                        <label for="diot_account_id13" string="Valor de los actos o actividades pagados por los que no se pagara el IVA (Exento)"/>
+                        <div>
+                            <field name="diot_account_id13" class="oe_inline"/>
+                        </div>
+                        <label for="diot_account_id14" string="IVA Retenido por el contribuyente"/>
+                        <div>
+                            <field name="diot_account_id14" class="oe_inline"/>
+                        </div>
+                        <label for="diot_account_id15" string="IVA correspondiente a las devoluciones, descuentos y bonificaciones sobre compras"/>
+                        <div>
+                            <field name="diot_account_id15" class="oe_inline"/>
+                        </div>
+                    </group>
+                    <label string="Los codigos que se dejen en blanco automaticamente se consideraran en valor Cero"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_account_diot_configuration" model="ir.actions.act_window">
+            <field name="name">Configuracion DIOT</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.diot.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+        </record>
+
+        <menuitem id="base.menu_account_diot_config" name="Configuracion DIOT" parent="base.menu_config" action="action_account_diot_configuration" sequence="60"/>
+
+    </data>
+</openerp>

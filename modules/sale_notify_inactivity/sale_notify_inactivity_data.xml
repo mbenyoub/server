@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <record model="ir.cron" id="sale_notify_inactivity_cron">
+            <field name="name">Sale notify inactivity</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model">sale.notify.inactivity.mail</field>
+            <field name="function">cron_sale_notify_inactivity</field>
+            <field name="args">()</field>
+            <field name="active" eval="True"/>
+        </record>
+        
+        <record model="ir.cron" id="sale_notify_inactivity_sale_cron">
+            <field name="name">Sale notify inactivity sale</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model">sale.notify.inactivity.sale.mail</field>
+            <field name="function">cron_sale_notify_inactivity</field>
+            <field name="args">()</field>
+            <field name="active" eval="True"/>
+        </record>
+        
+        <record model="ir.cron" id="sale_notify_lead_cron">
+            <field name="name">Sale notify lead</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model">sale.notify.inactivity.mail</field>
+            <field name="function">cron_sale_notify_lead</field>
+            <field name="args">()</field>
+            <field name="active" eval="True"/>
+        </record>
+        
+    </data>
+</openerp>

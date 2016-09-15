@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    
+<!--
+        Vista wizard Agregar Perdida Fiscal
+-->
+        
+        <!-- View Form - Perdida Fiscal -->
+        <record model="ir.ui.view" id="wizard_account_fiscal_utility_line_new_view">
+            <field name="name">account.fiscal.utility.line.new.form</field>
+            <field name="model">account.fiscal.utility.line.new</field>
+            <field name="arch" type="xml">
+                <form string="Perdida Fiscal" version="7.0">
+                    <group col="4">
+                        <group>
+                            <field name="utility_id" invisible="1"/>
+                            <field name="remnant_before" readonly="1"/>
+                            <field name="inpc_id1" readonly="1"/>
+                            <field name="inpc_id2" readonly="1"/>
+                            <separator/>
+                        </group>
+                        <group>
+                            <field name="fiscalyear_amortized" readonly="1" />
+                            <field name="remnant_amortized"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="action_add_line_new" type="object" string="Agregar" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Action - Perdida Fiscal -->
+        <record model="ir.actions.act_window" id="action_wizard_account_fiscal_utility_line_new_view">
+            <field name="name">Perdida Fiscal</field>
+            <field name="res_model">account.fiscal.utility.line.new</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_account_fiscal_utility_line_new_view"/>
+            <field name="target">new</field>
+        </record>
+    
+    </data>
+</openerp>   

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <!--
+    Resource: product.uom.categ
+    -->
+        <record id="product.product_category_asset_all" model="product.category">
+            <field name="name">Activos</field>
+            <field name="code">ASSET</field>
+        </record>
+        
+    </data>
+</openerp>

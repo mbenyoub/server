@@ -1,0 +1,501 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+        <!-- Menu - Contabilidad/Configuracion/Calculadora Fiscal -->
+        <menuitem name="Calculadora Fiscal" id="account.menu_account_fiscal_configuration" parent="account.menu_finance_configuration" sequence="2"/>
+        
+        <!-- Menu - Contabilidad/Informes/Caluladora Fiscal -->
+        <!--<menuitem name="Calculadora Fiscal" id="account.menu_account_fiscal_report" parent="account.menu_finance_charts" sequence="120"/>-->
+        
+        <!-- Menu - Contabilidad/Contabilidad Fiscal -->
+        <menuitem name="Contabilidad Fiscal" id="account.menu_account_fiscal" parent="account.menu_finance" sequence="10"/>
+<!--
+        Codigos Fiscales
+-->
+        <!-- View Form - Codigos Fiscales -->
+        <record id="view_account_fiscal_code_form" model="ir.ui.view">
+            <field name="name">account.fiscal.code.form</field>
+            <field name="model">account.fiscal.code</field>
+            <field name="arch" type="xml">
+                <form string="Codigos Fiscales" version="7.0">
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="parent_id" domain="[('type_code','=','view'),('apply_year','=',False)]"/>
+                            <field name="apply_balance" help="Cuando quieres que el codigo fiscal se pueda aplicar como un saldo fiscal, para utilizar en las proximas declaraciones o como un reembolso."/>
+                            <field name="if_apply" help="Valida si se cumple la condicion pone el resultado, de caso contrario pone cero"/>
+                            <separator/>
+                            <label string="Condicion:" attrs="{'invisible':[('if_apply','=',False)]}" />
+                            <field name="operator" attrs="{'invisible':[('if_apply','=',False)]}" />
+                            <field name="condition_value" attrs="{'invisible':[('if_apply','=',False)]}" />
+                        </group>
+                        <group>
+                            <field name="code"/>
+                            <field name="sign"/>
+                            <field name="factor" required="1"/>
+                            <field name="type_code" invisible="1"/>
+                            <field name="apply_year" string="Guardar en el historial por año" help="Especificar si es un proceso anual, que se guarde sobre el año a la hora de guardar el calculo" on_change="onchange_apply_year(apply_year,context)"/>
+                        </group>
+                    </group>
+                    <group string="Configuracion de Acumulados">
+                        <div>
+                            <button name="action_add_code" string="Agregar" class="oe_highlight" type="object" help="Agregar nuevo codigo para calcular sobre el registro"/>
+                            <field name="child_ids" help="Ejecucion de formulas de manera jerarquica para la obtencion del resultado del codigo fiscal. (El primer factor de la lista no se considera en el calculo)" widget="one2many_list" nolabel="1" context="{'default_type_code':'acf_period', 'default_parent_id': active_id}">
+                                <tree edit="1" create="0" delete="1" string="Acumulados">
+                                    <field name="parent_id" invisible="1"/>
+                                    <field name="sequence"/>
+                                    <field name="if_apply2" invisible="1"/>
+                                    <field name="condition2" attrs="{'invisible':[('if_apply2','=',False)]}"/>
+                                    <field name="condition_res2" attrs="{'invisible':[('if_apply2','=',False)]}"/>
+                                    <field name="operator2" attrs="{'invisible':[('if_apply2','=',False)]}"/>
+                                    <field name="condition_value2" attrs="{'invisible':[('if_apply2','=',False)]}"/>
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="type_code" invisible="1"/>
+                                    <field name="factor" required="1" attrs="{'readonly':[('type_code','=','view')]}"/>
+                                    <field name="base" required="1" attrs="{'readonly':[('base','=','value')]}"/>
+                                    <field name="reference" readonly="1"/>
+                                    <button name="action_view_code" string="" class="oe_edit_only" help="Ir a codigo fiscal" type="object" icon="gtk-redo" attrs="{'invisible':['|',('type_code','!=','view')]}"/>
+                                </tree>
+                                <form string="Codigo Fiscal">
+                                    <group col="4" colspan="4">
+                                        <group>
+                                            <field name="sequence" />
+                                            <field name="name"/>
+                                            <field name="parent_id" invisible="1"/>
+                                            <field name="apply_balance" help="Cuando quieres que el codigo fiscal se pueda aplicar como un saldo fiscal, para utilizar en las proximas declaraciones o como un reembolso."/>
+                                            <field name="type_code" readonly="1"/>
+                                            <field name="compute" help="Asignar un calculo adicional sobre el resultado del acumulador generado" attrs="{'invisible':[('type_code','in',['view'])]}"/>
+                                            <field name="if_apply" string="Aplicar condicion sobre result. calculo"/>
+                                            <separator/>
+                                            <label string="Condicion:" attrs="{'invisible':['|',('if_apply','=',False),('type_code','!=','view')]}" />
+                                            <field name="operator" attrs="{'invisible':['|',('if_apply','=',False),('type_code','!=','view')]}" />
+                                            <field name="condition_value" attrs="{'invisible':['|',('if_apply','=',False),('type_code','!=','view')]}" />
+                                        </group>
+                                        <group>
+                                            <field name="code"/>
+                                            <field name="factor"/>
+                                            <field name="apply" attrs="{'invisible':[('type_code','!=','code_period')], 'required':[('type_code','=','code_period')]}"/>
+                                            <field name="base" attrs="{'invisible':[('type_code','in',['frate','code_cumulative','code_period','code_isr'])], 'required':[('type_code','not in',['frate','code_cumulative','code_period','code_isr'])]}"/>
+                                            <field name="type_move" attrs="{'invisible':[('type_code','not in',['acf_cumulative','acf_period'])], 'required':[('type_code','in',['acf_cumulative','acf_period'])]}"/>
+                                            <field name="reference" readonly="1" attrs="{'invisible':[('type_code','in',['view'])]}"/>
+                                            <field name="value_isr" attrs="{'invisible':[('type_code','not in',['code_isr'])], 'required':[('type_code','in',['code_isr'])]}"/>
+                                            <field name="code_year" invisible="1"/>
+                                            <field name="is_year" invisible="1"/>
+                                            <field name="apply_year" help="Obtiene el resultado en base al ejercicio anterior sobre el periodo seleccionado" attrs="{'invisible':['|',('type_code','in',['frate']),('is_year','=',True)], 'readonly':[('type_code','in',['code_period','code_cumulative']),('code_year','=',True)]}"/>
+                                            <field name="if_apply2"/>
+                                            <separator/>
+                                            <label string="Condicion:" attrs="{'invisible':[('if_apply2','=',False)]}" />
+                                            <field name="condition2" attrs="{'invisible':[('if_apply2','=',False)]}" />
+                                            <field name="condition_res2" attrs="{'invisible':[('if_apply2','=',False)]}" />
+                                            <field name="operator2" attrs="{'invisible':[('if_apply2','=',False)]}" />
+                                            <field name="condition_value2" attrs="{'invisible':[('if_apply2','=',False)]}" />
+                                        </group>
+                                    </group>
+                                    <group col="4" colspan="4" string="Condiciones acumulador" attrs="{'invisible': ['|',('if_apply','=',False),('type_code','in',['view'])]}">
+                                        <div>
+                                            <button name="action_add_condition" string="Agregar condicion" class="oe_highlight" type="object" help="Agregar condicion para calcular sobre el registro"/>
+                                            <field name="child_ids" widget="one2many_list" nolabel="1" domain="[('type_code','!=','view')]" context="{'default_type_code':'acf_period'}">
+                                                <tree edit="1" create="0" delete="1" string="Acumulados">
+                                                    <field name="sequence"/>
+                                                    <field name="condition"/>
+                                                    <field name="operator"/>
+                                                    <field name="condition_value"/>
+                                                    <field name="factor" required="1" attrs="{'readonly':[('type_code','=','view')]}"/>
+                                                    <field name="name" string="Codigo Fiscal"/>
+                                                    <field name="code" invisible="1"/>
+                                                    <field name="type_code" invisible="1"/>
+                                                    <field name="base" required="1" attrs="{'readonly':[('base','=','value')]}"/>
+                                                    <field name="reference" readonly="1" invisible="1"/>
+                                                </tree>
+                                                <form string="Codigo Fiscal">
+                                                    <group col="4" colspan="4" string="Condicion">
+                                                        <group>
+                                                            <field name="condition"/>
+                                                            <field name="operator"/>
+                                                            <field name="condition_value"/>
+                                                        </group>
+                                                        <group>
+                                                            <field name="sequence" />
+                                                            <field name="factor"/>
+                                                        </group>
+                                                    </group>
+                                                    <group col="4" colspan="4" string="Codigo Fiscal">
+                                                        <group>
+                                                            <field name="name"/>
+                                                            <field name="parent_id" invisible="1"/>
+                                                            <field name="type_code" readonly="1"/>
+                                                        </group>
+                                                        <group>
+                                                            <field name="code"/>
+                                                            <field name="apply" attrs="{'invisible':[('type_code','!=','code_period')], 'required':[('type_code','=','code_period')]}"/>
+                                                            <field name="base" attrs="{'invisible':[('type_code','in',['frate','code_cumulative','code_period'])], 'required':[('type_code','not in',['frate','code_cumulative','code_period'])]}"/>
+                                                            <field name="reference" readonly="1" attrs="{'invisible':[('type_code','in',['view'])]}"/>
+                                                            <field name="type_move" attrs="{'invisible':[('type_code','not in',['acf_cumulative','acf_period'])], 'required':[('type_code','in',['acf_cumulative','acf_period'])]}"/>
+                                                            <field name="code_year" invisible="1"/>
+                                                            <field name="is_year" invisible="1"/>
+                                                            <field name="apply_year" help="Obtiene el resultado en base al ejercicio anterior sobre el periodo seleccionado" attrs="{'invisible':['|',('type_code','in',['frate','view']),('is_year','=',True)], 'readonly':[('type_code','in',['code_period','code_cumulative']),('code_year','=',True)]}"/>
+                                                        </group>
+                                                    </group>
+                                                    <div>
+                                                        <label for="info" string="Descripcion"/>
+                                                        <field name="info" nolabel="1" />
+                                                    </div>
+                                                </form>
+                                            </field>
+                                        </div>
+                                    </group>
+                                    <group col="4" colspan="4" string="Calculos Extra" attrs="{'invisible':[('compute','=',False)]}">
+                                        <field name="compute_ids" widget="one2many_list" nolabel="1">
+                                            <tree editable="bottom" edit="1" create="1" delete="1" string="Acumulados">
+                                                <field name="sequence"/>
+                                                <field name="factor" required="1"/>
+                                                <field name="type" required="1"/>
+                                                <field name="value" attrs="{'invisible':[('type','!=','val')]}" modifiers="{'invisible':[('type','!=','val')]}"/>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                    <div>
+                                        <label for="info" string="Descripcion"/>
+                                        <field name="info" nolabel="1" />
+                                    </div>
+                                </form>
+                            </field>
+                        </div>
+                    </group>
+                    <group string="Descripcion">
+                        <field name="info" nolabel="1"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+        <!-- View Tree - Codigos Fiscales -->
+        <record id="view_account_fiscal_code_tree" model="ir.ui.view">
+            <field name="name">account.fiscal.code.tree</field>
+            <field name="model">account.fiscal.code</field>
+            <field name="arch" type="xml">
+                <tree string="Codigos Fiscales">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="type_code" invisible="1"/>
+                    <field name="parent_id" invisible="1"/>
+                    <field name="sign" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!--  Filtros - Codigos Fiscales -->
+        <record id="view_account_fiscal_code_filter" model="ir.ui.view">
+            <field name="name">account.fiscal.code.select</field>
+            <field name="model">account.fiscal.code</field>
+            <field name="arch" type="xml">
+                <search string="Buscar">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="parent_id"/>
+                    <field name="type_code" />
+                    <field name="sign"/>
+                    <filter string="Coeficiente Padre positivo" domain="[('sign','=',1)]" context="{}"/>
+                    <filter string="Coeficiente Padre negativo" domain="[('sign','=',-1)]" context="{}"/>
+                    <separator/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Codigo Padre" context="{'group_by': 'parent_id'}"/>
+                        <filter string="codigo" context="{'group_by': 'code'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+        
+        <!-- Action - Codigos Fiscales -->
+        <record id="action_account_fiscal_code" model="ir.actions.act_window">
+            <field name="name">Calculadora Fiscal</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.fiscal.code</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[('type_code','=','view')]</field>
+            <field name="search_view_id" ref="view_account_fiscal_code_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click para agregar codigos fiscales
+              </p><p>
+                OpenERP nos proporciona la opcion de generar codigos fiscales
+                para visualizar nuestros informes de contabilidad fiscal segun la
+                configuracion requerida.
+              </p>
+            </field>
+        </record>
+        
+        <!-- Menu - Codigos Fiscales -->
+        <menuitem action="action_account_fiscal_code" id="menu_account_fiscal_code" parent="account.menu_account_fiscal_configuration" sequence="5"/>
+
+<!--
+        Tabla de Codigos fiscales
+-->
+        <!-- View Tree - Codigos Fiscales -->
+        <record id="view_account_fiscal_code_chart_tree" model="ir.ui.view">
+            <field name="name">account.fiscal.code.tree</field>
+            <field name="model">account.fiscal.code</field>
+            <field name="field_parent">child_ids</field>
+            <field name="priority">100</field>
+            <field name="arch" type="xml">
+                <tree string="Codigos Fiscales" toolbar="1" fonts="bold:type_code=='view'" colors="blue:type_code=='acf_period';purple:type_code=='acf_cumulative'">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="factor"/>
+                    <field name="result"/>
+                    <field name="period_id" invisible="1"/>
+                    <field name="type_code" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- View Tree - Codigos Fiscales -->
+        <record id="view_account_fiscal_code_chart_tree2" model="ir.ui.view">
+            <field name="name">account.fiscal.code.tree</field>
+            <field name="model">account.fiscal.code</field>
+            <field name="priority">100</field>
+            <field name="arch" type="xml">
+                <tree string="Codigos Fiscales" toolbar="1" fonts="bold:type_code=='view'" colors="blue:type_code=='acf_period';purple:type_code=='acf_cumulative'">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="period_id" invisible="1"/>
+                    <field name="type_code" invisible="1"/>
+                    <button name="action_view_ref" string="Apuntes" type="object" icon="gtk-redo"
+                                help="Ver detalle movimientos"/>
+                    <button name="action_view_deduction_ref" string="Deducciones" type="object" icon="gtk-redo"
+                                help="Ver detalle deducciones"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Enable drill-down from Chart Of Taxes tree view -->
+        <act_window
+            id="action_account_fiscal_code_childs"
+            name="Codigo Fiscal"
+            domain="['|',('id','=',active_id),('parent_id','=',active_id),('type_code','in',['acf_period','acf_cumulative'])]"
+            res_model="account.fiscal.code"
+            src_model="account.fiscal.code"
+            view_type="form"
+            view_mode="tree"
+            view_id="view_account_fiscal_code_chart_tree2"
+            key2="tree_but_open"/>
+        
+        <record id="action_account_fiscal_code_chart_tree" model="ir.actions.act_window">
+            <field name="name">Codigos fiscales</field>
+            <field name="res_model">account.fiscal.code</field>
+            <field name="domain">[('parent_id','=',False)]</field>
+            <field name="view_type">tree</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_account_fiscal_code_chart_tree"/>
+        </record>
+    
+<!--
+       Historial Tabla de Codigos fiscales
+-->
+        <!-- View Tree - Codigos Fiscales -->
+        <record id="view_account_fiscal_code_chart_history_tree" model="ir.ui.view">
+            <field name="name">account.fiscal.code.history.line.tree</field>
+            <field name="model">account.fiscal.code.history.line</field>
+            <field name="field_parent">child_ids</field>
+            <field name="priority">100</field>
+            <field name="arch" type="xml">
+                <tree string="Codigos Fiscales" toolbar="1">
+                    <field name="fiscalyear_id" options='{"no_open":True}' invisible="1"/>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="factor"/>
+                    <field name="value"/>
+                    <field name="period_id" options='{"no_open":True}' invisible="1"/>
+                    <field name="target_move" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="action_account_fiscal_code_chart_history_tree" model="ir.actions.act_window">
+            <field name="name">Codigos fiscales</field>
+            <field name="res_model">account.fiscal.code.history.line</field>
+            <field name="domain">[('parent_id','=',False)]</field>
+            <field name="view_type">tree</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_account_fiscal_code_chart_history_tree"/>
+        </record>
+    
+<!--
+        Deducciones por flujo
+-->
+
+        <!-- View Search -->
+        <record id="view_account_fiscal_deduction_filter" model="ir.ui.view">
+            <field name="name">account.fiscal.deduction.select</field>
+            <field name="model">account.fiscal.deduction</field>
+            <field name="arch" type="xml">
+                <search string="Buscar">
+                    <field name="name"/>
+                    <field name="period_id"/>
+                    <field name="category_id"/>
+                    <field name="invoice_id"/>
+                    <field name="voucher_id"/>
+                    <field name="type"/>
+                    <separator/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Periodo" context="{'group_by': 'period_id'}"/>
+                        <filter string="Rubro Fiscal" context="{'group_by': 'category_id'}"/>
+                        <filter string="Factura" context="{'group_by': 'invoice_id'}"/>
+                        <filter string="Tipo" context="{'group_by': 'type'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
+        <!-- View Form -->
+        <record id="view_account_fiscal_deduction_form" model="ir.ui.view">
+            <field name="name">account.fiscal.deduction.form</field>
+            <field name="model">account.fiscal.deduction</field>
+            <field name="arch" type="xml">
+                <form string="Deducciones por flujo" version="7.0">
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="amount"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="type"/>
+                            <field name="period_id"/>
+                            <field name="category_id"/>
+                            <field name="invoice_id"/>
+                            <field name="voucher_id"/>
+                        </group>
+                    </group>
+                    <field name="description"/>
+                </form>
+            </field>
+        </record>
+
+        <!-- View Tree -->
+        <record id="view_account_fiscal_deduction_tree" model="ir.ui.view">
+            <field name="name">account.fiscal.deduction.tree</field>
+            <field name="model">account.fiscal.deduction</field>
+            <field name="arch" type="xml">
+                <tree string="Deducciones por flujo">
+                    <field name="name"/>
+                    <field name="amount"/>
+                    <field name="period_id"/>
+                    <field name="category_id"/>
+                    <field name="invoice_id"/>
+                    <field name="voucher_id" invisible="1"/>
+                    <field name="type"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Action Deducciones -->
+        <record id="action_account_fiscal_deduction" model="ir.actions.act_window">
+            <field name="name">Deducciones por flujo</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.fiscal.deduction</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[('type','=','purchase')]</field>
+            <field name="view_id" ref="view_account_fiscal_deduction_tree"/>
+            <field name="search_view_id" ref="view_account_fiscal_deduction_filter"/>
+        </record>
+        
+        <!-- Action -->
+        <record id="action_account_fiscal_cum_income" model="ir.actions.act_window">
+            <field name="name">Ingresos Acumulables por flujo</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.fiscal.deduction</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[('type','=','sale')]</field>
+            <field name="view_id" ref="view_account_fiscal_deduction_tree"/>
+            <field name="search_view_id" ref="view_account_fiscal_deduction_filter"/>
+        </record>
+
+        <!-- Menu esta en apartado de menu contabilidad fiscal -->
+
+<!--
+        Tabla ISR (PF)
+-->
+        <!-- View Search -->
+        <record id="view_account_fiscal_isr_filter" model="ir.ui.view">
+            <field name="name">account.fiscal.isr.select</field>
+            <field name="model">account.fiscal.isr</field>
+            <field name="arch" type="xml">
+                <search string="Buscar">
+                    <field name="name"/>
+                    <separator/>
+                    <group expand="0" string="Group By...">
+                    </group>
+               </search>
+            </field>
+        </record>
+
+        <!-- View Form -->
+        <record id="view_account_fiscal_isr_form" model="ir.ui.view">
+            <field name="name">account.fiscal.isr.form</field>
+            <field name="model">account.fiscal.isr</field>
+            <field name="arch" type="xml">
+                <form string="Tabla ISR (PF)" version="7.0">
+                    <sheet>
+                        <div class="oe_title">
+                            <div class="oe_edit_only">
+                                <label for="name" string="Referencia"/>
+                            </div>
+                            <h1>
+                                <field name="name" class="oe_inline"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="limit_down"/>
+                                <field name="limit_top"/>
+                            </group>
+                            <group>
+                                <field name="amount"/>
+                                <field name="percent"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- View Tree -->
+        <record id="view_account_fiscal_isr_tree" model="ir.ui.view">
+            <field name="name">account.fiscal.isr.tree</field>
+            <field name="model">account.fiscal.isr</field>
+            <field name="arch" type="xml">
+                <tree string="Tabla ISR (PF)">
+                    <field name="name"/>
+                    <field name="limit_down"/>
+                    <field name="limit_top"/>
+                    <field name="amount"/>
+                    <field name="percent"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Action Tabla ISR (PF) -->
+        <record id="action_account_fiscal_isr" model="ir.actions.act_window">
+            <field name="name">Tabla ISR (PF)</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.fiscal.isr</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+            <field name="view_id" ref="view_account_fiscal_isr_tree"/>
+            <field name="search_view_id" ref="view_account_fiscal_isr_filter"/>
+        </record>
+        
+        <!-- Menu esta en apartado de menu contabilidad fiscal -->
+    </data>
+</openerp>

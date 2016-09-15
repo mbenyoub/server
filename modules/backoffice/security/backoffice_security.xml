@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+        <!-- Se agrega la categoria para backoffice-->
+        <record model="ir.module.category" id="base.module_category_akk_back_v1_backoffice">
+            <field name="name">Backoffice</field>
+            <field name="description">Administracion de perfiles de Backoffice.</field>
+            <field name="sequence">2</field>
+        </record>
+        
+        <!-- Se agregan los grupos de usuario -->
+        <record id="base.group_backoffice_user" model="res.groups">
+            <field name="category_id" ref="base.module_category_akk_back_v1_backoffice"/>
+            <field name="name">Acceso Backoffice</field>
+        </record>
+        
+        <!-- Se agregan los grupos de usuario -->
+        <record id="base.backoffice_menu_reporting" model="res.groups">
+            <field name="category_id" ref="base.module_category_akk_back_v1_backoffice"/>
+            <field name="name">Acceso a informes desde Backoffice</field>
+        </record>
+        
+        <!-- Se agregan permisos en base a una regla de usuario -->
+        <record id="only_user_can_see" model="ir.rule">
+            <field name="name">Only User can see Backoffice</field>
+            <field name="model_id" ref="model_backoffice"/>
+            <field name="groups" eval="[(4, ref('base.group_backoffice_user'))]"/>
+            <field name="domain_force">[]</field>
+        </record>
+
+    </data>
+</openerp>

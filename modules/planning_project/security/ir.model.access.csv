@@ -1,0 +1,3 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+planning_project_ticket,planning.project_ticket,model_planning_project_ticket,project.group_project_user,1,1,1,1
+planning_project_task_log,planning.project.task.log,model_planning_project_task_log,base.group_user,1,1,1,1

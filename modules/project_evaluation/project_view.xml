@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+<!--
+        Action para ejecutar wizard de evaluacion de proyecto
+-->
+        <record model="ir.actions.act_window" id="action_evaluate_project_wizard2">
+            <field name="name">Calificar Evaluacion</field>
+            <field name="res_model">project.evaluation.evaluate.project</field>
+            <field name="context">{'default_project_id': active_id}</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+<!--
+        Modificacion de la vista formulario de proyecto
+-->
+        <record id="view_project_form_inherit" model="ir.ui.view">
+            <field name="name">project.project.form.inherit</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field eval="20" name="priority"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@string='Re-open project']" position="before">
+                    <button name="set_open" string="Evaluar proyecto" type="object" states="draft" class="oe_highlight" modifiers="{'invisible': [['state', 'not in', ['draft']]]}" groups="project.group_project_manager"/>
+                    <button name="%(action_evaluate_project_wizard2)d" string="Aplicar Evaluacion" type="action" modifiers="{'invisible': ['|','|',('state', 'not in', ['open']),('pending_evaluation','=','False'),('have_meeting_evaluation', '=', 'True')]}" attrs="{'invisible': ['|','|',('state', 'not in', ['open']),('pending_evaluation','=','False'),('have_meeting_evaluation', '=', 'True')]}" groups="base.group_project_evaluation_eval"/>
+                    <button name="%(action_evaluate_project_wizard2)d" string="Aplicar Evaluacion" class="oe_highlight" type="action" modifiers="{'invisible': ['|','|',('state', 'not in', ['open']),('pending_evaluation','=','False'),('have_meeting_evaluation', '=', 'False')]}" attrs="{'invisible': ['|','|',('state', 'not in', ['open']),('pending_evaluation','=','False'),('have_meeting_evaluation', '=', 'False')]}" groups="base.group_project_evaluation_eval"/>
+                </xpath>
+                <notebook position="inside">
+                    <page name="evaluation" string="Evaluaciones" attrs="{'invisible': [('state','not in',['open','progress','cancelled','close'])]}">
+                        <h2 name="title">Resultados de Evaluacion</h2>
+                        <group name="result_project">
+                            <group>
+                                <field name="res_result"/>
+                            </group>
+                            <group>
+                                <field name="res_performance" string="Resultado Total" widget="progressbar" nolabel="1" style="width: 60%%" />
+                            </group>
+                        </group>
+                        <separator/>
+                        <label for="evaluation_project_ids" string="Proyecto"></label>
+                        <field name="evaluation_project_ids">
+                            <tree string="Evaluacion" create="0" edit="0" delete="0">
+                                <field name="category_id"/>
+                                <field name="porcentage" string="Peso Especifico" sum="Peso Especifico"/>
+                                <field name="result" string="Resultado" sum="Resultado"/>
+                                <field name="performance" string="Nivel de Desempeño" sum="Nivel de Desempeño" widget="progressbar"/>
+                                <field name="eval"/>
+                            </tree>
+                        </field>
+                        <group name="result_project">
+                            <group>
+                                <field name="res_project_result" string="Desempeño Proyecto"/>
+                            </group>
+                            <group>
+                                <field name="res_project_performance" widget="progressbar" nolabel="1" style="width: 60%%" />
+                            </group>
+                        </group>
+                        <separator/>
+                        <label for="evaluation_partner_ids" string="Emprendedor"></label>
+                        <field name="evaluation_partner_ids">
+                            <tree string="Evaluacion" create="0" edit="0" delete="0">
+                                <field name="category_id"/>
+                                <field name="porcentage" string="Peso Especifico" sum="Peso Especifico"/>
+                                <field name="result" string="Resultado" sum="Resultado"/>
+                                <field name="performance" string="Nivel de Desempeño" sum="Nivel de Desempeño" widget="progressbar"/>
+                                <field name="eval"/>
+                            </tree>
+                        </field>
+                        <group name="result_partner">
+                            <group>
+                                <field name="res_partner_result" string="Desempeño Emprendedor"/>
+                            </group>
+                            <group>
+                                <field name="res_partner_performance" widget="progressbar" nolabel="1" style="width: 60%%" />
+                            </group>
+                        </group>
+                        <field name="evaluation_ids" invisible="1"/>
+                        <field name="have_meeting_evaluation" invisible="1"/>
+                        <field name="pending_evaluation" invisible="1"/>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+    </data>
+</openerp>

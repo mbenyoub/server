@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="purchase_order_form">
+            <field name="name">purchase.order.form.inherit</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='origin']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('from_carrier', '=', True)]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name = 'origin']" position="after">
+                    <field name="route_id" attrs="{'invisible': [('from_carrier', '=', False)]}"/>
+                    <field name="from_carrier" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

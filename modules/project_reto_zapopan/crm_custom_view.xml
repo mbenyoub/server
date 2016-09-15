@@ -1,0 +1,217 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+    <!-- CRM Calendar Activity Form View -->
+
+    <record model="ir.ui.view" id="view_crm_calendar_activity_form">
+        <field name="name">CRM - Calendar Activity Form</field>
+        <field name="model">crm.custom.calendar.activity</field>
+        <field name="arch" type="xml">
+            <form string="Activity" version="7.0" create="0" edit="0" delete="0">
+                <sheet>
+                    <div class="oe_title">
+                        <div class="oe_edit_only">
+                            <label for="name"/>
+                        </div>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="date"/>
+                            <field name="project_id"/>
+                            <field name="user_id"/>
+                        </group>
+                        <group>
+                            <field name="reference"/>
+                            <field name="category"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- CRM Calendar Activity Tree View  -->
+
+    <record model="ir.ui.view" id="view_crm_calendar_activity_tree">
+        <field name="name">CRM - Calendar Activity Tree</field>
+        <field name="model">crm.custom.calendar.activity</field>
+        <field name="arch" type="xml">
+            <tree string="Activity" create="0" edit="0" delete="0">
+                <field name="name" string="Subject"/>
+                <field name="project_id"/>
+                <field name="user_id"/>
+                <field name="date"/>
+                <field name="category"/>
+                <field name="reference" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- CRM Calendar Activity Calendar -->
+
+    <record model="ir.ui.view" id="view_crm_calendar_activity_calendar">
+        <field name="name">CRM - Calendar Activity Calendar</field>
+        <field name="model">crm.custom.calendar.activity</field>
+        <field name="priority" eval="2"/>
+        <field name="arch" type="xml">
+            <calendar string="Actividades" date_start="date" color="project_id" date_stop="date">
+                <field name="name"/>
+                <field name="project_id"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- CRM Calendar Activity Search View  -->
+    <record id="view_crm_calendar_activity_search" model="ir.ui.view">
+        <field name="name">CRM - Calendar Activity Search</field>
+        <field name="model">crm.custom.calendar.activity</field>
+        <field name="arch" type="xml">
+            <search string="Search Activity">
+                <field name="name" string="Activity" filter_domain="[('name','ilike',self)]"/>
+                <field name="category"/>
+                <field name="reference"/>
+                <field name="date"/>
+                <field name="user_id"/>
+                <field name="project_id"/>
+                <separator/>
+                <filter string="Mis Actividades" help="Ver mis actividades en el calendario" domain="[('user_id','=',uid)]"/>
+                <separator/>
+                <group expand="0" string="Agrupar por...">
+                    <filter string="Proyecto" name="group_project"  icon="terp-folder-violet" domain="[]" context="{'group_by':'project_id'}"/>
+                    <filter string="Categoria" name="group_category"  icon="terp-folder-violet" domain="[]" context="{'group_by':'category'}"/>
+                    <filter string="Usuario" name="group_user_id"  icon="terp-folder-violet" domain="[]" context="{'group_by':'user_id'}"/>
+                    <filter string="Fecha" name="group_date"  icon="terp-folder-violet" domain="[]" context="{'group_by':'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- CRM Calendar Activity action and menu -->
+    <record id="action_crm_calendar_activity" model="ir.actions.act_window">
+        <field name="name">Activity</field>
+        <field name="res_model">crm.custom.calendar.activity</field>
+        <field name="view_mode">calendar,tree,form</field>
+        <field name="view_id" ref="view_crm_calendar_activity_calendar"/>
+        <field name="search_view_id" ref="view_crm_calendar_activity_search"/>
+        <field name="context">{"calendar_default_user_id": uid}</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click para ver las actividades registradas.
+          </p><p>
+            El calendario de actividades muestra la informacion de las actividades
+            sobre llamadas y reuniones.
+          </p>
+        </field>
+    </record>
+    <record model="ir.actions.act_window.view" id="action_view_crm_calendar_activity_calendar">
+        <field name="act_window_id" ref="action_crm_calendar_activity"/>
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">calendar</field>
+        <field name="view_id" ref="view_crm_calendar_activity_calendar"/>
+    </record>
+    <record model="ir.actions.act_window.view" id="action_view_crm_calendar_activity_tree">
+        <field name="act_window_id" ref="action_crm_calendar_activity"/>
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_crm_calendar_activity_tree"/>
+    </record>
+    <record model="ir.actions.act_window.view" id="action_view_crm_calendar_activity_form">
+        <field name="act_window_id" ref="action_crm_calendar_activity"/>
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_crm_calendar_activity_form"/>
+    </record>
+
+    <menuitem name="Calendario de Actividades"
+        id="mail_menu_calendar_activity" parent="mail.mail_my_stuff"
+        sequence="13" action="action_crm_calendar_activity"/>
+
+    <!--
+        Apartado para mostrar mis actividades
+    -->
+        
+    <!-- CRM Calendar Activity Calendar -->
+    <record model="ir.ui.view" id="view_crm_calendar_activity_calendar2">
+        <field name="name">CRM - Calendar Activity Calendar</field>
+        <field name="model">crm.custom.calendar.activity</field>
+        <field name="priority" eval="2"/>
+        <field name="arch" type="xml">
+            <calendar string="Mis Actividades" date_start="date" color="category" date_stop="date">
+                <field name="name"/>
+                <field name="category"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- CRM Calendar Activity Search View  -->
+    <record id="view_crm_calendar_activity_search2" model="ir.ui.view">
+        <field name="name">CRM - Calendar Activity Search</field>
+        <field name="model">crm.custom.calendar.activity</field>
+        <field name="arch" type="xml">
+            <search string="Search Activity">
+                <field name="name" string="Activity" filter_domain="[('name','ilike',self)]"/>
+                <field name="category"/>
+                <field name="reference"/>
+                <field name="date"/>
+                <field name="user_id"/>
+                <field name="project_id"/>
+                <separator/>
+                <filter string="Mis Actividades" help="Ver mis actividades en el calendario" domain="[('user_id','=',uid)]"/>
+                <separator/>
+                <group expand="0" string="Agrupar por...">
+                    <filter string="Proyecto" name="group_project"  icon="terp-folder-violet" domain="[]" context="{'group_by':'project_id'}"/>
+                    <filter string="Categoria" name="group_category"  icon="terp-folder-violet" domain="[]" context="{'group_by':'category'}"/>
+                    <filter string="Usuario" name="group_user_id"  icon="terp-folder-violet" domain="[]" context="{'group_by':'user_id'}"/>
+                    <filter string="Fecha" name="group_date"  icon="terp-folder-violet" domain="[]" context="{'group_by':'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- CRM Calendar Activity action and menu -->
+    <record id="action_crm_calendar_activity2" model="ir.actions.act_window">
+        <field name="name">Activity</field>
+        <field name="res_model">crm.custom.calendar.activity</field>
+        <field name="view_mode">calendar,tree,form</field>
+        <field name="view_id" ref="view_crm_calendar_activity_calendar2"/>
+        <field name="search_view_id" ref="view_crm_calendar_activity_search2"/>
+        <field name="context">{"calendar_default_user_id": uid}</field>
+        <field name="domain">[('user_id', '=', uid)]</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click para ver mis actividades registradas.
+          </p><p>
+            El calendario de actividades muestra la informacion de las actividades
+            sobre llamadas y reuniones sobre el usuario.
+          </p>
+        </field>
+    </record>
+    <record model="ir.actions.act_window.view" id="action_view_crm_calendar_activity_calendar2">
+        <field name="act_window_id" ref="action_crm_calendar_activity2"/>
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">calendar</field>
+        <field name="view_id" ref="view_crm_calendar_activity_calendar2"/>
+    </record>
+    <record model="ir.actions.act_window.view" id="action_view_crm_calendar_activity_tree2">
+        <field name="act_window_id" ref="action_crm_calendar_activity2"/>
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_crm_calendar_activity_tree"/>
+    </record>
+    <record model="ir.actions.act_window.view" id="action_view_crm_calendar_activity_form2">
+        <field name="act_window_id" ref="action_crm_calendar_activity2"/>
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_crm_calendar_activity_form"/>
+    </record>
+
+    <menuitem name="Mis Actividades"
+        id="mail_menu_calendar_activity2" parent="mail.mail_my_stuff"
+        sequence="14" action="action_crm_calendar_activity2"/>
+        
+    </data>
+</openerp>

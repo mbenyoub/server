@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+    
+        <!-- Modificacion de la vista busqueda de bitacora proyecto -->
+        <record id="view_project_log_project_filter_inherit" model="ir.ui.view">
+            <field name="name">project.log.project.filter.inherit</field>
+            <field name="model">project.log.project</field>
+            <field name="inherit_id" ref="project_reto_zapopan.view_project_log_project_filter"/>
+            <field eval="20" name="priority"/>
+            <field name="arch" type="xml">
+                <field name="type_contact" position="after">
+                    <field name="meeting_id" />
+                </field>
+                <filter string="Fase" icon="terp-partner" position="after">
+                    <filter string="Reuniones de proyecto" icon="terp-partner" domain="[]" context="{'group_by':'project_id','group_by':'meeting_id'}"/>
+                </filter>
+                
+            </field>
+        </record>
+    
+        <!-- Modificacion de la vista lista de bitacora proyecto -->
+        <record id="project_log_project_tree_view_inherit" model="ir.ui.view">
+            <field name="name">project.log.project.tree.inherit</field>
+            <field name="model">project.log.project</field>
+            <field name="inherit_id" ref="project_reto_zapopan.project_log_project_tree_view"/>
+            <field eval="20" name="priority"/>
+            <field name="arch" type="xml">
+                <field name="description" position="before">
+                    <field name="meeting_id" />
+                </field>
+            </field>
+        </record>
+    
+        <!-- Modificacion de la vista formulario de bitacora proyecto -->
+        <record id="act_project_log_project_form_view_inherit" model="ir.ui.view">
+            <field name="name">project.log.project.form.inherit</field>
+            <field name="model">project.log.project</field>
+            <field name="inherit_id" ref="project_reto_zapopan.act_project_log_project_form_view"/>
+            <field eval="20" name="priority"/>
+            <field name="arch" type="xml">
+                <field name="phase_id" position="after">
+                    <field name="meeting_id" />
+                </field>
+            </field>
+        </record>
+    
+    </data>
+</openerp>

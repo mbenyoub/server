@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    
+<!--
+        Vista wizard Aplicar Codigo Fiscal
+-->
+        <!-- View Form - Aplicar Saldo -->
+        <record model="ir.ui.view" id="wizard_account_fiscal_balance_apply_code_view">
+            <field name="name">account.fiscal.balance.apply.code.form</field>
+            <field name="model">account.fiscal.balance.apply.code</field>
+            <field name="arch" type="xml">
+                <form string="Aplicar Codigo fiscal" version="7.0">
+                    <group col="2" colspan="2">
+                        <field name="type_code_balance" invisible="1"/>
+                        <field name="update_amount" readonly="1" class="oe_edit_only oe_inline"/>
+                        <field name="period_id_balance" readonly="1" class="oe_edit_only oe_inline" attrs="{'invisible': ['|',('period_id_balance','=',False),('type_code_balance','=','year')]}"/>
+                        <field name="fiscalyear_id_balance" readonly="1" class="oe_edit_only oe_inline" attrs="{'invisible': ['|',('fiscalyear_id_balance','=',False),('type_code_balance','=','month')]}"/>
+                        <field name="apply_to" required="1"/>
+                    </group>
+                    <group col="4">
+                        <group>    
+                            <field name="code_id" on_change="onchange_code_id(type_code,period_id,fiscalyear_id,code_id,update_amount,context)" attrs="{'invisible':[('apply_to','=','tax')], 'required': [('apply_to','=','code')]}" domain="[('parent_id','!=',False),('apply_balance','=',True)]"/>
+                            <field name="tax_code_id" on_change="onchange_tax_code_id(period_id,tax_code_id,update_amount,context)" attrs="{'invisible':[('apply_to','=','code')], 'required': [('apply_to','=','tax')]}" domain="[('parent_id','!=',False)]"/>
+                            <field name="amount"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="type_code" on_change="onchange_type_code(type_code,context)" attrs="{'invisible':[('apply_to','=','tax')], 'required': [('apply_to','=','code')]}" />
+                            <field name="period_id" on_change="onchange_period_id(apply_to,tax_code_id,type_code,period_id,fiscalyear_id,code_id,update_amount,context)" attrs="{'invisible':[('apply_to','=','code'),('type_code','=','year')]}"/>
+                            <field name="fiscalyear_id" on_change="onchange_code_id(type_code,period_id,fiscalyear_id,code_id,update_amount,context)" attrs="{'invisible':['|',('apply_to','=','tax'),('type_code','=','period')]}"/>
+                            <field name="history_id" invisible="1"/>
+                            <field name="history_value" invisible="1"/>
+                            <field name="history_value2" readonly="1" attrs="{'invisible':[('apply_to','=','tax')]}"/>
+                            <field name="history_tax_id" invisible="1"/>
+                            <field name="history_tax_value" invisible="1"/>
+                            <field name="history_tax_value2" readonly="1" attrs="{'invisible':[('apply_to','=','code')]}"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="action_balance_apply" type="object" string="Aplicar" class="oe_highlight"/>
+                        o
+                        <button string="Cancelar" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Action - Aplicar Saldo fiscal -->
+        <record model="ir.actions.act_window" id="action_wizard_account_fiscal_balance_apply_tax_view">
+            <field name="name">Aplicar Saldo fiscal</field>
+            <field name="res_model">account.fiscal.balance.apply.tax</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_account_fiscal_balance_apply_tax_view"/>
+            <field name="target">new</field>
+        </record>
+    
+    </data>
+</openerp>   

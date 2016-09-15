@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    
+<!--
+        Vista wizard Agregar linea de factura
+-->
+        
+        <!-- View Form - Indice Fiscal -->
+        <record model="ir.ui.view" id="wizard_account_invoice_create_line_view">
+            <field name="name">account.invoice.create.line.form</field>
+            <field name="model">account.invoice.create.line</field>
+            <field name="arch" type="xml">
+                <form string="Linea de Factura" version="7.0">
+                    <group col="4">
+                        <group>
+                            <field name="invoice_id" invisible="1"/>
+                            <field name="product_id"
+                                on_change="product_id_change(product_id, uos_id, quantity, name, type_invoice, partner_id, fiscal_position, price_unit, currency_id, context, company_id)"/>
+                            <field name="name"/>
+                            <field name="quantity"/>
+                            <field name="price_unit"/>
+                            <field name="type_invoice" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="partner_id" invisible="1"/>
+                            <field name="journal_id" invisible="1"/>
+                            <field name="fiscal_position" invisible="1"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="uos_id" groups="product.group_uom"
+                                on_change="uos_id_change(product_id, uos_id, quantity, name, type_invoice, partner_id, fiscal_position, price_unit, currency_id, context, company_id)"/>
+                            <field name="account_id" groups="account.group_account_user"
+                                domain="[('company_id', '=', company_id), ('journal_id', '=', journal_id), ('type', '=', 'other')]"
+                                on_change="onchange_account_id(product_id, partner_id, type_invoice, fiscal_position,account_id)"/>
+                            <field name="account_analytic_id" groups="analytic.group_analytic_accounting"
+                                domain="[('type','!=','view'), ('company_id', '=', company_id)]"/>
+                            <field name="discount" groups="sale.group_discount_per_so_line"/>
+                            <field name="invoice_line_tax_id" widget="many2many_tags" context="{'type':type}"
+                                domain="[('parent_id','=',False),('company_id', '=', company_id)]"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="action_create_invoice_line" type="object" string="Agregar" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+    
+    </data>
+</openerp>   

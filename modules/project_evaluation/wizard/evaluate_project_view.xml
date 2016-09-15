@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <!-- Vista formulario para attendee -->
+        <record model="ir.ui.view" id="evaluate_project_and_apply_evaluation_form_view">
+            <field name="name">project.evaluation.evaluate.project.form</field>
+            <field name="model">project.evaluation.evaluate.project</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Calificar Evaluacion" col="4" version="7.0">
+                    <div name="options_active">
+                        <label for="project_id" string="Proyecto "/>
+                        <field name="project_id" class="oe_inline"/>
+                    </div>
+                    <div name="options_active2">
+                        <label for="type" string="Evaluacion "/>
+                        <field name="type" class="oe_inline" readonly="1"/>
+                    </div>
+                    <h2>
+                        <label for="category_id" class="oe_inline" string="Categoria "/>
+                        <field name="category_id" class="oe_inline" on_change="onchange_category(category_id, context)"/>
+                    </h2>
+                    <field name="eval_category" invisible="1"/>
+                    <separator/>
+                    <div name="eval_ids" attrs="{'invisible':[('eval_category','=',False)]}">
+                        <label for="evaluation_ids" string="Evaluacion"/>
+                        <field name="evaluation_ids" nolabel="1" colspan="4">
+                            <tree string="Evaluacion" editable="top" create="0" delete="0">
+                                <field name="name" style="width: 30%%"/>
+                                <field name="value"/>
+                                <field name="notes"/>
+                                <field name="user_id" invisible="1"/>
+                                <field name="date" invisible="1"/>
+                                <field name="value_num" invisible="1"/>
+                            </tree>
+                        </field>
+                    </div>
+                    <div name="quest_ids" attrs="{'invisible':[('eval_category','=',True)]}">
+                        <field name="question_ids" nolabel="1" colspan="4" context="{'default_value': '1.0'}">
+                            <tree string="Preguntas" editable="top" create="0" delete="0">
+                                <field name="name" style="width: 30%%"/>
+                                <field name="value" invisible="1"/>
+                                <field name="notes"/>
+                                <field name="user_id" invisible="1"/>
+                                <field name="date" invisible="1"/>
+                                <field name="value_num" invisible="1"/>
+                            </tree>
+                        </field>
+                    </div>
+                    <footer>
+                        <button type="object" name="action_evaluate_project"
+                            string="Guardar y Continuar" icon="gtk-ok"/>
+                        <button type="special" special="cancel"
+                            string="Cerrar" icon="gtk-cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="action_evaluate_project_wizard">
+            <field name="name">Calificar Evaluacion</field>
+            <field name="res_model">project.evaluation.evaluate.project</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
+    </data>
+</openerp>

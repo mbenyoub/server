@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+        <!-- Menu para facturas -->
+        <menuitem name="Notificacion Vendedores" id="base.menu_sale_notify" sequence="20" parent="base.menu_base_partner" />
+
+        <!--
+            Bitacora notificaciones inactividad
+        -->
+        
+        <!--  Filtros Beneficiario -->
+        <record id="view_sale_notify_inactivity_log_filter" model="ir.ui.view">
+            <field name="name">sale.notify.inactivity.log.select</field>
+            <field name="model">sale.notify.inactivity.log</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Beneficiario">
+                    <field name="date"/>
+                    <field name="partner_id"/>
+                    <field name="user_id"/>
+                    <field name="section_id"/>
+                    
+                   <group expand="0" string="Group By...">
+                       <filter string="Cliente" context="{'group_by': 'partner_id'}"/>
+                       <filter string="Vendedor" context="{'group_by': 'user_id'}"/>
+                       <filter string="Equipo de Ventas" context="{'group_by': 'section_id'}"/>
+                       <filter string="Mes" context="{'group_by': 'date'}"/>
+                       <separator />
+                   </group>
+               </search>
+            </field>
+        </record>
+        
+        <record id="view_sale_notify_inactivity_log_tree" model="ir.ui.view">
+            <field name="name">sale.notify.inactivity.log.tree</field>
+            <field name="model">sale.notify.inactivity.log</field>
+            <field name="arch" type="xml">
+                <tree string="Sector" create="0" edit="0" delete="0">
+                    <field name="date"/>
+                    <field name="partner_id"/>
+                    <field name="user_id"/>
+                    <field name="section_id"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="action_sale_notify_inactivity_log" model="ir.actions.act_window">
+            <field name="name">Bitacora</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.notify.inactivity.log</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_sale_notify_inactivity_log_tree"/>
+            <field name="search_view_id" ref="view_sale_notify_inactivity_log_filter"/>
+        </record>
+
+        <menuitem action="action_sale_notify_inactivity_log" id="menu_sale_notify_log" parent="base.menu_sale_notify" sequence="10" groups="base.group_sale_manager,base.group_sale_salesman_all_leads"/>
+            
+    </data>
+</openerp>
+

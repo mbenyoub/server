@@ -1,0 +1,11 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+product_pricelist_discount_type,product_pricelist_discount_type,model_product_pricelist_discount_type,,1,1,1,1
+product_pricelist_discount,product_pricelist_discount,model_product_pricelist_discount,,1,1,1,1
+product_pricelist_discount_item,product_pricelist_discount_item,model_product_pricelist_discount_item,,1,1,1,1
+product_pricelist_discount_mix,product_pricelist_discount_mix,model_product_pricelist_discount_mix,,1,1,1,1
+sale_order_mix,sale_order_mix,model_sale_order_mix,,1,1,1,1
+access_branch_all,access_branch_all,model_access_branch,,1,0,0,0
+access_branch_manager_all,access_branch_manager,model_access_branch,canis.access_branch_manager,1,1,1,1
+sale.access_account_invoice_salesman,access_account_invoice_salesman,account.model_account_invoice,base.group_sale_salesman,1,0,1,0
+res_partner_type_all,res_partner_type_all,model_res_partner_type,,1,1,1,1
+access_branch_rel_all,access_branch_rel_all,model_access_branch_rel,,1,1,1,1

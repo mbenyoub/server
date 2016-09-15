@@ -1,0 +1,764 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        
+        <!--
+            Lista de Modulos
+        -->
+
+        <!-- Modulos -->
+        <record id="akk_admon.database_module_1" model="admon.database.module">
+            <field name="module_id" search="[('name','=','account_fiscal_tax')]" model="ir.module.module" />
+            <field name="admon_default">True</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="akk_admon.database_module_2" model="admon.database.module">
+            <field name="module_id" search="[('name','=','account_asset_trade')]" model="ir.module.module" />
+            <field name="admon_default">True</field>
+            <field name="sequence">11</field>
+        </record>
+        <record id="akk_admon.database_module_3" model="admon.database.module">
+            <field name="module_id" search="[('name','=','shop_invoice')]" model="ir.module.module" />
+            <field name="admon_default">True</field>
+            <field name="sequence">12</field>
+        </record>
+        <record id="akk_admon.database_module_4" model="admon.database.module">
+            <field name="module_id" search="[('name','=','backoffice')]" model="ir.module.module" />
+            <field name="admon_default">True</field>
+            <field name="sequence">13</field>
+        </record>
+        <record id="akk_admon.database_module_5" model="admon.database.module">
+            <field name="module_id" search="[('name','=','l10n_mx_facturae_refund')]" model="ir.module.module" />
+            <field name="admon_default">True</field>
+            <field name="sequence">14</field>
+        </record>
+        <record id="akk_admon.database_module_6" model="admon.database.module">
+            <field name="module_id" search="[('name','=','l10n_mx_facturae_supplier')]" model="ir.module.module" />
+            <field name="admon_default">True</field>
+            <field name="sequence">15</field>
+        </record>
+        <record id="akk_admon.database_module_7" model="admon.database.module">
+            <field name="module_id" search="[('name','=','account_fiscal')]" model="ir.module.module" />
+            <field name="admon_default">True</field>
+            <field name="sequence">40</field>
+        </record>
+        <record id="akk_admon.database_module_8" model="admon.database.module">
+            <field name="module_id" search="[('name','=','akk_back_v1')]" model="ir.module.module" />
+            <field name="admon_default">True</field>
+            <field name="sequence">50</field>
+        </record>
+        <record id="akk_admon.database_module_9" model="admon.database.module">
+            <field name="module_id" search="[('name','=','project')]" model="ir.module.module" />
+            <field name="admon_default">False</field>
+            <field name="sequence">60</field>
+        </record>
+        <record id="akk_admon.database_module_10" model="admon.database.module">
+            <field name="module_id" search="[('name','=','crm_campaign')]" model="ir.module.module" />
+            <field name="admon_default">False</field>
+            <field name="sequence">65</field>
+        </record>
+        <record id="akk_admon.database_module_11" model="admon.database.module">
+            <field name="module_id" search="[('name','=','birthday_notifier')]" model="ir.module.module" />
+            <field name="admon_default">False</field>
+            <field name="sequence">70</field>
+        </record>
+        
+        <!--
+            Grupos de usuario
+        -->
+
+        <!-- Ventas -->
+        <record id="akk_admon.user_profile_groups_1" model="admon.database.user.profile.groups">
+            <field name="name">Ventas/Usuario: Iniciativas propias</field>
+            <field name="reference">base.group_sale_salesman</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_2" model="admon.database.user.profile.groups">
+            <field name="name">Ventas/Usuario: Todas las iniciativas</field>
+            <field name="reference">base.group_sale_salesman_all_leads</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_3" model="admon.database.user.profile.groups">
+            <field name="name">Ventas/Responsable</field>
+            <field name="reference">base.group_sale_manager</field>
+        </record>
+        <!-- Conocimiento -->
+        <record id="akk_admon.user_profile_groups_4" model="admon.database.user.profile.groups">
+            <field name="name">Conocimiento/Usuario</field>
+            <field name="reference">base.group_document_user</field>
+        </record>
+        <!-- Almacen -->
+        <record id="akk_admon.user_profile_groups_5" model="admon.database.user.profile.groups">
+            <field name="name">Almacén/Usuario</field>
+            <field name="reference">stock.group_stock_user</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_6" model="admon.database.user.profile.groups">
+            <field name="name">Almacén/Responsable</field>
+            <field name="reference">stock.group_stock_manager</field>
+        </record>
+        <!-- Contabilidad -->
+        <record id="akk_admon.user_profile_groups_7" model="admon.database.user.profile.groups">
+            <field name="name">Contabilidad y Finanzas/Cobros y pagos</field>
+            <field name="reference">account.group_account_invoice</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_8" model="admon.database.user.profile.groups">
+            <field name="name">Contabilidad y Finanzas/Contable</field>
+            <field name="reference">account.group_account_user</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_9" model="admon.database.user.profile.groups">
+            <field name="name">Contabilidad y Finanzas/Gestor Financiero</field>
+            <field name="reference">account.group_account_manager</field>
+        </record>
+        <!-- Compras -->
+        <record id="akk_admon.user_profile_groups_10" model="admon.database.user.profile.groups">
+            <field name="name">Compras/Usuaraio</field>
+            <field name="reference">purchase.group_purchase_user</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_11" model="admon.database.user.profile.groups">
+            <field name="name">Compras/Responsable</field>
+            <field name="reference">purchase.group_purchase_manager</field>
+        </record>
+        <!-- Solicitud de Compra -->
+        <record id="akk_admon.user_profile_groups_12" model="admon.database.user.profile.groups">
+            <field name="name">Solicitud de compra/Usuaraio</field>
+            <field name="reference">purchase_requisition.group_purchase_requisition_user</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_13" model="admon.database.user.profile.groups">
+            <field name="name">Solicitud de compra/Responsable</field>
+            <field name="reference">purchase_requisition.group_purchase_requisition_manager</field>
+        </record>
+        <!-- Recursos Humanos -->
+        <record id="akk_admon.user_profile_groups_14" model="admon.database.user.profile.groups">
+            <field name="name">Recursos Humanos/Empleado</field>
+            <field name="reference">base.group_user</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_15" model="admon.database.user.profile.groups">
+            <field name="name">Recursos Humanos/Officer</field>
+            <field name="reference">base.group_hr_user</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_16" model="admon.database.user.profile.groups">
+            <field name="name">Recursos Humanos/Responsable</field>
+            <field name="reference">base.group_hr_manager</field>
+        </record>
+        <!-- Administracion -->
+        <record id="akk_admon.user_profile_groups_17" model="admon.database.user.profile.groups">
+            <field name="name">Administracion/Permisos de acceso</field>
+            <field name="reference">base.group_erp_manager</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_18" model="admon.database.user.profile.groups">
+            <field name="name">Administracion/Configuracion</field>
+            <field name="reference">base.group_system</field>
+        </record>
+        <!-- Facturacion Electronica -->
+        <record id="akk_admon.user_profile_groups_19" model="admon.database.user.profile.groups">
+            <field name="name">Facturacion Electronica/Usuario</field>
+            <field name="reference">l10n_mx_facturae_groups.group_l10n_mx_facturae_user</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_20" model="admon.database.user.profile.groups">
+            <field name="name">Facturacion Electronica/Responsable</field>
+            <field name="reference">l10n_mx_facturae_groups.group_l10n_mx_facturae_manager</field>
+        </record>
+        <!-- Configuracion Técnica -->
+        <record id="akk_admon.user_profile_groups_21" model="admon.database.user.profile.groups">
+            <field name="name">Configuracion Técnica/Multidivisa</field>
+            <field name="reference">base.group_multi_currency</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_22" model="admon.database.user.profile.groups">
+            <field name="name">Configuracion Técnica/Gestionar múltiples unidades de medida</field>
+            <field name="reference">product.group_uom</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_23" model="admon.database.user.profile.groups">
+            <field name="name">Configuracion Técnica/Administrar valoracion de inventario</field>
+            <field name="reference">stock.group_inventory_valuation</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_24" model="admon.database.user.profile.groups">
+            <field name="name">Configuracion Técnica/Activar facturacion de las lineas de pedido de venta</field>
+            <field name="reference">sale.group_invoice_so_lines</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_25" model="admon.database.user.profile.groups">
+            <field name="name">Configuracion Técnica/Propiedades en las lineas</field>
+            <field name="reference">sale.group_mrp_properties</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_26" model="admon.database.user.profile.groups">
+            <field name="name">Configuracion Técnica/Tarifas de venta</field>
+            <field name="reference">product.group_sale_pricelist</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_27" model="admon.database.user.profile.groups">
+            <field name="name">Configuracion Técnica/Método de coste</field>
+            <field name="reference">product.group_costing_method</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_28" model="admon.database.user.profile.groups">
+            <field name="name">Configuracion Técnica/Gestionar segunda unidad de medida</field>
+            <field name="reference">product.group_uos</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_29" model="admon.database.user.profile.groups">
+            <field name="name">Configuracion Técnica/Verificar total en facturas de proveedor</field>
+            <field name="reference">account.group_supplier_inv_check_total</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_30" model="admon.database.user.profile.groups">
+            <field name="name">Configuracion Técnica/Gestionar múltiples ubicaciones y almacenes</field>
+            <field name="reference">stock.group_locations</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_31" model="admon.database.user.profile.groups">
+            <field name="name">Configuracion Técnica/Direcciones en los pedidos de venta</field>
+            <field name="reference">sale.group_delivery_invoice_address</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_32" model="admon.database.user.profile.groups">
+            <field name="name">Configuracion Técnica/Descuentos en lineas de pedido</field>
+            <field name="reference">sale.group_discount_per_so_line</field>
+        </record>
+        
+        <!-- Usabilidad -->
+        <record id="akk_admon.user_profile_groups_33" model="admon.database.user.profile.groups">
+            <field name="name">Caracteristicas técnicas</field>
+            <field name="reference">base.group_no_one</field>
+        </record>
+        <!-- Otros -->
+        <record id="akk_admon.user_profile_groups_34" model="admon.database.user.profile.groups">
+            <field name="name">Creacion de contactos</field>
+            <field name="reference">base.group_partner_manager</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_35" model="admon.database.user.profile.groups">
+            <field name="name">Traspasos Bancarios / Usuario</field>
+            <field name="reference">account_transfer.group_transfer_user</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_36" model="admon.database.user.profile.groups">
+            <field name="name">Traspasos Bancarios / Manager</field>
+            <field name="reference">account_transfer.group_transfer_manager</field>
+        </record>
+        
+        <!-- Permisos Extra para modulos que no van preinstalados-->
+        <record id="akk_admon.user_profile_groups_e1" model="admon.database.user.profile.groups">
+            <field name="name">Marketing / Configuracion</field>
+            <field name="reference">marketing.group_marketing_config</field>
+        </record>
+        
+        <!-- Backoffice -->
+        <record id="akk_admon.user_profile_groups_b1" model="admon.database.user.profile.groups">
+            <field name="name">Acceso Backoffice</field>
+            <field name="reference">base.group_backoffice_user</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_b2" model="admon.database.user.profile.groups">
+            <field name="name">Menu Facturacion Electronica Backoffice</field>
+            <field name="reference">base.group_akk_back_v1_backoffice</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_b3" model="admon.database.user.profile.groups">
+            <field name="name">Acceso a informes desde Backoffice</field>
+            <field name="reference">base.backoffice_menu_reporting</field>
+        </record>
+        
+        <!-- Administracion de Menus -->
+        <record id="akk_admon.user_profile_groups_m1" model="admon.database.user.profile.groups">
+            <field name="name">Administracion de Menus / Mostrar Menu Contabilidad</field>
+            <field name="reference">base.group_akk_back_v1_account</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_m2" model="admon.database.user.profile.groups">
+            <field name="name">Administracion de Menus / Mostrar Menu Almacen</field>
+            <field name="reference">base.group_akk_back_v1_stock</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_m3" model="admon.database.user.profile.groups">
+            <field name="name">Administracion de Menus / Mostrar Menu Mensajeria</field>
+            <field name="reference">base.group_akk_back_v1_message</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_m4" model="admon.database.user.profile.groups">
+            <field name="name">Acceso a Menu contabilidad fiscal</field>
+            <field name="reference">base.group_account_fiscal_menu</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_m5" model="admon.database.user.profile.groups">
+            <field name="name">Acceso a Menu Conocimiento</field>
+            <field name="reference">base.group_akk_back_v1_knowledge_menu</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_m6" model="admon.database.user.profile.groups">
+            <field name="name">Acceso a Menu Informes</field>
+            <field name="reference">base.group_akk_back_v1_reporting_menu</field>
+        </record>
+        
+        <!-- Funcionalidad Usuarios-->
+        <record id="akk_admon.user_profile_groups_f1" model="admon.database.user.profile.groups">
+            <field name="name">Funcionalidad Usuarios / Configuracion avanzada productos</field>
+            <field name="reference">base.group_akk_back_v1_product_advanced</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_f2" model="admon.database.user.profile.groups">
+            <field name="name">Funcionalidad Usuarios / Configuracion avanzada Entradas y salidas de almacen</field>
+            <field name="reference">base.group_akk_back_v1_stock_picking_advanced</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_f3" model="admon.database.user.profile.groups">
+            <field name="name">Funcionalidad Usuarios / Configuracion avanzada clientes</field>
+            <field name="reference">base.group_akk_back_v1_partner_advanced</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_f4" model="admon.database.user.profile.groups">
+            <field name="name">Funcionalidad Usuarios / Configuracion avanzada Facturacion</field>
+            <field name="reference">base.group_akk_back_v1_invoice_advanced</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_f5" model="admon.database.user.profile.groups">
+            <field name="name">Funcionalidad Usuarios / Gestion de cuentas y polizas</field>
+            <field name="reference">base.group_akk_back_v1_account_manager</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_f6" model="admon.database.user.profile.groups">
+            <field name="name">Funcionalidad Usuarios / Gestion de disponibilidad Almacenes</field>
+            <field name="reference">base.group_akk_back_v1_stock_manager</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_f7" model="admon.database.user.profile.groups">
+            <field name="name">Funcionalidad Usuarios / Configuracion avanzada Ingresos/Egresos</field>
+            <field name="reference">base.group_akk_back_v1_account_fiscal_statement_advanced</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_f8" model="admon.database.user.profile.groups">
+            <field name="name">Responsable contabilidad fiscal</field>
+            <field name="reference">base.group_account_fiscal_response</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_f9" model="admon.database.user.profile.groups">
+            <field name="name">Gestion de relaciones con el Cliente (CRM)</field>
+            <field name="reference">base.group_akk_back_v1_crm</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_f10" model="admon.database.user.profile.groups">
+            <field name="name">Configuracion avanzada de ventas</field>
+            <field name="reference">base.group_akk_back_v1_sales_manager</field>
+        </record>
+        <record id="akk_admon.user_profile_groups_f11" model="admon.database.user.profile.groups">
+            <field name="name">Gestion de Contabilidad electronica (SAT)</field>
+            <field name="reference">base.group_account_sat_manager</field>
+        </record>
+        
+        <!--
+            Perfiles de usuario
+        -->
+        <!-- Perfil Facturacion Electronica-->
+        <record id="akk_admon.user_profile_1" model="admon.database.user.profile">
+            <field name="name">Facturacion Electronica</field>
+            <field name="info">Usuario basico para generacion de facturacion electronica</field>
+             <field name="groups_id" eval="[(6,0,[
+                        ref('akk_admon.user_profile_groups_5'),
+                        ref('akk_admon.user_profile_groups_8'),
+                        ref('akk_admon.user_profile_groups_14'),
+                        ref('akk_admon.user_profile_groups_20'),
+                        ref('akk_admon.user_profile_groups_21'),
+                        ref('akk_admon.user_profile_groups_22'),
+                        ref('akk_admon.user_profile_groups_23'),
+                        ref('akk_admon.user_profile_groups_24'),
+                        ref('akk_admon.user_profile_groups_25'),
+                        ref('akk_admon.user_profile_groups_26'),
+                        ref('akk_admon.user_profile_groups_27'),
+                        ref('akk_admon.user_profile_groups_28'),
+                        ref('akk_admon.user_profile_groups_29'),
+                        ref('akk_admon.user_profile_groups_30'),
+                        ref('akk_admon.user_profile_groups_31'),
+                        ref('akk_admon.user_profile_groups_32'),
+                        ref('akk_admon.user_profile_groups_34'),
+                        ref('akk_admon.user_profile_groups_b1'),
+                        ref('akk_admon.user_profile_groups_b2'),
+                        ref('akk_admon.user_profile_groups_b3'),
+                        ref('akk_admon.user_profile_groups_m6'),
+                        ])]"/>
+        </record>
+        
+        <!-- Perfil Backoffice -->
+        <record id="akk_admon.user_profile_2" model="admon.database.user.profile">
+            <field name="name">Backoffice</field>
+            <field name="info">Usuario basico para backoffice</field>
+             <field name="groups_id" eval="[(6,0,[
+                        ref('akk_admon.user_profile_groups_3'),
+                        ref('akk_admon.user_profile_groups_6'),
+                        ref('akk_admon.user_profile_groups_9'),
+                        ref('akk_admon.user_profile_groups_11'),
+                        ref('akk_admon.user_profile_groups_16'),
+                        ref('akk_admon.user_profile_groups_20'),
+                        ref('akk_admon.user_profile_groups_21'),
+                        ref('akk_admon.user_profile_groups_22'),
+                        ref('akk_admon.user_profile_groups_23'),
+                        ref('akk_admon.user_profile_groups_24'),
+                        ref('akk_admon.user_profile_groups_25'),
+                        ref('akk_admon.user_profile_groups_26'),
+                        ref('akk_admon.user_profile_groups_27'),
+                        ref('akk_admon.user_profile_groups_28'),
+                        ref('akk_admon.user_profile_groups_29'),
+                        ref('akk_admon.user_profile_groups_30'),
+                        ref('akk_admon.user_profile_groups_31'),
+                        ref('akk_admon.user_profile_groups_32'),
+                        ref('akk_admon.user_profile_groups_34'),
+                        ref('akk_admon.user_profile_groups_36'),
+                        ref('akk_admon.user_profile_groups_b1'),
+                        ref('akk_admon.user_profile_groups_m1'),
+                        ref('akk_admon.user_profile_groups_m2'),
+                        ref('akk_admon.user_profile_groups_m4'),
+                        ref('akk_admon.user_profile_groups_m6'),
+                        ref('akk_admon.user_profile_groups_f1'),
+                        ref('akk_admon.user_profile_groups_f2'),
+                        ref('akk_admon.user_profile_groups_f3'),
+                        ref('akk_admon.user_profile_groups_f4'),
+                        ref('akk_admon.user_profile_groups_f5'),
+                        ref('akk_admon.user_profile_groups_f6'),
+                        ref('akk_admon.user_profile_groups_f7'),
+                        ref('akk_admon.user_profile_groups_f9'),
+                        ])]"/>
+        </record>
+        
+        <!-- Perfil Administrador -->
+        <record id="akk_admon.user_profile_3" model="admon.database.user.profile">
+            <field name="name">Administrador</field>
+            <field name="info">Administrador del sistema</field>
+             <field name="groups_id" eval="[(6,0,[
+                        ref('akk_admon.user_profile_groups_3'),
+                        ref('akk_admon.user_profile_groups_4'),
+                        ref('akk_admon.user_profile_groups_6'),
+                        ref('akk_admon.user_profile_groups_9'),
+                        ref('akk_admon.user_profile_groups_11'),
+                        ref('akk_admon.user_profile_groups_13'),
+                        ref('akk_admon.user_profile_groups_16'),
+                        ref('akk_admon.user_profile_groups_18'),
+                        ref('akk_admon.user_profile_groups_20'),
+                        ref('akk_admon.user_profile_groups_21'),
+                        ref('akk_admon.user_profile_groups_22'),
+                        ref('akk_admon.user_profile_groups_23'),
+                        ref('akk_admon.user_profile_groups_24'),
+                        ref('akk_admon.user_profile_groups_25'),
+                        ref('akk_admon.user_profile_groups_26'),
+                        ref('akk_admon.user_profile_groups_27'),
+                        ref('akk_admon.user_profile_groups_28'),
+                        ref('akk_admon.user_profile_groups_29'),
+                        ref('akk_admon.user_profile_groups_30'),
+                        ref('akk_admon.user_profile_groups_31'),
+                        ref('akk_admon.user_profile_groups_32'),
+                        ref('akk_admon.user_profile_groups_33'),
+                        ref('akk_admon.user_profile_groups_34'),
+                        ref('akk_admon.user_profile_groups_36'),
+                        ref('akk_admon.user_profile_groups_b1'),
+                        ref('akk_admon.user_profile_groups_b2'),
+                        ref('akk_admon.user_profile_groups_m1'),
+                        ref('akk_admon.user_profile_groups_m2'),
+                        ref('akk_admon.user_profile_groups_m3'),
+                        ref('akk_admon.user_profile_groups_m4'),
+                        ref('akk_admon.user_profile_groups_m5'),
+                        ref('akk_admon.user_profile_groups_m6'),
+                        ref('akk_admon.user_profile_groups_f1'),
+                        ref('akk_admon.user_profile_groups_f2'),
+                        ref('akk_admon.user_profile_groups_f3'),
+                        ref('akk_admon.user_profile_groups_f4'),
+                        ref('akk_admon.user_profile_groups_f5'),
+                        ref('akk_admon.user_profile_groups_f6'),
+                        ref('akk_admon.user_profile_groups_f7'),
+                        ref('akk_admon.user_profile_groups_f8'),
+                        ref('akk_admon.user_profile_groups_f9'),
+                        ref('akk_admon.user_profile_groups_f10'),
+                        ref('akk_admon.user_profile_groups_f11'),
+                        ])]"/>
+        </record>
+    
+        <!-- Acceso a todos los registros -->
+        <record id="akk_admon.user_profile_4" model="admon.database.user.profile">
+            <field name="name">SuperUsuario</field>
+            <field name="info">Configuracion permisos de administrador sin Caracteristicas tecnicas</field>
+             <field name="groups_id" eval="[(6,0,[
+                        ref('akk_admon.user_profile_groups_3'),
+                        ref('akk_admon.user_profile_groups_6'),
+                        ref('akk_admon.user_profile_groups_9'),
+                        ref('akk_admon.user_profile_groups_11'),
+                        ref('akk_admon.user_profile_groups_13'),
+                        ref('akk_admon.user_profile_groups_16'),
+                        ref('akk_admon.user_profile_groups_18'),
+                        ref('akk_admon.user_profile_groups_20'),
+                        ref('akk_admon.user_profile_groups_21'),
+                        ref('akk_admon.user_profile_groups_22'),
+                        ref('akk_admon.user_profile_groups_23'),
+                        ref('akk_admon.user_profile_groups_24'),
+                        ref('akk_admon.user_profile_groups_25'),
+                        ref('akk_admon.user_profile_groups_26'),
+                        ref('akk_admon.user_profile_groups_27'),
+                        ref('akk_admon.user_profile_groups_28'),
+                        ref('akk_admon.user_profile_groups_29'),
+                        ref('akk_admon.user_profile_groups_30'),
+                        ref('akk_admon.user_profile_groups_31'),
+                        ref('akk_admon.user_profile_groups_32'),
+                        ref('akk_admon.user_profile_groups_34'),
+                        ref('akk_admon.user_profile_groups_36'),
+                        ref('akk_admon.user_profile_groups_b1'),
+                        ref('akk_admon.user_profile_groups_m1'),
+                        ref('akk_admon.user_profile_groups_m2'),
+                        ref('akk_admon.user_profile_groups_m3'),
+                        ref('akk_admon.user_profile_groups_m4'),
+                        ref('akk_admon.user_profile_groups_m5'),
+                        ref('akk_admon.user_profile_groups_m6'),
+                        ref('akk_admon.user_profile_groups_f1'),
+                        ref('akk_admon.user_profile_groups_f2'),
+                        ref('akk_admon.user_profile_groups_f3'),
+                        ref('akk_admon.user_profile_groups_f4'),
+                        ref('akk_admon.user_profile_groups_f5'),
+                        ref('akk_admon.user_profile_groups_f6'),
+                        ref('akk_admon.user_profile_groups_f7'),
+                        ref('akk_admon.user_profile_groups_f8'),
+                        ref('akk_admon.user_profile_groups_f9'),
+                        ref('akk_admon.user_profile_groups_f10'),
+                        ref('akk_admon.user_profile_groups_f11'),
+                        ])]"/>
+        </record>
+        
+        <!-- Ventas -->
+        <record id="akk_admon.user_profile_5" model="admon.database.user.profile">
+            <field name="name">Ventas</field>
+            <field name="info">Configuracion permisos para la gestion de ventas</field>
+             <field name="groups_id" eval="[(6,0,[
+                        ref('akk_admon.user_profile_groups_3'),
+                        ref('akk_admon.user_profile_groups_14'),
+                        ref('akk_admon.user_profile_groups_19'),
+                        ref('akk_admon.user_profile_groups_21'),
+                        ref('akk_admon.user_profile_groups_22'),
+                        ref('akk_admon.user_profile_groups_24'),
+                        ref('akk_admon.user_profile_groups_25'),
+                        ref('akk_admon.user_profile_groups_26'),
+                        ref('akk_admon.user_profile_groups_31'),
+                        ref('akk_admon.user_profile_groups_32'),
+                        ref('akk_admon.user_profile_groups_34'),
+                        ])]"/>
+        </record>
+        
+        <!-- Facturacion -->
+        <record id="akk_admon.user_profile_6" model="admon.database.user.profile">
+            <field name="name">Facturacion</field>
+            <field name="info">Facturacion sobre la parte del flujo de ventas</field>
+             <field name="groups_id" eval="[(6,0,[
+                        ref('akk_admon.user_profile_groups_3'),
+                        ref('akk_admon.user_profile_groups_9'),
+                        ref('akk_admon.user_profile_groups_14'),
+                        ref('akk_admon.user_profile_groups_20'),
+                        ref('akk_admon.user_profile_groups_21'),
+                        ref('akk_admon.user_profile_groups_22'),
+                        ref('akk_admon.user_profile_groups_24'),
+                        ref('akk_admon.user_profile_groups_25'),
+                        ref('akk_admon.user_profile_groups_26'),
+                        ref('akk_admon.user_profile_groups_29'),
+                        ref('akk_admon.user_profile_groups_31'),
+                        ref('akk_admon.user_profile_groups_32'),
+                        ref('akk_admon.user_profile_groups_34'),
+                        ref('akk_admon.user_profile_groups_m1'),
+                        ref('akk_admon.user_profile_groups_f3'),
+                        ref('akk_admon.user_profile_groups_f4'),
+                        ref('akk_admon.user_profile_groups_f5'),
+                        ])]"/>
+        </record>
+        
+        <!-- Compras -->
+        <record id="akk_admon.user_profile_7" model="admon.database.user.profile">
+            <field name="name">Compras</field>
+            <field name="info">Configuracion permisos para la gestion de compras</field>
+             <field name="groups_id" eval="[(6,0,[
+                        ref('akk_admon.user_profile_groups_11'),
+                        ref('akk_admon.user_profile_groups_13'),
+                        ref('akk_admon.user_profile_groups_21'),
+                        ref('akk_admon.user_profile_groups_22'),
+                        ref('akk_admon.user_profile_groups_23'),
+                        ref('akk_admon.user_profile_groups_25'),
+                        ref('akk_admon.user_profile_groups_27'),
+                        ref('akk_admon.user_profile_groups_29'),
+                        ref('akk_admon.user_profile_groups_30'),
+                        ref('akk_admon.user_profile_groups_32'),
+                        ref('akk_admon.user_profile_groups_34'),
+                        ])]"/>
+        </record>
+        
+        <!-- Tesorero -->
+        <record id="akk_admon.user_profile_8" model="admon.database.user.profile">
+            <field name="name">Tesorero</field>
+            <field name="info">Configuracion permisos para la gestion de compras y ventas</field>
+             <field name="groups_id" eval="[(6,0,[
+                        ref('akk_admon.user_profile_groups_3'),
+                        ref('akk_admon.user_profile_groups_9'),
+                        ref('akk_admon.user_profile_groups_11'),
+                        ref('akk_admon.user_profile_groups_13'),
+                        ref('akk_admon.user_profile_groups_14'),
+                        ref('akk_admon.user_profile_groups_20'),
+                        ref('akk_admon.user_profile_groups_21'),
+                        ref('akk_admon.user_profile_groups_22'),
+                        ref('akk_admon.user_profile_groups_23'),
+                        ref('akk_admon.user_profile_groups_24'),
+                        ref('akk_admon.user_profile_groups_25'),
+                        ref('akk_admon.user_profile_groups_26'),
+                        ref('akk_admon.user_profile_groups_27'),
+                        ref('akk_admon.user_profile_groups_29'),
+                        ref('akk_admon.user_profile_groups_30'),
+                        ref('akk_admon.user_profile_groups_31'),
+                        ref('akk_admon.user_profile_groups_32'),
+                        ref('akk_admon.user_profile_groups_34'),
+                        ref('akk_admon.user_profile_groups_36'),
+                        ref('akk_admon.user_profile_groups_m1'),
+                        ref('akk_admon.user_profile_groups_f3'),
+                        ref('akk_admon.user_profile_groups_f4'),
+                        ref('akk_admon.user_profile_groups_f5'),
+                        ])]"/>
+        </record>
+        
+        <!-- Contador -->
+        <record id="akk_admon.user_profile_9" model="admon.database.user.profile">
+            <field name="name">Contabilidad</field>
+            <field name="info">Configuracion permisos para la gestion de la parte de contabilidad y Contabilidad fiscal</field>
+             <field name="groups_id" eval="[(6,0,[
+                        ref('akk_admon.user_profile_groups_6'),
+                        ref('akk_admon.user_profile_groups_9'),
+                        ref('akk_admon.user_profile_groups_11'),
+                        ref('akk_admon.user_profile_groups_14'),
+                        ref('akk_admon.user_profile_groups_16'),
+                        ref('akk_admon.user_profile_groups_18'),
+                        ref('akk_admon.user_profile_groups_20'),
+                        ref('akk_admon.user_profile_groups_21'),
+                        ref('akk_admon.user_profile_groups_22'),
+                        ref('akk_admon.user_profile_groups_23'),
+                        ref('akk_admon.user_profile_groups_24'),
+                        ref('akk_admon.user_profile_groups_25'),
+                        ref('akk_admon.user_profile_groups_26'),
+                        ref('akk_admon.user_profile_groups_27'),
+                        ref('akk_admon.user_profile_groups_29'),
+                        ref('akk_admon.user_profile_groups_30'),
+                        ref('akk_admon.user_profile_groups_31'),
+                        ref('akk_admon.user_profile_groups_32'),
+                        ref('akk_admon.user_profile_groups_34'),
+                        ref('akk_admon.user_profile_groups_36'),
+                        ref('akk_admon.user_profile_groups_m1'),
+                        ref('akk_admon.user_profile_groups_m2'),
+                        ref('akk_admon.user_profile_groups_m4'),
+                        ref('akk_admon.user_profile_groups_f3'),
+                        ref('akk_admon.user_profile_groups_f4'),
+                        ref('akk_admon.user_profile_groups_f5'),
+                        ref('akk_admon.user_profile_groups_f6'),
+                        ref('akk_admon.user_profile_groups_f7'),
+                        ref('akk_admon.user_profile_groups_f8'),
+                        ])]"/>
+        </record>
+        
+        <!-- Almacen -->
+        <record id="akk_admon.user_profile_10" model="admon.database.user.profile">
+            <field name="name">Almacen</field>
+            <field name="info">Configuracion permisos para la gestion de la parte de gestion de entradas y salidas de almacen</field>
+             <field name="groups_id" eval="[(6,0,[
+                        ref('akk_admon.user_profile_groups_6'),
+                        ref('akk_admon.user_profile_groups_22'),
+                        ref('akk_admon.user_profile_groups_23'),
+                        ref('akk_admon.user_profile_groups_25'),
+                        ref('akk_admon.user_profile_groups_30'),
+                        ref('akk_admon.user_profile_groups_m2'),
+                        ref('akk_admon.user_profile_groups_f1'),
+                        ref('akk_admon.user_profile_groups_f2'),
+                        ref('akk_admon.user_profile_groups_f6'),
+                        ])]"/>
+        </record>
+        
+        <!-- Perfil Compra/Venta (Nada contable) -->
+        <record id="akk_admon.user_profile_12" model="admon.database.user.profile">
+            <field name="name">Compra/Venta</field>
+            <field name="info">Usuario basico para gestion de compras y ventas, trae almacen</field>
+             <field name="groups_id" eval="[(6,0,[
+                        ref('akk_admon.user_profile_groups_3'),
+                        ref('akk_admon.user_profile_groups_6'),
+                        ref('akk_admon.user_profile_groups_9'),
+                        ref('akk_admon.user_profile_groups_11'),
+                        ref('akk_admon.user_profile_groups_16'),
+                        ref('akk_admon.user_profile_groups_20'),
+                        ref('akk_admon.user_profile_groups_21'),
+                        ref('akk_admon.user_profile_groups_22'),
+                        ref('akk_admon.user_profile_groups_23'),
+                        ref('akk_admon.user_profile_groups_24'),
+                        ref('akk_admon.user_profile_groups_25'),
+                        ref('akk_admon.user_profile_groups_26'),
+                        ref('akk_admon.user_profile_groups_27'),
+                        ref('akk_admon.user_profile_groups_28'),
+                        ref('akk_admon.user_profile_groups_29'),
+                        ref('akk_admon.user_profile_groups_30'),
+                        ref('akk_admon.user_profile_groups_31'),
+                        ref('akk_admon.user_profile_groups_32'),
+                        ref('akk_admon.user_profile_groups_34'),
+                        ref('akk_admon.user_profile_groups_b1'),
+                        ref('akk_admon.user_profile_groups_m2'),
+                        ref('akk_admon.user_profile_groups_m6'),
+                        ref('akk_admon.user_profile_groups_f1'),
+                        ref('akk_admon.user_profile_groups_f2'),
+                        ref('akk_admon.user_profile_groups_f3'),
+                        ref('akk_admon.user_profile_groups_f4'),
+                        ref('akk_admon.user_profile_groups_f5'),
+                        ref('akk_admon.user_profile_groups_f6'),
+                        ref('akk_admon.user_profile_groups_f7'),
+                        ])]"/>
+        </record>
+        
+        <!-- Perfil Backoffice - Con almacen -->
+        <record id="akk_admon.user_profile_13" model="admon.database.user.profile">
+            <field name="name">Backoffice - Almacen</field>
+            <field name="info">Trae la configuracion avanzada de almacen</field>
+             <field name="groups_id" eval="[(6,0,[
+                        ref('akk_admon.user_profile_groups_3'),
+                        ref('akk_admon.user_profile_groups_6'),
+                        ref('akk_admon.user_profile_groups_9'),
+                        ref('akk_admon.user_profile_groups_11'),
+                        ref('akk_admon.user_profile_groups_16'),
+                        ref('akk_admon.user_profile_groups_20'),
+                        ref('akk_admon.user_profile_groups_21'),
+                        ref('akk_admon.user_profile_groups_22'),
+                        ref('akk_admon.user_profile_groups_23'),
+                        ref('akk_admon.user_profile_groups_24'),
+                        ref('akk_admon.user_profile_groups_25'),
+                        ref('akk_admon.user_profile_groups_26'),
+                        ref('akk_admon.user_profile_groups_27'),
+                        ref('akk_admon.user_profile_groups_28'),
+                        ref('akk_admon.user_profile_groups_29'),
+                        ref('akk_admon.user_profile_groups_30'),
+                        ref('akk_admon.user_profile_groups_31'),
+                        ref('akk_admon.user_profile_groups_32'),
+                        ref('akk_admon.user_profile_groups_34'),
+                        ref('akk_admon.user_profile_groups_36'),
+                        ref('akk_admon.user_profile_groups_b1'),
+                        ref('akk_admon.user_profile_groups_m1'),
+                        ref('akk_admon.user_profile_groups_m2'),
+                        ref('akk_admon.user_profile_groups_m6'),
+                        ref('akk_admon.user_profile_groups_f1'),
+                        ref('akk_admon.user_profile_groups_f2'),
+                        ref('akk_admon.user_profile_groups_f3'),
+                        ref('akk_admon.user_profile_groups_f4'),
+                        ref('akk_admon.user_profile_groups_f5'),
+                        ref('akk_admon.user_profile_groups_f6'),
+                        ref('akk_admon.user_profile_groups_f7'),
+                        ref('akk_admon.user_profile_groups_f9'),
+                        ref('akk_admon.user_profile_groups_f10'),
+                        ])]"/>
+        </record>
+        
+<!--
+        Configuracion Default
+-->
+        <record id="akk_admon.config_admon_default" model="admon.config.settings">
+            <field name="db_list">base_backoffice</field>
+            <field name="url_webservice">https://solucionfactible.com/ws/services/Timbrado?wsdl</field>
+            <field name="namespace">http://timbrado.ws.cfdi.solucionfactible.com</field>
+            <field name="certificate_link">http://www.solucionfactible.com/sfic/resources/files/csdSAT-SF/prod/00001000000202864530.zip</field>
+            <field name="password">admin</field>
+        </record>
+        
+<!--
+        Importacion datos
+-->
+        <record id="akk_admon.admon_import_data_001" model="admon.database.import">
+            <field name="name">IVA A FAVOR</field>
+            <field name="code">IMPUESTOS</field>
+            <field name="type_tax">tax</field>
+            <field name="type_code">month</field>
+        </record>
+        <record id="akk_admon.admon_import_data_002" model="admon.database.import">
+            <field name="name">ISR A FAVOR</field>
+            <field name="code">RESFISMOR</field>
+            <field name="type_tax">code</field>
+            <field name="type_code">year</field>
+        </record>
+        <record id="akk_admon.admon_import_data_003" model="admon.database.import">
+            <field name="name">IETU A FAVOR</field>
+            <field name="code">IETU</field>
+            <field name="type_tax">tax</field>
+            <field name="type_code">month</field>
+        </record>
+        <record id="akk_admon.admon_import_data_004" model="admon.database.import">
+            <field name="name">IDE</field>
+            <field name="code">IDE</field>
+            <field name="type_tax">tax</field>
+            <field name="type_code">month</field>
+        </record>
+        <record id="akk_admon.admon_import_data_005" model="admon.database.import">
+            <field name="name">ISR RETENIDO POR EL BANCO</field>
+            <field name="code">ISRRET</field>
+            <field name="type_tax">code</field>
+            <field name="type_code">month</field>
+        </record>
+        
+    </data>
+</openerp>

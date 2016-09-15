@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+<!--
+        Modificacion de la vista formulario de reuniones
+-->
+        <record id="view_crm_meeting_form_inherit" model="ir.ui.view">
+            <field name="name">crm.meeting.form.inherit</field>
+            <field name="model">crm.meeting</field>
+            <field name="inherit_id" ref="base_calendar.view_crm_meeting_form"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="attributes">
+                    <attribute name="groups">base.group_sale_manager</attribute>
+                </field>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

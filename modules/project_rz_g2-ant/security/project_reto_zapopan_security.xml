@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Se agregan los grupos de usuario -->
+        <record id="base.group_project_reto_zapopan_project" model="res.groups">
+            <field name="name">Acceso Menu de Proyectos</field>
+            <field name="category_id" ref="base.module_category_usability"/>
+        </record>
+        
+        <!-- Se agregan los grupos de usuario -->
+        <record id="base.group_project_reto_zapopan_reporting" model="res.groups">
+            <field name="name">Acceso Menu de Informes</field>
+            <field name="category_id" ref="base.module_category_usability"/>
+        </record>
+        
+        <!--
+            Grupos para Emprendedor, Consultor y Evaluador
+        -->
+        
+        <record id="base.group_project_reto_zapopan_emp" model="res.groups">
+            <field name="name">Emprendedor</field>
+            <field name="category_id" ref="base.module_category_project_reto_zapopan"/>
+            <field name="implied_ids" eval="[
+                            (4, ref('base.group_user')),
+                            (4, ref('project.group_project_user')),
+                            (4, ref('base.group_project_reto_zapopan_user')),
+                            (4, ref('base.group_project_log_meeting_validate'))
+            ]"/>
+            <field name="users" eval=""/>
+        </record>
+        
+        <record id="base.group_project_reto_zapopan_con" model="res.groups">
+            <field name="name">Consultor</field>
+            <field name="category_id" ref="base.module_category_project_reto_zapopan"/>
+            <field name="implied_ids" eval="[
+                            (4, ref('base.group_user')),
+                            (4, ref('project.group_project_user')),
+                            (4, ref('base.group_project_reto_zapopan_user'))
+            ]"/>
+            <field name="users" eval=""/>
+        </record>  
+        
+        <record id="base.group_project_reto_zapopan_eval" model="res.groups">
+            <field name="name">Evaluador</field>
+            <field name="category_id" ref="base.module_category_project_reto_zapopan"/>
+            <field name="implied_ids" eval="[
+                            (4, ref('base.group_user')),
+                            (4, ref('project.group_project_user')),
+                            (4, ref('project.group_project_manager')),
+                            (4, ref('base.group_project_reto_zapopan_user')),
+                            (4, ref('base.group_project_log_meeting')),
+                            (4, ref('base.group_project_evaluation_eval'))
+            ]"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        
+        <record id="base.group_project_reto_zapopan_view" model="res.groups">
+            <field name="name">Reto Zapopan</field>
+            <field name="category_id" ref="base.module_category_project_reto_zapopan"/>
+            <field name="implied_ids" eval="[
+                            (4, ref('base.group_user')),
+                            (4, ref('project.group_project_user')),
+                            (4, ref('base.group_project_reto_zapopan_user')),
+                            (4, ref('base.group_project_reto_zapopan_reporting')),
+            ]"/>
+        </record>
+        
+        <!--
+            Permisos configuracion reto zapopan
+        -->
+        
+        <!-- Se agregan los grupos de usuario -->
+        <record id="base.group_project_reto_zapopan_config" model="res.groups">
+            <field name="name">Configuracion Reto Zapopan</field>
+            <field name="category_id" ref="base.module_category_usability"/>
+            <field name="implied_ids" eval="[
+                            (4, ref('base.group_user')),
+                            (4, ref('base.group_project_reto_zapopan_eval')),
+                            (4, ref('base.group_project_reto_zapopan_reporting')),
+                            (4, ref('base.group_project_reto_zapopan_project'))
+            ]"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        
+        <!--
+            Permisos especiales para Emprendedor, Consultor y Evaluador
+        -->
+        
+        <!-- Se agregan permisos en base a una regla de usuario -->
+        <record id="only_responsible_can_view_evaluation_partner_con" model="ir.rule">
+            <field name="name">Solo midificar a mi perfil de usuario</field>
+            <field name="model_id" ref="model_res_partner_evaluation_evaluation"/>
+            <field name="groups" eval="[(4, ref('base.group_project_reto_zapopan_con'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="domain_force">[('partner_id','=',user.partner_id.id)]</field>
+        </record>
+        
+        <!-- Se agregan permisos en base a una regla de usuario -->
+        <record id="only_emp_can_edit_meeting" model="ir.rule">
+            <field name="name">El emprendedor puede crear y editar sus reuniones</field>
+            <field name="model_id" ref="model_crm_meeting"/>
+            <field name="groups" eval="[(4, ref('base.group_project_reto_zapopan_emp'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">['|','|','|',('user_ids','like',',' + str(user.id) + ','),('user_id','=',user.id),('user_id','=',False),('partner_id','=',user.partner_id.id)]</field>
+        </record>
+        
+    </data>
+</openerp>

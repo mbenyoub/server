@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="view_account_transfer_tree" model="ir.ui.view">
+            <field name="name">Account Transfer List</field>
+            <field name="model">account.transfer</field>
+            <field name="arch" type="xml">
+                <tree string="Traspaso Bancario">
+                    <field name="type" invisible="1"/>
+                    <field name="name"/>
+                    <field name="period_id"/>
+                    <field name="src_amount"/>
+                    <field name="src_journal_id"/>
+                    <field name="src_partner_id"/>
+                    <field name="dst_journal_id"/>
+                    <field name="dst_partner_id"/>
+                    <field name="dst_amount" invisible="1"/>
+                    <field name="state"/>
+                    <field name="date" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="view_account_transfer_form" model="ir.ui.view">
+            <field name="name">Account Transfer Form</field>
+            <field name="model">account.transfer</field>
+            <field name="arch" type="xml">
+                <form string="Traspaso Bancario" version="7.0">
+                    <header>
+                        <button name="transfer_draft" states="cancel" string="Cambiar a borrador"/>
+                        <button name="transfer_confirm" states="draft" string="Confirmar" class="oe_highlight"/>
+                        <button name="transfer_done" states="confirm" string="Finalizar" class="oe_highlight"/>
+                        <button name="transfer_cancel" states="draft,confirm,done" string="Cancelar"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm,done" statusbar_colors='{"confirm":"blue"}'/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label string="Traspaso " attrs="{'invisible':['|',('name','=','/'),('type','!=','transfer')]}"/>
+                            <h1><field name="name" class="oe_inline" attrs="{'invisible':[('name','=','/')]}"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="date"/>
+                                <field name="period_id" readonly="1" states="confirm,done"/>
+                            </group>
+                            <group>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                                <field name="origin"/>
+                                <field name="adjust_move" attrs="{'invisible':[('adjust_move','=',False)]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Detalle">
+                                <group>
+                                    <group>
+                                        <field name="src_journal_id" domain="[('type','in',['cash','bank']),('id','!=',dst_journal_id),('company_id','=',company_id)]" on_change="onchange_journal(src_journal_id,dst_journal_id,date,exchange_rate,src_amount)"/>
+                                        <field name="src_partner_id" attrs="{'required':[('src_have_partner','=',True)]}"/>
+                                        <field name="src_balance" attrs="{'invisible':[('state','!=','draft')]}"/>
+                                        <field name="src_amount" on_change="onchange_amount('src_amount',src_amount,dst_amount,exchange_rate)"/>
+                                        <field name="src_have_partner" invisible="1"/>
+                                    </group>
+                                    <group>
+                                        <field name="dst_journal_id" domain="[('type','in',['cash','bank']),('id','!=',src_journal_id),('company_id','=',company_id)]" on_change="onchange_journal(src_journal_id,dst_journal_id,date,exchange_rate,src_amount)"/>
+                                        <field name="dst_partner_id" attrs="{'required':[('dst_have_partner','=',True)]}"/>
+                                        <field name="dst_balance" attrs="{'invisible':[('state','!=','draft')]}"/>
+                                        <field name="dst_amount" on_change="onchange_amount('dst_amount',src_amount,dst_amount,exchange_rate)"/>
+                                        <field name="dst_have_partner" invisible="1"/>
+                                        <field name="exchange" invisible="1"/>
+                                        <field name="exchange_rate" on_change="onchange_amount('exchange_rate',src_amount,dst_amount,exchange_rate)" attrs="{'readonly':['|',('exchange','=',False),('state','!=','draft')]}" groups="base.group_multi_currency"/>
+                                        <field name="exchange_inv" groups="base.group_multi_currency"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Pagos" attrs="{'invisible':[('state','=','draft')],'readonly':[('state','in',['done','cancel'])]}">
+                                <field name="adjust_move" groups="base.group_multi_currency"/>
+                                <field name="voucher_ids">
+                                    <tree colors="blue:state == 'draft';gray:state == 'cancel';red:audit" string="Voucher Entries">
+                                        <field name="date"/>
+                                        <field name="number"/>
+                                        <field name="reference" invisible="1"/>
+                                        <field name="partner_id"/>
+                                        <field name="journal_id" groups="account.group_account_user"/>
+                                        <field name="period_id" invisible="context.get('visible', True)"/>
+                                        <field name="type" invisible="context.get('visible', True)"/>
+                                        <field name="amount" sum="Total Amount"/>
+                                        <field name="audit" invisible="1"/>
+                                        <field name="state"/>
+                                        <button name="action_view_move" string="" type="object" icon="gtk-redo" attrs="{'invisible':[('state','in',['draft','cancel'])]}"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Otra Informacion" invisible="1">
+                                <group col="4">
+                                    <group name="one">
+                                        <field name="type"/>
+                                    </group>
+                                    <group name="two">
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_account_transfer_filter" model="ir.ui.view">
+            <field name="name">account.transfer.filter</field>
+            <field name="model">account.transfer</field>
+            <field name="arch" type="xml">
+                <search string="Search Cash/Bank Transfers">
+                    <field name="name" string="Transfer" filter_domain="[('name','ilike',self)]"/>
+                    <filter name="draft" string="Borrador" domain="[('state','=','draft')]" help="Draft Transfers"/>
+                    <filter name="confirm" string="Confirmado" domain="[('state','=','confirm')]" help="Confirm Transfers" groups="account_transfer.group_transfer_manager"/>
+                    <filter name="done" string="Finalizado" domain="[('state','=','done')]" help="Done Transfers"/>
+                    <separator/>
+                    <filter domain="['|',('src_partner_id.user_ids','in',[uid]),('dst_partner_id.user_ids','in',[uid])]" help="Mis Traspasos" icon="terp-personal"/>
+                    <field name="src_partner_id"/>
+                    <field name="dst_partner_id"/>
+                    <field name="src_journal_id"/>
+                    <field name="voucher_ids"/>
+                    <field name="period_id"/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Tipo" icon="terp-folder-orange" domain="[]" context="{'group_by':'type'}"/>
+                        <filter string="Banco Origen" icon="terp-folder-orange" domain="[]" context="{'group_by':'src_journal_id'}"/>
+                        <filter string="Banco Destino" icon="terp-folder-orange" domain="[]" context="{'group_by':'dst_journal_id'}"/>
+                        <filter string="Contacto Origen" icon="terp-partner" domain="[]" context="{'group_by':'src_partner_id'}"/>
+                        <filter string="Contacto Destino" icon="terp-partner" domain="[]" context="{'group_by':'dst_partner_id'}"/>
+                        <filter string="Estado" icon="terp-stock_effects-object-colorize" domain="[]"  context="{'group_by':'state'}"/>
+                        <filter string="Mes" icon="terp-go-month" domain="[]" context="{'group_by':'date'}"/>
+                        <filter string="Periodo" icon="terp-go-month" domain="[]" context="{'group_by':'period_id'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="account_transfer_list_action">
+            <field name="name">Traspasos Bancarios</field>
+            <field name="res_model">account.transfer</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'type':'transfer'}</field>
+            <field name="search_view_id" ref="view_account_transfer_filter"/>
+        </record>
+
+        <menuitem name='Traspasos Bancarios' id='account_transfer_menu' parent='account.menu_finance_bank_and_cash' sequence='13' action="account_transfer_list_action"/>
+        
+    </data>
+</openerp>

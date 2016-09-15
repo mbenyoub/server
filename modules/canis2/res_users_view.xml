@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="view_users_form_inherit">
+            <field name="name">res.users.form.inherit</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="company_id" position="after">
+                    <field name="branch_id" required="1" on_change="get_branchs(branch_id, context)"></field>
+                    <field name="branch_ids" widget="many2many_tags" placeholder="Acceso a..." groups="base.group_sale_manager"></field>
+                    <!--<field name="branch_access" invisible="True"></field>-->
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>
+

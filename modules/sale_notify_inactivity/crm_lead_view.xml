@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="crm_case_form_view_oppor_inherit">
+            <field name="name">crm.case.form.view.oppor.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_form_view_oppor" />
+            <field name="priority" eval="25"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Recordatorio" name="notify_info" groups="base.group_sale_manager,base.group_sale_salesman_all_leads">
+                        <group>
+                            <field name="notify_sale" />
+                            <field name="notify_sale_date" attrs="{'required': [('notify_sale','=',True)]}"/>
+                            <field name="notify_sale_user_id" attrs="{'required': [('notify_sale','=',True)]}"/>
+                            <field name="notify_sale_message" attrs="{'required': [('notify_sale','=',True)]}"/>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="crm_case_form_view_leads_inherit">
+            <field name="name">crm.case.form.view.leads.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_form_view_leads" />
+            <field name="priority" eval="25"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Recordatorio" name="notify_info" groups="base.group_sale_manager,base.group_sale_salesman_all_leads">
+                        <group>
+                            <field name="notify_sale" />
+                            <field name="notify_sale_date" attrs="{'required': [('notify_sale','=',True)]}"/>
+                            <field name="notify_sale_user_id" attrs="{'required': [('notify_sale','=',True)]}"/>
+                            <field name="notify_sale_message" attrs="{'required': [('notify_sale','=',True)]}"/>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+        
+    </data>
+</openerp>
+

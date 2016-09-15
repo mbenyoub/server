@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+        <record id="view_crm_meeting_search_inherit" model="ir.ui.view">
+            <field name="name">view.crm.meeting.filter.inherit</field>
+            <field name="model">crm.meeting</field>
+            <field name="inherit_id" ref="base_calendar.view_crm_meeting_search"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="after">
+                    <field name="branch_id"/>
+                </field>
+                <xpath expr="//filter[@string='My Meetings']" position="after">
+                    <filter icon="terp-gtk-go-back-rtl" string="Mi sucursal" name="filter_branch_id" domain="[('branch_id.branch_user_ids','in',(uid))]"/>
+                </xpath>
+                <filter name="message_unread" position="before">
+                    <separator/>
+                    <group  expand="0" string="Group By..." >
+                        <filter string="Sucursal" icon="terp-personal" domain="[]" context="{'group_by':'branch_id'}"/>
+                    </group>
+                </filter>
+            </field>
+        </record>
+        
+        <!--
+            Reunion
+        -->
+        
+        <record id="base_calendar.action_crm_meeting" model="ir.actions.act_window">
+            <field name="name">Meetings</field>
+            <field name="res_model">crm.meeting</field>
+            <field name="view_mode">calendar,tree,form,gantt</field>
+            <field name="view_id" ref="base_calendar.view_crm_meeting_calendar"/>
+            <field name="search_view_id" ref="base_calendar.view_crm_meeting_search"/>
+            <field name="context">{"calendar_default_user_id": uid}</field>
+            <field name="domain">['|',('branch_id.user_ids','in',(uid)),('branch_id','=',False)]</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to schedule a new meeting.
+              </p><p>
+                The calendar is shared between employees and fully integrated with
+                other applications such as the employee holidays or the business
+                opportunities.
+              </p>
+            </field>
+        </record>
+            
+        <!-- Vista de lista -->
+        <record model="ir.ui.view" id="view_crm_meeting_tree_inherit">
+            <field name="name">crm.meeting.tree.view.inherit</field>
+            <field name="model">crm.meeting</field>
+            <field name="inherit_id" ref="base_calendar.view_crm_meeting_tree" />
+            <field name="priority" eval="19"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="branch_id" invisible="1"></field>
+                </field>
+            </field>
+        </record>
+        
+        <!-- Vista Formulario -->
+        <record model="ir.ui.view" id="view_crm_meeting_form_inherit">
+            <field name="name">view.crm.meeting.form.inherit</field>
+            <field name="model">crm.meeting</field>
+            <field name="inherit_id" ref="base_calendar.view_crm_meeting_form" />
+            <field name="priority" eval="25"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="after">
+                    <field name="branch_id" readonly="1" invisible="1"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>
+

@@ -1,0 +1,79 @@
+<?xml version="1.0" ?>
+<openerp>
+<data noupdate="1">
+
+        <!--
+            Asset Cron
+        -->
+        
+        <!-- Depreciacion automatica de activos -->
+        <record model="ir.cron" id="cron_asset_depreciation">
+            <field name="name">Actualizacion de Asientos sobre Activos</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model">account.asset.asset</field>
+            <field name="function">cron_create_move</field>
+            <field name="args">()</field>
+            <field name="active" eval="True"/>
+        </record>
+        
+        <!-- Cierre de activos que se terminaron de depreciar el mes anterior -->
+        <record model="ir.cron" id="cron_asset_close">
+            <field name="name">Cierre de activos que se terminaron de depreciar</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model">account.asset.asset</field>
+            <field name="function">cron_create_move_close</field>
+            <field name="args">()</field>
+            <field name="active" eval="True"/>
+        </record>
+        
+        <!--
+            Account Sequences
+        -->
+        
+        <!-- Secuencia para cierre de activos -->
+        <record id="sequence_type_asset_trade_close" model="ir.sequence.type">
+            <field name="name">Account asset close type</field>
+            <field name="code">account.asset.asset.close</field>
+        </record>
+        <record id="sequence_asset_trade_close" model="ir.sequence">
+            <field name="name">Account asset close</field>
+            <field name="code">account.asset.asset.close</field>
+            <field name="prefix">ASSET/CLOSE/%(year)s/%(month)s/</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+        </record>
+        
+        <!-- Secuencia para baja de activos -->
+        <record id="sequence_type_asset_trade_drop" model="ir.sequence.type">
+            <field name="name">Account asset drop type</field>
+            <field name="code">account.asset.asset.drop</field>
+        </record>
+        <record id="sequence_asset_trade_drop" model="ir.sequence">
+            <field name="name">Account asset drop</field>
+            <field name="code">account.asset.asset.drop</field>
+            <field name="prefix">ASSET/DROP/%(year)s/%(month)s/</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+        </record>
+        
+        <!-- Secuencia para codigo interno de activos -->
+        <record id="sequence_type_asset_trade_code" model="ir.sequence.type">
+            <field name="name">Account asset code type</field>
+            <field name="code">account.asset.asset.code</field>
+        </record>
+        <record id="sequence_asset_trade_code" model="ir.sequence">
+            <field name="name">Account asset code</field>
+            <field name="code">account.asset.asset.code</field>
+            <field name="prefix">ACTIVO/%(year)s/%(month)s/</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+        </record>
+        
+    </data>
+</openerp>

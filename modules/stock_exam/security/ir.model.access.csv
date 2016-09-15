@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+catalogo_bitacora,catalogo_bitacora_manager,stock_exam.model_catalogo_bitacora,stock.group_stock_manager,1,1,1,1
+catalogo_bitacora,catalogo_bitacora_user,stock_exam.model_catalogo_bitacora,stock.group_stock_user,1,1,1,1
+catalogo_producto,catalogo_producto_manager,stock_exam.model_catalogo_producto,stock.group_stock_manager,1,1,1,1
+catalogo_producto,catalogo_producto_user,stock_exam.model_catalogo_producto,stock.group_stock_user,1,1,1,1

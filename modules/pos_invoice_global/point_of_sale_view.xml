@@ -1,0 +1,247 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <!--MODIFICACION 20/04/2015-->
+        <!--Agregacion de atributo invisible al campo 'session_actual'-->
+        
+        <record model="ir.ui.view" id="view_pos_session_form">
+            <field name="name">pos.session.form.view</field>
+            <field name="model">pos.session</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_session_form"/>
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="button_paid_show" string="Muestra pagos" type="object"/>
+                    <field name="sesion_actual" on_change="onchange_actualizar(sesion_actual)" invisible="1"/>
+                    <field name="usuario_actual" on_change="onchange_actualizar_cliente(usuario_actual)" invisible="1"/>
+                    <field name="session_actual" invisible="1"/>
+                </xpath>
+                
+                <!--<xpath expr="//field[@name='cash_register_difference']" position="attributes">
+                    <attribute name="on_change">onchange_cash_register_difference(cash_register_difference)</attribute>
+                </xpath>-->
+                <xpath expr="//field[@name='cash_register_difference']" position="after">
+                    <field name="balance_end_real"/>
+                </xpath>
+                <xpath expr="//separator[@string='Summary by Payment Methods']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='statement_ids']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='statement_ids']" position="after">
+                    <notebook>
+                        <page string="Ordenes en efectivo">
+                            <field name="order_paid_ids">
+                                <tree delete="0" create="0" edit="0">
+                                    <field name="name"/>
+                                    <field name="pos_reference"/>
+                                    <field name="partner_id"/>
+                                    <field name="date_order"/>
+                                    <field name="user_id"/>
+                                    <field name="amount_total" sum="Amount Total"/>
+                                    <field name="state"/>
+                                    <field name="session_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Ordenes en credito">
+                            <field name="order_credit_ids">
+                                <tree delete="0" create="0" edit="0">
+                                    <field name="name"/>
+                                    <field name="pos_reference"/>
+                                    <field name="partner_id"/>
+                                    <field name="date_order"/>
+                                    <field name="user_id"/>
+                                    <field name="amount_total" sum="Amount Total"/>
+                                    <field name="state"/>
+                                    <field name="state_order"/>
+                                    <field name="session_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Ordenes en devolucion">
+                            <field name="order_return_ids">
+                                <tree delete="0" create="0" edit="0">
+                                    <field name="name"/>
+                                    <field name="pos_reference"/>
+                                    <field name="partner_id"/>
+                                    <field name="date_order"/>
+                                    <field name="user_id"/>
+                                    <field name="amount_total" sum="Amount Total"/>
+                                    <field name="state"/>
+                                    <field name="state_order"/>
+                                    <field name="session_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Cobros">
+                            <field name="payments_out_session">
+                                <tree delete="0" create="0" edit="0">
+                                    <field name="journal_id"/>
+                                    <field name="statement_id" invisible="1"/>
+                                    <field name="amount" sum="Total Amount"/>
+                                    <field name="type"/>
+                                    <field name="date"/>
+                                    <field name="order_id"/>
+                                    <field name="session_order"/>
+                                    <field name="session_id" string="Sesion del pago"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </xpath>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_pos_order_filter">
+            <field name="name">pos.order.list.select.inherit</field>
+            <field name="model">pos.order</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_order_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='session_id']" position="after">
+                    <field name="state"/>
+                </xpath>
+                <xpath expr="//filter[@string='Status']" position="replace">
+                    <filter string="Status" name="status" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <act_window
+            id="act_pos_session_orders"
+            name="Pedidos"
+            src_model="pos.session"
+            res_model="pos.order"
+            context="{'search_default_session_id': active_id, 'default_session_id' : active_id,
+                'search_default_status': 1}"/>
+        
+        <act_window
+            id="return_all"
+            res_model="pos.order.return"
+            src_model="pos.order"
+            view_mode="form"
+            target="new"
+            name="Devolucion producto"
+        />
+        
+        <record model="ir.ui.view" id="view_pos_pos_form_inherit">
+            <field name="name">pos.order.form.view.inherit</field>
+            <field name="model">pos.order</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_pos_form" />
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <button string="Payment" class="oe_highlight" type="action" position="attributes">
+                    <attribute name="states">draft,to_paid</attribute>
+                </button>
+                <button string="Payment" class="oe_highlight" type="action" position="after">
+                    <button string="Entregar Productos" name="picking" class="oe_highlight" type="workflow" states="picking"/>
+                </button>
+                <xpath expr="//header/button[3]" position="after">
+                    <button name="return_products" state="['draft', 'to_paid', 'paid']" type="object"
+                        attrs = "{'invisible': ['|', ('state', 'in', ['return']),
+                            ('state', 'not in', ['to_paid', 'paid', 'done'])]}"
+                        string="Devolver producto"/>
+                    <button name="%(return_all)d" attrs="{'invisible': [('state', 'not in', ['return'])]}" type="action"
+                        string="Devolver"/>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="order_origin_id" readonly="1"/>
+                </xpath>
+                <field name="amount_total" position="after">
+                    <field name="to_paid" help="Monto pendiente de pago" attrs="{'invisible':[('state','not in',['draft','to_paid', 'paid'])]}"/>
+                    <field name="amount_paid"/>
+                    <!--<field name="to_paid" help="Monto pendiente de pago" invisible="1"/>
+                    <field name="amount_paid" invisible="1"/>-->
+                </field>
+                <field name="pos_reference" position="after">
+                    <field name="global_invoice" invisible="1"/>
+                    <field name="global_invoice_id" help="Factura global generada para el pedido" attrs="{'invisible':[('global_invoice','=',False)]}"/>
+                </field>
+                <page string="Payments" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </page>
+                <page string="Payments" position="after">
+                     <page string="Pagos" name="pos_payments">
+                        <field name="payment_ids" colspan="4" nolabel="1">
+                            <tree editable="bottom" string="Lineas de Pago" edit="1" delete="1" >
+                                <field name="journal_id"/>
+                                <field name="statement_id" invisible="1"/>
+                                <field name="amount"/>
+                                <field name="type"/>
+                                <field name="date"/>
+                                <field name="session_order"/>
+                                <field name="session_id" string="Sesion del pago"/>
+                                <!--<field name="move_id"/>-->
+                            </tree>
+                            <form string="Statement lines" version="7.0">
+                                <group col="4">
+                                    <field name="journal_id"/>
+                                    <field name="amount"/>
+                                    <field name="type"/>
+                                </group>
+                                <group col="4">
+                                    <field name="move_id"/>
+                                    <field name="statement_id" domain="[('company_id','=',parent.company_id),('state','=','open')]"/>
+                                </group>
+                            </form>
+                        </field>
+                    </page>
+                </page>
+                <xpath expr="//field[@name='sale_journal']" position="after">
+                    <field name="per_paid_id"/>
+                </xpath>
+                <xpath expr="//field[@name='account_move']" position="replace">
+                    <field name="account_move" readonly="1"/>
+                </xpath>
+                <xpath expr="//notebook/page[3]" position="after">
+                    <page string="Producto devuelto">
+                        <field name="product_returned_ids">
+                            <tree>
+                                <field name="product_id"/>
+                                <field name="quantity"/>
+                                <field name="price_unit"/>
+                                <field name="discount"/>
+                                <field name="price_subtotal"/>
+                                <field name="price_subtotal_incl"/>
+                            </tree>
+                        </field>
+                        <group class="oe_subtotal_footer oe_right" colspan="2" name="return_total">
+                            <div class="oe_subtotal_footer_separator oe_inline">
+                                <label for="amount_product_return"/>
+                            </div>
+                            <field name="amount_product_return" nolabel="1" class="oe_subtotal_footer_separator"/>
+                        </group>
+                    </page>
+                </xpath>
+                <xpath expr="//button[@name='refund']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <!--<xpath expr="//field[@name='lines']/tree[1]/field[@name='price_subtotal_incl']" position="after">
+                    <field name="ret_product"/>
+                </xpath>-->
+                <xpath expr="//field[@name='lines']" position="attributes">
+                    <attribute name="attrs">{'readonly': ['|', ('state', 'not in', ['return', 'draft'])]}</attribute>
+                </xpath>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_pos_order_payment_tree">
+            <field name="name">view.pos.order.payment.tree</field>
+            <field name="model">pos.order.payment</field>
+            <field name="arch" type="xml">
+                <tree string="Pagos" edit="0" create="0" delete="0">
+                    <field name="journal_id"/>
+                    <field name="statement_id" invisible="1"/>
+                    <field name="amount"/>
+                    <field name="type"/>
+                    <field name="date"/>
+                    <field name="order_id"/>
+                    <field name="session_order"/>
+                    <field name="session_id" string="Sesion del pago"/>
+                </tree>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

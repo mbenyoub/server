@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+    
+    <!--
+        Fases para reto zapopan
+-->
+
+        <record id="act_project_phase_view" model="ir.actions.act_window">
+            <field name="name">Project Phases</field>
+            <field name="res_model">project.phase</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+             <field name="domain">[]</field>
+             <field name="context">{}</field>
+            <field name="search_view_id" ref="project_long_term.view_project_phase_search"/>
+        </record>
+    
+<!--
+        Modificacion de la vista formulario de proyecto
+-->
+        <record id="view_project_form2_inherit" model="ir.ui.view">
+            <field name="name">project.project.form.inherit</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project_reto_zapopan.view_project_form2"/>
+            <field eval="24" name="priority"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="progress" widget="progressbar"/>
+                    <field name="progress_eval" widget="progressbar"/>
+                </field>
+                <page name="log" position="replace">
+                    <page string="Historico" name="log" attrs="{'invisible': [('state','in',['draft','open'])]}" groups="base.group_project_reto_zapopan_eval,base.group_project_reto_zapopan_con,base.group_project_reto_zapopan_reto">
+                        <div name="log_project" position="after">
+                            <group>
+                                <group>
+                                    <div name="log_consultor" attrs="{'invisible': [('state','in',['draft','open'])]}">
+                                        <label for="log_consultor_ids" string="Historico Consultoria"/>
+                                        <field name="log_consultor_ids" nolabel="1" readonly="1" domain="[('state','!=','cancel')]">
+                                            <tree string="Historico Consultoria" fonts="bold:state=='done'" colors="grey:state=='cancel';blue:state=='draft'">
+                                                <field name="date"/>
+                                                <field name="consultor_id"/>
+                                                <field name="result"/>
+                                                <field name="state" invisible="1"/>
+                                                <button name="action_cancel" string="" class="oe_edit_only" type="object" icon="gtk-cancel" attrs="{'invisible':[('state','!=','draft')]}" groups="base.group_project_reto_zapopan_config"/>
+                                            </tree>
+                                        </field>
+                                    </div>
+                                </group>
+                                <group>
+                                    <div name="log_eval_project" attrs="{'invisible': [('state','in',['draft','open'])]}">
+                                        <label for="log_eval_ids" string="Calificaciones proyecto"/>
+                                        <field name="log_eval_ids" nolabel="1" readonly="1">
+                                            <tree string="Calificaciones proyecto">
+                                                <field name="date"/>
+                                                <field name="phase_id"/>
+                                                <field name="meeting_id"/>
+                                                <field name="result"/>
+                                                <field name="user_id" invisible="1"/>
+                                            </tree>
+                                        </field>
+                                    </div>
+                                </group>
+                            </group>
+                        </div>
+                    </page>
+                </page>
+            </field>
+        </record>
+        
+        <record id="view_project_form_inherit" model="ir.ui.view">
+            <field name="name">project.project.form.inherit</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field eval="24" name="priority"/>
+            <field name="arch" type="xml">
+                <div name="log_project" position="after">
+                    <group>
+                        <group>
+                            <div name="log_consultor" attrs="{'invisible': [('state','in',['draft','open'])]}">
+                                <label for="log_consultor_ids" string="Historico Consultoria"/>
+                                <field name="log_consultor_ids" nolabel="1" readonly="1" domain="[('state','!=','cancel')]">
+                                    <tree string="Historico Consultoria" fonts="bold:state=='done'" colors="grey:state=='cancel';blue:state=='draft'">
+                                        <field name="date"/>
+                                        <field name="consultor_id"/>
+                                        <field name="result"/>
+                                        <field name="state" invisible="1"/>
+                                        <button name="action_cancel" string="" class="oe_edit_only" type="object" icon="gtk-cancel" attrs="{'invisible':[('state','!=','draft')]}" groups="base.group_project_reto_zapopan_config"/>
+                                    </tree>
+                                </field>
+                            </div>
+                        </group>
+                        <group>
+                            <div name="log_eval_project" attrs="{'invisible': [('state','in',['draft','open'])]}">
+                                <label for="log_eval_ids" string="Calificaciones proyecto"/>
+                                <field name="log_eval_ids" nolabel="1" readonly="1">
+                                    <tree string="Calificaciones proyecto">
+                                        <field name="date"/>
+                                        <field name="phase_id"/>
+                                        <field name="meeting_id"/>
+                                        <field name="result"/>
+                                        <field name="user_id" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </div>
+                        </group>
+                    </group>
+                </div>
+                <page name="project_stages" position="attributes">
+                    <attribute name="invisible">0</attribute>
+                    <attribute name="groups">base.group_project_reto_zapopan_config</attribute>
+                </page>
+                <field name="consultor_id" position="after">
+                    <field name="progress" widget="progressbar"/>
+                    <field name="progress_eval" widget="progressbar"/>
+                </field>
+                <page name="team" position="attributes">
+                    <attribute name="groups">base.group_project_reto_zapopan_config</attribute>
+                </page>
+                <xpath expr="//field[@name='project_log_project_ids']/tree/field[@name='description']" position="after">
+                    <field name="meeting_id" readonly="1" />
+                </xpath>
+                <xpath expr="//field[@name='project_log_project_ids']/tree/field[@name='user_id']" position="attributes">
+                    <attribute name="invisible">0</attribute>
+                    <attribute name="readonly">1</attribute>
+                    <attribute name="string">Creado por</attribute>
+                </xpath>
+                <div name="log_eval" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </div>
+                <field name="company_class" position="attributes">
+                    <attribute name="attrs">{'readonly':['|',('is_manager','=',False),('state','not in',['draft','open'])]}</attribute>
+                </field>
+                <field name="user_id" position="attributes">
+                    <attribute name="required">1</attribute>
+                </field>
+                <field name="use_tasks" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="use_issues" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="use_phases" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <label for="use_tasks" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </label>
+                <label for="use_issues" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </label>
+                <label for="use_phases" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </label>
+                <button name="set_progress" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </button>
+                <button name="set_progress" position="after">
+                    <button name="set_progress_wizard" string="Seguimiento a Proyecto" type="object" class="oe_highlight" modifiers="{'invisible': ['|', ['state', 'not in', ['open']], ['pending_evaluation', '=', 'True']]}" attrs="{'invisible': ['|',('state', 'not in', ['open']),('pending_evaluation','=','True')]}"/>
+                </button>
+                <button string="Tasks" type="action" position="attributes">
+                    <attribute name="string">Entregables</attribute>
+                </button>
+                <button string="Issues" type="action" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </button>
+                <field name="partner_id" position="before">
+                    <field name="last_log_eval"/>
+                </field>
+            </field>
+        </record>
+        
+<!--
+        Modificacion de la vista Lista de Proyectos
+-->
+        <record id="view_project_tree_inherit" model="ir.ui.view">
+            <field name="name">project.project.tree.inherit</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project"/>
+            <field eval="99" name="priority"/>
+            <field name="arch" type="xml">
+                <field name="planned_hours" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="total_hours" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="effective_hours" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="progress_rate" position="after">
+                    <field name="progress" widget="progressbar"/>
+                    <field name="progress_eval" widget="progressbar"/>
+                </field>
+                <field name="progress_rate" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+            </field>
+        </record>
+        
+<!--
+        Modificacion de la vista formulario de fases
+-->
+        <record id="view_project_phase_form_inherit" model="ir.ui.view">
+            <field name="name">project.phase.form.inherit</field>
+            <field name="model">project.phase</field>
+            <field name="inherit_id" ref="project_long_term.view_project_phase_form"/>
+            <field eval="24" name="priority"/>
+            <field name="arch" type="xml">
+                <field name="template_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="sequence" position="attributes">
+                    <attribute name="string">Numero Fase</attribute>
+                </field>
+                <page string="Team Planning" position="attributes">
+                    <attribute name="groups">base.group_project_reto_zapopan_config</attribute>
+                </page>
+                <page name="log" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </page>
+                <field name="name" position="attributes">
+                    <attribute name="attrs"></attribute>
+                    <attribute name="modifiers"></attribute>
+                </field>
+                <field name="meeting_time" position="attributes">
+                    <attribute name="attrs">{'invisible':[('validate_time','=',False)]}</attribute>
+                </field>
+                <field name="sequence" position="after">
+                    <field name="validate_time" />
+                </field>
+                <button string="Related Tasks" type="action" class="oe_right" position="attributes">
+                    <attribute name="string">Entregables</attribute>
+                </button>
+                <button name="set_cancel" position="attributes">
+                    <attribute name="states">draft,open,pending,done</attribute>
+                    <attribute name="confirm">Si continua con la operacion se va a cancelar la fase. Desea continuar?</attribute>
+                </button>
+                <button name="set_done" position="attributes">
+                    <attribute name="confirm">Si continua con la operacion se va a cerrar la fase. Desea continuar?</attribute>
+                </button>
+                <button name="set_draft" position="attributes">
+                    <attribute name="states">cancelled</attribute>
+                </button>
+                <label for="date_start" position="before">
+                    <field name="code"/>
+                </label>
+                <notebook position="before">
+                    <group>
+                        <field name="progress" widget="progressbar" style="width:35%%"/>
+                        <field name="progress_eval" widget="progressbar" style="width:35%%"/>
+                    </group>
+                </notebook>
+                <notebook position="inside">
+                    <page name="files" string="Adjuntos" attrs="{'invisible':[('state','in',['draft'])]}">
+                        <separator string="Entregables"/>
+                        <field name="file_tasks" >
+                            <tree>
+                                <field name="file_name"/>
+                                <field name="task_id"/>
+                                <field name="file" filename="file_name"/>
+                            </tree>
+                            <form>
+                                <group>
+                                    <group>
+                                        <field name="file_name" invisible="0" readonly="1"/>
+                                        <field name="file" filename="file_name"/>
+                                    </group>
+                                    <group>
+                                        <field name="task_id" readonly="1"/>
+                                    </group>
+                                </group>
+                            </form>
+                        </field>
+                        <separator string="Minutas Reunion"/>
+                        <field name="file_meetings" >
+                            <tree>
+                                <field name="file_name"/>
+                                <field name="meeting_id"/>
+                                <field name="file" filename="file_name"/>
+                                <field name="type"/>
+                            </tree>
+                            <form>
+                                <group>
+                                    <group>
+                                        <field name="file_name" invisible="0" readonly="1"/>
+                                        <field name="file" filename="file_name"/>
+                                    </group>
+                                    <group>
+                                        <field name="meeting_id" readonly="1"/>
+                                        <field name="type" readonly="1"/>
+                                    </group>
+                                </group>
+                            </form>
+                        </field>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+    
+<!--
+        Modificacion de la vista Lista de Fases
+-->
+        <record id="view_project_phase_list_inherit" model="ir.ui.view">
+            <field name="name">project.phase.tree.inherit</field>
+            <field name="model">project.phase</field>
+            <field name="inherit_id" ref="project_long_term.view_project_phase_list"/>
+            <field eval="99" name="priority"/>
+            <field name="arch" type="xml">
+                <field name="duration" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="state" position="after">
+                    <field name="progress" string="Progreso" widget="progressbar"/>
+                    <field name="progress_eval" string="Progreso" widget="progressbar"/>
+                </field>
+            </field>
+        </record>
+    
+<!--
+        Modificacion de la vista formulario de tareas
+-->
+        <record id="view_task_form_inherit" model="ir.ui.view">
+            <field name="name">project.task.form.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field eval="19" name="priority"/>
+            <field name="arch" type="xml">
+                <field name="project_id" position="after">
+                    <field name="ticket_id" attrs="{'invisible': [('ticket_id','=',False)]}"/>
+                </field>
+                <field name="planned_hours" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <page name="page_work" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </page>
+                <field name="categ_ids" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <group string="Gantt View" position="after">
+                    <group name="log_eval_task">
+                        <div>
+                            <label for="log_eval_ids" string="Calificaciones"/>
+                            <field name="log_eval_ids" nolabel="1" readonly="1">
+                                <tree string="Calificaciones entregable">
+                                    <field name="date"/>
+                                    <field name="project_id"/>
+                                    <field name="phase_id"/>
+                                    <field name="meeting_id"/>
+                                    <field name="result"/>
+                                    <field name="user_id" invisible="1"/>
+                                </tree>
+                            </field>
+                        </div>
+                    </group>
+                </group>
+                <group name="project_hours" position="attributes">
+                    <attributes name="invisible">1</attributes>
+                </group>
+                <page string="Description" position="replace">
+                    <page string="Descripcion" >
+                        <field name="description" nolabel="1" attrs="{'readonly':[('state','=','done')]}" placeholder="Agregar a Descripcion..."/>
+                        <div class="oe_clear"/>
+                    </page>
+                </page>
+                <field name="progress" position="before">
+                    <field name="last_log_eval" string="Progreso" widget="progressbar"/>
+                </field>
+                <field name="progress" position="attributes">
+                    <attribute name="string">Progreso sistema</attribute>
+                </field>
+                <button name="action_close" position="attributes">
+                    <attribute name="attrs">{'invisible':[('state','not in',['draft','open','pending']),('file_upload','!=',True)]}</attribute>
+                    <attribute name="groups">project.group_project_manager</attribute>
+                    <attribute name="string">Finalizar tarea</attribute>
+                </button>
+                <button name="action_close" position="after">
+                     <button name="action_upload_file" string="Hecho" type="object" states="draft,open,pending" groups="base.group_user"/>
+                </button>
+                <group string="Gantt View" position="after">
+                    <group name="file" >
+                        <field name="file_upload" invisible="1"/>
+                        <field name="file_name" invisible="1"/>
+                        <field name="file" filename="file_name" readonly="1"/>
+                    </group>
+                </group>
+                <button name="do_cancel" position="attributes">
+                    <attribute name="string">Cancelar</attribute>
+                </button>
+            </field>
+        </record>
+
+<!--
+        Modificacion de la vista Lista de Tareas
+-->
+        <record id="project_task_tree2_view_inherit" model="ir.ui.view">
+            <field name="name">project.task.tree.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_tree2"/>
+            <field eval="99" name="priority"/>
+            <field name="arch" type="xml">
+                <field name="project_id" position="after">
+                    <field name="ticket_id" string="Ticket" invisible="1" />
+                </field>
+                <field name="effective_hours" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="remaining_hours" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="planned_hours" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="progress" position="before">
+                    <field name="last_log_eval" string="Progreso" widget="progressbar"/>
+                </field>
+                <field name="progress" position="attributes">
+                    <attribute name="string">Progreso sistema</attribute>
+                </field>
+            </field>
+        </record>
+    
+<!--
+        Modificacion del action de proyectos para evaluadores
+-->
+        <record id="project.open_view_project_all" model="ir.actions.act_window">
+            <field name="name">Projectos</field>
+            <field name="res_model">project.project</field>
+            <field name="view_type">form</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">tree,form,gantt</field>
+            <field name="view_id" ref="project.view_project"/>
+            <field name="search_view_id" ref="project.view_project_project_filter"/>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                  Click para crear un nuevo proyecto.
+                </p><p>
+                  Los proyectos son utilizados para organizar un plan de trabajo por medio de
+                  Actividades que pueden ser administrables.
+                </p>
+            </field>
+        </record>
+        <record id="project_reto_zapopan.action_project_form_view1" model="ir.actions.act_window.view">
+            <field eval="3" name="sequence"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="project_reto_zapopan.view_project_kanban"/>
+            <field name="act_window_id" ref="project.open_view_project_all"/>
+        </record>
+        <record id="project_reto_zapopan.action_project_form_view2" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="project.view_project"/>
+            <field name="act_window_id" ref="project.open_view_project_all"/>
+        </record>
+        <record id="project_reto_zapopan.action_project_form_view3" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="project.edit_project"/>
+            <field name="act_window_id" ref="project.open_view_project_all"/>
+        </record>
+        
+<!--
+        Modificacion del action de proyectos para consultores
+-->
+        <record id="project.open_view_project_all2" model="ir.actions.act_window">
+            <field name="name">Projectos</field>
+            <field name="res_model">project.project</field>
+            <field name="view_type">form</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="project.view_project"/>
+            <field name="search_view_id" ref="project.view_project_project_filter"/>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                  Click para crear un nuevo proyecto.
+                </p><p>
+                  Los proyectos son utilizados para organizar un plan de trabajo por medio de
+                  Actividades que pueden ser administrables.
+                </p>
+            </field>
+        </record>
+        <record id="project_reto_zapopan.action_project_form_read_view1" model="ir.actions.act_window.view">
+            <field eval="3" name="sequence"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="project_reto_zapopan.view_project_kanban2"/>
+            <field name="act_window_id" ref="project.open_view_project_all2"/>
+        </record>
+        <record id="project_reto_zapopan.action_project_form_read_view2" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="project.view_project"/>
+            <field name="act_window_id" ref="project.open_view_project_all2"/>
+        </record>
+        <record id="project_reto_zapopan.action_project_form_read_view3" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="project_reto_zapopan.view_project_form2"/>
+            <field name="act_window_id" ref="project.open_view_project_all2"/>
+        </record>
+    
+<!--
+        Modificacion del action de entregables para evaluadores y consultores
+-->
+        <record id="project.action_view_task" model="ir.actions.act_window">
+            <field name="name">Entregables</field>
+            <field name="res_model">project.task</field>
+            <field name="view_mode">tree,form,kanban,calendar,gantt,graph</field>
+            <field name="search_view_id" ref="project.view_task_search_form"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a new task.
+              </p><p>
+                OpenERP's project management allows you to manage the pipeline
+                of tasks in order to get things done efficiently. You can
+                track progress, discuss on tasks, attach documents, etc.
+              </p>
+            </field>
+        </record>
+        <record id="project.open_view_task_list_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="project.action_view_task"/>
+        </record>
+        <record id="project.open_view_task_list_kanban" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">kanban</field>
+            <field name="act_window_id" ref="project.action_view_task"/>
+        </record>
+    
+    </data>
+</openerp>

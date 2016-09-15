@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        
+        <!--
+            Diario para notas de credito cliente
+        -->
+        
+        <!-- Resource: Secuencias y diarios -->
+        <record id="l10n_mx_facturae_invoice_out_refund_seq_01" model="ir.sequence">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="name">Sequence Abono de Ventas CFD-I</field>
+            <field name="active" eval="True"/>
+            <field name="padding">0</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+        </record>
+        <record id="l10n_mx_facturae_invoice_out_refund_seq_approval_01" model="ir.sequence.approval">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="sequence_id" ref="l10n_mx_facturae_invoice_out_refund_seq_01"/>
+            <field name="approval_number">12345</field>
+            <field name="serie">NC</field>
+            <field name="approval_year" eval="time.strftime('%Y')"/>
+            <field name="number_start">1</field>
+            <field name="number_end">9999</field>
+            <field name="type">cfdi32</field>
+        </record>
+        <record id="l10n_mx_facturae_invoice_out_refund_journal_01" model="account.journal">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="sequence_id" ref="l10n_mx_facturae_invoice_out_refund_seq_01"/>
+            <field name="name">Diario de abono de ventas CFD-I</field>
+            <field name="code">NC-CFDI</field>
+            <field name="type">sale_refund</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="company2_id" ref="base.main_company"/>
+            <field name="address_invoice_company_id" ref="base.main_company"/>
+            <field name="update_posted" eval="True"/>
+        </record>
+        
+        <!--
+            Diario para notas de cargo cliente
+        -->
+        
+        <!-- Resource: Secuencias y diarios -->
+        <record id="l10n_mx_facturae_invoice_out_debit_seq_01" model="ir.sequence">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="name">Sequence Notas de Cargo de Ventas CFD-I</field>
+            <field name="active" eval="True"/>
+            <field name="padding">0</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+        </record>
+        <record id="l10n_mx_facturae_invoice_out_debit_seq_approval_01" model="ir.sequence.approval">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="sequence_id" ref="l10n_mx_facturae_invoice_out_debit_seq_01"/>
+            <field name="approval_number">12345</field>
+            <field name="serie">NDEB</field>
+            <field name="approval_year" eval="time.strftime('%Y')"/>
+            <field name="number_start">1</field>
+            <field name="number_end">9999</field>
+            <field name="type">cfdi32</field>
+        </record>
+        <record id="l10n_mx_facturae_invoice_out_debit_journal_01" model="account.journal">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="sequence_id" ref="l10n_mx_facturae_invoice_out_debit_seq_01"/>
+            <field name="name">Diario de Notas de cargo ventas CFDI</field>
+            <field name="code">ND-CUS</field>
+            <field name="type">sale_debit</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="company2_id" ref="base.main_company"/>
+            <field name="address_invoice_company_id" ref="base.main_company"/>
+            <field name="update_posted" eval="True"/>
+        </record>
+        
+         <!--
+            Diario para notas de cargo proveedor
+        -->
+        
+        <!-- Resource: Secuencias y diarios -->
+        <record id="l10n_mx_facturae_invoice_in_debit_seq_01" model="ir.sequence">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="name">Sequence Notas de Cargo Proveedor</field>
+            <field name="active" eval="True"/>
+            <field name="prefix">NDEB/SUP/%(month)s/%(year)s/</field>
+            <field name="padding">0</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+        </record>
+        <record id="l10n_mx_facturae_invoice_in_debit_journal_01" model="account.journal">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="sequence_id" ref="l10n_mx_facturae_invoice_in_debit_seq_01"/>
+            <field name="name">Diario de Notas de cargo Proveedor</field>
+            <field name="code">ND-SUP</field>
+            <field name="type">purchase_debit</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="company2_id" ref="base.main_company"/>
+            <field name="address_invoice_company_id" ref="base.main_company"/>
+            <field name="update_posted" eval="True"/>
+        </record>
+        
+    </data>
+</openerp>

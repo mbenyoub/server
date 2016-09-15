@@ -1,0 +1,5 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+crm_custom_calendar_activity_user,crm_custom_calendar_activity_user,model_crm_custom_calendar_activity,crm_custom.group_crm_custom_user,1,1,1,1
+crm_custom_calendar_activiy_all,crm_custom_calendar_activiy_all,model_crm_custom_calendar_activity,,0,1,1,1
+crm_update_section_user_all,crm_update_section_user_all,model_update_section_user_wizard,,1,1,1,1
+crm_update_section_user_line_all,crm_update_section_user_line_all,model_update_section_user_line_wizard,,1,1,1,1

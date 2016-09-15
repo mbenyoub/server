@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+<!--
+          Impuestos
+-->
+        
+        <!-- View Form - Impuestos -->
+        <record model="ir.ui.view" id="view_tax_form_inherit">
+            <field name="name">account.tax.form.inherit</field>
+            <field name="model">account.tax</field>
+            <field name="inherit_id" ref="account.view_tax_form" />
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <field name="account_collected_id_apply" position="after">
+                    <field name="account_collected_note_id" domain="[('type','not in',['view','consolidation'])]"/>
+                </field>
+            </field>
+        </record>
+        
+    </data>
+</openerp>
+

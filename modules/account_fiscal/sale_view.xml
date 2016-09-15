@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record id="view_order_form_inherit" model="ir.ui.view">
+            <field name="name">Sale order Inherited</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <field name="picking_policy" position="attributes">
+                    <attribute name="string">Politica de Entrega</attribute>
+                </field>
+                <button name="action_view_delivery" position="attributes">
+                    <attribute name="attrs">{'invisible': ['|',('picking_ids','=',False),('picking_ids','=',[])]}</attribute>
+                </button>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

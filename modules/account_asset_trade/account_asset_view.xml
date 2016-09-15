@@ -1,0 +1,201 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+        <!-- Categoria de Activos -->
+        <record model="ir.ui.view" id="view_account_asset_category_form_inherit">
+            <field name="name">account.asset.category.form</field>
+            <field name="model">account.asset.category</field>
+            <field name="inherit_id" ref="account_asset.view_account_asset_category_form"/>
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="prorata" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="method_progress_factor" position="after">
+                    <field name="mdv"/>
+                </field>
+                <field name="account_expense_depreciation_id" position="after">
+                    <field name="account_cost_sale_id" />
+                    <field name="account_asset_decline_id" />
+                </field>
+                <field name="account_asset_id" position="attributes">
+                    <attribute name="help">Registro de Inversiones. (Monto original de la inversion sobre el activo)</attribute>
+                </field>
+                <field name="account_depreciation_id" position="attributes">
+                    <attribute name="help">Depreciaciones efectuadas al activo</attribute>
+                </field>
+                <field name="account_expense_depreciation_id" position="attributes">
+                    <attribute name="help">Depreciaciones efectuadas a cuentas de gastos corriente</attribute>
+                </field>
+                <field name="account_cost_sale_id" position="attributes">
+                    <attribute name="help">Valor contable del activo al momento de la venta</attribute>
+                </field>
+                <field name="account_asset_decline_id" position="attributes">
+                    <attribute name="help">Valor contable del activo al momento de la baja</attribute>
+                </field>
+                <field name="name" position="after">
+                    <field name="code" />
+                </field>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_account_asset_search_inherit">
+            <field name="name">account.asset.asset.search.inherit</field>
+            <field name="model">account.asset.asset</field>
+            <field name="inherit_id" ref="account_asset.view_account_asset_search" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="code"/>
+                    <field name="code_int"/>
+                    <field name="origin"/>
+                    <field name="invoice_id"/>
+                    <field name="category_id"/>
+                </field>
+                <field  name="partner_id" position="after" >
+                    <filter icon="terp-check" string="Vendido" domain="[('state','in', ['sold'])]" help="Activos vendidios"/>
+                    <filter icon="terp-check" string="Baja" domain="[('state','in', ['drop'])]" help="Activos que se dieron de baja"/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Origen" icon="terp-go-month" domain="[]" context="{'group_by':'origin'}" help="Origen de activo"/>
+                        <filter string="Estado" icon="terp-go-month" domain="[]" context="{'group_by':'state'}" help="Estado del activo"/>
+                        <filter string="Categoria" icon="terp-go-month" domain="[]" context="{'group_by':'category_id'}" help="Agrupar por categoria de activo"/>
+                        <filter string="Codigo Interno" icon="terp-go-month" domain="[]" context="{'group_by':'code_int'}" help="Estado del activo"/>
+                    </group>
+                </field>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_account_asset_asset_tree_inherit">
+            <field name="name">account.asset.tree</field>
+            <field name="model">account.asset.asset</field>
+            <field name="inherit_id" ref="account_asset.view_account_asset_asset_tree"/>
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="product_qty" invisible="1"/>
+                    <field name="qty"/>
+                    <field name="origin" invisible="1"/>
+                    <field name="code_int" invisible="1"/>
+                    <field name="invoice_id" invisible="1"/>
+                </field>
+                <field name="value_residual" position="attributes">
+                    <attribute name="string">Valor Contable</attribute>
+                </field>
+            </field>
+        </record>
+        
+        <!-- Activos -->
+        <record model="ir.ui.view" id="view_account_asset_asset_form_inherit">
+            <field name="name">account.asset.asset.form</field>
+            <field name="model">account.asset.asset</field>
+            <field name="inherit_id" ref="account_asset.view_account_asset_asset_form"/>
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <div class="oe_title" position="replace">
+                    <div class="oe_title">
+                        <label for="product_id" string="Activo" class="oe_edit_only"/>
+                        <h1>
+                            <field name="product_id" on_change="onchange_product_id(product_id, context)" class="oe_inline" context="{'default_is_asset':True}" attrs="{'readonly': [('state','!=','draft')]}"/>
+                        </h1>
+                        <label for="name" string="Codigo de Activo" class="oe_edit_only"/>
+                        <field name="name" attrs="{'readonly': False}"/>
+                    </div>
+                </div>
+                <field name="purchase_date" position="before">
+                    <field name="date" on_change="onchange_date(date,context)" attrs="{'readonly': [('state','!=','draft')]}"/>
+                </field>
+                <field name="purchase_date" position="replace">
+                    <label for="purchase_date" string="Inicio Depreciacion"/>
+                    <div>
+                        <field name="purchase_date" class="oe_inline" attrs="{'readonly': [('state','!=','draft')]}"/>
+                        <button name="action_next_month" string="(Siguiente mes)" states="draft" invisible="1" class="oe_link oe_edit_only oe_inline" type="object" help="Activo se deprecia a partir del mes siguiente de la fecha de compra"/>
+                    </div>
+                    <field name="depreciation_date" invisible="1"/>
+                    <field name="code_int" attrs="{'invisible': [('state','=','draft')]}"/>
+                    <field name="origin" attrs="{'readonly':[('state','!=','draft')]}"/>
+                </field>
+                <field name="purchase_value" position="before">
+                    <field name="product_qty" on_change="onchange_product_qty(product_id, product_qty, context)" attrs="{'readonly': [('state','!=','draft')]}"/>
+                </field>
+                <field name="code" position="after">
+                    <field name="invoice_id" attrs="{'invisible': [('origin','!=','purchase')], 'readonly': [('state','not in',['draft'])]}"/>
+                </field>
+                <field name="prorata" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="value_residual" position="after">
+                    <field name="update_factor" invisible="1"/>
+                    <field name="num_dep_line" invisible="1"/>
+                </field>
+                <field name="value_residual" position="attributes">
+                    <attribute name="string">Valor Contable</attribute>
+                    <attribute name="help">Valor Contable actual del activo. (Valor bruto - Amortizaciones aplicadas)</attribute>
+                </field>
+                <button string="Change Duration" type="action" position="attributes">
+                    <attribute name="attrs">{'invisible':[('state','=','sold')]}</attribute>
+                </button>
+                <button name="create_move" position="attributes">
+                    <attribute name="attrs">{'invisible':['|',('move_check','!=',False),('parent_state','not in',['open'])]}</attribute>
+                </button>
+                <button name="compute_depreciation_board" position="attributes">
+                    <attribute name="attrs">{'invisible':[('state','not in',['draft','open'])]}</attribute>
+                </button>
+                <button name="set_to_draft" position="after">
+                    <button name="action_drop_asset" type="object" string="Dar de baja activo" attrs="{'invisible': [('state','not in',['open'])]}"/>
+                    <button name="action_check_invoice" type="object" string="Ver Factura" class="oe_highlight" attrs="{'invisible': [('invoice_asset_id','=',False)]}"/>
+                </button>
+                <button name="set_to_draft" position="attributes">
+                    <attribute name="attrs" >{'invisible': ['|',('num_dep_line','!=',0.0)]}</attribute>
+                    <attribute name="modifiers" >{'invisible': ['|',('num_dep_line','!=',0.0)]}</attribute>
+                </button>
+                <button name="set_to_close" position="attributes">
+                    <attribute name="attrs" >{'invisible': ['|',('value_residual','!=',0.0)]}</attribute>
+                    <attribute name="modifiers" >{'invisible': ['|',('value_residual','!=',0.0)]}</attribute>
+                </button>
+                <xpath expr="/form/sheet/notebook/page[@string='General']/group" position="inside">
+                    <group>
+                        <field name="result" invisible="1"/>
+                    </group>
+                    <group string="Informacion de Venta" attrs="{'invisible': [('invoice_asset_id','=',False)]}">
+                        <field name="sale_date" readonly="1"/>
+                        <field name="sale_quantity" readonly="1"/>
+                        <field name="sale_update_factor" readonly="1"/>
+                        <field name="sale_value_account" readonly="1"/>
+                        <field name="sale_value_fiscal" readonly="1"/>
+                        <field name="invoice_asset_id" context="{'form_view_ref': 'account_asset_trade.invoice_asset_form'}"/>
+                    </group>
+                    <group string="Informacion de Baja Activo" attrs="{'invisible': [('drop_move_id','=',False)]}">
+                        <field name="drop_date" readonly="1"/>
+                        <field name="drop_quantity" readonly="1"/>
+                        <field name="drop_move_id" readonly="1"/>
+                        <field name="drop_ref" readonly="1"/>
+                    </group>
+                </xpath>
+                <field name="salvage_value" position="before">
+                    <field name="mdv" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state','!=','draft')]}"/>
+                </field>
+                <xpath expr="/form/sheet/notebook/page[@string='Depreciation Board']/field[@name='depreciation_line_ids']/tree/field[@name='amount']" position="attributes">
+                    <attribute name="sum">Total Amortizacion actual</attribute>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Depreciation Board']/field[@name='depreciation_line_ids']/tree/button[@name='create_move']" position="after">
+                    <field name="inactive" invisible="1"/>
+                    <button name="action_skip_depreciation" type="object" icon="gtk-close" attrs="{'invisible':['|',('move_check','!=',False),'|',('parent_state','!=','open'),('inactive','!=',False)]}" string="No aplicar" />
+                    <button name="action_active_depreciation" type="object" icon="gtk-redo" attrs="{'invisible':['|',('move_check','!=',False),'|',('parent_state','!=','open'),('inactive','!=',True)]}" string="Aplicar" />
+                    <button name="action_cancel_depreciation" type="object" icon="gtk-cancel" attrs="{'invisible':['|',('move_check','!=',True),'|',('parent_state','!=','open'),('inactive','!=',False)]}" string="Cancelar poliza" />
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Depreciation Board']/field[@name='depreciation_line_ids']/tree/button[@name='create_move']" position="attributes">
+                    <field name="inactive" invisible="1"/>
+                    <attribute name="attrs">{'invisible':['|',('move_check','!=',False),'|',('parent_state','!=','open'),('inactive','!=',False)]}</attribute>
+                </xpath>
+                <field name="parent_id" position="after">
+                    <field name="move_id_close" attrs="{'invisible': [('move_id_close','=',False)]}" readonly="1"/>
+                </field>
+                <button name="compute_depreciation_board" position="replace"/>
+                <field name="depreciation_line_ids" position="before">
+                     <button type="object" name="compute_depreciation_board" string="Compute" icon="terp-stock_format-scientific" colspan="2" attrs="{'invisible':[('state','=','close')]}"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Se agregan los grupos de usuario -->
+        <record id="base.group_account_fiscal_menu" model="res.groups">
+            <field name="name">Acceso a Menu contabilidad fiscal</field>
+        </record>
+        <record id="base.group_account_fiscal_response" model="res.groups">
+            <field name="name">Acceso a contabilidad fiscal</field>
+        </record>
+        
+    </data>
+</openerp>

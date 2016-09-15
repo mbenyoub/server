@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="account_sat_create_xml_report_form_view" model="ir.ui.view">
+            <field name="name">Account SAT Report XML for Mexico</field>
+            <field name="model">account.sat.create.xml.report</field>
+            <field name="arch" type="xml">
+            <form string="Crear Reporte SAT" version="7.0">
+                <field invisible="1" name="state"/>
+                <field name="name" invisible="1"/>
+                <group states="choose" string="Reporte SAT - Generar reporte XML" colspan="4">
+                    <group>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                        <field name="type" />
+                        <field name="fiscalyear_id" attrs="{'invisible': [('type','not in',['balance_year'])], 'required': [('type','in',['balance_year'])]}"/>
+                        <field name="period_id" attrs="{'invisible': [('type','not in',['balance_month','move','folios','mayor'])], 'required': [('type','in',['balance_month','move'])]}"/>
+                        <field name="solicitud" attrs="{'invisible': [('type','not in',['move','folios','mayor'])], 'required': [('type','in',['move','folios','mayor'])]}"/>
+                        <field name="orden" attrs="{'invisible': [('type','not in',['move','folios','mayor'])], 'required': [('type','in',['move','folios','mayor'])]}"/>
+                        <field name="account" attrs="{'invisible': [('type','not in',['mayor'])], 'required': [('type','in',['mayor'])]}" widget="selection" domain="[('level','=','3')]"/>
+                    </group>
+                    <group>
+                        <field name="send" attrs="{'invisible':[('type','not in',['balance_month','balance_year'])], 'required':[('type','in',['balance_month','balance_year'])]}"/>
+                        <field name="date_ref" attrs="{'invisible':['|',('send','=','N'),('type','not in',['balance_month','balance_year'])], 'required':[('send','=','C'),('type','in',['balance_month','balance_year'])]}"/>
+                    </group>
+                </group>
+                <div states="get">
+                    <h2>Tu archivo XML fue generado correctamente!</h2>
+                    <p>Aqui esta el reporte XML exportado: <field name="file" readonly="1" filename="filename"/></p>
+                </div>
+                <div states="not_file">
+                    <h2>Tu reporte XML no a sido creado!</h2>
+                    <p>Probablemente por:</p>
+                    <p>- No tienes configurado correctamente tu plan de cuentas SAT</p>
+                </div>
+
+                <footer states="choose">
+                    <button name="create_report_xml" string="Crear archivo XML" colspan="1" type="object" class="oe_highlight"/>
+                    <button special="cancel" class="oe_link" string="Cancelar" />
+                </footer>
+                <footer attrs="{'invisible':[('state','not in', ('get', 'not_file'))]}">
+                    <button special="cancel" string="Cerrar" type="object" class="oe_highlight"/>
+                </footer>
+            </form>
+            </field>
+        </record>
+
+        <record id="action_account_sat_create_xml_report" model="ir.actions.act_window">
+            <field name="name">Crear Reporte SAT</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.sat.create.xml.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="help"></field>
+        </record>
+
+        <menuitem   name="Crear Reporte SAT [ XML ] "
+                    parent="menu_account_sat_report" sequence="40"
+                    action="action_account_sat_create_xml_report"
+                    id="menu_account_sat_create_xml_report" />
+
+    </data>
+</openerp>

@@ -1,0 +1,1086 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+<!-- Account Types -->
+
+    <record model="account.account.type" id="account_type_view">
+      <field name="name">View</field>
+      <field name="code">view</field>
+      <field name="close_method">none</field>
+    </record>
+
+    <record model="account.account.type" id="account_type_aactivo_deudora" >
+      <field name="name">A Activo Deudora</field>
+      <field name="code">aactivo_deudora</field>
+      <field name="close_method">balance</field>
+    </record>
+
+    <record model="account.account.type" id="account_type_bactivo_acreedora" >
+      <field name="name">B Activo Acreedora</field>
+      <field name="code">bactivo_acreedora</field>
+      <field name="close_method">balance</field>
+    </record>
+
+    <record model="account.account.type" id="account_type_dpasivo_acreedora">
+      <field name="name">D Pasivo Acreedora</field>
+      <field name="code">dpasivo_acreedora</field>
+      <field name="close_method">balance</field>
+    </record>
+
+    <record model="account.account.type" id="account_type_fcapital_acreedora" >
+      <field name="name">F Capital Acreedora</field>
+      <field name="code">fcapital_acreedora</field>
+      <field name="close_method">balance</field>
+    </record>
+
+    <record model="account.account.type" id="account_type_hresultados_acreedora">
+      <field name="name">H Resultados Acreedora</field>
+      <field name="code">hresultados_acreedora</field>
+      <field name="close_method">balance</field>
+    </record>
+
+    <record model="account.account.type" id="account_type_gresultados_deudora">
+      <field name="name">G Resultados Deudora</field>
+      <field name="code">gresultados_deudora</field>
+      <field name="close_method">balance</field>
+    </record>
+
+    <!--
+    Cuentas del plan
+    -->
+     
+    <record id="account_chart_general_00" model="account.account.template">
+        <field name="code">000-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="type">view</field>
+        <field name="user_type" ref="account_type_view"/>
+        <field name="name">PLAN CONTABLE</field>
+    </record>
+    
+    <record id="account_chart_general_01" model="account.account.template">
+        <field name="code">000-0100</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_00"/>
+        <field name="type">view</field>
+        <field name="user_type" ref="account_type_aactivo_deudora"/>
+        <field name="name">ACTIVO</field>
+    </record>
+    
+    <record id="account_chart_general_02" model="account.account.template">
+        <field name="code">000-0110</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_01"/>
+        <field name="type">view</field>
+        <field name="user_type" ref="account_type_aactivo_deudora"/>
+        <field name="name">CIRCULANTE</field>
+    </record>
+    
+    <record id="account_chart_general_03" model="account.account.template">
+        <field name="code">100-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_02"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_aactivo_deudora"/>
+        <field name="name">Fondo Fijo Caja</field>
+    </record>
+    
+    <record id="account_chart_general_04" model="account.account.template">
+        <field name="code">101-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_02"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_aactivo_deudora"/>
+        <field name="name">Caja</field>
+    </record>
+    
+    <record id="account_chart_general_05" model="account.account.template">
+        <field name="code">102-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_02"/>
+        <field name="type">view</field>
+        <field name="user_type" ref="account_type_aactivo_deudora"/>
+        <field name="name">Bancos</field>
+    </record>
+    
+    <record id="account_chart_general_06" model="account.account.template">
+        <field name="code">103-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_02"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_aactivo_deudora"/>
+        <field name="name">Clientes</field>
+    </record>
+    
+    <record id="account_chart_general_07" model="account.account.template">
+        <field name="code">104-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_02"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_aactivo_deudora"/>
+        <field name="name">Documentos por Cobrar</field>
+    </record>
+    
+    <record id="account_chart_general_08" model="account.account.template">
+        <field name="code">105-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_02"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_aactivo_deudora"/>
+        <field name="name">Deudores Diversos</field>
+    </record>
+    
+    <record id="account_chart_general_09" model="account.account.template">
+        <field name="code">106-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_02"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_aactivo_deudora"/>
+        <field name="name">IVA Acreditable</field>
+    </record>
+    
+    <record id="account_chart_general_10" model="account.account.template">
+        <field name="code">107-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_02"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_aactivo_deudora"/>
+        <field name="name">Funcionarios y Empleados</field>
+    </record>
+    
+    <record id="account_chart_general_11" model="account.account.template">
+        <field name="code">108-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_02"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_aactivo_deudora"/>
+        <field name="name">Inventario, Mercancías o Almacén</field>
+    </record>
+    
+    <record id="account_chart_general_12" model="account.account.template">
+        <field name="code">109-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_02"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_aactivo_deudora"/>
+        <field name="name">Anticipo a Proveedores</field>
+    </record>
+    
+    <record id="account_chart_general_13" model="account.account.template">
+        <field name="code">000-0120</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_01"/>
+        <field name="type">view</field>
+        <field name="user_type" ref="account_type_aactivo_deudora"/>
+        <field name="name">FIJO</field>
+    </record>
+    
+    <record id="account_chart_general_14" model="account.account.template">
+        <field name="code">120-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_13"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_aactivo_deudora"/>
+        <field name="name">Mobiliario y Equipo de oficina</field>
+    </record>
+    
+    <record id="account_chart_general_15" model="account.account.template">
+        <field name="code">121-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_13"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_bactivo_acreedora"/>
+        <field name="name">Depreciación Acumulada de Mob y Eq. oficina</field>
+    </record>
+    
+    <record id="account_chart_general_16" model="account.account.template">
+        <field name="code">122-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_13"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_aactivo_deudora"/>
+        <field name="name">Equipo de Transporte</field>
+    </record>
+    
+    <record id="account_chart_general_17" model="account.account.template">
+        <field name="code">123-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_13"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_bactivo_acreedora"/>
+        <field name="name">Depreciación Acumulada Equipo Transporte</field>
+    </record>
+    
+    <record id="account_chart_general_18" model="account.account.template">
+        <field name="code">124-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_13"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_aactivo_deudora"/>
+        <field name="name">Equipo de cómputo</field>
+    </record>
+    
+    <record id="account_chart_general_19" model="account.account.template">
+        <field name="code">125-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_13"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_bactivo_acreedora"/>
+        <field name="name">Depreciación acumulada Eq. cómputo</field>
+    </record>
+    
+    <record id="account_chart_general_20" model="account.account.template">
+        <field name="code">126-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_13"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_aactivo_deudora"/>
+        <field name="name">Edificios</field>
+    </record>
+    
+    <record id="account_chart_general_21" model="account.account.template">
+        <field name="code">127-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_13"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_bactivo_acreedora"/>
+        <field name="name">Depreciación Acumulada Edificios</field>
+    </record>
+    
+    <record id="account_chart_general_22" model="account.account.template">
+        <field name="code">128-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_13"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_aactivo_deudora"/>
+        <field name="name">Terrenos</field>
+    </record>
+    
+    <record id="account_chart_general_23" model="account.account.template">
+        <field name="code">000-0140</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_01"/>
+        <field name="type">view</field>
+        <field name="user_type" ref="account_type_aactivo_deudora"/>
+        <field name="name">DIFERIDO</field>
+    </record>
+    
+    <record id="account_chart_general_24" model="account.account.template">
+        <field name="code">140-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_23"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_aactivo_deudora"/>
+        <field name="name">Gastos de Organización</field>
+    </record>
+    
+    <record id="account_chart_general_25" model="account.account.template">
+        <field name="code">141-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_23"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_aactivo_deudora"/>
+        <field name="name">Gastos de Instalación y Adaptación</field>
+    </record>
+    
+    <record id="account_chart_general_26" model="account.account.template">
+        <field name="code">142-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_23"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_aactivo_deudora"/>
+        <field name="name">Impuestos Anticipados</field>
+    </record>
+    
+    <record id="account_chart_general_27" model="account.account.template">
+        <field name="code">143-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_23"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_aactivo_deudora"/>
+        <field name="name">Gastos Anticipados</field>
+    </record>
+    
+    <record id="account_chart_general_28" model="account.account.template">
+        <field name="code">150-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_23"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_bactivo_acreedora"/>
+        <field name="name">Amortización Gastos Organización</field>
+    </record>
+    
+    <record id="account_chart_general_29" model="account.account.template">
+        <field name="code">151-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_23"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_bactivo_acreedora"/>
+        <field name="name">Amortización Gastos Instalación y Adaptación</field>
+    </record>
+    
+    <record id="account_chart_general_30" model="account.account.template">
+        <field name="code">000-0200</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_00"/>
+        <field name="type">view</field>
+        <field name="user_type" ref="account_type_dpasivo_acreedora"/>
+        <field name="name">PASIVO</field>
+    </record>
+    
+    <record id="account_chart_general_31" model="account.account.template">
+        <field name="code">000-0210</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_30"/>
+        <field name="type">view</field>
+        <field name="user_type" ref="account_type_dpasivo_acreedora"/>
+        <field name="name">CIRCULANTE</field>
+    </record>
+    
+    <record id="account_chart_general_32" model="account.account.template">
+        <field name="code">200-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_31"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_dpasivo_acreedora"/>
+        <field name="name">PROVEEDORES</field>
+    </record>
+    
+    <record id="account_chart_general_33" model="account.account.template">
+        <field name="code">201-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_31"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_dpasivo_acreedora"/>
+        <field name="name">ACREEDORES DIVERSOS</field>
+    </record>
+    
+    <record id="account_chart_general_34" model="account.account.template">
+        <field name="code">202-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_31"/>
+        <field name="type">view</field>
+        <field name="user_type" ref="account_type_dpasivo_acreedora"/>
+        <field name="name">IMPUESTOS POR PAGAR</field>
+    </record>
+    
+    <record id="account_chart_general_35" model="account.account.template">
+        <field name="code">202-1000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_34"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_dpasivo_acreedora"/>
+        <field name="name">IVA Por Pagar</field>
+    </record>
+    
+    <record id="account_chart_general_36" model="account.account.template">
+        <field name="code">202-2000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_34"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_dpasivo_acreedora"/>
+        <field name="name">IMPAC</field>
+    </record>
+    
+    <record id="account_chart_general_37" model="account.account.template">
+        <field name="code">202-3000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_34"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_dpasivo_acreedora"/>
+        <field name="name">ISR</field>
+    </record>
+    
+    <record id="account_chart_general_38" model="account.account.template">
+        <field name="code">202-4000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_34"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_dpasivo_acreedora"/>
+        <field name="name">2% sobre Nómina</field>
+    </record>
+    
+    <record id="account_chart_general_39" model="account.account.template">
+        <field name="code">202-5000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_34"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_dpasivo_acreedora"/>
+        <field name="name">IMSS</field>
+    </record>
+    
+    <record id="account_chart_general_40" model="account.account.template">
+        <field name="code">202-6000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_34"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_dpasivo_acreedora"/>
+        <field name="name">5% Infonavit</field>
+    </record>
+    
+    <record id="account_chart_general_41" model="account.account.template">
+        <field name="code">202-7000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_34"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_dpasivo_acreedora"/>
+        <field name="name">SAR</field>
+    </record>
+    
+    <record id="account_chart_general_42" model="account.account.template">
+        <field name="code">202-8000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_34"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_dpasivo_acreedora"/>
+        <field name="name">10% Retención Honorarios</field>
+    </record>
+    
+    <record id="account_chart_general_43" model="account.account.template">
+        <field name="code">202-9000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_34"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_dpasivo_acreedora"/>
+        <field name="name">10% Retención Arrendamientos</field>
+    </record>
+    
+    <record id="account_chart_general_44" model="account.account.template">
+        <field name="code">203-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_31"/>
+        <field name="type">view</field>
+        <field name="user_type" ref="account_type_dpasivo_acreedora"/>
+        <field name="name">DOCUMENTOS POR PAGAR</field>
+    </record>
+    
+    <record id="account_chart_general_45" model="account.account.template">
+        <field name="code">203-1000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_44"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_dpasivo_acreedora"/>
+        <field name="name">Bancarios</field>
+    </record>
+    
+    <record id="account_chart_general_46" model="account.account.template">
+        <field name="code">203-2000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_44"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_dpasivo_acreedora"/>
+        <field name="name">Particulares</field>
+    </record>
+    
+    <record id="account_chart_general_47" model="account.account.template">
+        <field name="code">204-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_31"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_dpasivo_acreedora"/>
+        <field name="name">IVA Trasladado</field>
+    </record>
+    
+    <record id="account_chart_general_48" model="account.account.template">
+        <field name="code">205-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_31"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_dpasivo_acreedora"/>
+        <field name="name">Anticipos de Clientes</field>
+    </record>
+    
+    <record id="account_chart_general_49" model="account.account.template">
+        <field name="code">206-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_31"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_dpasivo_acreedora"/>
+        <field name="name">Sueldos por Pagar</field>
+    </record>
+    
+    <record id="account_chart_general_50" model="account.account.template">
+        <field name="code">207-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_31"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_dpasivo_acreedora"/>
+        <field name="name">Gastos por Pagar</field>
+    </record>
+    
+    <record id="account_chart_general_51" model="account.account.template">
+        <field name="code">208-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_31"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_dpasivo_acreedora"/>
+        <field name="name">PTU por Pagar</field>
+    </record>
+    
+    <record id="account_chart_general_52" model="account.account.template">
+        <field name="code">000-0220</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_30"/>
+        <field name="type">view</field>
+        <field name="user_type" ref="account_type_dpasivo_acreedora"/>
+        <field name="name">FIJO</field>
+    </record>
+    
+    <record id="account_chart_general_53" model="account.account.template">
+        <field name="code">220-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_52"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_dpasivo_acreedora"/>
+        <field name="name">Acreedores Hipotecarios</field>
+    </record>
+    
+    <record id="account_chart_general_54" model="account.account.template">
+        <field name="code">221-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_52"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_dpasivo_acreedora"/>
+        <field name="name">Creditos Bancarios</field>
+    </record>
+    
+    <record id="account_chart_general_55" model="account.account.template">
+        <field name="code">000-0230</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_30"/>
+        <field name="type">view</field>
+        <field name="user_type" ref="account_type_dpasivo_acreedora"/>
+        <field name="name">DIFERIDO</field>
+    </record>
+    
+    <record id="account_chart_general_56" model="account.account.template">
+        <field name="code">230-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_55"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_dpasivo_acreedora"/>
+        <field name="name">Intereses cobrados por adelantado</field>
+    </record>
+    
+    <record id="account_chart_general_57" model="account.account.template">
+        <field name="code">000-0300</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_00"/>
+        <field name="type">view</field>
+        <field name="user_type" ref="account_type_fcapital_acreedora"/>
+        <field name="name">CAPITAL</field>
+    </record>
+    
+    <record id="account_chart_general_58" model="account.account.template">
+        <field name="code">000-0310</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_57"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_fcapital_acreedora"/>
+        <field name="name">Capital Social</field>
+    </record>
+    
+    <record id="account_chart_general_59" model="account.account.template">
+        <field name="code">000-0320</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_57"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_fcapital_acreedora"/>
+        <field name="name">Reserva Legal</field>
+    </record>
+    
+    <record id="account_chart_general_60" model="account.account.template">
+        <field name="code">000-0330</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_57"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_fcapital_acreedora"/>
+        <field name="name">Resultado Ejercicios Anteriores</field>
+    </record>
+    
+    <record id="account_chart_general_61" model="account.account.template">
+        <field name="code">000-0350</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_57"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_fcapital_acreedora"/>
+        <field name="name">Utilidades Retenidas</field>
+    </record>
+    
+    <record id="account_chart_general_62" model="account.account.template">
+        <field name="code">000-0400</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_00"/>
+        <field name="type">view</field>
+        <field name="user_type" ref="account_type_hresultados_acreedora"/>
+        <field name="name">RESULTADOS ACREDORAS</field>
+    </record>
+    
+    <record id="account_chart_general_63" model="account.account.template">
+        <field name="code">400-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_62"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_hresultados_acreedora"/>
+        <field name="name">Ventas</field>
+    </record>
+    
+    <record id="account_chart_general_64" model="account.account.template">
+        <field name="code">401-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_62"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_hresultados_acreedora"/>
+        <field name="name">Productos Financieros</field>
+    </record>
+    
+    <record id="account_chart_general_65" model="account.account.template">
+        <field name="code">402-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_62"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_hresultados_acreedora"/>
+        <field name="name">Venta Activos Fijos</field>
+    </record>
+    
+    <record id="account_chart_general_66" model="account.account.template">
+        <field name="code">403-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_62"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_hresultados_acreedora"/>
+        <field name="name">Ingresos Varios</field>
+    </record>
+    
+    <record id="account_chart_general_67" model="account.account.template">
+        <field name="code">404-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_62"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_hresultados_acreedora"/>
+        <field name="name">Intereses Cobrados</field>
+    </record>
+    
+    <record id="account_chart_general_68" model="account.account.template">
+        <field name="code">405-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_62"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Devoluciones sobre Ventas</field>
+    </record>
+    
+    <record id="account_chart_general_69" model="account.account.template">
+        <field name="code">406-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_62"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Descuentos sobre Ventas</field>
+    </record>
+    
+    <record id="account_chart_general_70" model="account.account.template">
+        <field name="code">000-0500</field>
+        <field name="reconcile" eval="False"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">RESULTADOS DEUDORAS</field>
+    </record>
+    
+    <record id="account_chart_general_71" model="account.account.template">
+        <field name="code">501-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_70"/>
+        <field name="type">view</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">GASTOS DE VENTA</field>
+    </record>
+    
+    <record id="account_chart_general_72" model="account.account.template">
+        <field name="code">501-0100</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_71"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Sueldos y Salarios</field>
+    </record>
+    
+    <record id="account_chart_general_73" model="account.account.template">
+        <field name="code">501-0200</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_71"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Gratificaciones</field>
+    </record>
+    
+    <record id="account_chart_general_74" model="account.account.template">
+        <field name="code">501-0300</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_71"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Indeminizaciones</field>
+    </record>
+    
+    <record id="account_chart_general_75" model="account.account.template">
+        <field name="code">501-0400</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_71"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Seguro Social (Cuota Patronal)</field>
+    </record>
+    
+    <record id="account_chart_general_76" model="account.account.template">
+        <field name="code">501-0500</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_71"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Depreciaciones</field>
+    </record>
+    
+    <record id="account_chart_general_77" model="account.account.template">
+        <field name="code">501-0600</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_71"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Amortizaciones</field>
+    </record>
+    
+    <record id="account_chart_general_78" model="account.account.template">
+        <field name="code">501-0700</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_71"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Primas de seguro</field>
+    </record>
+    
+    <record id="account_chart_general_79" model="account.account.template">
+        <field name="code">501-0800</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_71"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Luz</field>
+    </record>
+    
+    <record id="account_chart_general_80" model="account.account.template">
+        <field name="code">501-0900</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_71"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Impuestos</field>
+    </record>
+    
+    <record id="account_chart_general_81" model="account.account.template">
+        <field name="code">501-1000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_71"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Papelería y Utíles</field>
+    </record>
+    
+    <record id="account_chart_general_82" model="account.account.template">
+        <field name="code">501-1100</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_71"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Fletes y Acarreos</field>
+    </record>
+    
+    <record id="account_chart_general_83" model="account.account.template">
+        <field name="code">501-1200</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_71"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Transportes</field>
+    </record>
+    
+    <record id="account_chart_general_84" model="account.account.template">
+        <field name="code">501-1300</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_71"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Gastos Correos y Teléfonos</field>
+    </record>
+    
+    <record id="account_chart_general_85" model="account.account.template">
+        <field name="code">501-1400</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_71"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Gastos de Viaje</field>
+    </record>
+    
+    <record id="account_chart_general_86" model="account.account.template">
+        <field name="code">501-9100</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_71"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Partidas no Deducibes</field>
+    </record>
+    
+    <record id="account_chart_general_87" model="account.account.template">
+        <field name="code">501-9200</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_71"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Gastos Varios</field>
+    </record>
+    
+    <record id="account_chart_general_88" model="account.account.template">
+        <field name="code">502-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_70"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">GASTOS FINANCIEROS</field>
+    </record>
+    
+    <record id="account_chart_general_89" model="account.account.template">
+        <field name="code">503-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_70"/>
+        <field name="type">view</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">GASTOS ADMINISTRATIVOS</field>
+    </record>
+    
+    <record id="account_chart_general_90" model="account.account.template">
+        <field name="code">503-0100</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_89"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Sueldos y Salarios</field>
+    </record>
+    
+    <record id="account_chart_general_91" model="account.account.template">
+        <field name="code">503-0200</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_89"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Gratificaciones</field>
+    </record>
+    
+    <record id="account_chart_general_92" model="account.account.template">
+        <field name="code">503-0300</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_89"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Indeminizaciones</field>
+    </record>
+    
+    <record id="account_chart_general_93" model="account.account.template">
+        <field name="code">503-0400</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_89"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Seguro Social (Cuota Patronal)</field>
+    </record>
+    
+    <record id="account_chart_general_94" model="account.account.template">
+        <field name="code">503-0500</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_89"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Depreciaciones</field>
+    </record>
+    
+    <record id="account_chart_general_95" model="account.account.template">
+        <field name="code">503-0600</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_89"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Amortizaciones</field>
+    </record>
+    
+    <record id="account_chart_general_96" model="account.account.template">
+        <field name="code">503-0700</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_89"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Primas de seguro</field>
+    </record>
+    
+    <record id="account_chart_general_97" model="account.account.template">
+        <field name="code">503-0800</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_89"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Luz</field>
+    </record>
+    
+    <record id="account_chart_general_98" model="account.account.template">
+        <field name="code">503-0900</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_89"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Impuestos</field>
+    </record>
+    
+    <record id="account_chart_general_99" model="account.account.template">
+        <field name="code">503-1000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_89"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Papelería y Utíles</field>
+    </record>
+    
+    <record id="account_chart_general_100" model="account.account.template">
+        <field name="code">503-1100</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_89"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Gastos Legales</field>
+    </record>
+    
+    <record id="account_chart_general_101" model="account.account.template">
+        <field name="code">503-1200</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_89"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Transportes</field>
+    </record>
+    
+    <record id="account_chart_general_102" model="account.account.template">
+        <field name="code">503-1300</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_89"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Honorarios</field>
+    </record>
+    
+    <record id="account_chart_general_103" model="account.account.template">
+        <field name="code">503-1400</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_89"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Gastos Correos y Teléfonos</field>
+    </record>
+    
+    <record id="account_chart_general_104" model="account.account.template">
+        <field name="code">503-1500</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_89"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Gastos de Viaje</field>
+    </record>
+    
+    <record id="account_chart_general_105" model="account.account.template">
+        <field name="code">503-9100</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_89"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Partidas no Deducibles</field>
+    </record>
+    
+    <record id="account_chart_general_106" model="account.account.template">
+        <field name="code">503-9200</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_89"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Gastos Varios</field>
+    </record>
+    
+    <record id="account_chart_general_107" model="account.account.template">
+        <field name="code">504-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_70"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Costo Venta</field>
+    </record>
+    
+    <record id="account_chart_general_108" model="account.account.template">
+        <field name="code">505-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_70"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Compras</field>
+    </record>
+    
+    <record id="account_chart_general_109" model="account.account.template">
+        <field name="code">506-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_70"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Gastos sobre compras</field>
+    </record>
+    
+    <record id="account_chart_general_110" model="account.account.template">
+        <field name="code">507-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_70"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Costo de Venta Activos Fijos</field>
+    </record>
+    
+    <record id="account_chart_general_111" model="account.account.template">
+        <field name="code">508-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_70"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Devoluciones sobre Compra</field>
+    </record>
+    
+    <record id="account_chart_general_112" model="account.account.template">
+        <field name="code">509-0000</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="account_chart_general_70"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account_type_gresultados_deudora"/>
+        <field name="name">Descuentos sobre Compras</field>
+    </record>
+    
+<!--
+     Cuenta Template 
+-->
+     
+    <record id="akkadian_mx_chart_template" model="account.chart.template">
+        <field name="name">Plan de Cuentas Mexico GENERAL</field>
+        <field name="account_root_id" ref="account_chart_general_00"/>
+        <field name="tax_code_root_id" ref="vat_code_tax"/>
+        <field name="bank_account_view_id" ref="account_chart_general_05"/>
+        <field name="property_account_receivable" ref="account_chart_general_07"/>
+        <field name="property_account_payable" ref="account_chart_general_32"/>
+        <field name="property_account_expense_categ" ref="account_chart_general_32"/>
+        <field name="property_account_income_categ" ref="account_chart_general_32"/>
+        <field name="property_stock_account_input_categ" ref="account_chart_general_11"/>
+        <field name="property_stock_account_output_categ" ref="account_chart_general_11"/>
+    </record>
+   
+</data>
+</openerp>

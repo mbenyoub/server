@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+.openerp .oe_social_programs_image_ref {
+  margin: 0px;
+}
+
+.openerp .oe_social_programs_image_ref img {
+  margin-left:0px !important;
+  margin-top:0px !important;
+  max-height:200px;
+  max-width:400px;
+  min-height:100px;
+  min-width:100px;
+}

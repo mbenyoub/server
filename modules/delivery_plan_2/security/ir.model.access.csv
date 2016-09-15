@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_delivery_return_reason_fc,delivery.return.reason.fc,delivery_plan.model_delivery_return_reason,delivery_routes.group_delivery_user,1,1,1,1
+access_delivery_return_reason_cs,delivery.return.reason.cs,delivery_plan.model_delivery_return_reason,delivery_routes.group_customer_service_user,1,1,0,0
+access_delivery_config_settings_cs,delivery.config.settings.cs,delivery_plan.model_delivery_config_settings,,1,1,1,1
+access_delivery_config_settings_fc,delivery.config.settings.fc,delivery_plan.model_delivery_config_settings,,1,1,1,1
+access_delivery_priority_fc,delivery.priority.priority.fc,delivery_plan.model_delivery_priority,,1,1,1,1
+access_delivery_priority_cs,delivery.priority.priority.cs,delivery_plan.model_delivery_priority,,1,1,1,1
+access_delivery_route_paid_log_fc,delivery.route.paid.log.fc,delivery_plan.model_delivery_route_paid_log,,1,1,1,1
+access_delivery_route_paid_log_cs,delivery.route.paid.log.cs,delivery_plan.model_delivery_route_paid_log,,1,1,1,1

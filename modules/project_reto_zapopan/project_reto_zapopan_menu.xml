@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+        <!--
+            Da acceso al menu de proyectos solo a los evaluadores
+        -->
+        <menuitem name="Proyectos" id="base.menu_main_pm" sequence="40" groups="base.group_project_reto_zapopan_eval"/>
+        
+        <record id="base.menu_main_pm" model="ir.ui.menu">
+            <field name="groups_id" eval="[(3,ref('project.group_project_user'))]"/>
+        </record>
+        
+        <!--
+            Quita el menuitem contactos de la mensajeria
+        -->
+        <delete model="ir.ui.menu" id="contacts.menu_contacts"/>
+        
+        <!--
+            Modifica permisos del modelo de recursos humanos
+        -->
+        <menuitem name="Recursos Humanos" id="hr.menu_hr_root" sequence="85" groups="base.group_hr_user,base.group_hr_manager"/>
+        
+        <!--
+            Menu principal
+        -->
+        <menuitem name="Reto Zapopan" id="base.menu_base_contact" sequence="15" groups="base.group_project_reto_zapopan_user"/>
+        
+        <!-- Contactos -->
+        <menuitem id="base.menu_contact" parent="base.menu_base_contact" name="Contacto" sequence="1" />
+            <menuitem id="menu_partner_form" name="Contactos" parent="base.menu_contact" action="action_partner_form" sequence="10" groups="base.group_project_reto_zapopan_eval" />
+            <!-- Contactos para emprendedor y consultor -->
+            <menuitem id="menu_partner_form_edit" name="Informacion Personal" parent="base.menu_contact" action="action_partner_edit_form_view" sequence="5" groups="base.group_project_reto_zapopan_emp,base.group_project_reto_zapopan_con,base.group_project_reto_zapopan_eval" />
+            <menuitem id="menu_partner_form_read" name="Buscar Contactos" parent="base.menu_contact" action="action_partner_form_read_view" sequence="6" groups="base.group_project_reto_zapopan_emp,base.group_project_reto_zapopan_con" />
+        
+        <!-- Perfiles de Consultoria -->
+        <menuitem id="base.menu_contact" parent="base.menu_base_contact" name="Contacto" sequence="5" />
+            <menuitem id="menu_partner_form" name="Contactos" parent="base.menu_contact" action="action_partner_form" sequence="10" groups="base.group_project_reto_zapopan_eval" />
+        
+        <!-- Proyectos -->
+        <menuitem id="menu_contact_project" parent="base.menu_base_contact" name="Proyectos" sequence="15" />
+            <menuitem id="menu_contact_proyect" name="Proyectos" parent="menu_contact_project" action="project.open_view_project_all" sequence="5" groups="base.group_project_reto_zapopan_eval" />
+            <menuitem id="menu_contact_proyect2" name="Proyectos" parent="menu_contact_project" action="project.open_view_project_all2" sequence="6" groups="base.group_project_reto_zapopan_con" />
+            <menuitem id="menu_contact_proyect3" name="Proyectos" parent="menu_contact_project" action="project.open_view_project_all3" sequence="7" groups="base.group_project_reto_zapopan_emp" />
+            <menuitem id="menu_contact_proyect_phases" name="Fases" parent="menu_contact_project" action="project_long_term.act_project_phase" sequence="10" groups="base.group_project_reto_zapopan_eval" />
+            <menuitem id="menu_contact_proyect_phases2" name="Fases" parent="menu_contact_project" action="act_project_phase_list" sequence="11" groups="base.group_project_reto_zapopan_emp" />
+            <menuitem id="menu_contact_proyect_tasks" name="Tareas" parent="menu_contact_project" action="project.action_view_task" sequence="15" groups="base.group_project_reto_zapopan_eval" />
+            <menuitem id="menu_contact_proyect_tasks2" name="Tareas" parent="menu_contact_project" action="action_view_task" sequence="16" groups="base.group_project_reto_zapopan_emp" />
+        
+        <!-- Mueve de lugar las reuniones al apartado de ventas-->
+        <menuitem name="Reuniones" id="contact_menu_meeting" parent="base.menu_base_contact" sequence="22" />
+            <menuitem name="Calendario" id="base_calendar.mail_menu_calendar" parent="contact_menu_meeting" sequence="14" action="base_calendar.action_crm_meeting"/>
+        
+        <!-- Llamadas -->
+        <menuitem name="Llamadas telefonicas" id="menu_contact_crm_case_phone_rz" parent="base.menu_base_contact" sequence="25" groups="base.group_project_reto_zapopan_emp,base.group_project_reto_zapopan_eval"/>
+            <menuitem name="Llamadas planificadas" id="menu_contact_crm_case_phone_outbound" parent="menu_contact_crm_case_phone_rz" action="project_crm_case_categ_phone_outgoing0" />
+            <menuitem name="Llamadas registradas" id="menu_contact_crm_case_phone_inbound" parent="menu_contact_crm_case_phone_rz" action="project_crm_case_categ_phone_incoming0" />
+        
+        <!-- Actividades -->
+        <menuitem name="Actividades" id="menu_contact_activity" parent="base.menu_base_contact" sequence="30" />
+            <menuitem name="Notas" id="menu_contact_activity_notes" action="note.action_note_note" parent="menu_contact_activity" sequence="2" />
+            <!-- Menu Task log -->
+            <menuitem action="action_project_log_project_view" name="Bitacora Proyecto" id="menu_action_contact_log_project" parent="menu_contact_activity" sequence="2" groups="base.group_project_reto_zapopan_con,base.group_project_reto_zapopan_eval"/>
+            <menuitem action="action_project_log_meeting_view" name="Bitacora de Reuniones" id="menu_action_contact_log_meeting" parent="menu_contact_activity" sequence="3" groups="base.group_project_log_meeting"/>
+            <menuitem action="action_project_valid_log_meeting_view2" name="Bitacora de reuniones de consultoria" id="menu_action_concat_valid_log_meeting" parent="menu_contact_activity" sequence="4" groups="base.group_project_log_meeting"/>
+            <menuitem action="action_project_valid_log_meeting_view3" name="Bitacora de reuniones" id="menu_action_concat_valid_log_meeting2" parent="menu_contact_activity" sequence="6" groups="base.group_project_reto_zapopan_con"/>
+            <menuitem action="action_task_work" name="Bitacora del emprendedor" id="menu_action_contact_task_work" parent="menu_contact_activity" sequence="10" groups="base.group_project_reto_zapopan_emp,base.group_project_reto_zapopan_eval"/>
+            <menuitem action="action_project_valid_log_meeting_view" name="Validar consultoria de reuniones" id="menu_action_contact_valid_log_meeting" parent="menu_contact_activity" sequence="15" groups="base.group_project_log_meeting_validate"/>
+            
+        <!-- Evaluaciones -->
+        <menuitem id="menu_contact_evaluation" parent="base.menu_base_contact" name="Evaluaciones" sequence="40" groups="base.group_project_reto_zapopan_eval"/>
+            <menuitem id="menu_contact_evaluation_project" parent="menu_contact_evaluation" name="Proyecto" sequence="10" />
+                <menuitem action="project_evaluation.action_evaluation_evaluation_project" id="menu_contact_evaluation_project_project" parent="menu_contact_evaluation_project" sequence="10" groups="base.group_project_reto_zapopan_eval"/>
+                <menuitem action="project_evaluation.action_evaluation_project_project" id="menu_contact_project_project" parent="menu_contact_evaluation_project" sequence="25" groups="base.group_project_reto_zapopan_eval"/>
+            <menuitem id="menu_contact_evaluation_partner" parent="menu_contact_evaluation" name="Emprendedor" sequence="20" />
+                <menuitem action="project_evaluation.action_evaluation_evaluation_partner" id="menu_contact_evaluation_partner_partner" parent="menu_contact_evaluation_partner" sequence="15" groups="base.group_project_reto_zapopan_eval"/>
+                <menuitem action="project_evaluation.action_evaluation_project_partner" id="menu_contact_project_partner" parent="menu_contact_evaluation_partner" sequence="30" groups="base.group_project_reto_zapopan_eval"/>
+            
+        <!--
+            Configuracion
+        -->
+                
+        <menuitem id="base.menu_base_contact_config" parent="base.menu_base_contact" name="Configuracion" sequence="99" groups="base.group_system"/>       
+            <menuitem id="menu_contact_config_address_book" parent="base.menu_base_contact_config" name="Libreta de Direcciones" sequence="40" groups="base.group_system"/>
+                <menuitem action="base.action_partner_title_contact" id="menu_partner_title_contact" name="Titulos de contacto" parent="menu_contact_config_address_book" sequence="3" groups="base.group_no_one"/>
+                <menuitem action="base.action_partner_category_form" id="menu_partner_category_form" name="Etiquetas de empresa" sequence="4" parent="menu_contact_config_address_book" groups="base.group_no_one"/>
+                <menuitem action="base.action_partner_title_partner" id="menu_partner_title_partner" name="Titulos" parent="menu_contact_config_address_book" sequence="2" groups="base.group_no_one"/>
+                
+        <menuitem id="base.menu_localisation" name="Localizacion" parent="menu_contact_config_address_book" sequence="1" groups="base.group_no_one"/>
+        <menuitem action="action_sector" id="menu_sector_partner" parent="base.menu_base_contact_config" sequence="50" groups="base.group_no_one"/>
+
+    </data>
+</openerp>

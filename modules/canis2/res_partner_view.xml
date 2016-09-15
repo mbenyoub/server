@@ -1,0 +1,166 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+        <record model="ir.ui.view" id="res_partner_view_inherit">
+            <field name="name">res.partner.view.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="priority" eval="23"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/group" position="replace"/>
+                <!--<xpath expr="/form/sheet/div/group[@name='group-accounting']" position="replace"/>-->
+                <!--<group name="group-accounting" position="replace"/>-->
+                <field name="parent_id" position="after">
+                    <field name="partner_type_id" placeholder="Tipo cliente"/>
+                </field>
+                <page string="Contacts" position="before">
+                    <page string="Informacion General" name="partner_data">
+                        <group>
+                            <group>
+                                <field name="id" invisible="1"/>
+                                <label for="type" attrs="{'invisible': [('parent_id','=', False)]}" modifiers="{'invisible': [('parent_id', '=', false)]}"/>
+                                <div attrs="{'invisible': [('parent_id','=', False)]}" name="div_type" modifiers="{'invisible': [('parent_id', '=', false)]}">
+                                    <field class="oe_inline" name="type" modifiers="{}" />
+                                </div>
+                                <label for="street" string="Direccion"/>
+                                <div>
+                                    <field name="use_parent_address" class="oe_edit_only oe_inline" on_change="onchange_address(use_parent_address, parent_id)" attrs="{'invisible': [('parent_id','=', False),('use_parent_address','=',False)]}" modifiers="{'invisible': [('parent_id', '=', false), ('use_parent_address', '=', false)]}"/>
+                                    <label for="use_parent_address" class="oe_edit_only" attrs="{'invisible': [('parent_id','=', False),('use_parent_address','=',False)]}" modifiers="{'invisible': [('parent_id', '=', false), ('use_parent_address', '=', false)]}"/>
+                                    <button name="open_parent" type="object" string="(editar direccion de la compañia)" class="oe_link oe_edit_only" attrs="{'invisible': ['|',('parent_id','=', False),('use_parent_address','=',False)]}" modifiers="{'invisible': ['|', ('parent_id', '=', false), ('use_parent_address', '=', false)]}"/>
+                                    <field name="street" required="1" placeholder="Calle..." attrs="{'readonly': ['|',('use_parent_address','=',True)]}" modifiers="{'readonly': ['|',('use_parent_address', '=', true)]}"/>
+                                    <field name="l10n_mx_street3" required="1" placeholder="No. Exterior..." style="width: 48%%" attrs="{'readonly':[('use_parent_address','=',True)]}"/>
+                                    <field name="l10n_mx_street4" placeholder="No. Interior..."  style="width: 50%%" attrs="{'readonly':[('use_parent_address','=',True)]}"/>
+                                    <field name="street2" required="1" placeholder="Colonia.." attrs="{'readonly': ['|',('use_parent_address','=',True)]}" modifiers="{'readonly': ['|',('use_parent_address', '=', true)]}"/>
+                                    <div class="address_format">
+                                        <field name="city" required="1" placeholder="Ciudad" style="width: 40%%" attrs="{'readonly': ['|',('use_parent_address','=',True)]}" modifiers="{'readonly': [('use_parent_address', '=', true)]}"/>
+                                        <field name="state_id" required="1" class="oe_no_button" placeholder="Estado" style="width: 37%%" options="{'no_open': True}" on_change="onchange_state(state_id)" attrs="{'readonly': ['|',('use_parent_address','=',True)]}" modifiers="{'readonly': [('use_parent_address', '=', true)]}"/>
+                                        <field name="zip" required="1" placeholder="C.P." style="width: 20%%" attrs="{'readonly': ['|',('use_parent_address','=',True)]}" modifiers="{'readonly': [('use_parent_address', '=', true)]}"/>
+                                    </div>
+                                    <field name="l10n_mx_city2" required="1" placeholder="Delegacion" attrs="{'readonly':[('use_parent_address','=',True)]}"/>
+                                    <field name="country_id" required="1" placeholder="Pais" class="oe_no_button" options="{'no_open': True}" attrs="{'readonly': ['|',('use_parent_address','=',True)]}" modifiers="{'readonly': [('use_parent_address', '=', true)(]}"/>
+                                    <field name="region" placeholder="Region" class="oe_no_button" attrs="{'readonly': ['|',('use_parent_address','=',True)]}" modifiers="{'readonly': [('use_parent_address', '=', true)(]}"/>
+                                    <field name="zm" placeholder="ZM" class="oe_no_button" attrs="{'readonly': ['|',('use_parent_address','=',True)]}" modifiers="{'readonly': [('use_parent_address', '=', true)(]}"/>
+                                    <field name="property_delivery_zone" placeholder="Zona" class="oe_no_button" attrs="{'readonly': ['|',('use_parent_address','=',True)]}" modifiers="{'readonly': [('use_parent_address', '=', true)(]}"/>
+                                    <field name="route" placeholder="Ruta" class="oe_no_button" attrs="{'readonly': ['|',('use_parent_address','=',True)]}" modifiers="{'readonly': [('use_parent_address', '=', true)(]}"/>
+                                </div>
+                                <field name="website" widget="url" placeholder="Por ejemplo, www.openerp.com" modifiers="{}" />
+                            </group>
+                            <group>
+                                <field name="code" modifiers="{}" />
+                                <field name="function" placeholder="Por ejemplo, Director de ventas" attrs="{'invisible': [('is_company','=', True)], 'required': [('is_company','=',False)]}" modifiers="{'invisible': [('is_company', '=', true)], 'required': [('is_company','=',False)]}"/>
+                                <field name="phone" placeholder="Por ejemplo, +32.81.81.37.00" modifiers="{}" />
+                                <field name="mobile" modifiers="{}" />
+                                <field name="fax" modifiers="{}" />
+                                <field name="email" widget="email" modifiers="{}" />
+                                <field name="title" invisible="1" domain="[('domain', '=', 'contact')]" options="{'no_open': True}" attrs="{'invisible': [('is_company','=', True)]}" modifiers="{'invisible': [('is_company', '=', true)]}"/>
+                            </group>
+                        </group>
+                        <!--<div>-->
+                        <!--    <group name="group-accounting">-->
+                        <!--        <group colspan="2" col="2">-->
+                        <!--            <field string="Regimen Fiscal" name="regimen_fiscal_id" style="width: 40%%" groups="account.group_account_invoice"/>-->
+                        <!--            <field string="RFC" name="rfc" style="width: 40%%" on_change="onchange_rfc(rfc,context)" groups="account.group_account_invoice"/>-->
+                        <!--        </group>-->
+                        <!--    </group>-->
+                        <!--</div>-->
+                    </page>
+                </page>
+                <field name="credit_limit" position="after">
+                    <field name="credit_available"/>
+                </field>
+                <field name="section_id" position="after">
+                    <field name="branch_id"/>
+                </field>
+                <field name="title" position="after">
+                    <field name="journal_id" required="1" widget="selection" domain="[('type','=','sale')]"/>
+                </field>
+                <field name="parent_id" position="attributes">
+                    <attribute name="on_change">onchange_branch_id(parent_id,user_id)</attribute>
+                </field>
+                <field name="function" position="attributes">
+                    <attribute name="attrs">{'invisible': [('is_company','=', True)], 'required': [('is_company','=',False)]}</attribute>
+                    <attribute name="modifiers">{'invisible': [('is_company','=', True)], 'required': [('is_company','=',False)]}</attribute>
+                </field>
+                <field name="user_id" position="attributes">
+                    <attribute name="string">Ejecutivo de cuenta</attribute>
+                    <attribute name="on_change">onchange_branch_id(parent_id,user_id)</attribute>
+                </field>
+                <field name="child_ids" position="attributes">
+                    <attribute name="context">{'default_parent_id': active_id, 'default_street': street, 'default_street2': street2, 'default_city': city, 'default_state_id': state_id, 'default_zip': zip, 'default_country_id': country_id, 'default_supplier': supplier, 'default_use_parent_address': True, 'default_type': 'contact'}</attribute>
+                </field>
+                <xpath expr="//field[@name='child_ids']/form/sheet/group/field[@name='function']" position="attributes">
+                    <attribute name="required">1</attribute>
+                </xpath>
+                
+                <xpath expr="//notebook/page[1]/group[1]/group[1]/label[@for='street']" position="before">
+                    <field name="type"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="view_res_partner_filter_inherit" model="ir.ui.view">
+            <field name="name">res.partner.select.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="after">
+                    <field name="branch_id"/>
+                </field>
+                <xpath expr="//filter[@help='My Partners']" position="after">
+                    <filter icon="terp-gtk-go-back-rtl" string="Mi sucursal" name="filter_branch_id" domain="[('branch_id.branch_user_ids','in',(uid))]"/>
+                </xpath>
+                <filter string="Salesperson" position="before">
+                    <filter string="Acceso" icon="terp-personal" domain="[]" context="{'group_by':'branch_id'}"/>
+                </filter>
+            </field>
+        </record>
+        
+        <record id="base.action_partner_form" model="ir.actions.act_window">
+            <field name="name">Clientes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{"search_default_customer":1}</field>
+            <field name="domain">['|',('branch_id.user_ids','in',(uid)),('branch_id','=',False)]</field>
+            <field name="search_view_id" ref="base.view_res_partner_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a contact in your address book.
+              </p><p>
+                OpenERP helps you easily track all activities related to
+                a customer; discussions, history of business opportunities,
+                documents, etc.
+              </p>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_partner_tree_inherit">
+            <field name="name">res.partner.tree.view.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree" />
+            <field name="priority" eval="19"/>
+            <field name="arch" type="xml">
+                <field name="parent_id" position="after">
+                    <field name="branch_id" invisible="1"></field>
+                </field>
+            </field>
+        </record>
+        
+        
+        <!-- Partner kanban view inherit -->
+        <record model="ir.ui.view" id="res_partner_kanban_view_inherit">
+            <field name="name">res.partner.kanban.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+            <field name="priority" eval="17"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='oe_kanban_details']/ul[@name='balance']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

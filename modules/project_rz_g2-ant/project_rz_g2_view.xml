@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+        <!--
+            Modificacion de Menus de consultoria
+        -->
+        
+        <!-- Etapas de Especialidades -->
+        <delete model="ir.ui.menu" id="project_reto_zapopan.menu_partner_evaluation_category"/>
+        <menuitem id="project_reto_zapopan.menu_partner_evaluation_category" action="project_reto_zapopan.action_partner_evaluation_category" name="Especialidades" sequence="10" parent="base.menu_config_contact_evaluation" groups=""/>
+        
+        <!-- Etapas de Subespecialidades -->
+        <delete model="ir.ui.menu" id="project_reto_zapopan.menu_partner_evaluation_template"/>
+        <menuitem id="project_reto_zapopan.menu_partner_evaluation_template" action="project_reto_zapopan.action_partner_evaluation_template" name="Subespecialidades" sequence="15" parent="base.menu_config_contact_evaluation" groups=""/>
+        
+        <!--
+            Modificacion de Menus de Tareas a Entregables
+        -->
+        
+        <!-- Etapas de Tarea -->
+        <delete model="ir.ui.menu" id="project.menu_task_types_view"/>
+        <menuitem id="project.menu_task_types_view" action="project.open_task_type_form" name="Etapas de Entregable" sequence="2" parent="base.menu_project_config_project" groups=""/>
+        
+        <!-- Tareas -->
+        <delete model="ir.ui.menu" id="project.menu_action_view_task"/>
+        <menuitem id="project.menu_action_view_task" action="project.action_view_task" name="Entregables" sequence="5" parent="project.menu_project_management" groups=""/>
+        
+        <!-- Análisis tareas -->
+        <delete model="ir.ui.menu" id="project.menu_project_task_user_tree"/>
+        <menuitem id="project.menu_project_task_user_tree" action="project.action_project_task_user_tree" name="Analisis Entregables" sequence="10" parent="base.menu_project_report" groups=""/>
+        
+        <!-- Calcular planificación de tareas -->
+        <delete model="ir.ui.menu" id="project_long_term.menu_compute_tasks"/>
+        <menuitem id="project_long_term.menu_compute_tasks" action="project_long_term.action_project_compute_tasks" name="Calcular planificación de Entregables" sequence="10" parent="project_long_term.menu_phase_schedule" groups="project.group_project_manager"/>
+        
+        <!-- Tareas (Reto Zapopan) -->
+        <delete model="ir.ui.menu" id="project_reto_zapopan.menu_contact_proyect_tasks"/>
+        <menuitem id="project_reto_zapopan.menu_contact_proyect_tasks" action="project.action_view_task" name="Entregables" sequence="15" parent="project_reto_zapopan.menu_contact_project" groups="base.group_project_reto_zapopan_eval"/>
+        
+        <!-- Tareas (Reto Zapopan) -->
+        <delete model="ir.ui.menu" id="project_reto_zapopan.menu_contact_proyect_tasks2"/>
+        <menuitem id="project_reto_zapopan.menu_contact_proyect_tasks2" action="project_reto_zapopan.action_view_task" name="Entregables" sequence="16" parent="project_reto_zapopan.menu_contact_project" groups="base.group_project_reto_zapopan_emp"/>
+        
+        <!--
+            Eliminar llamadas del menu de reto zapopan
+        -->
+        
+        <!-- Menus de llamadas sobre Reto Zapopan -->
+        <delete model="ir.ui.menu" id="project_reto_zapopan.menu_contact_crm_case_phone_rz"/>
+        <delete model="ir.ui.menu" id="project_reto_zapopan.menu_contact_crm_case_phone_outbound"/>
+        <delete model="ir.ui.menu" id="project_reto_zapopan.menu_contact_crm_case_phone_inbound"/>
+        
+        <!--
+            Menu configuracion evaluaciones
+        -->
+        
+        <!-- Configuracion Evaluaciones -->
+        <menuitem id="base.menu_base_contact_config_evaluation_rz" name="Evaluaciones" parent="base.menu_base_contact_config" sequence="85"/>
+        <menuitem action="project_evaluation.action_evaluation_category" id="menu_evaluation_category_partner_rz" parent="base.menu_base_contact_config_evaluation_rz" sequence="10" groups="base.group_project_evaluation_eval"/>
+        <menuitem action="project_evaluation.action_evaluation_template" id="menu_evaluation_template_partner_rz" parent="base.menu_base_contact_config_evaluation_rz" sequence="15" groups="base.group_project_evaluation_eval"/>
+    
+        <!--
+            Elimina menus de bitacora
+        -->
+        
+        <delete model="ir.ui.menu" id="project_reto_zapopan.menu_action_contact_log_meeting"/>
+        <delete model="ir.ui.menu" id="project_reto_zapopan.menu_action_project_valid_log_meeting"/>
+        <delete model="ir.ui.menu" id="project_reto_zapopan.menu_action_concat_valid_log_meeting"/>
+        <delete model="ir.ui.menu" id="project_reto_zapopan.menu_action_contact_valid_log_meeting"/>
+        <delete model="ir.ui.menu" id="project_reto_zapopan.menu_action_concat_valid_log_meeting2"/>
+        <delete model="ir.ui.menu" id="project_reto_zapopan.menu_action_contact_task_work"/>
+        <delete model="ir.ui.menu" id="project_reto_zapopan.menu_action_project_log_meeting"/>
+        
+        <!--
+            Eliminar menus de Informes
+        -->
+        
+        <!-- Menus de llamadas sobre Reto Zapopan -->
+        <delete model="ir.ui.menu" id="base.next_id_64"/>
+        <delete model="ir.ui.menu" id="crm.menu_report_crm_leads_tree"/>
+        <delete model="ir.ui.menu" id="crm.menu_report_crm_opportunities_tree"/>
+        <delete model="ir.ui.menu" id="crm.menu_report_crm_phonecalls_tree"/>
+        <delete model="ir.ui.menu" id="project.menu_project_task_user_tree"/>
+        <delete model="ir.ui.menu" id="crm.menu_board_statistics_dash"/>
+        <delete model="ir.ui.menu" id="project.menu_project_dashboard"/>
+        <delete model="ir.ui.menu" id="hr.menu_hr_dashboard"/>
+        
+        <!--
+            Agrega menus a usuario de Reto Zapopan
+        -->
+        
+        <!-- Contactos-->
+        <record id="project_reto_zapopan.menu_partner_form" model="ir.ui.menu">
+            <field name="groups_id" eval="[
+                    (4,ref('base.group_project_reto_zapopan_view'))]"/>
+        </record>
+        <!-- Informacion personal-->
+        <record id="project_reto_zapopan.menu_partner_form_edit" model="ir.ui.menu">
+            <field name="groups_id" eval="[
+                    (4,ref('base.group_project_reto_zapopan_view'))]"/>
+        </record>
+        <!-- Bitacora de proyecto -->
+        <record id="project_reto_zapopan.menu_action_contact_log_project" model="ir.ui.menu">
+            <field name="groups_id" eval="[
+                    (3,ref('base.group_project_reto_zapopan_con')),
+                    (4,ref('base.group_project_reto_zapopan_view'))]"/>
+        </record>
+        <!-- Proyectos -->
+        <record id="project_reto_zapopan.menu_contact_proyect2" model="ir.ui.menu">
+            <field name="groups_id" eval="[
+                    (4,ref('base.group_project_reto_zapopan_view'))]"/>
+        </record>
+        <!-- Fases -->
+        <menuitem id="menu_contact_proyect_tasks_rz" action="act_project_phase_view" name="Fases" sequence="10" parent="project_reto_zapopan.menu_contact_project" groups="base.group_project_reto_zapopan_view"/>
+        <!-- Entregables -->
+        <record id="project_reto_zapopan.menu_contact_proyect_tasks" model="ir.ui.menu">
+            <field name="groups_id" eval="[
+                    (4,ref('base.group_project_reto_zapopan_view'))]"/>
+        </record>
+        
+        <!--
+            Oculta menus de sistema
+        -->
+        
+        <!-- Quitar grupos que no se necesitan menu de Recursos Humanos-->
+        <record id="hr.menu_hr_root" model="ir.ui.menu">
+            <field name="groups_id" eval="[(3,ref('base.group_user'))]"/>
+        </record>
+        <!-- Quitar grupos que no se necesitan menu de Proyectos y agrega uno nuevo-->
+        <record id="base.menu_main_pm" model="ir.ui.menu">
+            <field name="groups_id" eval="[
+                    (3,ref('base.group_project_reto_zapopan_eval')),
+                    (3,ref('project.group_project_manager')),
+                    (4,ref('base.group_project_reto_zapopan_project'))]"/>
+        </record>
+        <!-- Agrega grupos para menu informes-->
+        <record id="base.menu_reporting" model="ir.ui.menu">
+            <field name="groups_id" eval="[
+                    (3,ref('base.group_user')),
+                    (4,ref('base.group_project_reto_zapopan_reporting'))]"/>
+        </record>
+        <!-- Agrega grupos para submenu configuracion de Reto Zapopan-->
+        <record id="base.menu_base_contact_config" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4,ref('base.group_project_reto_zapopan_config'))]"/>
+        </record>
+        
+        <!--
+            Elimina menu de calendario de actividades
+        -->
+        
+        <delete model="ir.ui.menu" id="project_reto_zapopan.mail_menu_calendar_activity"/>
+        <delete model="ir.ui.menu" id="project_reto_zapopan.mail_menu_calendar_activity2"/>
+        
+    </data>
+</openerp>

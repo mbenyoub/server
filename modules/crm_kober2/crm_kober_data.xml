@@ -1,0 +1,52 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data noupdate="1">
+        
+        <!--
+            Webservice Control
+        -->
+        
+        <record id="ws_control_table_1" model="crm.kober.ws.control">
+            <field name="ws_name">Cte</field>
+            <field name="ws_cve">Cte</field>
+            <field name="ws_number">1</field>
+            <field name="ws_update">True</field>
+        </record>
+        <record id="ws_control_table_2" model="crm.kober.ws.control">
+            <field name="ws_name">CteCto</field>
+            <field name="ws_cve">CteCto</field>
+            <field name="ws_number">1</field>
+            <field name="ws_update">True</field>
+        </record>
+        <record id="ws_control_table_3" model="crm.kober.ws.control">
+            <field name="ws_name">CteEnviarA</field>
+            <field name="ws_cve">CteEnviarA</field>
+            <field name="ws_number">1</field>
+            <field name="ws_update">True</field>
+        </record>
+        <record id="ws_control_table_4" model="crm.kober.ws.control">
+            <field name="ws_name">Art</field>
+            <field name="ws_cve">Art</field>
+            <field name="ws_number">1</field>
+            <field name="ws_update">True</field>
+        </record>
+        <record id="ws_control_table_5" model="crm.kober.ws.control">
+            <field name="ws_name">Venta</field>
+            <field name="ws_cve">Venta</field>
+            <field name="ws_number">1</field>
+            <field name="ws_update">True</field>
+        </record>
+        <record id="ws_control_table_6" model="crm.kober.ws.control">
+            <field name="ws_name">Ventad</field>
+            <field name="ws_cve">Ventad</field>
+            <field name="ws_number">1</field>
+        </record>
+        <record id="ws_control_table_7" model="crm.kober.ws.control">
+            <field name="ws_name">ListaPreciosD</field>
+            <field name="ws_cve">ListaPreciosD</field>
+            <field name="ws_number">1</field>
+            <field name="ws_update">True</field>
+        </record>
+
+    </data>
+</openerp>

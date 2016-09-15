@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="pos_order_return_memory_form" model="ir.ui.view">
+            <field name="name">pos.order.return.memory.form</field>
+            <field name="model">pos.order.return.memory</field>
+            <field name="arch" type="xml">
+                <form string="Return Picking Memory" version="7.0">
+                    <group col="4">
+                        <field name="product_id" />
+                        <!--<field name="prodlot_id" groups="stock.group_production_lot"/>-->
+                        <field name="quantity" />
+                    </group>
+                 </form>
+            </field>
+        </record> 
+        <record id="view_pos_order_return_form" model="ir.ui.view">
+            <field name="name">Return lines</field>
+            <field name="model">pos.order.return</field>
+            <field name="arch" type="xml">
+                <form string="Lineas de devolucion" version="7.0">
+                    <label string="Proporcionando la cantidad de producto a devolver"/>
+                    <group>
+                        <field name="pos_order_moves">
+                            <tree editable="botom" create="0">
+                                <field name="product_id" readonly="1"/>
+                                <field name="quantity"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <footer>
+                        <button name="create_returns" string="Devolver" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>

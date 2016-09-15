@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+        
+        <!--MODIFICACION 09/04/2015-->
+        <record model="ir.ui.view" id="stock_picking_in_form_inherit">
+            <field name="name">stock.picking.form.inherit</field>
+            <field name="model">stock.picking.in</field>
+            <field name="inherit_id" ref="akk_back_v1.stock_picking_in_form_inherit"/>
+            <field name="priority" eval="200"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[1]/field[@name='move_lines']/tree" position="inside">
+                    <field name="picking_state" invisible='1'/>
+                    <field name="weight_in" attrs="{'invisible': [('to_weight_product', '=', False)]}"/>
+                    <field name="weight_out" attrs="{'invisible': [('to_weight_product', '=', False)]}"/>
+                    <field name="weight_difference"
+                        attrs="{'invisible': [('to_weight_product', '=', False)]}"/>
+                    <field name="weight_real_order"
+                        attrs="{'invisible': ['|',('to_weight_product', '=', False),
+                                            ('picking_state', 'in', ['done'])]}"/>
+                    <field name="to_weight_product" invisible="True"/>
+                </xpath>
+                <!---MODIFICACION 15/04/2015-->
+                <!--Agregacion del atributo 'groups' al boton 'button_allow'-->
+                <xpath expr="//header/button[@name='action_process']" position="after">
+                    <button name="button_allow" type="object" string="Autorizar" class="oe_highlight"
+                        groups="stock.group_stock_manager"
+                        attrs="{'invisible': [('state', 'not in', ['allow'])]}"/>
+                </xpath>
+                
+                <!--MODIFICACION 16/04/2015-->
+                <!--Agregacion de atributo 'class' al tree del campo 'move_lines'-->
+                <xpath expr="//field[@name='move_lines']" position="attributes">
+                    <attribute name="class">oe_view oe_list</attribute>
+                </xpath>
+            </field>
+        </record>        
+
+    </data>
+</openerp>

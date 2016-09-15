@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+<!--
+        CONTABILIDAD
+-->
+        <!-- Borra los menuitem para que deje cambiar los nombres de las traducciones -->
+        <delete model="ir.ui.menu" id="account_voucher.menu_action_vendor_receipt"/>
+        <delete model="ir.ui.menu" id="account_voucher.menu_action_vendor_payment"/>
+        <delete model="ir.ui.menu" id="account.menu_action_invoice_tree3"/>
+        <delete model="ir.ui.menu" id="account.menu_action_invoice_tree4"/>
+        <delete model="ir.ui.menu" id="account.menu_bank_statement_tree"/>
+        
+        <!-- Modificacion menu conciliacion bancaria -->
+        <menuitem id="account.menu_bank_statement_tree" action="account.action_bank_statement_tree" name="Conciliacion Bancaria" parent="account.menu_finance_bank_and_cash" sequence="7"/>
+        
+        <!-- Modificacion de menu cobros y pagos -->
+        <menuitem id="account_voucher.menu_action_vendor_receipt" name="Cobros" parent="account.menu_finance_receivables" action="account_voucher.action_vendor_receipt" sequence="12" />
+        <menuitem id="account_voucher.menu_action_vendor_payment" name="Pagos" parent="account.menu_finance_payables" action="account_voucher.action_vendor_payment" sequence="12" />
+    
+        <!-- Modificacion de menu Nota de credito -->
+        <menuitem id="account.menu_action_invoice_tree3" name="Notas de crédito cliente" parent="account.menu_finance_receivables" action="account.action_invoice_tree3" sequence="10" />
+        <menuitem id="account.menu_action_invoice_tree4" name="Notas de crédito proveedor" parent="account.menu_finance_payables" action="account.action_invoice_tree4" sequence="10" />
+        
+        <!-- Menu - Contabilidad/Configuracion/Contabilidad Fiscal -->
+        <menuitem name="Contabilidad Fiscal" id="account.menu_account_fiscal_configuration" parent="account.menu_finance_configuration" sequence="2"/>
+        
+        <!-- Menu - Contabilidad/Informes/Contabilidad Fiscal -->
+        <menuitem name="Contabilidad Fiscal" id="account.menu_account_fiscal_report" parent="account.menu_finance_reports" sequence="120"/>
+        
+        <!-- Menu - Contabilidad/Contabilidad Fiscal -->
+        <menuitem name="Contabilidad Fiscal" id="account.menu_account_fiscal" parent="account.menu_finance" sequence="10"/>
+
+<!--
+        CONTABILIDAD FISCAL
+-->
+        <!-- Menu - Contabilidad Fiscal -->
+        <menuitem name="Contabilidad Fiscal" id="account.menu_fiscal_accounting" sequence="52" groups="base.group_account_fiscal_menu"/>
+        
+            <!-- Menu - Contabilidad Fiscal/ Ingresos/Egresos -->
+            <!--<menuitem name="Ingresos/Egresos" id="account.menu_fiscal_accounting_income" parent="account.menu_fiscal_accounting" sequence="10"/>-->
+                <!-- Menu - Contabilidad Fiscal/ Ingresos/Egresos/Ingresos -->
+                <!--<menuitem action="account_fiscal.action_account_fiscal_statement_income" name="Otros Ingresos" id="account.menu_fiscal_accounting_income_income" parent="account.menu_fiscal_accounting_income" sequence="10"/>-->
+                <!-- Menu - Contabilidad Fiscal/ Ingresos/Egresos/Egresos -->
+                <!--<menuitem action="account_fiscal.action_account_fiscal_statement_expense" name="Otros Egresos" id="account.menu_fiscal_accounting_income_expense" parent="account.menu_fiscal_accounting_income" sequence="20"/>-->
+            
+            <!-- Menu - Contabilidad Fiscal/ Banco y Caja -->
+            <!--<menuitem name="Conciliacion Bancaria" id="account.menu_fiscal_accounting_bank" parent="account.menu_fiscal_accounting" sequence="20"/>-->
+                <!-- Menu - Contabilidad Fiscal/ Banco y Caja/Conciliacion Bancaria -->
+                <!--<menuitem action="account.action_bank_statement_tree" name="Conciliacion Bancaria" id="account.menu_fiscal_accounting_bank_bank_statement" parent="account.menu_fiscal_accounting_bank" sequence="10"/>-->
+            
+            <!-- Menu - Contabilidad Fiscal/Perdida Utilidad -->
+            <menuitem name="Perdida/Utilidad" id="account.menu_fiscal_accounting_utility" parent="account.menu_fiscal_accounting" sequence="30"/>
+                <!-- Menu - Contabilidad Fiscal/Perdida Utilidad/Gestion de Perdidas fiscales -->
+                <menuitem action="action_account_fiscal_utility" name="Gestion de Perdidas Fiscales" id="account.menu_fiscal_accounting_utility_utility" parent="account.menu_fiscal_accounting_utility" sequence="10"/>
+                <!-- Menu - Contabilidad Fiscal/Perdida Utilidad/Aplicar peridas fiscales -->
+                <menuitem action="action_wizard_account_fiscal_utility_validate_view" name="Aplicar Perdidas Fiscales" id="account.menu_fiscal_accounting_utility_validate" parent="account.menu_fiscal_accounting_utility" sequence="20"/>
+                <!-- Menu - Contabilidad Fiscal/Perdida Utilidad/Gestion de Saldos Fiscales -->
+                <menuitem action="action_account_fiscal_balance" id="account.menu_fiscal_accounting_utility_balance" parent="account.menu_fiscal_accounting_utility" sequence="30"/>
+                
+            <!-- Menu - Contabilidad Fiscal/Utilidad-->
+            <menuitem name="Utilidad" id="account.menu_fiscal_accounting_deduction" parent="account.menu_fiscal_accounting" sequence="35"/>
+                <!-- Menu - Contabilidad Fiscal/Utilidad/Deducciones por flujo -->
+                <menuitem action="action_account_fiscal_deduction" id="account.menu_fiscal_accounting_utility_deduction" parent="account.menu_fiscal_accounting_deduction" sequence="40"/>
+                <!-- Menu - Contabilidad Fiscal/Utilidad/Ingresos Acumulables -->
+                <menuitem action="action_account_fiscal_cum_income" id="account.menu_fiscal_accounting_utility_cum_income" parent="account.menu_fiscal_accounting_deduction" sequence="50"/>
+            
+            <!-- Menu - Contabilidad Fiscal/Activos -->
+            <menuitem name="Activos" id="account.menu_fiscal_accounting_asset" parent="account.menu_fiscal_accounting" sequence="40"/>
+                <!-- Menu - Contabilidad Fiscal/Activos/Activo Fijo -->
+                <menuitem action="account_asset.action_account_asset_asset_form" name="Activo" id="account.menu_fiscal_accounting_asset_asset" parent="account.menu_fiscal_accounting_asset" sequence="10"/>
+                <!-- Menu - Contabilidad Fiscal/Activos/Productos de Activo Fijo -->
+                <menuitem action="account_asset_trade.action_product_asset" name="Productos de Activo" id="account.menu_fiscal_accounting_asset_product" parent="account.menu_fiscal_accounting_asset" sequence="20"/>
+                <!-- Menu - Contabilidad Fiscal/Activos/Venta de Activo -->
+                <menuitem action="account_asset_trade.action_invoice_asset_tree" name="Venta de Activo" id="menu_action_invoice_asset_tree" parent="account.menu_fiscal_accounting_asset" sequence="25"/>
+                <!-- Menu - Contabilidad Fiscal/Activos/Jerarquia de Activos -->
+                <menuitem action="account_asset.action_account_asset_asset_tree" name="Jerarquia de Activos" id="account.menu_fiscal_accounting_asset_asset_tree" parent="account.menu_fiscal_accounting_asset" sequence="30"/>
+                
+            <!-- Menu - Contabilidad Fiscal/Informes -->
+            <menuitem name="Informes" id="account.menu_fiscal_accounting_report" parent="account.menu_fiscal_accounting" sequence="50"/>
+                <!-- Menu - Contabilidad Fiscal/Informes/Codigos Fiscales -->
+                <menuitem name="Codigos Fiscales" id="account.menu_fiscal_accounting_report_code" parent="account.menu_fiscal_accounting_report" sequence="10"/>
+                    <!-- Menu - Contabilidad Fiscal/Informes/Codigos Fiscales/Calculo de Codigos Fiscales -->
+                    <menuitem action="account_fiscal.action_account_fiscal_code_chart" name="Calculo de Codigos Fiscales" id="account.menu_fiscal_accounting_report_code_chart" parent="account.menu_fiscal_accounting_report_code" sequence="10"/>
+                    <!-- Menu - Contabilidad Fiscal/Informes/Codigos Fiscales/Historico de Codigos Fiscales -->
+                    <menuitem action="account_fiscal.action_account_fiscal_code_chart_history" name="Historico de Codigos Fiscales" id="account.menu_fiscal_accounting_report_code_history" parent="account.menu_fiscal_accounting_report_code" sequence="20"/>
+                
+                <!-- Menu - Contabilidad Fiscal/Informes/Plan Contable -->
+                <menuitem action="account.action_account_chart" name="Plan contable" id="account.menu_fiscal_accounting_report_account_chart" parent="account.menu_fiscal_accounting_report" sequence="20"/>
+                
+                <!-- Menu - Contabilidad Fiscal/Informes/Impuestos -->
+                <menuitem name="Impuestos" id="account.menu_fiscal_accounting_report_rax" parent="account.menu_fiscal_accounting_report" sequence="30"/>
+                    <!-- Menu - Contabilidad Fiscal/Informes/Impuestos/Calculo de Impuestos -->
+                    <menuitem action="account.action_account_tax_chart" name="Calculo de Impuestos" id="account.menu_fiscal_accounting_report_tax_chart" parent="account.menu_fiscal_accounting_report_rax" sequence="10"/>
+                    <!-- Menu - Contabilidad Fiscal/Informes/Impuestos/Historico de Codigos de Impuestos -->
+                    <menuitem icon="STOCK_INDENT" action="action_account_tax_code_chart_history" name="Historico de Codigos de Impuestos" id="account.menu_fiscal_accounting_report_tax_history" parent="account.menu_fiscal_accounting_report_rax" sequence="20"/> 
+                
+                <!-- Menu - Contabilidad Fiscal/Informes/Tabla INPC anual -->
+                <menuitem action="account_asset_trade.action_account_fiscal_inpc_report_view" name="Tabla de INPC anual" id="account.menu_fiscal_accounting_report_inpc_chart" parent="account.menu_fiscal_accounting_report" sequence="40"/>
+                    
+                <!-- Menu - Contabilidad Fiscal/Informes/Balanza -->
+                <menuitem name="Balanza" id="account.menu_fiscal_accounting_report_balance" parent="account.menu_fiscal_accounting_report" sequence="100"/>
+                    <!-- Menu - Contabilidad Fiscal/Informes/Balanza/Balanza de comprobacion mensual -->
+                    <menuitem action="l10n_mx_balanza_anual.open_view_account_monthly_balance_tree" name="Balanza de comprobacion mensual" id="account.menu_fiscal_accounting_report_balance_month" parent="account.menu_fiscal_accounting_report_balance" sequence="10"/>
+                    <!-- Menu - Contabilidad Fiscal/Informes/Balanza/Balanza de comprobacion anual -->
+                    <menuitem action="l10n_mx_balanza_anual.open_view_account_annual_balance_tree" name="Balanza de comprobacion anual" id="account.menu_fiscal_accounting_report_balance_year" parent="account.menu_fiscal_accounting_report_balance" sequence="20"/>
+            
+            <!-- Menu - Contabilidad Fiscal/Configuracion/Codigos Fiscales -->
+            <menuitem name="Configuracion" id="account.menu_fiscal_accounting_config" parent="account.menu_fiscal_accounting" sequence="150"/>
+                <!-- Menu - Contabilidad Fiscal/Configuracion/Codigos Fiscales -->
+                <menuitem action="account_fiscal.action_account_fiscal_code" name="Codigos Fiscales" id="account.menu_fiscal_accounting_config_fiscal_code" parent="account.menu_fiscal_accounting_config" sequence="20"/>
+                <!-- Menu - Contabilidad Fiscal/Configuracion/Indices Fiscales -->
+                <menuitem action="account_fiscal.action_account_fiscal_rate" name="Indices Fiscales" id="account.menu_fiscal_accounting_config_fiscal_rate" parent="account.menu_fiscal_accounting_config" sequence="40"/>
+                <!-- Menu - Contabilidad Fiscal/Configuracion/Rubros Fiscales -->
+                <menuitem action="account_fiscal.action_account_account_category" name="Rubros Fiscales" id="account.menu_fiscal_accounting_config_account_category" parent="account.menu_fiscal_accounting_config" sequence="60"/>
+                <!-- Menu - Contabilidad Fiscal/Configuracion/Régimen Fiscal -->
+                <menuitem action='l10n_mx_regimen_fiscal.action_regimen_fiscal' name="Régimen Fiscal" id="account.menu_fiscal_accounting_config_regimen_fiscal" parent='account.menu_fiscal_accounting_config' sequence="80" />
+                <!-- Menu - Contabilidad Fiscal/Configuracion/INPC -->
+                <menuitem action="account_asset_trade.action_account_fiscal_inpc" name="INPC" id="account.menu_fiscal_accounting_config_inpc" parent="account.menu_fiscal_accounting_config" sequence="90"/>
+                
+                <!-- Menu - Contabilidad Fiscal/Configuracion/Contabilidad -->
+                <menuitem name="Contabilidad" id="account.menu_fiscal_accounting_config_account" parent="account.menu_fiscal_accounting_config" sequence="100"/>
+                    <!-- Menu - Contabilidad Fiscal/Configuracion/Contabilidad/Cuentas -->
+                    <menuitem action="account.action_account_form" name="Cuentas" id="account.menu_fiscal_accounting_config_account_account" parent="account.menu_fiscal_accounting_config_account" sequence="10"/>
+                    <!-- Menu - Contabilidad Fiscal/Configuracion/Contabilidad/Tipos de Cuentas -->
+                    <menuitem action="account.action_account_type_form" name="Tipos de Cuentas" id="account.menu_fiscal_accounting_config_account_type_account" parent="account.menu_fiscal_accounting_config_account" sequence="20"/>
+                    <!-- Menu - Contabilidad Fiscal/Configuracion/Contabilidad/Cuentas Bancarias -->
+                    <menuitem action="account.action_bank_tree" name="Cuentas bancarias" id="account.menu_fiscal_accounting_config_account_bank_account" parent="account.menu_fiscal_accounting_config_account" sequence="30"/>
+                    
+                <!-- Menu - Contabilidad Fiscal/Configuracion/Impuestos -->
+                <menuitem name="Impuestos" id="account.menu_fiscal_accounting_config_tax" parent="account.menu_fiscal_accounting_config" sequence="120"/>
+                    <!-- Menu - Contabilidad Fiscal/Configuracion/Impuestos/Impuestos -->
+                    <menuitem action="account.action_tax_form" name="Impuestos" id="account.menu_fiscal_accounting_config_tax_account_tax" parent="account.menu_fiscal_accounting_config_tax" sequence="10"/>
+                    <!-- Menu - Contabilidad Fiscal/Configuracion/Impuestos/Codigos de Impuestos -->
+                    <menuitem action="account.action_tax_code_list" name="Codigos de Impuestos" id="account.menu_fiscal_accounting_config_tax_code_tax" parent="account.menu_fiscal_accounting_config_tax" sequence="20"/>
+                
+                <!-- Menu - Contabilidad Fiscal/Configuracion/Activos -->
+                <menuitem name="Activos" id="account.menu_fiscal_accounting_config_asset" parent="account.menu_fiscal_accounting_config" sequence="140"/>
+                    <!-- Menu - Contabilidad Fiscal/Configuracion/Ingresos/Egresos /Categorias de activos -->
+                    <menuitem action="account_asset.action_account_asset_asset_list_normal" name="Categorias de activos" id="account.menu_fiscal_accounting_config_asset_category" parent="account.menu_fiscal_accounting_config_asset" sequence="10"/>
+                
+                <!-- Menu - Contabilidad Fiscal/Configuracion/ Ingresos/Egresos -->
+                <!--<menuitem name="Ingresos/Egresos" id="account.menu_fiscal_accounting_config_income" parent="account.menu_fiscal_accounting_config" sequence="160"/>-->
+                    <!-- Menu - Contabilidad Fiscal/Configuracion/Ingresos/Egresos /Tipos de Ingresos/Egresos -->
+                    <!--<menuitem action="account_fiscal.action_account_fiscal_statement_type" name="Tipos de Ingresos/Egresos" id="account.menu_fiscal_accounting_config_income_type" parent="account.menu_fiscal_accounting_config_income" sequence="10"/>-->
+                
+                <!-- Menu - Contabilidad Fiscal/Configuracion/Configuracion -->
+                <menuitem action="account_fiscal.action_account_fiscal_configuration" name="Configuracion" id="account.menu_fiscal_accounting_config_config" parent="account.menu_fiscal_accounting_config" sequence="260"/>
+                
+    </data>
+</openerp>

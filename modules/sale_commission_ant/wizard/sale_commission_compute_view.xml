@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+        <!--VISTA FORM-->
+        
+        <record id="view_sale_commission_compute" model="ir.ui.view">
+            <field name="name">Calcular comision</field>
+            <field name="model">sale.commission.compute</field>
+            <field name="arch" type="xml">
+             <form string="Calcular comision" version="7.0">
+                <group>
+                    <group>
+                        <field name="period_id" required="1"/>
+                    </group>
+                    <group>
+                        
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_compute_commission" string="Calcular" type="object" class="oe_highlight"/>
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+            </field>
+        </record>
+        
+        <!--ACCIONES-->
+
+        <record id="action_view_sale_commission_compute" model="ir.actions.act_window">
+            <field name="name">Calcular Comision</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.commission.compute</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_sale_commission_compute"/>
+            
+        </record>
+        
+        <!-- Menu - Calcular comision -->
+        <menuitem action="action_view_sale_commission_compute"
+                  id="menu_sale_commission_compute"
+                  name="Calculcar comisión"
+                  parent="menu_sale_commission"
+                  sequence="1" groups="base.group_sale_manager"/>
+        
+
+    </data>
+</openerp>

@@ -1,0 +1,3 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+config_diot,config_diot,model_account_diot_config_settings,,1,1,1,1
+wizard_diot_report,wizard_diot_report,model_account_diot_report,,1,1,1,1

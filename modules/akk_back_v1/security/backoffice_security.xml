@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+        <!-- Se agrega la categoria para administracion de menus-->
+        <record model="ir.module.category" id="base.module_category_akk_back_v1_menu">
+            <field name="name">Administracion de Menus</field>
+            <field name="description">Administracion de menus.</field>
+            <field name="sequence">3</field>
+        </record>
+        
+        <!-- Se agrega la categoria para administracion de funcionalidad extra-->
+        <record model="ir.module.category" id="base.module_category_akk_back_v1_manager">
+            <field name="name">Funcionalidad Usuarios</field>
+            <field name="description">Administracion de procesos Backoffice</field>
+            <field name="sequence">4</field>
+        </record>
+        
+        <!-- Menu Facturacion Electronica sobre backoffice -->
+        <record id="base.group_akk_back_v1_backoffice" model="res.groups">
+            <field name="category_id" ref="base.module_category_akk_back_v1_backoffice"/>
+            <field name="name">Menu Facturacion Electronica Backoffice</field>
+        </record>
+        
+        <!-- Menu Mensajeria -->
+        <record id="base.group_akk_back_v1_message" model="res.groups">
+            <field name="category_id" ref="base.module_category_akk_back_v1_menu"/>
+            <field name="name">Mostrar Menu Mensajeria</field>
+        </record>
+        
+        <!-- Menu Almacen -->
+        <record id="base.group_akk_back_v1_stock" model="res.groups">
+            <field name="category_id" ref="base.module_category_akk_back_v1_menu"/>
+            <field name="name">Mostrar Menu Almacen</field>
+        </record>
+        
+        <!-- Menu Contabilidad -->
+        <record id="base.group_akk_back_v1_account" model="res.groups">
+            <field name="category_id" ref="base.module_category_akk_back_v1_menu"/>
+            <field name="name">Mostrar Menu Contabilidad</field>
+        </record>
+        
+        <!-- Menu Contabilidad Fiscal -->
+        <record id="base.group_account_fiscal_menu" model="res.groups">
+            <field name="category_id" ref="base.module_category_akk_back_v1_menu"/>
+            <field name="name">Acceso a Menu contabilidad fiscal</field>
+        </record>
+        
+        <!-- Menu Conocimiento -->
+        <record id="base.group_akk_back_v1_knowledge_menu" model="res.groups">
+            <field name="category_id" ref="base.module_category_akk_back_v1_menu"/>
+            <field name="name">Acceso a Menu conocimiento</field>
+        </record>
+        
+        <!-- Menu Informes -->
+        <record id="base.group_akk_back_v1_reporting_menu" model="res.groups">
+            <field name="category_id" ref="base.module_category_akk_back_v1_menu"/>
+            <field name="name">Acceso a Menu informes</field>
+        </record>
+        
+        <!-- Se agregan permisos en base a una regla de usuario -->
+        <record id="invoice_apply_on_backoffice" model="ir.rule">
+            <field name="name">invoice apply on Backoffice</field>
+            <field name="model_id" ref="model_backoffice"/>
+            <field name="groups" eval="[(4, ref('base.group_akk_back_v1_backoffice'))]"/>
+            <field name="domain_force">[]</field>
+        </record>
+        
+<!--
+        Configuracion 
+-->
+        
+        <!-- Se agregan los grupos de usuario -->
+        <record id="base.group_account_sat_manager" model="res.groups">
+            <field name="category_id" ref="base.module_category_akk_back_v1_manager"/>
+            <field name="name">Gestion contabilidad electronica (SAT)</field>
+        </record>
+        
+        <!-- Gestion avanzada ventas -->
+        <record id="base.group_akk_back_v1_sales_manager" model="res.groups">
+            <field name="category_id" ref="base.module_category_akk_back_v1_manager"/>
+            <field name="name">Configuracion avanzada ventas</field>
+        </record>
+        
+        <!-- Gestion de Cuentas -->
+        <record id="base.group_akk_back_v1_account_manager" model="res.groups">
+            <field name="category_id" ref="base.module_category_akk_back_v1_manager"/>
+            <field name="name">Gestion de cuentas y polizas</field>
+        </record>
+        
+        <!-- Gestion de Almacenes -->
+        <record id="base.group_akk_back_v1_stock_manager" model="res.groups">
+            <field name="category_id" ref="base.module_category_akk_back_v1_manager"/>
+            <field name="name">Gestion de disponibilidad Almacenes</field>
+        </record>
+        
+        <!-- Configuracion Avanzada productos -->
+        <record id="base.group_akk_back_v1_product_advanced" model="res.groups">
+            <field name="category_id" ref="base.module_category_akk_back_v1_manager"/>
+            <field name="name">Configuracion avanzada productos</field>
+        </record>
+        <!-- Configuracion Avanzada clientes -->
+        <record id="base.group_akk_back_v1_partner_advanced" model="res.groups">
+            <field name="category_id" ref="base.module_category_akk_back_v1_manager"/>
+            <field name="name">Configuracion avanzada clientes</field>
+        </record>
+        <!-- Configuracion Avanzada Entradas y salidas de almacen -->
+        <record id="base.group_akk_back_v1_stock_picking_advanced" model="res.groups">
+            <field name="category_id" ref="base.module_category_akk_back_v1_manager"/>
+            <field name="name">Configuracion avanzada Entradas y salidas de almacen</field>
+        </record>
+        <!-- Configuracion Avanzada Facturacion -->
+        <record id="base.group_akk_back_v1_invoice_advanced" model="res.groups">
+            <field name="category_id" ref="base.module_category_akk_back_v1_manager"/>
+            <field name="name">Configuracion avanzada Facturacion</field>
+        </record>
+        <!-- Configuracion Avanzada Ingresos/Egresos -->
+        <record id="base.group_akk_back_v1_account_fiscal_statement_advanced" model="res.groups">
+            <field name="category_id" ref="base.module_category_akk_back_v1_manager"/>
+            <field name="name">Configuracion avanzada Ingresos/Egresos</field>
+        </record>
+        <!-- Gestion de relaciones con el Cliente (CRM) -->
+        <record id="base.group_akk_back_v1_crm" model="res.groups">
+            <field name="category_id" ref="base.module_category_akk_back_v1_manager"/>
+            <field name="name">Gestion de relaciones con el Cliente (CRM)</field>
+        </record>
+        
+        <!-- Contabilidad fiscal Responsable -->
+        <record id="base.group_account_fiscal_response" model="res.groups">
+            <field name="category_id" ref="base.module_category_akk_back_v1_manager"/>
+            <field name="name">Acceso a contabilidad fiscal</field>
+        </record>
+        
+    </data>
+</openerp>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+<!--
+          Cuentas
+-->
+        <!-- Agrega la categoria a la vista formulario de cuentas -->
+        <record model="ir.ui.view" id="view_account_form_inherit">
+            <field name="name">account.account.form.inherit</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_form" />
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <label for="note" position="before">
+                    <group string="Contabilidad Electronica" attrs="{'invisible':[('type','=','view')]}" groups="base.group_account_sat_manager">
+                        <field name="account_sat_id" readonly="1"/>
+                    </group>
+                </label>
+            </field>
+        </record>
+    
+    </data>
+</openerp>
+

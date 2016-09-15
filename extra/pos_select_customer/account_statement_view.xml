@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+<!--
+        Aplica accion para generar descuentos por credito
+-->
+        
+        <record model="ir.ui.view" id="view_account_journal_pos_user_form">
+            <field name="name">POS Journal</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="self_checkout_payment_method" position="after">
+                    <field name="self_apply_credit" attrs="{'invisible':[('self_checkout_payment_method','=',False)]}"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

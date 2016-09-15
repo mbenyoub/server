@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_users_cdsupdate_form_inherit">
+            <field name="name">res.users.cdsupdate.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="priority" eval="20"/>
+            <field name='type'>form</field>
+            <field name='arch' type='xml'>
+                <field name="parent_id" position="before"> <!--  Antes del campo parent_id -->
+                        <div>
+                                        <field name="is_prospect"/> <!-- campo nuevo de la tabla -->
+                                        <label for = "is_prospect"/>
+                        </div>
+                </field>
+            </field>
+        </record>
+        
+        <!-- Actualizacion de campos de filtro en la busqueda -->
+        <record model="ir.ui.view" id="view_partners_cdsupdate_filters_inherit">
+            <field name="name">res.partners.cdsupdate.filters.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="priority" eval="20"/>
+            <field name='arch' type='xml'>
+                <filter name="customer" position="attributes">
+                    <attribute name="domain">['|',('customer','=',1),('is_prospect','=',0)]</attribute>
+                </filter>
+                <filter name="supplier" position="before"> <!--  Antes del campo supplier -->
+                     <filter string="Prospectos" name="prospect" domain="[('is_prospect','=',1),('user_id','=',uid)]" help="Prospects Partners"/>
+                </filter>
+            </field>
+        </record>
+        
+        <!-- cambio de dominio del campo para clientes
+        <record model="ir.ui.view" id="view_sale_order_cdsupdate_form_inherit">
+            <field name="name">sale.order.cdsupdate.form.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="priority" eval="20"/>
+            <field name='type'>form</field>
+            <field name='arch' type='xml'>
+                <field name="partner_id" position="attributes">
+                    <attribute name="domain">[('customer','=',True),('is_prospect','=',True)]</attribute>
+                </field>
+            </field>
+        </record>
+         -->
+    </data>
+</openerp>

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+<!--
+        Producto
+-->
+        <record id="product_form_view_inherit" model="ir.ui.view">
+            <field name="name">Product Inherited</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@string='Inventory']/group[@name='inventory']/group[@name='Weights']/field[@name='weight']" position="replace"/>
+                <xpath expr="//page[@string='Inventory']/group[@name='inventory']/group[@name='Weights']/field[@name='weight_net']" position="replace"/>
+                
+                <field name="list_price" position="after">
+                    <field name = "protected_price" string="Precio Protegido"/>
+                    <group string="Peso">
+                        <field name="weight" attrs="{'readonly':[('type','=','service')]}"
+                            on_change="onchange_weight(weight)"/>
+                    </group>
+                </field>
+                
+                <xpath expr="//field[@name='uom_po_id']" position="after">
+                    <field name="tolerance_percent"/>
+                    <field name="to_weight_product"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

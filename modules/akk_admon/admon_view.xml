@@ -1,0 +1,651 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+<!--
+        Administracion Bases de datos
+-->
+        <!-- View Form - Admon database -->
+        <record id="view_admon_database_form" model="ir.ui.view">
+            <field name="name">admon.database.form</field>
+            <field name="model">admon.database</field>
+            <field name="arch" type="xml">
+                <form string="Gestion de Bases de Datos" version="7.0">
+                    <header>
+                        <button name="action_create_database" states="pending" string="Crear base de datos" type="object" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" statusbar_visible="active,inactive"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <div class="oe_edit_only">
+                                <label for="name"/>
+                            </div>
+                            <h1>
+                                <field name="name" default_focus="1" placeholder="Name" attrs="{'readonly':[('state','not in',['pending'])]}"/>
+                            </h1>
+                            <field name="code" placeholder="Base de datos" attrs="{'readonly':[('state','not in',['pending'])]}" />
+                        </div>
+                        <div class="oe_right oe_button_box" name="buttons"> </div>
+                        <group>
+                            <group>
+                                <field name="info_id" context="{'default_database_id': active_id, 'default_name': name}"/>
+                                <field name="partner_id"/>
+                                <field name="max_user" groups="base.group_no_one"/>
+                                <field name="active_users" invisible="0" groups="base.group_no_one"/>
+                            </group>
+                            <group>
+                                <field name="date_ini" attrs="{'readonly':[('state','not in',['pending'])]}"/>
+                                <field name="date_end" attrs="{'readonly':[('state','not in',['pending'])]}" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Notas">
+                                <field name="info" nolabel="1" />
+                            </page>
+                            <page string="Usuarios">
+                                <field name="user_ids" >
+                                    <tree string="Usuarios" editable="bottom" delete="0" colors="blue:superuser==True;grey:state!='active'">
+                                        <field name="name" />
+                                        <field name="login"/>
+                                        <field name="user_email"/>
+                                        <field name="profile_id"/>
+                                        <field name="date_end"/>
+                                        <field name="state" readonly="1"/>
+                                        <field name="superuser" string="Super" help="Superusuarios no se cuentan a la hora de limitar la cantidad de usuarios activos" groups="base.group_no_one"/>
+                                        <button name="action_create_user" string="" class="oe_edit_only" type="object" help="Crear usuario en la base de datos"
+                                            icon="gtk-redo" attrs="{'invisible':[('state','not in',['draft'])]}"/>
+                                        <button name="action_inactive_user" string="" class="oe_edit_only" type="object" help="Inactiva el usuario en la base de datos"
+                                            icon="gtk-dialog-error" attrs="{'invisible':['|',('state','not in',['active']),('superuser','=',True)]}"/>
+                                        <button name="action_active_user_wizard" string="" class="oe_edit_only" type="object" help="Activa el usuario en la base de datos"
+                                            icon="gtk-apply" attrs="{'invisible':[('state','not in',['inactive'])]}"/>
+                                        <button name="action_update_user" string="" class="oe_edit_only" type="object" help="Actualiza la informacion del usuario en la base de datos"
+                                            icon="gtk-refresh" attrs="{'invisible':[('state','not in',['active'])]}"/> 
+                                        <button name="action_reset_pass" string="" class="oe_edit_only" type="object" help="Resetear password del usuario en la base de datos"
+                                            icon="STOCK_REVERT_TO_SAVED" attrs="{'invisible':[('state','not in',['active'])]}"/>
+                                        <button name="action_delete_user" string="" class="oe_edit_only" type="object" help="Elimina el usuario en la base de datos"
+                                            confirm="¿Esta seguro que desa eliminar el usuario?, una vez eliminado no podra volver a activarlo"
+                                            icon="gtk-cancel" attrs="{'invisible':['|',('state','not in',['active','inactive']),('superuser','=',True)]}"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Modulos Instalados">
+                                <button name="action_update_modules" string="Actualizar lista de modulos" type="object" class="oe_highlight"/>
+                                <separator/>
+                                <field name="module_ids">
+                                    <tree string="Modulos instalados" editable="bottom">
+                                        <field name="sequence"/>
+                                        <field name="module_id"/>
+                                        <field name="state" readonly="1"/>
+                                        <field name="date_update" readonly="1"/>
+                                        <button name="action_update" string="" help="Actualizar modulo" class="oe_edit_only" type="object" icon="gtk-refresh"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- View Tree - Admon database -->
+        <record id="view_admon_database_tree" model="ir.ui.view">
+            <field name="name">admon.database.tree</field>
+            <field name="model">admon.database</field>
+            <field name="arch" type="xml">
+                <tree string="Gestion de Bases de datos">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="date_ini"/>
+                    <field name="date_end"/>
+                    <field name="state"/>
+                    <field name="partner_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!--  Filtros - Admon database -->
+        <record id="view_admon_database_filter" model="ir.ui.view">
+            <field name="name">admon.database.select</field>
+            <field name="model">admon.database</field>
+            <field name="arch" type="xml">
+                <search string="Buscar">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="date_ini"/>
+                    <field name="date_end"/>
+                    <field name="state"/>
+                    <field name="partner_id"/>
+                    <separator/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Estado" context="{'group_by': 'state'}"/>
+                        <filter string="Cliente" context="{'group_by': 'partner_id'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+        
+        <!-- Action - Admon database -->
+        <record id="action_admon_database" model="ir.actions.act_window">
+            <field name="name">Gestion de Bases de datos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">admon.database</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+            <field name="search_view_id" ref="view_admon_database_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click para registrar una nueva base de datos
+              </p>
+            </field>
+        </record>
+    
+<!--
+        Administracion de usuarios
+-->
+        <!-- View Form - Admon database user -->
+        <record id="view_admon_database_user_form" model="ir.ui.view">
+            <field name="name">admon.database.user.form</field>
+            <field name="model">admon.database.user</field>
+            <field name="arch" type="xml">
+                <form string="Usuarios" version="7.0">
+                    <header>
+                        <button name="action_create_user" string="Crear usuario" states="draft" type="object" class="oe_highlight"/>
+                        <button name="action_update_user" string="Actualizar informacion" type="object" help="Actualiza la informacion del usuario en la base de datos"
+                            attrs="{'invisible':[('state','not in',['active'])]}"/> 
+                        <button name="action_delete_user" string="Eliminar usuario" type="object" help="Elimina el usuario en la base de datos"
+                            confirm="¿Esta seguro que desa eliminar el usuario?, una vez eliminado no podra volver a activarlo"
+                            attrs="{'invisible':['|',('state','not in',['active','inactive']),('superuser','=',True)]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="active,inactive"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <div class="oe_edit_only">
+                                <label for="name"/>
+                            </div>
+                            <h1>
+                                <field name="name" default_focus="1" placeholder="Name"/>
+                            </h1>
+                            <field name="login" placeholder="Usuario"/>
+                            <field name="password" placeholder="Password" invisible="1"/>
+                        </div>
+                        <div class="oe_right oe_button_box" name="buttons">
+                            <button name="action_inactive_user" string="Inactivar Usuario" type="object" help="Inactiva el usuario en la base de datos"
+                                attrs="{'invisible':['|',('state','not in',['active']),('superuser','=',True)]}"/>
+                            <button name="action_active_user_wizard" string="Activar" type="object" help="Activa el usuario en la base de datos"
+                                attrs="{'invisible':['|',('state','not in',['inactive']),('superuser','=',True)]}"/>
+                            <button name="action_reset_pass" string="Resetear Password" type="object" help="Resetear password del usuario en la base de datos"
+                                attrs="{'invisible':[('state','not in',['active'])]}"/>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="user_email"/>
+                                <field name="profile_id"/>
+                                <field name="db_user_id" groups="base.group_no_one"/>
+                            </group>
+                            <group>
+                                <field name="database_id"/>
+                                <field name="date_end"/>
+                                <field name="superuser" groups="base.group_no_one"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Notas">
+                                <field name="info" nolabel="1" />
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- View Tree - Admon database user -->
+        <record id="view_admon_database_user_tree" model="ir.ui.view">
+            <field name="name">admon.database.user.tree</field>
+            <field name="model">admon.database.user</field>
+            <field name="arch" type="xml">
+                <tree string="Gestion de Usuarios" colors="blue:superuser==True;grey:state!='active'">
+                    <field name="name"/>
+                    <field name="login"/>
+                    <field name="user_email"/>
+                    <field name="profile_id"/>
+                    <field name="date_end"/>
+                    <field name="state"/>
+                    <field name="database_id" invisible="1"/>
+                    <field name="superuser" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!--  Filtros - Admon database user -->
+        <record id="view_admon_database_user_filter" model="ir.ui.view">
+            <field name="name">admon.database.user.select</field>
+            <field name="model">admon.database.user</field>
+            <field name="arch" type="xml">
+                <search string="Buscar">
+                    <field name="name"/>
+                    <field name="login"/>
+                    <field name="user_email"/>
+                    <field name="profile_id"/>
+                    <field name="state"/>
+                    <field name="database_id"/>
+                    <field name="date_end"/>
+                    <separator/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Base de Datos" context="{'group_by': 'database_id'}"/>
+                        <filter string="Estado" context="{'group_by': 'state'}"/>
+                        <filter string="Perfil de usuario" context="{'group_by': 'profile_id'}"/>
+                        <filter string="Fecha de Vencimiento" context="{'group_by': 'date_end'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+        
+        <!-- Action - Admon database user -->
+        <record id="action_admon_database_user" model="ir.actions.act_window">
+            <field name="name">Gestion de Bases de datos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">admon.database.user</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+            <field name="search_view_id" ref="view_admon_database_user_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click para registrar un usuario
+              </p>
+            </field>
+        </record>
+        
+<!--
+        Administracion de perfiles
+-->
+        <!-- View Form - Admon database profile -->
+        <record id="view_admon_database_user_profile_form" model="ir.ui.view">
+            <field name="name">admon.database.user.profile.form</field>
+            <field name="model">admon.database.user.profile</field>
+            <field name="arch" type="xml">
+                <form string="Usuarios" version="7.0">
+                    <header>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <div class="oe_edit_only">
+                                <label for="name"/>
+                            </div>
+                            <h1>
+                                <field name="name" default_focus="1" placeholder="Name"/>
+                            </h1>
+                        </div>
+                        <div class="oe_right oe_button_box" name="buttons"> </div>
+                        <group>
+                            <field name="info" nolabel="1"/>
+                        </group>
+                        <notebook>
+                            <page string="Reglas de Acceso">
+                                <group col="4">
+                                    <field name="groups_id" nolabel="1"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- View Tree - Admon database profile -->
+        <record id="view_admon_database_user_profile_tree" model="ir.ui.view">
+            <field name="name">admon.database.user.profile.tree</field>
+            <field name="model">admon.database.user.profile</field>
+            <field name="arch" type="xml">
+                <tree string="Gestion de Usuarios">
+                    <field name="name"/>
+                    <field name="info"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!--  Filtros - Admon database profile -->
+        <record id="view_admon_database_user_profile_filter" model="ir.ui.view">
+            <field name="name">admon.database.user.profile.select</field>
+            <field name="model">admon.database.user.profile</field>
+            <field name="arch" type="xml">
+                <search string="Buscar">
+                    <field name="name"/>
+                    <field name="info"/>
+                    <separator/>
+                    <group expand="0" string="Group By...">
+                    </group>
+               </search>
+            </field>
+        </record>
+        
+        <!-- Action - Admon database profile -->
+        <record id="action_admon_database_user_profile" model="ir.actions.act_window">
+            <field name="name">Perfiles</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">admon.database.user.profile</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+            <field name="search_view_id" ref="view_admon_database_user_profile_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click para registrar un perfil de usuario
+              </p>
+            </field>
+        </record>
+        
+<!--
+        Grupos
+-->
+        <!-- View Form - grupos -->
+        <record id="view_admon_database_user_profile_groups_form" model="ir.ui.view">
+            <field name="name">admon.database.user.profile.groups.form</field>
+            <field name="model">admon.database.user.profile.groups</field>
+            <field name="arch" type="xml">
+                <form string="Grupos" version="7.0">
+                    <sheet>
+                        <div class="oe_right oe_button_box" name="buttons"> </div>
+                        <group>
+                            <field name="name"/>
+                            <field name="reference"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- View Tree - Grupos -->
+        <record id="view_admon_database_user_profile_groups_tree" model="ir.ui.view">
+            <field name="name">admon.database.user.profile.groups.tree</field>
+            <field name="model">admon.database.user.profile.groups</field>
+            <field name="arch" type="xml">
+                <tree string="Grupos">
+                    <field name="name"/>
+                    <field name="reference"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!--  Filtros - Grupos -->
+        <record id="view_admon_database_user_profile_groups_filter" model="ir.ui.view">
+            <field name="name">admon.database.user.profile.groups.select</field>
+            <field name="model">admon.database.user.profile.groups</field>
+            <field name="arch" type="xml">
+                <search string="Buscar">
+                    <field name="name"/>
+                    <field name="reference"/>
+                    <separator/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Referencia" context="{'group_by': 'reference'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+        
+        <!-- Action - Grupos -->
+        <record id="action_admon_database_user_profile_groups" model="ir.actions.act_window">
+            <field name="name">Grupos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">admon.database.user.profile.groups</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+            <field name="search_view_id" ref="view_admon_database_user_profile_groups_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click para registrar un grupo de usuario
+              </p>
+            </field>
+        </record>
+        
+    <!--
+        Informacion de subcatalogo para importacion de impuestos
+    -->
+    
+        <!-- View Tree - Importacion impuestos -->
+        <record id="view_admon_database_import_tree" model="ir.ui.view">
+            <field name="name">admon.database.import.tree</field>
+            <field name="model">admon.database.import</field>
+            <field name="arch" type="xml">
+                <tree string="Grupos" editable="top">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="type_tax"/>
+                    <field name="type_code"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Action - Importacion impuestos -->
+        <record id="action_admon_database_import" model="ir.actions.act_window">
+            <field name="name">Importacion datos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">admon.database.import</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click para registrar un registro para apoyo a importacion de datos
+              </p>
+            </field>
+        </record>
+    
+    <!--
+        Informacion de Base de datos
+    -->
+        <!-- View Form - Info database -->
+        <record id="view_admon_database_info_form" model="ir.ui.view">
+            <field name="name">admon.database.info.form</field>
+            <field name="model">admon.database.info</field>
+            <field name="arch" type="xml">
+                <form string="Informacion de Base de Datos" version="7.0">
+                    <header>
+                        <button name="action_update_company" string="Actualizar compañia" type="object" class="oe_highlight"/>
+                        <button name="action_update_certificate" string="Actualizar certificado" type="object" class="oe_highlight"/>
+                        <button name="action_update_pac_sf" string="Actualizar PAC SF" type="object" class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                        <field name="image" widget="image" class="oe_avatar oe_left" />
+                        <div class="oe_title">
+                            <div class="oe_edit_only">
+                                <label for="name"/> 
+                            </div>
+                            <h1>
+                                <field name="name" default_focus="1" placeholder="Name"/>
+                            </h1>
+                            <field name="response" placeholder="Representante legal"/>
+                        </div>
+                        <div class="oe_right oe_button_box" name="buttons"> </div>
+                        <group>
+                            <group>
+                                <field name="company_name" />
+                                <label for="street" string="Address"/>
+                                <div>
+                                    <field name="street" placeholder="Calle..." />
+                                    <field name="l10n_mx_street3" placeholder="No. Exterior" />
+                                    <field name="l10n_mx_street4" placeholder="No. Interior" />
+                                    <field name="street2" placeholder="Colonia..." />
+                                    <div class="address_format">
+                                        <field name="city" placeholder="Ciudad" style="width: 40%%" />
+                                        <field name="state_id" class="oe_no_button" placeholder="Estado" style="width: 37%%" options='{"no_open": True}' on_change="onchange_state(state_id)" />
+                                        <field name="zip" placeholder="CP" style="width: 20%%" />
+                                    </div>
+                                    <field name="l10n_mx_city2" placeholder="Localidad"/>
+                                    <field name="country_id" placeholder="Pais" class="oe_no_button" options='{"no_open": True}'/>
+                                </div>
+                                <field name="website" widget="url" placeholder="e.g. www.akkadian.mx"/>
+                            </group>
+                            <group>
+                                <field name="has_image" invisible="1"/>
+                                <field name="date" />
+                                <field name="database_id" />
+                                <field name="phone" placeholder="e.g. +32.81.81.37.00"/>
+                                <field name="mobile"/>
+                                <field name="email" widget="email" on_change="onchange_email(email)"/>
+                                <field name="vat" placeholder="e.g. VECJ880326"/>
+                                <field name="regimen_fiscal_id" colspan="2"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Informacion Cliente Facturacion">
+                                <group string="Certificados en FORMATO DER (Original)" colspan="4">
+                                    <field name="certificate_file" string="Archivo del Certificado" help="El archivo .cer es proporcionado por el SAT" colspan="3"/>
+                                    <field name="certificate_key_file" string="Archivo KEY del Certificado" help="El archivo .key es proporcionado por el SAT" colspan="3"/>
+                                    <newline/>
+                                    <field name="certificate_password" string="Contraseña de Certificado" help="La contraseña del certificado es proporcionada por el SAT" password="True" on_change="onchange_certificate_info(certificate_file, certificate_key_file, certificate_password)"/>
+                                </group>
+                                <group string="Certificados en FORMATO PEM (Transformado)" colspan="4">
+                                    <field name="certificate_file_pem" string="Archivo del Certificado PEM" help="Este archivo es generado con el certificado" colspan="3"/>
+                                    <field name="certificate_key_file_pem" string="Archivo KEY del Certificado PEM" help="Este archivo es generado con el key del certificado" colspan="3"/>
+                                </group>
+                                <group string="Informacion General del Certificado" colspan="4">
+                                    <field name="serial_number" string="Numero de Serial"/>
+                                    <field name="date_start" string="Fecha Inicial"/>
+                                    <field name="date_end" string="Fecha Final"/>
+                                </group>
+                                <button name="get_certificate_info" string="Obtener informacion certificado" type="object"/>
+                            </page>
+                            <page string="Activacion proveedor Timbrado">
+                                <group string="">
+                                    <field name="sf_email" colspan="2"/>
+                                    <field name="sf_password" colspan="2" password="True" />
+                                    <newline/>
+                                    <field name="sf_manifesto" colspan="2" col="2"/>
+                                </group>
+                                <group>
+                                    <label string="NOTA. Para que el usario sea valido a la hora del timbrado se debe generar un emisor en el portal de solucion factible y asignarlo a un usuario"/>
+                                </group>
+                            </page>
+                            <page string="Importacion de datos">
+                                <group string="Importar Contactos">
+                                    <field name="import_partner" string="Archivo" on_change="onchange_import_partner(import_partner,context)"/>
+                                    <field name="template_partner"  attrs="{'invisible': [('import_partner_ok','=',True)]}"/>
+                                    <field name="import_partner_ok" attrs="{'invisible': [('import_partner_ok','=',False)]}"/>
+                                    <div>
+                                        <button name="action_import_partner_to_db" string="Importar" type="object" attrs="{'invisible': [('import_partner_ok','=',True)]}"/>
+                                    </div>
+                                </group>
+                                <group string="Importar Productos">
+                                    <field name="import_product" string="Archivo" on_change="onchange_import_product(import_product,context)"/>
+                                    <field name="template_product"  attrs="{'invisible': [('import_product_ok','=',True)]}"/>
+                                    <field name="import_product_ok" attrs="{'invisible': [('import_product_ok','=',False)]}"/>
+                                    <div>
+                                        <button name="action_import_product_to_db" string="Importar" type="object" attrs="{'invisible': [('import_product_ok','=',True)]}"/>
+                                    </div>
+                                </group>
+                                <group string="Importar Activos">
+                                    <field name="import_asset" string="Archivo" on_change="onchange_import_asset(import_asset,context)"/>
+                                    <field name="template_asset"  attrs="{'invisible': [('import_asset_ok','=',True)]}"/>
+                                    <field name="import_asset_ok" attrs="{'invisible': [('import_asset_ok','=',False)]}"/>
+                                    <div>
+                                        <button name="action_import_asset_to_db" string="Importar" type="object" attrs="{'invisible': [('import_asset_ok','=',True)]}"/>
+                                    </div>
+                                </group>
+                                <group string="Importar Saldos Iniciales">
+                                    <field name="import_bank" string="Cuentas bancarias" on_change="onchange_import_balance(import_bank,import_balance,import_payment,context)"/>
+                                    <field name="import_balance" string="Saldos Iniciales" on_change="onchange_import_balance(import_bank,import_balance,import_payment,context)"/>
+                                    <field name="import_payment" string="Cobros y pagos" on_change="onchange_import_balance(import_bank,import_balance,import_payment,context)"/>
+                                    <field name="template_bank"  attrs="{'invisible': [('import_balance_ok','=',True)]}"/>
+                                    <field name="template_balance"  attrs="{'invisible': [('import_balance_ok','=',True)]}"/>
+                                    <field name="template_payment"  attrs="{'invisible': [('import_balance_ok','=',True)]}"/>
+                                    <field name="import_balance_ok" attrs="{'invisible': [('import_balance_ok','=',False)]}"/>
+                                    <div>
+                                        <button name="action_import_balance_to_db" string="Importar" type="object" attrs="{'invisible': [('import_balance_ok','=',True)]}"/>
+                                    </div>
+                                </group>
+                                <group string="Importar Saldos Fiscales">
+                                    <field name="import_rate" string="Archivo" on_change="onchange_import_rate(import_rate,context)"/>
+                                    <field name="template_rate"  attrs="{'invisible': [('import_rate_ok','=',True)]}"/>
+                                    <field name="import_rate_ok" attrs="{'invisible': [('import_rate_ok','=',False)]}"/>
+                                    <div>
+                                        <button name="action_import_rate_to_db" string="Importar" type="object" attrs="{'invisible': [('import_rate_ok','=',True)]}"/>
+                                    </div>
+                                </group>
+                                <group string="Importar Perdidas fiscales">
+                                    <field name="import_utility" string="Archivo" on_change="onchange_import_utility(import_utility,context)"/>
+                                    <field name="template_utility"  attrs="{'invisible': [('import_utility_ok','=',True)]}"/>
+                                    <field name="import_utility_ok" attrs="{'invisible': [('import_utility_ok','=',False)]}"/>
+                                    <div>
+                                        <button name="action_import_utility_to_db" string="Importar" type="object" attrs="{'invisible': [('import_utility_ok','=',True)]}"/>
+                                    </div>
+                                </group>
+                                <group string="Importar Impuestos a favor">
+                                    <field name="import_tax" string="Archivo" on_change="onchange_import_tax(import_tax,context)"/>
+                                    <field name="template_tax"  attrs="{'invisible': [('import_tax_ok','=',True)]}"/>
+                                    <field name="import_tax_ok" attrs="{'invisible': [('import_tax_ok','=',False)]}"/>
+                                    <div>
+                                        <button name="action_import_tax_to_db" string="Importar" type="object" attrs="{'invisible': [('import_tax_ok','=',True)]}"/>
+                                    </div>
+                                </group>
+                                <group>
+                                    <label string="NOTA. Para utilizar la importacion, la informacion debe estar en un archivo csv valido "/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- View Tree - Info database -->
+        <record id="view_admon_database_info_tree" model="ir.ui.view">
+            <field name="name">admon.database.info.tree</field>
+            <field name="model">admon.database.info</field>
+            <field name="arch" type="xml">
+                <tree string="Informacion de Bases de datos">
+                    <field name="name"/>
+                    <field name="response"/>
+                    <field name="vat"/>
+                    <field name="phone"/>
+                    <field name="mobile"/>
+                    <field name="email"/>
+                    <field name="database_id"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!--  Filtros - Info database -->
+        <record id="view_admon_database_info_filter" model="ir.ui.view">
+            <field name="name">admon.database.info.select</field>
+            <field name="model">admon.database.info</field>
+            <field name="arch" type="xml">
+                <search string="Buscar">
+                    <field name="name"/>
+                    <field name="response"/>
+                    <field name="email"/>
+                    <field name="phone"/>
+                    <field name="mobile"/>
+                    <field name="database_id"/>
+                    <separator/>
+                    <group expand="0" string="Group By...">
+                    </group>
+               </search>
+            </field>
+        </record>
+        
+        <!-- Action - Info database -->
+        <record id="action_admon_database_info" model="ir.actions.act_window">
+            <field name="name">Informacion de Bases de datos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">admon.database.info</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+            <field name="search_view_id" ref="view_admon_database_info_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Agregar informacion de la base de datos
+              </p>
+            </field>
+        </record>
+    
+    </data>
+</openerp>

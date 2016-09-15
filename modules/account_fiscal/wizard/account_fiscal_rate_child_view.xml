@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    
+<!--
+        Vista wizard Agregar Indice fiscal
+-->
+        
+        <!-- View Form - Indice Fiscal -->
+        <record model="ir.ui.view" id="wizard_account_fiscal_rate_child_view">
+            <field name="name">account.fiscal.code.child.form</field>
+            <field name="model">account.fiscal.rate.child</field>
+            <field name="arch" type="xml">
+                <form string="Indice Fiscal" version="7.0">
+                    <group col="4">
+                        <group>
+                            <field name="name"/>
+                            <field name="parent_id" invisible="1"/>
+                            <field name="type_rate" string="Tipo Acumulador" on_change="onchange_type_rate(type_rate,context)"/>
+                            <field name="if_apply"/>
+                            <separator/>
+                            <label string="Condicion:" attrs="{'invisible':[('if_apply','=',False)]}" />
+                            <field name="condition" attrs="{'invisible':[('if_apply','=',False)]}" />
+                            <field name="condition_res" attrs="{'invisible':[('if_apply','=',False)]}" />
+                            <field name="operator" attrs="{'invisible':[('if_apply','=',False)]}" />
+                            <field name="condition_type" attrs="{'invisible':[('if_apply','=',False)]}" />
+                            <field name="condition_value" attrs="{'invisible':['|',('if_apply','=',False),('condition_type','in',['per','res','utility'])]}" />
+                        </group>
+                        <group>
+                            <field name="code"/>
+                            <field name="factor" required="1"/>
+                            <field name="category_id" attrs="{'invisible':[('type_rate','in',['frate','code_cumulative','code_period','val','per','inpc','utility','asset'])], 'required':[('type_rate','not in',['frate','code_cumulative','code_period','val','per','inpc','utility','asset'])]}"/>
+                            <field name="rate_id" domain="[('type_rate','=','view')]" attrs="{'invisible':[('type_rate','!=','frate')], 'required':[('type_rate','=','frate')]}"/>
+                            <field name="code_id" domain="[('parent_id','!=',False)]" on_change="onchange_code_id(code_id,context)" attrs="{'invisible':[('type_rate','not in',['code_period','code_cumulative'])], 'required':[('type_rate','in',['code_period','code_cumulative'])]}"/>
+                            <field name="code_year" invisible="1"/>
+                            <field name="base" attrs="{'invisible':[('type_rate','in',['frate','code_cumulative','code_period','val','per','inpc','utility','asset'])], 'required':[('type_rate','not in',['frate','code_cumulative','code_period','val','per','inpc','utility','asset'])]}"/>
+                            <field name="apply" attrs="{'invisible':[('type_rate','not in',['acf_period','acf_cumulative','code_period','code_cumulative','inpc','asset'])], 'required':[('type_rate','in',['acf_period','acf_cumulative','code_period','code_cumulative','inpc','asset'])]}"/>
+                            <field name="period_id" attrs="{'invisible':['|',('type_rate','not in',['acf_period','acf_cumulative','code_period','code_cumulative']),('apply','!=','esp')], 'required':[('type_rate','in',['acf_period','acf_cumulative','code_period','code_cumulative']),('apply','=','esp')]}"/>
+                            <field name="fiscalyear_id" attrs="{'invisible':['|',('type_rate','not in',['asset']),('apply','!=','esp')], 'required':[('type_rate','in',['asset']),('apply','=','esp')]}"/>
+                            <field name="type_asset" attrs="{'invisible':[('type_rate','not in',['asset'])], 'required':[('type_rate','in',['asset'])]}"/>
+                            <field name="inpc_id" attrs="{'invisible':['|',('type_rate','not in',['inpc']),('apply','!=','esp')], 'required':[('type_rate','in',['inpc']),('apply','=','esp')]}"/>
+                            <field name="value" attrs="{'invisible':[('type_rate','not in',['val'])]}"/>
+                            <field name="apply_year" attrs="{'invisible':[('type_rate','in',['frate','val','per','inpc','utility'])], 'readonly':[('type_rate','in',['code_period','code_cumulative','asset']),('code_year','=',True)]}"/>
+                        </group>
+                    </group>
+                    <div>
+                        <label for="descripction"/>
+                        <field name="description" nolabel="1" />
+                    </div>
+                    <footer>
+                        <button name="action_add_rate" type="object" string="Agregar" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Action - Indice Fiscal -->
+        <record model="ir.actions.act_window" id="action_wizard_account_fiscal_rate_child_view">
+            <field name="name">Indices Fiscales</field>
+            <field name="res_model">account.fiscal.code.child</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_account_fiscal_rate_child_view"/>
+            <field name="target">new</field>
+        </record>
+    
+    </data>
+</openerp>   

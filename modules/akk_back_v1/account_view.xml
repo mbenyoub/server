@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+<!--
+        Cuentas
+-->
+        <!-- Agrega el campo para que se muestre en el informe de situacion actual -->
+        <record model="ir.ui.view" id="view_account_form_inherit">
+            <field name="name">account.account.form.inherit</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_form" />
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <field name="reconcile" position="after">
+                    <field name="apply_situacion_actual" groups="base.group_akk_back_v1_backoffice"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

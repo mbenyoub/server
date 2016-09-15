@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!--VISTA FORM-->
+
+        <record model="ir.ui.view" id="res_user_form_inherit">
+            <field name="name">Users Preferences inherit</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="sale_crm.res_user_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='default_section_id']" position="after">
+                        <field name="commission_apply"/>
+                    </xpath>
+                    
+                    <xpath expr="//field[@name='default_section_id']" position="attributes">
+                        <attribute name="attrs">{'required': [('commission_apply', '=', True)]}</attribute>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+    </data>
+</openerp>

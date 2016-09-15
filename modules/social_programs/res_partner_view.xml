@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+<!--
+        Vistas para partner
+-->
+    
+        <!--  Filtros Beneficiario -->
+        <!--<record id="base.view_res_partner_filter" model="ir.ui.view">-->
+        <!--    <field name="name">res.partner.select</field>-->
+        <!--    <field name="model">res.partner</field>-->
+        <!--    <field name="arch" type="xml">-->
+        <!--        <search string="Buscar Beneficiario">-->
+        <!--            <field name="childrens"/>-->
+        <!--            <field name="work"/>-->
+        <!--            <field name="sick"/>-->
+        <!--            <field name="social_safe"/>-->
+        <!--            <field name="name"-->
+        <!--                filter_domain="['|','|',('name','ilike',self),('curp','ilike',self),('ref','=',self)]"/>-->
+        <!--           -->
+        <!--            <filter string="Trabaja" name="no_work" domain="[('work','=',True)]"/>-->
+        <!--            <filter string="No Trabaja" name="work" domain="[('work','=',False)]"/>-->
+        <!--            <separator/>-->
+        <!--            <filter string="Tiene hijos" name="childrens" domain="[('childrens','>',0)]"/>-->
+        <!--            <filter string="no Tiene hijos" name="no_childrens" domain="[('childrens','=',0)]"/>-->
+        <!--            <separator/>-->
+        <!--            <filter string="Tiene enfermedad cronica" name="sick" domain="[('sick','=',1)]"/>-->
+        <!--            <filter string="no Tiene enfermedad" name="no_sick" domain="[('sick','=',0)]"/>-->
+        <!--           <separator/>-->
+        <!--           <filter string="Tiene seguro social" name="social_safe" domain="[('social_safe','=',1)]"/>-->
+        <!--            <filter string="no Tiene seguro social" name="no_social_safe" domain="[('social_safe','=',0)]"/>-->
+        <!--           <separator/>-->
+        <!--           <field name="category_id" string="Tag" filter_domain="[('category_id','ilike', self)]"/>-->
+        <!--           <field name="state_id"/>-->
+        <!--           <field name="city_id"/>-->
+        <!--           <field name="sector_id"/>-->
+        <!--           <field name="area_id"/>-->
+        <!--           <field name="date_birth"/>-->
+        <!--           <field name="education"/>-->
+        <!--           <field name="impairment"/>-->
+        <!--           <field name="marital_status"/>-->
+        <!--           <group expand="0" string="Group By...">-->
+        <!--               <filter string="Estado" context="{'group_by': 'state_id'}"/>-->
+        <!--               <filter string="Ciudad" context="{'group_by': 'city_id'}"/>-->
+        <!--               <filter string="Sector" context="{'group_by': 'sector_id'}"/>-->
+        <!--               <filter string="Area" context="{'group_by': 'area_id'}"/>-->
+        <!--               <separator />-->
+        <!--               <filter string="Fecha Nacimiento" context="{'group_by': 'date_birth'}"/>-->
+        <!--               <filter string="Estado civil" context="{'group_by': 'marital_status'}"/>-->
+        <!--               <filter string="Cantidad hijos" context="{'group_by': 'childrens'}"/>-->
+        <!--               <filter string="Nivel Educativo" context="{'group_by': 'education'}"/>-->
+        <!--               <filter string="Discapacidad" context="{'group_by': 'impairment'}"/>-->
+        <!--           </group>-->
+        <!--       </search>-->
+        <!--    </field>-->
+        <!--</record>-->
+
+<!--
+        Vistas para partner
+-->
+
+        <!-- Partner -->
+        <record id="view_partner_beneficiary_tree" model="ir.ui.view">
+            <field name="name">res.partner.beneficiary.tree</field>
+            <field name="model">res.partner</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Beneficiarios">
+                    <field name="name"/>
+                    <field name="curp"/>
+                    <field name="function" invisible="1"/>
+                    <field name="phone" invisible="1"/>
+                    <field name="street"/>
+                    <field name="settlement_id"/>
+                    <field name="email" invisible="1"/>
+                    <field name="user_id" invisible="1"/>
+                    <field name="is_company" invisible="1"/>
+                    <field name="country" invisible="1"/>
+                    <field name="country_id" invisible="1"/>
+                    <field name="parent_id" invisible="1"/>
+                    <field name="state_id" invisible="1"/>
+                    <field name="city_id" invisible="1"/>
+                    <field name="sector_id"/>
+                    <field name="area_id"/>
+                    <field name="date_birth" invisible="1"/>
+                    <field name="education" invisible="1"/>
+                    <field name="impairment" invisible="1"/>
+                    <field name="marital_status" invisible="1"/>
+                    <field name="childrens" invisible="1"/>
+                    <field name="program_count" string="Programa Actual" invisible="1"/>
+                    <field name="program_id" string="Prog Actual"/>
+                    <field name="program_count_total" string="Progs Inscrito"/>
+                    <field name="category_id" string="Tag" filter_domain="[('category_id','ilike', self)]"/>
+                    <field name="residency_long" invisible="1"/>
+                    <field name="ocupation" invisible="1"/>
+                    <field name="ocupation_entry" invisible="1"/>
+                    <field name="entry_additional_qty" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_partner_beneficiary_form" model="ir.ui.view">
+            <field name="name">res.partner.beneficiary.form</field>
+            <field name="model">res.partner</field>
+            <field eval="1" name="priority"/>
+            <field name="arch" type="xml">
+                <form string="Beneficiarios" version="7.0">
+                <sheet>
+                    <field name="image" widget='image' class="oe_left oe_avatar" options='{"preview_image": "image_medium", "size": [100, 100]}'/>
+                    <div class="oe_title">
+                        <div class="oe_edit_only">
+                            <label for="name"/>
+                        </div>
+                        <h1>
+                            <field name="name" default_focus="1" placeholder="Name" />
+                        </h1>
+                        <field name="curp" placeholder="Curp... ej. BEML920313HCMLNS09."/>
+                        <field name="category_id" widget="many2many_tags" placeholder="Tags..."/>
+                    </div>
+                    <div class="oe_right oe_button_box" name="buttons"> </div>
+
+                    <group>
+                        <group>
+                            <label for="street" string="Address"/>
+                            <div>
+                                <field name="street" placeholder="Direccion..."/>
+                                <field name="settlement_id" placeholder="Colonia" on_change="onchange_settlement(settlement_id)"/>
+                                <div class="address_format">
+                                    <field name="city_id" placeholder="Ciudad" style="width: 40%%"/>
+                                    <field name="city" placeholder="Ciudad" invisible="1"/>
+                                    <field name="state_id" class="oe_no_button" placeholder="State" style="width: 37%%" options='{"no_open": True}' on_change="onchange_state(state_id)" />
+                                    <field name="zip" placeholder="C.P." style="width: 20%%" />
+                                </div>
+                                <div class="address_format">
+                                    <field name="sector_id" class="oe_no_button" placeholder="Sector" style="width: 39%%"/>
+                                    <field name="area_id" class="oe_no_button" placeholder="Area" style="width: 59%%" />
+                                </div>
+                                <field name="country_id" placeholder="Country" class="oe_no_button" options='{"no_open": True}'/>
+                            </div>
+                            <label for="ref" string="Referencia"/>
+                            <div>
+                                <field name="ref"/>
+                            </div>
+                            <label for="program_id" string="Programa Actual" attrs="{'invisible': [('program_id','=',False)]}"/>
+                            <div attrs="{'invisible': [('program_id','=',False)]}">
+                                <field name="program_id"/>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="date" invisible="1"/>
+                            <field name="phone" placeholder="e.g. +32.81.81.37.00"/>
+                            <field name="mobile"/>
+                            <field name="fax"/>
+                            <field name="email" widget="email"/>
+                            <field name="program_count" invisible="1"/>
+                            <field name="program_count_total"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+
+                    <notebook colspan="4">
+                        <page string="Internal Notes">
+                            <field name="comment" placeholder="Put an internal note..."/>
+                        </page>
+                        
+                        <page string="Informacion Personal">
+                            <group>
+                                <group string="DATOS GENERALES">
+                                    <field name="title"></field>
+                                    <field name="residency_long"></field>
+                                    <field name="date_birth"></field>
+                                </group>
+                                <group string="ESTADO CIVIL">
+                                    <field name="marital_status"></field>
+                                    <field name="family_head"></field>
+                                    <field name="family_head_other" attrs="{'invisible': [('family_head','!=','other')]}"></field>
+                                </group>
+                                <group string="DATOS LABORALES">
+                                    <field name="ocupation"></field>
+                                    <field name="ocupation_other"  attrs="{'invisible': [('ocupation','!=','other')]}"></field>
+                                    <field name="ocupation_shift"  attrs="{'invisible': [('ocupation','not in',('employee','sale','other'))]}"></field>
+                                    <field name="ocupation_entry"  attrs="{'invisible': [('ocupation','not in',('employee','sale','other'))]}"></field>
+                                </group>
+                                <group string="SEGURIDAD Y APOYOS SOCIALES">
+                                    <field name="social_safe"></field>
+                                    <field name="social_safe_type" attrs="{'invisible': [('social_safe','=',False)]}"></field>
+                                    <field name="social_safe_type_other" attrs="{'invisible': ['|',('social_safe_type','!=','other'),('social_safe','=',False)]}"></field>
+                                    <field name="support"></field>
+                                    <field name="support_description" attrs="{'invisible': [('support','=',False)]}"></field>
+                                </group>
+                                <group string="NIVEL DE ESTUDIOS">
+                                    <field name="education"></field>
+                                    <field name="education_other" attrs="{'invisible': [('education','!=','other')]}"></field>
+                                    <field name="education_present"></field>
+                                    <field name="education_present_type" attrs="{'invisible': [('education_present','=',False)]}"></field>
+                                    <field name="education_present_new"></field>
+                                    <field name="education_present_new_type" attrs="{'invisible': [('education_present_new','=',False)]}"></field>
+                                </group>
+                                <group string="TALLERES">
+                                    <label string="En caso de oportunidad de talleres señale 2 opciones" style="font-weight: bold" colspan="2" col="2"></label>
+                                    <separator/>
+                                    <div colspan="2" col="2">
+                                        <div style="float:left">
+                                            <field name="workshop_reposteria" style="width: 5%%"></field>
+                                            <label for="workshop_reposteria" string="Reposteria" style="margin-left: 5px; font-weight: normal; width: 35%%"/>
+                                        </div>
+                                        <div style="float:left">
+                                            <field name="workshop_computation" style="width: 5%%"></field>
+                                            <label for="workshop_computation" string="Computacion" style="margin-left: 5px; font-weight: normal; width: 35%%"/>
+                                        </div>
+                                        <div style="float:left">
+                                            <field name="workshop_secretary" style="width: 5%%"></field>
+                                            <label for="workshop_secretary" string="Secretariado" style="margin-left: 5px; font-weight: normal; width: 35%%"/>
+                                        </div>
+                                        <div style="float:left">
+                                            <field name="workshop_stylist" style="width: 5%%"></field>
+                                            <label for="workshop_stylist" string="Estilista" style="margin-left: 5px; font-weight: normal; width: 35%%"/>
+                                        </div>
+                                        <div style="float:left">
+                                            <field name="workshop_kitchen" style="width: 5%%"></field>
+                                            <label for="workshop_kitchen" string="Cocina" style="margin-left: 5px; font-weight: normal; width: 35%%"/>
+                                        </div>
+                                        <div style="float:left">
+                                            <field name="workshop_makeup" style="width: 5%%"></field>
+                                            <label for="workshop_makeup" string="Maquillista" style="margin-left: 5px; font-weight: normal; width: 35%%"/>
+                                        </div>
+                                        <div style="float:left">
+                                            <field name="workshop_hotel" style="width: 5%%"></field>
+                                            <label for="workshop_hotel" string="Hoteleria" style="margin-left: 5px; font-weight: normal; width: 35%%"/>
+                                        </div>
+                                        <div style="float:left">
+                                            <field name="workshop_nails" style="width: 5%%"></field>
+                                            <label for="workshop_nails" string="Uñas" style="margin-left: 5px; font-weight: normal; width: 35%%"/>
+                                        </div>
+                                        <div style="float:left">
+                                            <field name="workshop_cuts" style="width: 5%%"></field>
+                                            <label for="workshop_cuts" string="Corte y confeccion" style="margin-left: 5px; font-weight: normal; width: 35%%"/>
+                                        </div>
+                                        <div style="float:left">
+                                            <field name="workshop_business" style="width: 5%%"></field>
+                                            <label for="workshop_business" string="Creacion de empresa" style="margin-left: 5px; font-weight: normal; width: 35%%"/>
+                                        </div>
+                                    </div>
+                                </group>
+                                <group string="SOBRE SUS DEPENDIENTES">
+                                    <field name="childrens"/>
+                                    <field name="childrens_qty" attrs="{'invisible': [('childrens','=',False)]}"/>
+                                    <field name="childrens_high" attrs="{'invisible': [('childrens','=',False)]}"/>
+                                    <field name="childrens_less" attrs="{'invisible': [('childrens','=',False)]}"/>
+                                    <separator colspan="2"/>
+                                    <field name="dependents"/>
+                                    <field name="dependents_qty" attrs="{'invisible': [('dependents','=',False)]}"/>
+                                    <field name="dependents_high" attrs="{'invisible': [('dependents','=',False)]}"/>
+                                    <field name="dependents_less" attrs="{'invisible': [('dependents','=',False)]}"/>
+                                    <separator colspan="2"/>
+                                    <field name="impairment" attrs="{'invisible': [('dependents','=',False)]}"/>
+                                    <field name="impairment_qty" attrs="{'invisible': ['|',('dependents','=',False),('impairment','=',False)]}"/>
+                                    <field name="impairment_high" attrs="{'invisible': ['|',('dependents','=',False),('impairment','=',False)]}"/>
+                                    <field name="impairment_less" attrs="{'invisible': ['|',('dependents','=',False),('impairment','=',False)]}"/>
+                                    <field name="impairment_type" attrs="{'invisible': ['|',('dependents','=',False),('impairment','=',False)]}"/>
+                                    <separator colspan="2"/>
+                                    <field name="dependents_support" attrs="{'invisible': [('dependents','=',False)]}"/>
+                                    <field name="dependents_support_qty" attrs="{'invisible': ['|',('dependents','=',False),('dependents_support','=',False)]}"/>
+                                    <field name="dependents_support_description" attrs="{'invisible': ['|',('dependents','=',False),('dependents_support','=',False)]}"/>
+                                </group>
+                                <group string="INGRESOS EXTRAS">
+                                    <field name="entry_additional_parent"/>
+                                    <field name="entry_additional_parent_qty" attrs="{'invisible': [('entry_additional_parent','=',False)]}"/>
+                                    <field name="entry_additional_son"/>
+                                    <field name="entry_additional_son_qty" attrs="{'invisible': [('entry_additional_son','=',False)]}"/>
+                                    <field name="entry_additional_retirement"/>
+                                    <field name="entry_additional_retirement_qty" attrs="{'invisible': [('entry_additional_retirement','=',False)]}"/>
+                                    <field name="entry_additional_family"/>
+                                    <field name="entry_additional_family_qty" attrs="{'invisible': [('entry_additional_family','=',False)]}"/>
+                                    <field name="entry_additional_government"/>
+                                    <field name="entry_additional_government_qty" attrs="{'invisible': [('entry_additional_government','=',False)]}"/>
+                                    <field name="entry_additional_qty"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Informacion Adicional">
+                            <div class="oe_edit_only">
+                                <label for="image_ref" string="identificacion oficial"/>
+                            </div>
+                            <div>
+                                <field name="image_ref" widget='image' class="oe_social_programs_image_ref" options='{"preview_image": "image_ref", "size": [400, 200]}'/>
+                            </div>
+                            <div>
+                                Agregar idenficacion oficial con informacion visible.
+                            </div>
+                        </page>
+                        <page string="Programas Sociales" >
+                            <field name="delivery_ids" readonly="1">
+                                <tree string="Entregas" editable="bottom">
+                                    <field name="partner_id" invisible="1"></field>
+                                    <field name="program_id" ></field>
+                                    <field name="product_id" ></field>
+                                    <field name="qty" ></field>
+                                    <field name="delivery" ></field>
+                                    <button string="Entregar" attrs="{'invisible': [('delivery','=',True)]}" 
+                                        icon="gtk-redo"
+                                        name="action_delivery_product" type="object"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Partner Kanban View -->
+        <record model="ir.ui.view" id="res_partner_beneficiary_kanban_view">
+            <field name="name">res.partner.beneficiary.kanban</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="program_id" >
+                    <field name="color"/>
+                    <field name="name"/>
+                    <field name="title"/>
+                    <field name="email"/>
+                    <field name="parent_id"/>
+                    <field name="is_company"/>
+                    <field name="function"/>
+                    <field name="phone"/>
+                    <field name="street"/>
+                    <field name="street2"/>
+                    <field name="zip"/>
+                    <field name="city"/>
+                    <field name="country_id"/>
+                    <field name="mobile"/>
+                    <field name="state_id"/>
+                    <field name="category_id"/>
+                    <field name="has_image"/>
+                    <field name="settlement_id"/>
+                    <field name="program_count"/>
+                    <field name="program_id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_vignette oe_semantic_html_override">
+                                <a type="open">
+                                    <t t-if="record.has_image.raw_value === true">
+                                        <img t-att-src="kanban_image('res.partner', 'image_small', record.id.value)" class="oe_kanban_image"/>
+                                    </t>
+                                    <t t-if="record.has_image.raw_value === false">
+                                        <t t-if="record.is_company.raw_value === true">
+                                            <img t-att-src='_s + "/base/static/src/img/company_image.png"' class="oe_kanban_image"/>
+                                        </t>
+                                        <t t-if="record.is_company.raw_value === false">
+                                            <img t-att-src='_s + "/base/static/src/img/avatar.png"' class="oe_kanban_image"/>
+                                        </t>
+                                    </t>
+                                </a>
+                                <div class="oe_kanban_details">
+                                    <h4 class="oe_partner_heading"><a type="open"><field name="name"/></a></h4>
+                                    <div class="oe_kanban_partner_categories"/>
+                                    <div class="oe_kanban_partner_links"/>
+                                    <ul>
+                                        <!-- Lo dejo para si se agrega la direccion de casa-->
+                                        <!--<li t-if="record.parent_id.raw_value and !record.function.raw_value"><field name="parent_id"/></li>-->
+                                        
+                                        <li t-if="record.street.raw_value and record.settlement_id.raw_value">Calle <field name="street"/>, Col. <field name="settlement_id" /></li>
+                                        <li t-if="!record.street.raw_value and record.settlement_id.raw_value">Col. <field name="settlement_id"/></li>
+                                        
+                                        <li t-if="record.program_count.raw_value == 1"><field name="program_count"/> programa activo</li>
+                                        <li t-if="record.program_count.raw_value > 1"><field name="program_count"/> programas activos</li>
+                                        
+                                        <li t-if="record.email.raw_value"><a t-attf-href="mailto:#{record.email.raw_value}"><field name="email"/></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!--  Filtros Beneficiario -->
+        <record id="view_res_partner_beneficiary_filter" model="ir.ui.view">
+            <field name="name">res.partner.select</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Beneficiario">
+                    <field name="family_head"/>
+                    <field name="education_present"/>
+                    <field name="education_present_new"/>
+                    <field name="childrens"/>
+                    <field name="dependents"/>
+                    <field name="support"/>
+                    <field name="social_safe"/>
+                    <field name="entry_additional_qty"/>
+                    <field name="name"
+                        filter_domain="['|','|',('name','ilike',self),('curp','ilike',self),('ref','=',self)]"/>
+                    
+                    <filter string="Es jefe de familia" name="family_head" domain="[('family_head','=','me')]"/>
+                    <separator/>
+                    <filter string="Estudia" name="no_education_present" domain="[('education_present','=',True)]"/>
+                    <filter string="No Estudia" name="education_present" domain="[('education_present','=',False)]"/>
+                    <separator/>
+                    <filter string="Quiere estudiar" name="education_present_new" domain="[('education_present_new','=',True)]"/>
+                    <filter string="no quiere estudiar" name="no_education_present_new" domain="[('education_present_new','=',False)]"/>
+                    <separator/>
+                    <filter string="Tiene hijos" name="childrens" domain="[('childrens','=',True)]"/>
+                    <filter string="no tiene hijos" name="no_childrens" domain="[('childrens','=',False)]"/>
+                    <separator/>
+                    <filter string="Dependientes" name="dependents" domain="[('dependents','=',True)]"/>
+                    <filter string="no tiene dependientes" name="no_dependents" domain="[('dependents','=',False)]"/>
+                    <separator/>
+                    <filter string="Tiene seguro medico" name="social_safe" domain="[('social_safe','=',True)]"/>
+                    <filter string="no tiene seguro" name="no_social_safe" domain="[('social_safe','=',False)]"/>
+                    <separator/>
+                    <filter string="Apoyo del gobierno" name="support" domain="[('support','=',True)]"/>
+                    <filter string="no tiene apoyo" name="no_support" domain="[('support','=',False)]"/>
+                    <separator/>
+                    
+                   <field name="category_id" string="Tag" filter_domain="[('category_id','ilike', self)]"/>
+                   <field name="state_id"/>
+                   <field name="city_id"/>
+                   <field name="sector_id"/>
+                   <field name="area_id"/>
+                   <field name="residency_long"/>
+                   <field name="date_birth"/>
+                   <field name="ocupation"/>
+                   <field name="ocupation_entry"/>
+                   <field name="education"/>
+                  
+                   <group expand="0" string="Group By...">
+                       <filter string="Estado" context="{'group_by': 'state_id'}"/>
+                       <filter string="Ciudad" context="{'group_by': 'city_id'}"/>
+                       <filter string="Sector" context="{'group_by': 'sector_id'}"/>
+                       <filter string="Area" context="{'group_by': 'area_id'}"/>
+                       <separator />
+                       <filter string="Tiempo residencia" context="{'group_by': 'residency_long'}" help="Tiempo que lleva dentro del municipio"/>
+                       <filter string="Fecha Nacimiento" context="{'group_by': 'date_birth'}"/>
+                       <filter string="Estado civil" context="{'group_by': 'marital_status'}"/>
+                       <filter string="Ocupacion" context="{'group_by': 'ocupation'}"/>
+                       <filter string="Nivel Educativo" context="{'group_by': 'education'}"/>
+                       <separator />
+                       <filter string="Ingreso Mensual" context="{'group_by': 'ocupation_entry'}"/>
+                       <filter string="Ingresos Extras" context="{'group_by': 'entry_additional_qty'}"/>
+                       <separator />
+                       <filter string="Programa" context="{'group_by': 'program_id'}"/>
+                   </group>
+               </search>
+            </field>
+        </record>
+        
+        <!-- Action Beneficiario -->
+        <record id="action_partner_beneficiary_form" model="ir.actions.act_window">
+            <field name="name">Beneficiary</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[('beneficiary','=',True)]</field>
+            <field name="context">{"default_beneficiary":True}</field>
+            <field name="search_view_id" ref="view_res_partner_beneficiary_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click para agregar un nuevo beneficiario.
+              </p>
+            </field>
+        </record>
+        
+        <!-- Asignar vistas al Action -->
+        <record id="action_partner_beneficiary_form_view1" model="ir.actions.act_window.view">
+            <field eval="0" name="sequence"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="res_partner_beneficiary_kanban_view"/>
+            <field name="act_window_id" ref="action_partner_beneficiary_form"/>
+        </record>
+        <record id="action_partner_beneficiary_form_view2" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_partner_beneficiary_form"/>
+            <field name="act_window_id" ref="action_partner_beneficiary_form"/>
+        </record>
+        <record id="action_partner_beneficiary_tree_view1" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_partner_beneficiary_tree"/>
+            <field name="act_window_id" ref="action_partner_beneficiary_form"/>
+        </record>
+        <!-- Menu Beneficiario -->
+        <menuitem id="menu_partner_beneficiary" name="Beneficiarios" parent="menu_social_programs" action="action_partner_beneficiary_form" sequence="1"/>
+
+<!--
+        Configuracion partner
+-->
+        
+        <!-- Titulos de Contacto  -->
+        <record id="action_partner_title_contact" model="ir.actions.act_window">
+            <field name="name">Titulos de Contacto</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner.title</field>
+            <field name="view_type">form</field>
+            <field name="domain">[('domain','=','contact')]</field>
+            <field name="context">{'default_domain': 'contact'}</field>
+            <field name="help">Administrar los títulos de contacto que desea tener disponible en su sistema y la forma en que desea imprimir en cartas y otros documentos. Algunos ejemplos: Sr., Sra.</field>
+        </record>
+        
+        <menuitem action="action_partner_title_contact" id="menu_partner_title_contact" name="Contact Titles" parent="base.menu_config_address_book" sequence="2" groups="base.group_no_one"/>
+        
+        <!-- Categorias Contacto -->
+        <record id="action_partner_category_form" model="ir.actions.act_window">
+            <field name="name">Partner Categories</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner.category</field>
+            <field name="view_type">form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click para crear una nueva categoria de contacto.
+              </p><p>
+                Administra las categorías asociadas con el fin de clasificar mejor para fines de seguimiento y análisis.
+                Un contacto puede pertenecer a varias categorías y las categorías tienen una estructura jerárquica: un contacto que pertenece a una categoría también pertenecen a la categoría padre.
+              </p>
+            </field>
+        </record>
+
+        <menuitem action="action_partner_category_form" id="menu_partner_category_form" name="Etiquetas Contacto" sequence="4" parent="base.menu_config_address_book" groups="base.group_no_one"/>
+
+    </data>
+</openerp>

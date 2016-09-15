@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+<!--
+        Accion reemplazado para buscar las tareas del proyecto
+-->
+        <record id="project.act_project_project_2_project_task_all" model="ir.actions.act_window">
+            <field name="name">Tasks</field>
+            <field name="res_model">project.task</field>
+            <field name="view_mode">kanban,tree,form,calendar,gantt,graph</field>
+            <field name="context">{'search_default_project_id': [active_id], 'search_default_is_ticket': 'False', 'search_default_user_id': uid, 'default_project_id': active_id}</field>
+            <field name="search_view_id" ref="project.view_task_search_form"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a new task.
+              </p><p>
+                OpenERP's project management allows you to manage the pipeline
+                of tasks in order to get things done efficiently. You can
+                track progress, discuss on tasks, attach documents, etc.
+              </p>
+            </field>
+        </record>
+
+<!--
+        Accion para filtrar los tickets del proyecto
+-->
+        <record id="act_project_project_2_project_ticket_all" model="ir.actions.act_window">
+            <field name="name">Tickets</field>
+            <field name="res_model">planning.project.ticket</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_planning_project_ticket_filter"/>
+            <field name="context">{'search_default_project_id': [active_id], 'default_project_id': active_id}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Tickets generados para la planeacion y asignacion de nuevas tareas al proyecto </p>
+            </field>
+        </record>
+
+<!--
+        Modificacion de la vista kanban de proyecto
+-->
+        <record id="view_project_kanban_inherit" model="ir.ui.view">
+            <field name="name">project.project.kanban.inherit</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project_kanban"/>
+            <field eval="17" name="priority"/>
+            <field name="arch" type="xml">
+                <field name="use_tasks" position="after">
+                    <field name="ticket_count" invisible="1"/>
+                    <field name="task_log_time_function" widget="float_time" invisible="1"/>
+                    <field name="task_log_time_ticket" widget="float_time" invisible="1"/>
+                    <field name="task_log_time_project" widget="float_time" invisible="1"/>
+                    <field name="task_log_time_total" widget="float_time" invisible="1"/>
+                </field>
+                <xpath expr="//div[contains(@class, 'oe_kanban_project_list')]" position="inside">
+                    <a style="margin-right: 10px"
+                        name="%(act_project_project_2_project_ticket_all)d" type="action">
+                        <span t-if="record.ticket_count.raw_value gt 1"><field name="ticket_count"/> Tickets</span>
+                        <span t-if="record.ticket_count.raw_value lt 2"><field name="ticket_count"/> Ticket</span>
+                    </a>
+                </xpath>
+            </field>
+        </record>
+
+<!--
+        Modificacion de la vista formulario de proyecto
+-->
+        <record id="view_project_form_inherit" model="ir.ui.view">
+            <field name="name">project.project.form.inherit</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <xpath expr='//div[@name="buttons"]' position='inside'>
+                    <button name="%(act_project_project_2_project_ticket_all)d" string="Tickets" type="action" />
+                </xpath>
+                <notebook position="inside">
+                    <page string="Descripcion" name="project_description">
+                         <field name="description"/>
+                    </page>
+                </notebook>
+                <field name="user_id" position="after">
+                    <field name="task_log_time_function" widget="float_time" invisible="1"></field>
+                    <field name="task_log_time_ticket" widget="float_time" ></field>
+                    <field name="task_log_time_project" widget="float_time" ></field>
+                    <field name="task_log_time_total" widget="float_time" ></field>
+                </field>
+                <button string="Tasks" position="replace">
+                    <button name="%(project.act_project_project_2_project_task_all)d" string="Tareas"
+                        type="action" attrs="{'invisible':[('use_tasks','=', 0)]}"/>
+                </button>
+            </field>
+        </record>
+
+<!--
+        Modificacion de la vista Lista de proyecto
+-->
+        <record id="view_project_tree_inherit" model="ir.ui.view">
+            <field name="name">project.project.tree.inherit</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project"/>
+            <field eval="17" name="priority"/>
+            <field name="arch" type="xml">
+                <field name="planned_hours" position="replace"/>
+                <field name="total_hours" position="replace"/>
+                <field name="effective_hours" position="replace">
+                    <field name="task_log_time_function" widget="float_time" invisible="1"/>
+                    <field name="task_log_time_total" widget="float_time" string="Tiempo Dedicado" />
+                </field>
+            </field>
+        </record>
+
+<!--
+        Modificacion de la vista kanban de tareas
+-->
+        <record id="view_task_kanban_inherit" model="ir.ui.view">
+            <field name="name">project.task.kanban.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_kanban"/>
+            <field eval="17" name="priority"/>
+            <field name="arch" type="xml">
+                <field name="categ_ids" position="after">
+                    <field name="task_log_time_function" invisible="1"/>
+                    <field name="task_log_time" invisible="1"/>
+                </field>
+            </field>
+        </record>
+
+<!--
+        Modificacion de la vista formulario de tareas
+-->
+        <record id="view_task_form_inherit" model="ir.ui.view">
+            <field name="name">project.task.form.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field eval="19" name="priority"/>
+            <field name="arch" type="xml">
+                <field name="project_id" position="after">
+                    <field name="ticket_id"/>
+                </field>
+                <field name="user_id" position="after">
+                    <field name="task_log_time" widget="f_time" invisible="1"></field>
+                    <field name="task_log_time_function" widget="f_time" string="Horas Trabajadas"></field>
+                </field>
+                <notebook position="inside">
+                    <page string="Registro" name="log">
+                        <field name="log_id">
+                            <tree string="Purchase Order Lines" editable="bottom">
+                                <field name="date" style="wdith:50px"/>
+                                <field name="time" width="20"/>
+                                <field name="description" width="50" height="30"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+<!--
+        Modificacion de la vista Lista de Tareas
+-->
+        <record id="project_task_tree2_view_inherit" model="ir.ui.view">
+            <field name="name">project.task.tree.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_tree2"/>
+            <field eval="99" name="priority"/>
+            <field name="arch" type="xml">
+                <field name="project_id" position="after">
+                    <field name="task_log_time" widget="f_time" string="Hrs Trabajadas"></field>
+                    <field name="task_log_time_function" widget="f_time" invisible="1" ></field>
+                    <field name="ticket_id" string="Ticket" invisible="1" />
+                    <field name="is_ticket" string="Es Ticket" invisible="1" />
+                </field>
+                <field name="name" position="before">
+                    <field name="id" string="Id"></field>
+                </field>
+            </field>
+        </record>
+
+<!--
+        Modificacion de la vista Grafica de Tareas
+-->
+        <record id="view_project_task_graph_inherit" model="ir.ui.view">
+            <field name="name">project.task.graph.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_project_task_graph"/>
+            <field eval="18" name="priority"/>
+            <field name="arch" type="xml">
+                <graph position="replace">
+                    <graph string="Tareas del proyecto" type="bar">
+                        <field name="project_id" group="True"/>
+                        <field name="task_log_time" widget="f_time" operator="+"/>
+                    </graph>
+                </graph>
+            </field>
+        </record>
+
+<!--
+        Modificacion de campo search de Tareas
+-->
+        <record id="view_task_search_form_inherit" model="ir.ui.view">
+            <field name="name">project.task.search.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_search_form"/>
+            <field name="arch" type="xml">
+                <field name="project_id" position="after">
+                    <field name="ticket_id"/>
+                    <field name="is_ticket"/>
+                    <field name="task_log_time" />
+                    <field name="task_log_time_function" />
+                </field>
+                <xpath expr="//filter[@name='group_project_id']" position="after">
+                    <filter string="Ticket" name="group_ticket_id"  icon="terp-folder-violet" domain="[]" context="{'group_by':'ticket_id'}"/>
+                </xpath>
+                <xpath expr="//filter[@name='My project']" position="after">
+                    <filter name="no_tickets" string="Quitar tickets" domain="[('is_ticket','=','False')]" help="No mostrar tareas provenientes de tickets" icon="terp-check"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>

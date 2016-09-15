@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <record model="ir.cron" id="birthday_notifier_mail">
+            <field name="name">Birthday notifier mail</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model">birthday.notifier.mail</field>
+            <field name="function">cron_birthday_notifier</field>
+            <field name="args">()</field>
+            <field name="active" eval="True"/>
+        </record>
+        
+    </data>
+</openerp>

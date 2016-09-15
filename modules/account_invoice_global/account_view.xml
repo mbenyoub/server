@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    
+<!--
+        Diarios
+-->
+
+        <record model='ir.ui.view' id='view_account_journal_form_inherit'>
+            <field name='name'>account.journal.form.inherit</field>
+            <field name='model'>account.journal</field>
+            <field name='inherit_id' ref='account.view_account_journal_form'/>
+            <field name='arch' type='xml'>
+                <field name="centralisation" position="before">
+                    <field name="note_sale" attrs="{'invisible': [('type','not in',['sale'])]}" />
+                </field>
+                <field name="group_invoice_lines" position="after">
+                    <field name="paid_invoice_global" attrs="{'invisible': [('type','not in',['general'])]}" />
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>
+

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <!-- Menu item -->
+        <menuitem id="base.menu_custom_backoffice" name="Backoffice" sequence="10" groups="base.group_backoffice_user"/>
+        <!-- Menu SAAS -->
+        <menuitem id="base.menu_custom_backoffice_saas" parent="base.menu_custom_backoffice" name="Backoffice" sequence="10" groups="base.group_backoffice_user"/>
+        
+        <!-- Borra los menuitem que ya no se ocuparon - QUITAR DESPUES -->
+        <delete model="ir.ui.menu" id="menu_backoffice_sale_picking"/>
+        <delete model="ir.ui.menu" id="menu_backoffice_purchase_picking"/>
+        
+        <!--
+            Introduccion BackOffice - Modificacion por Lic. Jose de Jesus Ruvalcaba Luna -
+        -->
+        <menuitem id="menu_backoffice_intro" name="Bienvenido" parent="base.menu_custom_backoffice_saas" sequence="10" groups="base.group_sale_salesman,base.group_sale_manager"/>
+        <!--
+            Ventas
+        -->
+
+        <!-- Menu TOP Ventas -->
+        <menuitem id="menu_backoffice_sale" name="Ventas" parent="base.menu_custom_backoffice_saas" sequence="10" groups="base.group_sale_salesman,base.group_sale_manager"/>
+            <!-- Menu Clientes -->
+            <menuitem action="base.action_partner_form" name="Clientes" id="menu_backoffice_sale_custom" parent="menu_backoffice_sale" sequence="1" />
+            <!-- Menu Cotizacion -->
+            <menuitem action="sale.action_quotations" name="Cotizaciones" id="menu_backoffice_sale_quotation" parent="menu_backoffice_sale" sequence="2" />
+            <!-- Menu Pedido de Venta -->
+            <menuitem action="sale.action_orders" name="Pedido de Venta" id="menu_backoffice_sale_order" parent="menu_backoffice_sale" sequence="3" />
+            <!-- Menu Albaranes de Salida -->
+            <!--<menuitem action="stock.action_picking_tree" name="Albaranes de Salida" id="menu_backoffice_sale_picking" parent="menu_backoffice_sale" sequence="4" /> -->
+            <!-- Menu Facturas de Cliente -->
+            <menuitem action="account.action_invoice_tree1" name="Facturas de Cliente" id="menu_backoffice_sale_invoice" parent="menu_backoffice_sale" sequence="5" />
+            <!-- Menu Pagos cliente -->
+            <menuitem action="account_voucher.action_vendor_receipt" name="Cobros a Cliente" id="menu_backoffice_sale_voucher" parent="menu_backoffice_sale" sequence="6" />
+        
+        <!--
+            CRM
+        -->
+        
+        <!-- Mueve de lugar las reuniones al apartado de ventas-->
+        <menuitem name="Reuniones" id="menu_backoffice_meeting" parent="base.menu_custom_backoffice_saas" sequence="15" groups="base.group_sale_salesman,base.group_sale_manager"/>
+            <menuitem name="Calendario" id="menu_backoffice_calendar" parent="menu_backoffice_meeting" sequence="15" action="base_calendar.action_crm_meeting"/>
+        
+        <!-- Llamadas -->
+        <menuitem name="Llamadas telefonicas" id="menu_backoffice_crm_case_phone" parent="base.menu_custom_backoffice_saas" sequence="18" groups="base.group_sale_salesman,base.group_sale_manager"/>
+            <menuitem name="Llamadas planificadas" id="menu_backoffice_crm_case_phone_outbound" parent="menu_backoffice_crm_case_phone" action="crm.crm_case_categ_phone_outgoing0" />
+            <menuitem name="Llamadas registradas" id="menu_backoffice_crm_case_phone_inbound" parent="menu_backoffice_crm_case_phone" action="crm.crm_case_categ_phone_incoming0" />
+        
+        <!--
+            Compras
+        -->
+
+        <!-- Menu TOP Compras -->
+        <menuitem id="menu_backoffice_purchase" name="Compras" parent="base.menu_custom_backoffice_saas" sequence="20" groups="purchase.group_purchase_manager,purchase.group_purchase_user"/>
+            <!-- Menu Solicitudes de Compra -->
+            <menuitem action="purchase_requisition.action_purchase_requisition" name="Solicitudes de Compra" id="menu_backoffice_purchase_requisition" parent="menu_backoffice_purchase" sequence="1" />
+            <!-- Menu Presupuestos -->
+            <menuitem action="purchase.purchase_rfq" name="Presupuestos" id="menu_backoffice_purchase_rfq" parent="menu_backoffice_purchase" sequence="2" />
+            <!-- Menu Pedidos de Compra -->
+            <menuitem action="purchase.purchase_form_action" name="Pedidos de Compra" id="menu_backoffice_purchase_purchase" parent="menu_backoffice_purchase" sequence="3" />
+            <!-- Menu Albaranes de Entrada -->
+            <!--<menuitem action="stock.action_picking_tree4" name="Albaranes de Entrada" id="menu_backoffice_purchase_picking" parent="menu_backoffice_purchase" sequence="4" /> -->
+            <!-- Menu Facturas de Proveedor -->
+            <menuitem action="account.action_invoice_tree2" name="Facturas de Proveedor" id="menu_backoffice_purchase_invoice" parent="menu_backoffice_purchase" sequence="5" />
+            <!-- Menu Pagos a Proveedor -->
+            <menuitem action="account_voucher.action_vendor_payment" name="Pagos a Proveedor" id="menu_backoffice_purchase_payables" parent="menu_backoffice_purchase" sequence="6" />
+            <!-- Menu Proveedores -->
+            <menuitem action="base.action_partner_supplier_form" name="Proveedores" id="menu_backoffice_purchase_supplier" parent="menu_backoffice_purchase" sequence="7" />
+        
+        <!--
+            Almacen
+        -->
+
+        <!-- Menu TOP Almacen -->
+        <menuitem id="menu_backoffice_stock" name="Almacen" parent="base.menu_custom_backoffice_saas" sequence="30" groups="stock.group_stock_manager,stock.group_stock_user"/>
+            <!-- Menu Albaranes de Entrada -->
+            <menuitem action="stock.action_picking_tree4" name="Albaranes de Entrada" id="menu_backoffice_stock_picking_in" parent="menu_backoffice_stock" sequence="1" /> 
+            <!-- Menu Albaranes de Salida -->
+            <menuitem action="stock.action_picking_tree" name="Albaranes de Salida" id="menu_backoffice_stock_picking_out" parent="menu_backoffice_stock" sequence="2" /> 
+            <!-- Menu Productos -->
+            <menuitem action="product.product_normal_action" name="Productos" id="menu_backoffice_stock_product" parent="menu_backoffice_stock" sequence="3" /> 
+        
+        <!--
+            Contabilidad
+        -->
+
+        <!-- Menu TOP Contabilidad -->
+        <menuitem id="menu_backoffice_account" name="Contabilidad" parent="base.menu_custom_backoffice_saas" sequence="40" groups="account.group_account_user,account.group_account_manager,account.group_account_invoice"/>
+            <!-- Menu Polizas -->
+            <menuitem action="account.action_move_journal_line" name="Polizas" id="menu_backoffice_account_move_line" parent="menu_backoffice_account" sequence="1" /> 
+            <!-- Menu Apuntes Contables -->
+            <menuitem action="account.action_account_moves_all_a" name="Apuntes Contables" id="menu_backoffice_account_move" parent="menu_backoffice_account" sequence="2" /> 
+            <!-- Menu Plan contable -->
+            <menuitem action="account.action_account_chart" name="Plan contable" id="menu_backoffice_account_chart" parent="menu_backoffice_account" sequence="3" /> 
+            <!-- Menu Tabla de Impuestos -->
+            <menuitem action="account.action_account_tax_chart" name="Tabla de impuestos" id="menu_backoffice_account_tax_chart" parent="menu_backoffice_account" sequence="4" /> 
+            <!-- Menu  Cuentas-->
+            <menuitem action="account.action_account_form" name="Cuentas" id="menu_backoffice_account_account" parent="menu_backoffice_account" sequence="5" groups="account.group_account_invoice" /> 
+        
+        <!--
+            Recursos Humanos
+        -->
+
+        <!-- Menu TOP Recursos Humanos -->
+        <menuitem id="menu_backoffice_hr" name="Recursos Humanos" parent="base.menu_custom_backoffice_saas" sequence="50"/>
+            <!-- Menu Empleados -->
+            <menuitem action="hr.open_view_employee_list_my" name="Empleados" id="menu_backoffice_hr_employee" parent="menu_backoffice_hr" sequence="1" /> 
+            <!-- Menu Gastos -->
+            <menuitem action="hr_expense.expense_all" name="Gastos" id="menu_backoffice_hr_expense_all" parent="menu_backoffice_hr" sequence="5" /> 
+        
+        <!--
+            Informes
+        -->
+
+        <!-- Menu TOP Informes -->
+        <menuitem id="menu_backoffice_reporting" name="Informes" parent="base.menu_custom_backoffice_saas" sequence="60" groups="base.backoffice_menu_reporting"/>
+            <!-- Menu Mi Tablero -->
+            <menuitem action="board.open_board_my_dash_action" name="Mi tablero" id="menu_backoffice_reporting_my_dash" parent="menu_backoffice_reporting" sequence="1" /> 
+            <!-- Menu Compras -->
+            <menuitem action="purchase.open_board_purchase" name="Compras" id="menu_backoffice_reporting_purchase" parent="menu_backoffice_reporting" sequence="2" groups="purchase.group_purchase_manager,purchase.group_purchase_user"/> 
+            <!-- Menu Ventas -->
+            <menuitem action="sale.open_board_sales" name="Ventas" id="menu_backoffice_reporting_sales" parent="menu_backoffice_reporting" sequence="3" groups="base.group_sale_salesman,base.group_sale_manager"/> 
+            <!-- Menu Almacen -->
+            <menuitem action="stock.open_board_warehouse" name="Almacen" id="menu_backoffice_reporting_warehouse" parent="menu_backoffice_reporting" sequence="4" groups="stock.group_stock_manager,stock.group_stock_user"/> 
+            <!-- Menu Contabilidad -->
+            <menuitem action="account.open_board_account" name="Situacion Actual" id="menu_backoffice_reporting_account" parent="menu_backoffice_reporting" sequence="5" groups="account.group_account_user,account.group_account_manager,account.group_account_invoice" /> 
+        
+        <!--
+            Configuracion
+        -->
+
+        <!-- Menu TOP Configuracion -->
+        <menuitem id="base.menu_backoffice_config" name="Configuracion" parent="base.menu_custom_backoffice_saas" sequence="150"/>
+            <!-- Menu Configuracion/Contabilidad -->
+            <menuitem name="Contabilidad" id="menu_backoffice_config_account" parent="base.menu_backoffice_config" sequence="10" groups="account.group_account_manager" /> 
+                <!-- Menu Configuracion/Contabilidad/Cuentas Bancarias -->
+                <menuitem action="account.action_bank_tree" name="Cuentas Bancarias" id="menu_backoffice_config_account_bank" parent="menu_backoffice_config_account" sequence="10" /> 
+                
+        </data>
+</openerp>

@@ -1,0 +1,189 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+<!--
+        Search Calendario
+-->
+        <record id="view_crm_meeting_search_inherit" model="ir.ui.view">
+            <field name="name">crm.meeting.select.inherit</field>
+            <field name="model">crm.meeting</field>
+            <field name="inherit_id" ref="base_calendar.view_crm_meeting_search"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="user_id"/>
+                    <field name="project_id"/>
+                    <field name="user_ids"/>
+                    <field name="type"/>
+                    <field name="date"/>
+                    <field name="date2"/>
+                    <field name="date_string"/>
+                </field>
+                <filter string="My Meetings" position="attributes">
+                    <attribute name="help">Reuniones donde soy responsable</attribute>
+                    <attribute name="name">my_meeting</attribute>
+                    <attribute name="string">Responsable</attribute>
+                </filter>
+                <filter name="my_meeting" position="before">
+                    <filter string="Mis reuniones" help="Mostrar Reuniones en las que participo" name="filter_user"  icon="terp-folder-violet" domain="[('user_ids','like',',' + str(uid) + ',')]" context="{}"/>
+                    <separator/>
+                </filter>
+                <filter name="message_unread" position="after">
+                    <separator string="Tipo Reunion"/>
+                    <filter string="Evaluacion" help="Mostrar reuniones de Evaluacion" name="filter_eval"  icon="terp-folder-violet" domain="[('type','=','eval')]" context="{}"/>
+                    <filter string="Seguimiento" help="Mostrar reuniones de Seguimiento" name="filter_seg"  icon="terp-folder-violet" domain="[('type','=','seg')]" context="{}"/>
+                    <filter string="Asesoria" help="Mostrar reuniones de Asesoria" name="filter_ase"  icon="terp-folder-violet" domain="[('type','=','ase')]" context="{}"/>
+                    <filter string="Reto Zapopan" help="Mostrar reuniones de Resultados con Reto Zapopan" name="filter_result"  icon="terp-folder-violet" domain="[('type','=','result')]" context="{}"/>
+                    <separator string="Modalidad"/>
+                    <filter string="Presencial" name="filter_present" icon="terp-folder-violet" domain="[('mode','=','present')]" context="{}"/>
+                    <filter string="Virtual" name="filter_virtual" icon="terp-folder-violet" domain="[('mode','=','virtual')]" context="{}"/>
+                    <separator/>
+                    <filter string="Proyectos que Adminstro" name="filter_my_project" icon="terp-folder-violet" domain="[('project_id.user_id','=',uid)]" context="{}"/>
+                    <separator/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Responsable" name="group_manager" icon="terp-gtk-jump-to-rtl" domain="[]" context="{'group_by':'user_id'}"/>
+                        <filter string="Proyecto" name="group_project" icon="terp-gtk-jump-to-rtl" domain="[]" context="{'group_by':'project_id'}"/>
+                        <filter string="Dia" name="group_date_string_filter" icon="terp-gtk-jump-to-rtl" domain="[]" context="{'group_by':'date_string'}"/>
+                        <filter string="Mes" name="group_date_filter" icon="terp-gtk-jump-to-rtl" domain="[]" context="{'group_by':'date_string'}"/>
+                    </group>
+                </filter>
+            </field>
+        </record>
+<!--
+        Reemplazo de la vista calendario de reuniones
+-->
+        <record model="ir.ui.view" id="base_calendar.view_crm_meeting_calendar">
+            <field name="name">CRM - Meetings Calendar</field>
+            <field name="model">crm.meeting</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <calendar string="Meetings" date_start="date" color="project_id" date_stop="date_deadline" date_delay="duration">
+                    <field name="name"/>
+                    <field name="project_id"/>
+                    <field name="user_id"/>
+                </calendar>
+            </field>
+        </record>
+        
+<!--
+        Modificacion de la vista formulario de proyecto
+-->
+        <record id="view_crm_meeting_form_inherit" model="ir.ui.view">
+            <field name="name">crm.meeting.form.inherit</field>
+            <field name="model">crm.meeting</field>
+            <field name="inherit_id" ref="base_calendar.view_crm_meeting_form"/>
+            <field name="arch" type="xml">
+                <field name="description" position="after">
+                    <field name="user_ids" invisible="1"/>
+                </field>
+                <field name="user_id" position="replace">
+                    <field name="id" invisible="1"/>
+                    <field name="is_manager" invisible="1"/>
+                    <field name="is_consultor" invisible="1"/>
+                </field>
+                <xpath expr="//page[@string='Meeting Details']/group/group" position="before">
+                    <group>
+                        <group colspan="2" gropus="project.group_project_manager">
+                            <group>
+                                <label for="user_id" string="Responsable"  colspan="1" attrs="{'invisible': [('type','in',['ase','eval','seg'])]}"/>
+                                <label for="user_id" string="Emprendedor"  colspan="1" attrs="{'invisible': [('type','!=','ase')]}"/>
+                                <label for="user_id" string="Evaluador"  colspan="1" attrs="{'invisible': [('type','not in',['seg','eval'])]}"/>
+                            </group>
+                            <group>
+                                <field name="user_id" nolabel="1" required="1" attrs="{'readonly':[('is_manager','!=',True)]}"/>
+                            </group>
+                        </group>
+                    </group>
+                    <group>
+                        <group colspan="2">
+                            <group>
+                                <label for="partner_id" string="Contacto"  colspan="1" attrs="{'invisible': [('type','in',['ase','eval','seg'])]}"/>
+                                <label for="partner_id" string="Consultor"  colspan="1" attrs="{'invisible': [('type','!=','ase')]}"/>
+                                <label for="partner_id" string="Emprendedor"  colspan="1" attrs="{'invisible': [('type','not in',['seg','eval'])]}"/>
+                            </group>
+                            <group>
+                                <field name="partner_id" nolabel="1" domain="[('user_ids','!=', False)]" attrs="{'readonly':[('is_manager','!=',True),'|',('consultor_select','=',True),('type','not in',['ase'])]}"/>
+                            </group>
+                        </group>
+                    </group>
+                </xpath>
+                <field name="categ_ids" position="attributes">
+                    <attribute name="string">Tipo</attribute>
+                    <attribute name="invisible">1</attribute>
+                    <attribute name="attrs">{'readonly':[('is_consultor','=',True)]}</attribute>
+                </field>
+                <field name="categ_ids" position="after">
+                    <field name="mode" attrs="{'readonly':[('is_consultor','=',True)]}"/>
+                </field>
+                <field name="date" position="before">
+                    <field name="project_id" on_change="onchange_project(project_id,type,context)" attrs="{'readonly':[('is_manager','!=',True)]}" modifiers="{'readonly':[('is_manager','!=',True)]}"/>
+                    <field name="consultor_select" invisible="1"/>
+                </field>
+                <xpath expr="//field[@name='partner_ids']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//label[@for='partner_ids']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <field name="categ_ids" position="after">
+                    <field name="type" on_change="onchange_type(type,context)" attrs="{'readonly':[('is_manager','!=',True)]}" modifiers="{'readonly':[('is_manager','!=',True)]}" ></field>
+                </field>
+                <notebook position="inside">
+                    <page name="log_meeting" string="Bitacora" groups="base.group_project_reto_zapopan_con,base.group_project_reto_zapopan_eval">
+                        <field name="project_log_meeting_ids" domain="[('user_id','=',uid)]" context="{'project_id' : project_id,'default_project_id': project_id, 'default_meeting_id': id, 'default_time': duration}">
+                            <tree editable="top">
+                                <field name="date"/>
+                                <field name="time" widget="float_time"/>
+                                <field name="description"/>
+                                <field name="type" attrs="{'readonly':[('is_manager','!=',True)]}" />
+                                <field name="meeting_id" invisible="1"/>
+                                <field name="is_manager" invisible="1"/>
+                                <field name="user_id" groups="base.group_project_reto_zapopan_eval"/>
+                                <field name="project_id" invisible="1"/>
+                                <field name="date_string" invisible="1"/>
+                                <field name="type_contact" invisible="1"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+                <field name="name" position="attributes">
+                    <attribute name="attrs">{'readonly':['|',('is_consultor','=',True),('is_manager','!=',True),('type','!=','ase')]}</attribute>
+                </field>
+                <field name="date" position="attributes">
+                    <attribute name="attrs">{'readonly':['|',('is_consultor','=',True),('is_manager','!=',True),('type','!=','ase')]}</attribute>
+                </field>
+                <field name="duration" position="attributes">
+                    <attribute name="attrs">{'readonly':['|',('is_consultor','=',True),('is_manager','!=',True),('type','!=','ase')]}</attribute>
+                </field>
+                <field name="organizer" position="attributes">
+                    <attribute name="attrs">{'readonly':['|',('is_consultor','=',True),('is_manager','!=',True),('type','!=','ase')]}</attribute>
+                </field>
+                <field name="attendee_ids" position="attributes">
+                    <attribute name="attrs">{'readonly':[('is_consultor','=',True)]}</attribute>
+                </field>
+                <page string="Options" position="attributes">
+                    <attribute name="groups">base.group_project_reto_zapopan_emp,base.group_project_reto_zapopan_eval</attribute>
+                </page>
+            </field>
+        </record>
+        
+
+<!--
+        Modificacion de la vista lista de reuniones
+-->
+        <record id="view_crm_meeting_tree_inherit" model="ir.ui.view">
+            <field name="name">crm.meeting.tree.inherit</field>
+            <field name="model">crm.meeting</field>
+            <field name="inherit_id" ref="base_calendar.view_crm_meeting_tree"/>
+            <field name="arch" type="xml">
+                <field name="duration" position="after">
+                    <field name="project_id" />
+                    <field name="user_ids" invisible="1"/>
+                    <field name="date_string" invisible="1"/>
+                    <field name="date2" invisible="1"/>
+                </field>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

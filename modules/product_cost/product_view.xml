@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="product_normal_form_view">
+            <field name="name">product.normal.form.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="priority" eval="25"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[2]/group[1]/group[1]/div[@groups='base.group_user']" position="after">
+                    <field name="cost_last"/>
+                </xpath>
+                <xpath expr="//field[@name='standard_price']" position="after">
+                    <field name="standard_cost_price" attrs="{'invisible': [('cost_method', '=', 'average')]}"/>
+                </xpath>
+                <xpath expr="//field[@name='standard_price']" position="attributes">
+                    <attribute name="attrs">{'invisible':[('cost_method','!=','average')]}</attribute>
+                </xpath>
+                <xpath expr="//button[@string='- update']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="product_product_tree_view">
+            <field name="name">product.product.tree.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_product_tree_view"/>
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='standard_price']" position="replace"/>
+                <xpath expr="//field[@name='lst_price']" position="before">
+                    <field name="cost_last"/>
+                    <field name="standard_price"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

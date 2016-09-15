@@ -1,0 +1,3 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+access_ir_social_programs_user,ir_social_programs_user,model_ir_social_programs,social_programs.group_social_programs,1,0,1,0
+access_ir_social_programs_manager,ir_social_programs_manager,model_ir_social_programs_manager,social_programs.group_social_programs_manager,1,1,1,1

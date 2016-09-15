@@ -1,0 +1,6 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+account_sat_all,account_sat_all,model_account_account_sat,,1,0,0,0
+account_sat_manager,account_sat_manager,model_account_account_sat,base.group_account_sat_manager,1,1,1,1
+account_sat_manager_related,account_sat_manager_related,model_account_sat_related_wizard,base.group_account_sat_manager,1,1,1,1
+account_sat_manager_related_apply,account_sat_manager_related_apply,model_account_sat_relate_apply_wizard,base.group_account_sat_manager,1,1,1,1
+account_sat_manager_related_account,account_sat_manager_related_accunt,model_account_sat_related_account_wizard,base.group_account_sat_manager,1,1,1,1

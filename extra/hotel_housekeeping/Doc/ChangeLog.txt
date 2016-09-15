@@ -1,0 +1,10 @@
+============================================================================================================================
+ Version Change Log (hotel_housekeeping)
+============================================================================================================================
+
+0.02 on 2013-11-13 by Sudhir Arya
+    * Standardized the module as per v7 standards.
+
+1.01 --> Oct 1,2013 : Anil Kesariya
+
+	* Added Access control for manager user Improved label name.

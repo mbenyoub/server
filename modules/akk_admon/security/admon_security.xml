@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+        <!-- Se agrega la categoria para administracion de bases de datos-->
+        <record model="ir.module.category" id="base.module_category_admon_database_manager">
+            <field name="name">Gestion de Bases de Datos</field>
+            <field name="description">Administracion de bases de datos.</field>
+            <field name="sequence">1</field>
+        </record>
+        
+        <!-- Gestion de Bases de datos -->
+        <record id="base.group_admon_database" model="res.groups">
+            <field name="category_id" ref="base.module_category_admon_database_manager"/>
+            <field name="name">Administrar bases de datos</field>
+        </record>
+        
+        <!-- Gestion de Bases de datos -->
+        <record id="base.group_admon_database_user" model="res.groups">
+            <field name="category_id" ref="base.module_category_admon_database_manager"/>
+            <field name="name">Administrar usuarios</field>
+        </record>
+
+    </data>
+</openerp>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+        <!-- Menu Contabilidad/Gastos -->
+        <menuitem name="Gastos" id="menu_account_expense" parent="account.menu_finance" sequence="5"/>
+            <!-- Menu Contabilidad/Gastos/Gastos Facturados -->
+            <!--<menuitem name="Gastos Facturados" action="action_invoice_expense_tree" id="menu_action_invoice_expense_tree" parent="menu_account_expense" sequence="10" invisible="1"/>-->
+            <!-- Menu Contabilidad/Gastos/Gestion de Gastos -->
+            <menuitem name="Gestion de Gastos" action="hr_expense.expense_all" id="menu_action_expense_expense" parent="menu_account_expense" sequence="20"/>
+        
+    </data>
+</openerp>

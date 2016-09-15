@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+<!--
+        Categoria de producto
+-->
+        <record id="product_category_form_view_inherit" model="ir.ui.view">
+            <field name="name">Product Category Inherited</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="product.product_category_form_view"/>
+            <field name="priority" eval="21"/>
+            <field name="arch" type="xml">
+                <field name="property_account_income_categ" position="after">
+                    <field name="property_account_income_note_categ" string="Cuenta ingresos por nota de venta" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" modifiers="{}"/>
+                </field>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

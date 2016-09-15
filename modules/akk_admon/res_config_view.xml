@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+        <record id="view_admon_configuration" model="ir.ui.view">
+            <field name="name">Admon settings</field>
+            <field name="model">admon.config.settings</field>
+            <field name="arch" type="xml">
+                <form string="Configuracion Administracion" class="oe_form_configuration" version="7.0">
+                    <header>
+                        <button string="Aplicar" type="object" name="execute" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" type="object" name="cancel" class="oe_link"/>
+                    </header>
+                    <separator string="Gestion de bases de datos"/>
+                    <group>
+                        <label for="db_list"/>
+                        <div>
+                            <field name="db_list" class="oe_inline"/>
+                        </div>
+                        <label for="password"/>
+                        <div>
+                            <field name="password" password="1" class="oe_inline"/>
+                        </div>
+                    </group>
+                    <separator string="Configuracion general de PAC SF"/>
+                    <group colspan="4">
+                        <label for="url_webservice"/>
+                        <div>
+                            <field name="url_webservice" class="oe_inline"/>
+                        </div>
+                        <label for="namespace"/>
+                        <div>
+                            <field name="namespace" class="oe_inline"/>
+                        </div>
+                        <label for="certificate_link"/>
+                        <div>
+                            <field name="certificate_link" class="oe_inline"/>
+                        </div>
+                    </group>
+                    <separator string="Plantillas de Importacion"/>
+                    <group colspan="4">
+                        <label for="import_partner"/>
+                        <div>
+                            <field name="import_partner" class="oe_inline"/>
+                        </div>
+                        <label for="import_product"/>
+                        <div>
+                            <field name="import_product" class="oe_inline"/>
+                        </div>
+                        <label for="import_asset"/>
+                        <div>
+                            <field name="import_asset" class="oe_inline"/>
+                        </div>
+                        <label for="import_bank"/>
+                        <div>
+                            <field name="import_bank" class="oe_inline"/>
+                        </div>
+                        <label for="import_balance"/>
+                        <div>
+                            <field name="import_balance" class="oe_inline"/>
+                        </div>
+                        <label for="import_payment"/>
+                        <div>
+                            <field name="import_payment" class="oe_inline"/>
+                        </div>
+                        <label for="import_rate"/>
+                        <div>
+                            <field name="import_rate" class="oe_inline"/>
+                        </div>
+                        <label for="import_utility"/>
+                        <div>
+                            <field name="import_utility" class="oe_inline"/>
+                        </div>
+                        <label for="import_tax"/>
+                        <div>
+                            <field name="import_tax" class="oe_inline"/>
+                        </div>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_admon_configuration" model="ir.actions.act_window">
+            <field name="name">Configuracion Administracion</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">admon.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+        </record>
+
+        <menuitem id="base.menu_admon_config" name="Administracion" parent="base.menu_config" action="action_admon_configuration"/>
+
+    </data>
+</openerp>

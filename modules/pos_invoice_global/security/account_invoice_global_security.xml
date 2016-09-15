@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Se agregan los grupos de usuario -->
+        <record id="base.group_account_invoice_gobal" model="res.groups">
+            <field name="name">Generar Facturacion Global</field>
+        </record>
+        
+    </data>
+</openerp>

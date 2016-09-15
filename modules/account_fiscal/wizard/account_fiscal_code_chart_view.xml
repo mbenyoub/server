@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+        <record id="view_account_fiscal_code_chart" model="ir.ui.view">
+            <field name="name">account.fiscal.code.chart.form</field>
+            <field name="model">account.fiscal.code.chart</field>
+            <field name="arch" type="xml">
+                <form string="Account tax charts" version="7.0">
+                    <group>
+                        <label for="period_id"/>
+                        <div>
+                            <field name="period_id" class="oe_inline" on_change="onchange_period_id(period_id,context)"/>
+                        </div>
+                        <field name="target_move"/>
+                        <field name="period_reg" invisible="1"/>
+                        <field name="year_reg" invisible="1"/>
+                    </group>
+                    <footer>
+                        <button string="Continuar" name="account_fiscal_code_chart_open_window" type="object" class="oe_highlight"/>
+                        ,
+                        <button string="Guardar y Continuar " name="account_fiscal_code_chart_save_window" type="object" class="oe_highlight" groups="base.group_sale_manager" confirm="Este proceso reemplazara la informacion previamente guardada en el historial, ¿Desea continuar?" />
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_account_fiscal_code_chart" model="ir.actions.act_window">
+            <field name="name">Calculadora Fiscal (ISR)</field>
+            <field name="res_model">account.fiscal.code.chart</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="view_id" ref="view_account_fiscal_code_chart"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+            icon="STOCK_INDENT"
+            action="action_account_fiscal_code_chart"
+            name="Calculadora Fiscal (ISR)"
+            id="menu_action_fiscal_code_chart_tree"
+            parent="account.menu_finance_charts"
+            groups="account.group_account_user,account.group_account_manager"
+            sequence="10"/>
+        
+<!--
+        Guardar Calculo mensual o anual
+-->
+        <record id="view_account_fiscal_code_chart_save" model="ir.ui.view">
+            <field name="name">account.fiscal.code.chart.save.form</field>
+            <field name="model">account.fiscal.code.chart.save</field>
+            <field name="arch" type="xml">
+                <form string="Account tax charts" version="7.0" width="600">
+                    <group invisible="1" col="2" colspan="2">
+                        <label for="period_id"/>
+                        <div>
+                            <field name="period_id" class="oe_inline"/>
+                        </div>
+                        <field name="target_move"/>
+                        <field name="period_reg" invisible="1"/>
+                        <field name="year_reg" invisible="1"/>
+                    </group>
+                    <label string="¿Que opcion desea guardar?" />
+                    <footer colspan="2" col="2">
+                        <button string="Guardar calculo mensual " name="account_fiscal_code_chart_save_period_window" type="object" class="oe_highlight" confirm="Ya se ha registrado en el historial la informacion de este periodo, ¿Desea reemplazar los registros?" attrs="{'invisible': [('period_reg','=',False)]}"/>
+                        <button string="Guardar calculo mensual " name="account_fiscal_code_chart_save_period_window" type="object" class="oe_highlight" attrs="{'invisible': [('period_reg','=',True)]}"/>
+                        ,
+                        <button string="Guardar calculo anual " name="account_fiscal_code_chart_save_year_window" type="object" class="oe_highlight" confirm="Ya se ha registrado en el historial la informacion de este periodo, ¿Desea reemplazar los registros?" attrs="{'invisible': [('year_reg','=',False)]}"/>
+                        <button string="Guardar calculo anual " name="account_fiscal_code_chart_save_year_window" type="object" class="oe_highlight" attrs="{'invisible': [('year_reg','=',True)]}"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_account_fiscal_code_chart_save" model="ir.actions.act_window">
+            <field name="name">Guardar Calculo de Calculadora Fiscal</field>
+            <field name="res_model">account.fiscal.code.chart.save</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="view_id" ref="view_account_fiscal_code_chart_save"/>
+            <field name="target">new</field>
+        </record>
+    
+<!--
+        Historial Tabla codigos fiscales
+-->
+        <record id="view_account_fiscal_code_chart_history" model="ir.ui.view">
+            <field name="name">account.fiscal.code.chart.history.form</field>
+            <field name="model">account.fiscal.code.chart.history</field>
+            <field name="arch" type="xml">
+                <form string="Account fiscal charts" version="7.0">
+                    <group>
+                        <field name="get_year" string="Obtener historico anual"/>
+                    </group>
+                    <group attrs="{'invisible': [('get_year','=',True)]}">
+                        <label for="fiscalyear_id"/>
+                        <div>
+                            <field name="fiscalyear_id" class="oe_inline"/>
+                        </div>
+                    </group>
+                    <footer>
+                        <button string="Continuar" name="account_fiscal_code_chart_history_open_window" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_account_fiscal_code_chart_history" model="ir.actions.act_window">
+            <field name="name">Historico codigos fiscales</field>
+            <field name="res_model">account.fiscal.code.chart.history</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="view_id" ref="view_account_fiscal_code_chart_history"/>
+            <field name="target">new</field>
+        </record>
+
+        <!--<menuitem-->
+        <!--    icon="STOCK_INDENT"-->
+        <!--    action="action_account_fiscal_code_chart_history"-->
+        <!--    id="menu_action_fiscal_code_chart_history_tree"-->
+        <!--    parent="account.menu_account_fiscal_report"-->
+        <!--    groups="account.group_account_user,account.group_account_manager"-->
+        <!--    sequence="15"/>-->
+
+    </data>
+</openerp>

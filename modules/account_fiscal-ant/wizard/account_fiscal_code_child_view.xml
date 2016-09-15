@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    
+<!--
+        Vista wizard Agregar codigo fiscal
+-->
+        
+        <!-- View Form - Codigo Fiscal -->
+        <record model="ir.ui.view" id="wizard_account_fiscal_code_child_view">
+            <field name="name">account.fiscal.code.child.form</field>
+            <field name="model">account.fiscal.code.child</field>
+            <field name="arch" type="xml">
+                <form string="Codigo Fiscal" version="7.0">
+                    <group col="4">
+                        <group>
+                            <field name="name"/>
+                            <field name="parent_id" invisible="1"/>
+                            <field name="type_code"/>
+                            <field name="apply_balance"/>
+                            <field name="compute" help="Asignar un calculo adicional sobre el resultado del acumulador generado"/>
+                        </group>
+                        <group>
+                            <field name="code"/>
+                            <field name="category_id" attrs="{'invisible':[('type_code','in',['frate','code_cumulative','code_period'])], 'required':[('type_code','not in',['frate','code_cumulative','code_period'])]}"/>
+                            <field name="type_move" attrs="{'invisible':[('type_code','in',['frate','code_cumulative','code_period'])], 'required':[('type_code','not in',['frate','code_cumulative','code_period'])]}"/>
+                            <field name="rate_id" domain="[('type_rate','=','view')]" attrs="{'invisible':[('type_code','!=','frate')], 'required':[('type_code','=','frate')]}"/>
+                            <field name="code_id" domain="[('parent_id','!=',False)]" on_change="onchange_code_id(code_id,context)" attrs="{'invisible':[('type_code','not in',['code_period','code_cumulative'])], 'required':[('type_code','in',['code_period','code_cumulative'])]}"/>
+                            <field name="code_year" invisible="1"/>
+                            <field name="factor"/>
+                            <field name="apply" attrs="{'invisible':[('type_code','!=','code_period')], 'required':[('type_code','=','code_period')]}"/>
+                            <field name="base" attrs="{'invisible':[('type_code','in',['frate','code_cumulative','code_period'])], 'required':[('type_code','not in',['frate','code_cumulative','code_period'])]}"/>
+                            <field name="is_year" invisible="1"/>
+                            <field name="apply_year" help="Obtiene el resultado en base al ejercicio anterior sobre el periodo seleccionado" attrs="{'invisible':['|',('type_code','=','frate'),('is_year','=',True)], 'readonly':[('type_code','in',['code_period','code_cumulative']),('code_year','=',True)]}"/>
+                            <field name="if_apply2"/>
+                            <separator/>
+                            <label string="Condicion:" attrs="{'invisible':[('if_apply2','=',False)]}" />
+                            <field name="condition2" attrs="{'invisible':[('if_apply2','=',False)]}" />
+                            <field name="condition_res2" attrs="{'invisible':[('if_apply2','=',False)]}" />
+                            <field name="operator2" attrs="{'invisible':[('if_apply2','=',False)]}" />
+                            <field name="condition_value2" attrs="{'invisible':[('if_apply2','=',False)]}" />
+                        </group>
+                    </group>
+                    <group string="Calculos Extra" attrs="{'invisible':[('compute','=',False)]}">
+                        <field name="compute_ids" widget="one2many_list" nolabel="1">
+                            <tree editable="bottom" edit="1" create="1" delete="1" string="Acumulados">
+                                <field name="factor" required="1"/>
+                                <field name="type" required="1"/>
+                                <field name="value" attrs="{'invisible':[('type','!=','val')]}" modifiers="{'invisible':[('type','!=','val')]}" />
+                            </tree>
+                        </field>
+                    </group>
+                    <div>
+                        <label for="info"/>
+                        <field name="info" nolabel="1" />
+                    </div>
+                    <footer>
+                        <button name="action_add_code" type="object" string="Agregar" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Action - Codigo Fiscal -->
+        <record model="ir.actions.act_window" id="action_wizard_account_fiscal_code_child_view">
+            <field name="name">Codigos Fiscales</field>
+            <field name="res_model">account.fiscal.code.child</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_account_fiscal_code_child_view"/>
+            <field name="target">new</field>
+        </record>
+    
+<!--
+        Vista wizard Agregar condicion sobre codigo fiscal
+-->
+        
+        <!-- View Form - Condicion Codigo fiscal -->
+        <record model="ir.ui.view" id="wizard_account_fiscal_code_child_condition_view">
+            <field name="name">account.fiscal.code.child.condition.form</field>
+            <field name="model">account.fiscal.code.child.condition</field>
+            <field name="arch" type="xml">
+                <form string="Condicion Codigo Fiscal" version="7.0">
+                    <group col="4" colspan="4" string="Condicion">
+                        <group >
+                            <field name="condition"/>
+                            <field name="operator"/>
+                            <field name="condition_value"/>
+                        </group>
+                        <group>
+                            <field name="factor"/>
+                        </group>
+                    </group>
+                    <group col="4" colspan="4" string="Codigo Fiscal">
+                        <group>
+                            <field name="name"/>
+                            <field name="parent_id" invisible="1"/>
+                            <field name="type_code"/>
+                        </group>
+                        <group>
+                            <field name="code"/>
+                            <field name="category_id" attrs="{'invisible':[('type_code','in',['frate','code_cumulative','code_period'])], 'required':[('type_code','not in',['frate','code_cumulative','code_period'])]}"/>
+                            <field name="rate_id" attrs="{'invisible':[('type_code','!=','frate')], 'required':[('type_code','=','frate')]}"/>
+                            <field name="code_id" attrs="{'invisible':[('type_code','not in',['code_period','code_cumulative'])], 'required':[('type_code','in',['code_period','code_cumulative'])]}"/>
+                            <field name="apply" attrs="{'invisible':[('type_code','!=','code_period')], 'required':[('type_code','=','code_period')]}"/>
+                            <field name="base" attrs="{'invisible':[('type_code','in',['frate','code_cumulative','code_period'])], 'required':[('type_code','not in',['frate','code_cumulative','code_period'])]}"/>
+                            <field name="apply_year" attrs="{'invisible':[('type_code','=','frate')]}"/>
+                        </group>
+                    </group>
+                    <div>
+                        <label for="info"/>
+                        <field name="info" nolabel="1" />
+                    </div>
+                    <footer>
+                        <button name="action_add_code" type="object" string="Agregar" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Action - Condicion Codigo Fiscal -->
+        <record model="ir.actions.act_window" id="action_wizard_account_fiscal_code_child_condition_view">
+            <field name="name">Condicion Codigo Fiscal</field>
+            <field name="res_model">account.fiscal.code.child.condition</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_account_fiscal_code_child_condition_view"/>
+            <field name="target">new</field>
+        </record>
+    
+    </data>
+</openerp>   

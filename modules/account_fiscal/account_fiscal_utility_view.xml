@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    
+<!--
+        Perdida/Utilidad Fiscal
+-->
+        <!-- View Form - Perdida/Utilidad Fiscal -->
+        <record id="view_account_fiscal_utility_form" model="ir.ui.view">
+            <field name="name">account.fiscal.utility.form</field>
+            <field name="model">account.fiscal.utility</field>
+            <field name="arch" type="xml">
+                <form string="Perdida/Utilidad" version="7.0">
+                    <header>
+                        <button name="action_confirm" type="object" states="draft" string="Confirmar" class="oe_highlight"/>
+                        <button name="action_re_open" type="object" string="Abrir" class="oe_highlight" attrs="{'invisible':['|',('state','!=','close'),('remnant','=',0.0)]}"/>
+                        <button name="action_apply_utility_lost" type="object" string="Aplicar Perdida/Utilidad"/>
+                        <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,open,close"/>
+                    </header>
+                    <separator/>
+                    <h1>
+                        <field name="have_lines" invisible="1"/>
+                        <label string="Ejercicio " />
+                        <field name="fiscalyear" class="oe_inline" required="1" attrs="{'readonly':['|',('state','!=','draft'),('have_lines','=',True)]}"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="currency_id" invisible="1" />
+                            <field name="utility" attrs="{'readonly':['|',('state','!=','draft'),('have_lines','=',True)]}" on_change="onchange_utility(utility,context)"/>
+                            <field name="total" attrs="{'readonly':[('state','!=','draft')], 'invisible':['|',('utility','&lt;=',0.0)]}"/>
+                            <field name="balance" attrs="{'readonly':[('state','!=','draft')], 'invisible':[('utility','&lt;=',0.0)]}"/>
+                            <field name="balance2" attrs="{'readonly':[('state','!=','draft')], 'invisible':[('utility','>',0.0)]}"/>
+                        </group>
+                        <group>
+                            <field name="remnant" readonly="1" />
+                            <field name="remnant_update" readonly="1" attrs="{'invisible':[('state','not in',['open'])]}"/>
+                            <field name="date" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="date_update" readonly="1" attrs="{'invisible':[('state','not in',['open'])]}"/>
+                            <field name="balance_id" string="Referencia Saldo Fiscal" invisible="1" readonly="1"/>
+                        </group>
+                        <group string ="Informacion Adicional" invisible="1">
+                            <field name="last_fiscalyear" />
+                            <field name="last_inpc_id" />
+                            <field name="next_inpc_id" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Perdida Fiscal" attrs="{'invisible':[('utility','>=',0.0)]}" modifiers="{'invisible':[('utility','>=',0.0)]}">
+                            <div>
+                                <button name="action_add_utility" string="Agregar" class="oe_highlight" type="object" attrs="{'invisible':[('state','not in',['draft','open'])]}" help="Agregar una depreciacion sobre el ejercicio"/>
+                                <field name="line_ids" widget="one2many_list" nolabel="1" context="{'default_fiscalyear': fiscalyear}">
+                                    <tree editable="bottom" edit="1" create="0" delete="0" string="Acumulados" >
+                                        <field name="fiscalyear" readonly="1"/>
+                                        <field name="remnant_before" widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1"/>
+                                        <field name="inpc_id1" readonly="1"/>
+                                        <field name="inpc_val1" readonly="1" widget="monetary" />
+                                        <field name="inpc_id2" readonly="1"/>
+                                        <field name="inpc_val2" readonly="1" widget="monetary" />
+                                        <field name="update_factor" readonly="1" widget="monetary" />
+                                        <field name="remnant_update"/>
+                                        <field name="remnant_amortized" sum="Total Amortizaciones" attrs="{'readonly':[('modify','!=',True)]}"/>
+                                        <field name="fiscalyear_amortized" readonly="1"/>
+                                        <field name="remnant" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                        <field name="date" readonly="1"/>
+                                        <field name="currency_id" invisible="1"/>
+                                        <field name="last_fiscalyear" invisible="1"/>
+                                        <field name="close" invisible="1"/>
+                                        <field name="modify" invisible="1"/>
+                                        <button name="action_delete_line" string="" type="object" icon="gtk-cancel" attrs="{'invisible':[('modify','!=',True)]}"/>
+                                    </tree>
+                                </field>
+                            </div>
+                        </page>
+                        <page string="Amortizacion sobre Perdida Fiscal" attrs="{'invisible':[('utility','&lt;',0.0)]}" modifiers="{'invisible':[('utility','&lt;',0.0)]}">
+                            <div>
+                                <field name="amortized_ids" widget="one2many_list" nolabel="1" readonly="1">
+                                    <tree string="Acumulados" >
+                                        <field name="fiscalyear" />
+                                        <field name="remnant_before" widget="monetary" options="{'currency_field': 'currency_id'}" />
+                                        <field name="remnant_amortized" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total Aplicado"/>
+                                    </tree>
+                                </field>
+                            </div>
+                        </page>
+                    </notebook>
+                    <group string="Comentarios">
+                        <field name="info" nolabel="1"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+        <!-- View Tree - Perdida/Utilidad Fiscal -->
+        <record id="view_account_fiscal_utility_tree" model="ir.ui.view">
+            <field name="name">account.fiscal.utility.tree</field>
+            <field name="model">account.fiscal.utility</field>
+            <field name="arch" type="xml">
+                <tree string="Perdida/Utilidad">
+                    <field name="fiscalyear"/>
+                    <field name="utility"/>
+                    <field name="remnant" widget="format_float" sum="Total Remanente actual"/>
+                    <field name="remnant_update" widget="format_float" sum="Total Perdida actualizada"/>
+                    <field name="date_update"/>
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+        
+        <!--  Filtros - Perdida/Utilidad Fiscal -->
+        <record id="view_account_fiscal_utility_filter" model="ir.ui.view">
+            <field name="name">account.fiscal.utility.select</field>
+            <field name="model">account.fiscal.utility</field>
+            <field name="arch" type="xml">
+                <search string="Buscar">
+                    <field name="fiscalyear"/>
+                    <field name="utility"/>
+                    <field name="remnant"/>
+                    <field name="state"/>
+                    <field name="date"/>
+                    <separator/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Estado" context="{'group_by': 'state'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+        
+        <!-- Action - Perdida/Utilidad Fiscal -->
+        <record id="action_account_fiscal_utility" model="ir.actions.act_window">
+            <field name="name">Gestion de Perdidas Fiscales</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.fiscal.utility</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+            <field name="search_view_id" ref="view_account_fiscal_utility_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+              </p>
+            </field>
+        </record>
+        
+        <!-- Menu - Perdida/Utilidad Fiscal -->
+        <menuitem action="action_account_fiscal_utility" id="menu_account_fiscal_utility" parent="account.menu_account_fiscal" sequence="10"/>
+    
+    </data>
+</openerp>

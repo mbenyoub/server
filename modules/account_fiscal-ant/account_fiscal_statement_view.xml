@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!-- Configuracion Ingresos/Egresos -->
+        <menuitem id="account.menu_account_fiscal_statement" name="Ingresos/Egresos" parent="account.menu_finance_configuration" sequence="20" groups="account.group_account_manager"/>
+        <!-- Menu Ingresos/Egresos -->
+        <menuitem id="account.menu_account_fiscal_income_expense" name="Ingresos/Egresos" parent="account.menu_finance" sequence="4"/>
+<!--
+        Ingresos
+-->
+        <record id="view_account_fiscal_statement_income_form" model="ir.ui.view">
+            <field name="name">account.fiscal.statement.income.form</field>
+            <field name="model">account.fiscal.statement</field>
+            <field name="arch" type="xml">
+                <form string="Captura de Ingreso" version="7.0">
+                    <header>
+                        <button name="action_validate_income" type="object" string="Validar" attrs="{'invisible':[('state', '!=', 'draft')]}" class="oe_highlight"/>
+                        <button name="action_cancel_income" type="object" string="Cancelar" attrs="{'invisible':[('state', '!=', 'posted')]}"/>
+                        <button name="action_cancel_to_draft" type="object" string="Cambiar a Borrador" attrs="{'invisible':[('state', '!=', 'cancel')]}"/>
+                        <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,posted"/>
+                    </header>
+                    <sheet>
+                         <h1>
+                            <label string="Ingreso Borrador " attrs="{'invisible': [('state','not in',('draft',))]}"/>
+                            <label string="Ingreso " attrs="{'invisible': [('state','in',('draft'))]}"/>
+                            <field name="name" readonly="1" class="oe_inline"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="type_statement_id" string="Tipo Ingreso" widget="selection" on_change="onchange_statement(type_statement_id,amount,tax_line)" domain="[('type','=','income')]"/>
+                                <field name="journal_id" string="Metodo de Pago" on_change="onchange_journal_id(journal_id)" domain="[('partner_bank_ids','!=',None)]"/>
+                                <field name="amount" on_change="onchange_amount(amount, tax_line)" attrs="{'readonly': [('balance_id','!=',False)]}"/>
+                            </group>
+                            <group>
+                                <field name="date"/>
+                                <field name="partner_id"/>
+                                <field name="balance_id" attrs="{'invisible': [('balance_id','=',False)]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Informacion" name="information">
+                                <group>
+                                    <group>
+                                        <field name="period_id"/>
+                                        <field name="account_id"/>
+                                    </group>
+                                    <group>
+                                        <field name="ref"/>
+                                        <field name="move_id" />
+                                        <field name="date_posted" />
+                                        <field name="currency_id" invisible="1"/>
+                                        <field name="type" invisible="1"/>
+                                    </group>
+                                </group>
+                                <field name="tax_line" context="{'base_amount' : amount}"  >
+                                    <tree string="Impuestos" editable="top">
+                                        <field name="name" invisible="1"/>
+                                        <field name="tax_id" domain="[('amount','>=',0),('type_tax_use','in',['income','all'])]" on_change="onchange_tax(tax_id,context)" />
+                                        <field name="account_id" groups="account.group_account_manager"/>
+                                        <field name="base"/>
+                                        <field name="amount"/>
+                                        <field name="percent" invisible="1"/>
+                                    </tree>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right">
+                                    <field name="amount_untaxed" string="Base" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <div>
+                                        <label for="amount_tax"/>
+                                        <button name="action_update" string="(Actualizar)" state="draft" class="oe_link oe_edit_only oe_inline" type="object" help="Recalcular impuestos"/>
+                                    </div>
+                                    <field name="amount_tax" nolabel="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="amount_total" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                </group>
+                                <field name="notes" nolabel="1"/>
+                            </page>
+                            <page string="Apuntes Contables" name="move_lines">
+                                <field name="move_ids" readonly="1">
+                                    <tree string="Apuntes Contables">
+                                        <field name="move_id"/>
+                                        <field name="ref"/>
+                                        <field name="date"/>
+                                        <field name="statement_id"/>
+                                        <field name="partner_id"/>
+                                        <field name="account_id"/>
+                                        <field name="name"/>
+                                        <field name="debit"/>
+                                        <field name="credit"/>
+                                        <field name="state"/>
+                                        <field name="reconcile_id"/>
+                                        <field name="amount_currency"/>
+                                        <field name="currency_id" groups="base.group_multi_currency"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_account_fiscal_statement_income_tree" model="ir.ui.view">
+            <field name="name">account.fiscal.statement.income.tree</field>
+            <field name="model">account.fiscal.statement</field>
+            <field name="arch" type="xml">
+                <tree string="Otros Ingresos">
+                    <field name="name"/>
+                    <field name="journal_id"/>
+                    <field name="amount"/>
+                    <field name="amount_tax"/>
+                    <field name="amount_total"/>
+                    <field name="date"/>
+                    <field name="state"/>
+                    <field name="partner_id" invisible="1"/>
+                    <field name="account_id" invisible="1"/>
+                    <field name="period_id" invisible="1"/>
+                    <field name="type" invisible="1"/>
+                    <field name="type_statement_id" invisible="1"/>
+                    <field name="currency_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!--  Filtros  -->
+        <record id="view_account_fiscal_statement_income_filter" model="ir.ui.view">
+            <field name="name">account.fiscal.statement.income.select</field>
+            <field name="model">account.fiscal.statement</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Ingresos">
+                    <field name="name"/>
+                    <field name="type_statement_id"/>
+                    <field name="amount"/>
+                    <field name="journal_id"/>
+                    <field name="period_id"/>
+                    <field name="partner_id"/>
+                    <field name="ref"/>
+                    <field name="date"/>
+                    <field name="account_id"/>
+                    <field name="currency_id"/>
+                    <field name="state"/>
+                    <field name="type"/>
+                    <separator/>
+                    <filter string="Por confirmar" domain="[('state','=','draft')]" context="{}"/>
+                    <filter string="Ingresos Aplicados" domain="[('state','=','posted')]" context="{}"/>
+                    <separator/>
+                    <group expand="0" string="Group By...">
+                        <filter string="tipo ingreso" context="{'group_by': 'type_statement_id'}"/>
+                        <filter string="Diario" context="{'group_by': 'journal_id'}"/>
+                        <filter string="Periodo" context="{'group_by': 'period_id'}"/>
+                        <filter string="Contacto" context="{'group_by': 'partner_id'}"/>
+                        <filter string="Estado" context="{'group_by': 'state'}"/>
+                        <filter string="Mes" context="{'group_by': 'date'}"/>
+                        <separator />
+                    </group>
+               </search>
+            </field>
+        </record>
+        
+        <record id="action_account_fiscal_statement_income" model="ir.actions.act_window">
+            <field name="name">Otros Ingresos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.fiscal.statement</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{"default_type": 'income'}</field>
+            <field name="domain">[('type','=','income')]</field>
+            <field name="search_view_id" ref="view_account_fiscal_statement_income_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click para agregar otros ingresos
+              </p><p>
+                OpenERP nos ayuda a capturar ingresos dentro del sistema que no
+                se relacionen directamente con una venta.
+              </p>
+            </field>
+        </record>
+        <record id="action_account_fiscal_statement_income_view1" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_account_fiscal_statement_income_tree"/>
+            <field name="act_window_id" ref="action_account_fiscal_statement_income"/>
+        </record>
+        <record id="action_account_fiscal_statement_income_view2" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_account_fiscal_statement_income_form"/>
+            <field name="act_window_id" ref="action_account_fiscal_statement_income"/>
+        </record>
+
+        <menuitem action="action_account_fiscal_statement_income" id="menu_account_fiscal_income" name="Otros ingresos" parent="account.menu_account_fiscal_income_expense" sequence="10"/>
+    
+<!--
+        Egresos
+-->
+        
+        <record id="view_account_fiscal_statement_expense_form" model="ir.ui.view">
+            <field name="name">account.fiscal.statement.expense.form</field>
+            <field name="model">account.fiscal.statement</field>
+            <field name="arch" type="xml">
+                <form string="Captura de Egreso" version="7.0">
+                    <header>
+                        <button name="action_validate_expense" type="object" string="Validar" attrs="{'invisible':[('state', '!=', 'draft')]}" class="oe_highlight"/>
+                        <button name="action_cancel_income" type="object" string="Cancelar" attrs="{'invisible':[('state', '!=', 'posted')]}"/>
+                        <button name="action_cancel_to_draft" type="object" string="Cambiar a Borrador" attrs="{'invisible':[('state', '!=', 'cancel')]}"/>
+                        <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,posted"/>
+                    </header>
+                    <sheet>
+                         <h1>
+                            <label string="Egreso Borrador " attrs="{'invisible': [('state','not in',('draft',))]}"/>
+                            <label string="Egreso " attrs="{'invisible': [('state','in',('draft'))]}"/>
+                            <field name="name" readonly="1" class="oe_inline"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="type_statement_id" string="Tipo Egreso" widget="selection" on_change="onchange_statement(type_statement_id,amount,tax_line)" domain="[('type','=','expense')]"/>
+                                <field name="journal_id" string="Metodo de Pago" on_change="onchange_journal_id(journal_id)" domain="[('partner_bank_ids','!=',None)]"/>
+                                <field name="amount" on_change="onchange_amount(amount, tax_line)"/>
+                            </group>
+                            <group>
+                                <field name="date"/>
+                                <field name="partner_id"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Informacion" name="information">
+                                <group>
+                                    <group>
+                                        <field name="period_id"/>
+                                        <field name="account_id"/>
+                                    </group>
+                                    <group>
+                                        <field name="ref"/>
+                                        <field name="move_id" />
+                                        <field name="date_posted" />
+                                        <field name="currency_id" invisible="1"/>
+                                        <field name="type" invisible="1"/>
+                                    </group>
+                                </group>
+                                <field name="tax_line" context="{'base_amount' : amount}"  >
+                                    <tree string="Impuestos" editable="top">
+                                        <field name="name" invisible="1"/>
+                                        <field name="tax_id" domain="[('amount','>=',0),('type_tax_use','in',['expense','all'])]" on_change="onchange_tax(tax_id,context)" />
+                                        <field name="account_id" groups="account.group_account_manager"/>
+                                        <field name="base"/>
+                                        <field name="amount"/>
+                                        <field name="percent" invisible="1"/>
+                                    </tree>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right">
+                                    <field name="amount_untaxed" string="Base" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <div>
+                                        <label for="amount_tax"/>
+                                        <button name="action_update" string="(Actualizar)" state="draft" class="oe_link oe_edit_only oe_inline" type="object" help="Recalcular impuestos"/>
+                                    </div>
+                                    <field name="amount_tax" nolabel="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="amount_total" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                </group>
+                                <field name="notes" nolabel="1"/>
+                            </page>
+                            <page string="Apuntes Contables" name="move_lines">
+                                <field name="move_ids" readonly="1">
+                                    <tree string="Apuntes Contables">
+                                        <field name="move_id"/>
+                                        <field name="ref"/>
+                                        <field name="date"/>
+                                        <field name="statement_id"/>
+                                        <field name="partner_id"/>
+                                        <field name="account_id"/>
+                                        <field name="name"/>
+                                        <field name="debit"/>
+                                        <field name="credit"/>
+                                        <field name="state"/>
+                                        <field name="reconcile_id"/>
+                                        <field name="amount_currency"/>
+                                        <field name="currency_id" groups="base.group_multi_currency"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_account_fiscal_statement_expense_tree" model="ir.ui.view">
+            <field name="name">account.fiscal.statement.expense.tree</field>
+            <field name="model">account.fiscal.statement</field>
+            <field name="arch" type="xml">
+                <tree string="Otros Egresos">
+                    <field name="name"/>
+                    <field name="journal_id"/>
+                    <field name="amount"/>
+                    <field name="amount_tax"/>
+                    <field name="amount_total"/>
+                    <field name="date"/>
+                    <field name="state"/>
+                    <field name="partner_id" invisible="1"/>
+                    <field name="account_id" invisible="1"/>
+                    <field name="period_id" invisible="1"/>
+                    <field name="type" invisible="1"/>
+                    <field name="type_statement_id" invisible="1"/>
+                    <field name="currency_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!--  Filtros  -->
+        <record id="view_account_fiscal_statement_expense_filter" model="ir.ui.view">
+            <field name="name">account.fiscal.statement.expense.select</field>
+            <field name="model">account.fiscal.statement</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Egresos">
+                    <field name="name"/>
+                    <field name="type_statement_id"/>
+                    <field name="amount"/>
+                    <field name="journal_id"/>
+                    <field name="period_id"/>
+                    <field name="partner_id"/>
+                    <field name="ref"/>
+                    <field name="date"/>
+                    <field name="account_id"/>
+                    <field name="currency_id"/>
+                    <field name="state"/>
+                    <field name="type"/>
+                    <separator/>
+                    <filter string="Por confirmar" domain="[('state','=','draft')]" context="{}"/>
+                    <filter string="Ingresos Aplicados" domain="[('state','=','posted')]" context="{}"/>
+                    <separator/>
+                    <group expand="0" string="Group By...">
+                        <filter string="tipo ingreso" context="{'group_by': 'type_statement_id'}"/>
+                        <filter string="Diario" context="{'group_by': 'journal_id'}"/>
+                        <filter string="Periodo" context="{'group_by': 'period_id'}"/>
+                        <filter string="Contacto" context="{'group_by': 'partner_id'}"/>
+                        <filter string="Estado" context="{'group_by': 'state'}"/>
+                        <filter string="Mes" context="{'group_by': 'date'}"/>
+                        <separator />
+                    </group>
+               </search>
+            </field>
+        </record>
+        
+        <record id="action_account_fiscal_statement_expense" model="ir.actions.act_window">
+            <field name="name">Otros Egresos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.fiscal.statement</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{"default_type": 'expense'}</field>
+            <field name="domain">[('type','=','expense')]</field>
+            <field name="search_view_id" ref="view_account_fiscal_statement_expense_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click para agregar otros egresos
+              </p><p>
+                OpenERP nos ayuda a capturar egresos dentro del sistema que no
+                se relacionen directamente con una compra.
+              </p>
+            </field>
+        </record>
+        <record id="action_account_fiscal_statement_expense_view1" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_account_fiscal_statement_expense_tree"/>
+            <field name="act_window_id" ref="action_account_fiscal_statement_expense"/>
+        </record>
+        <record id="action_account_fiscal_statement_expense_view2" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_account_fiscal_statement_expense_form"/>
+            <field name="act_window_id" ref="action_account_fiscal_statement_expense"/>
+        </record>
+
+        <menuitem action="action_account_fiscal_statement_expense" id="menu_account_fiscal_expense" name="Otros egresos" parent="account.menu_account_fiscal_income_expense" sequence="15"/>
+    
+<!--
+        Tipos de Ingresos/Egresos
+-->
+        
+        <record id="view_account_fiscal_statement_type_form" model="ir.ui.view">
+            <field name="name">account.fiscal.statement.type.form</field>
+            <field name="model">account.fiscal.statement.type</field>
+            <field name="arch" type="xml">
+                <form string="Tipos de Ingreso/Egreso" version="7.0">
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="account_id"/>
+                            <field name="tax_ids" domain="[('amount','>=',0),('type_tax_use','in',['income','expense','all'])]" widget="many2many_tags" placeholder="Impuestos..."/>
+                        </group>
+                        <group>
+                            <field name="type"/>
+                            <field name="sequence" string="Prioridad"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <field name="description"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_account_fiscal_statement_type_tree" model="ir.ui.view">
+            <field name="name">account.fiscal.statement.type.tree</field>
+            <field name="model">account.fiscal.statement.type</field>
+            <field name="arch" type="xml">
+                <tree string="Tipos de Ingreso/Egreso">
+                    <field name="name"/>
+                    <field name="account_id"/>
+                    <field name="type"/>
+                    <field name="active" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!--  Filtros  -->
+        <record id="view_account_fiscal_statement_type_filter" model="ir.ui.view">
+            <field name="name">account.fiscal.statement.type.select</field>
+            <field name="model">account.fiscal.statement.type</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Tipo">
+                    <field name="name"/>
+                    <field name="account_id"/>
+                    <field name="type"/>
+                    <field name="tax_ids" />
+                    <field name="active"/>
+                    <filter string="Tipos Activos" domain="[('active','=',True)]" context="{}"/>
+                    <separator/>
+                    <filter string="Ingresos" domain="[('type','=','income')]" context="{}"/>
+                    <filter string="Egresos" domain="[('type','=','expense')]" context="{}"/>
+                    <separator/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Tipo" context="{'group_by': 'type'}"/>
+                        <filter string="Cuenta" context="{'group_by': 'account_id'}"/>
+                        <separator />
+                    </group>
+               </search>
+            </field>
+        </record>
+        
+        <record id="action_account_fiscal_statement_type" model="ir.actions.act_window">
+            <field name="name">Tipos de Ingresos/Egresos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.fiscal.statement.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+            <field name="search_view_id" ref="view_account_fiscal_statement_type_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click para agregar tipos de ingresos/egresos
+              </p><p>
+                OpenERP nos ayuda a categorizar nuestos ingresos y egresos.
+                Podemos asignar una cuenta a cada tipo de ingreso/egreso y poner
+                un listado de los impuestos que aplican a ese tipo de movimiento.
+              </p>
+            </field>
+        </record>
+
+        <menuitem action="action_account_fiscal_statement_type" id="menu_account_fiscal_statement_type" parent="account.menu_account_fiscal_statement" sequence="10"/>
+    
+    </data>
+</openerp>

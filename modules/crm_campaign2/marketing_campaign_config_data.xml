@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <!--    Agrega a la configuracion los campos que van por default    -->
+    
+        <record model="marketing.campaign.config.activity" id="crm_case_channel_website1">
+            <field name="name">Enviar a todos los clientes</field>
+            <field name="condition">True</field>
+        </record>
+        <record model="marketing.campaign.config.activity" id="crm_case_channel_website2">
+            <field name="name">Clientes con limite de credito mayor o igual a $10,000</field>
+            <field name="condition">object.credit_limit &gt;= 100000</field>
+        </record>
+        <record model="marketing.campaign.config.activity" id="crm_case_channel_website3">
+            <field name="name">Clientes sin ventas efectuadas</field>
+            <field name="condition">object.sale_order_count = 0</field>
+        </record>
+        <record model="marketing.campaign.config.activity" id="crm_case_channel_website4">
+            <field name="name">Clientes con ventas efectuadas</field>
+            <field name="condition">object.sale_order_count &gt; 0</field>
+        </record>
+    </data>
+</openerp>
+

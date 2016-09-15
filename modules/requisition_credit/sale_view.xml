@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!-- Vista del formulario de Cotizacion -->
+        <record model="ir.ui.view" id="view_order_form_inherit">
+            <field name="name">sale.order.form.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="priority" eval="22" />
+            <field name="arch" type="xml">
+                <field name="state" position='before'>
+                    <button name="action_requisition_credit_new" string="Solicitar credito" type="object" />
+                    <!--<button name="%(requisition_credit_action_new)d" string="Solicitar credito" type="action" />-->
+                </field>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

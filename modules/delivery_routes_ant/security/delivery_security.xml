@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+        
+        <record model="ir.module.category" id="module_category_delivery">
+            <field name="name">Logistica</field>
+            <field name="description">Acceso basico logistica.</field>
+            <field name="sequence">20</field>
+        </record>
+        
+        <record id="group_delivery_user" model="res.groups">
+            <field name="name">Usuario</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="module_category_delivery"/>
+        </record>
+        
+        <record id="group_delivery_manager" model="res.groups">
+            <field name="name">Administrador</field>
+            <field name="category_id" ref="module_category_delivery"/>
+            <field name="implied_ids" eval="[(4, ref('group_delivery_user'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+    </data>
+</openerp>

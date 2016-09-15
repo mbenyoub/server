@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report
+            auto="False"
+            id="imprimir_entrega"
+            name="imprimir.entrega"
+            model="delivery.route.line"
+            rml="delivery_routes/report/delivery_route_report.rml"
+            string="Imprimir entrega"
+            usage="default"
+            />
+    </data>
+</openerp>

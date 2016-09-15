@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data noupdate="1">
+        <record id="l10n_mx_payment_method.pay_method_none" model="pay.method">
+            <field name="name">No Identificado</field>
+            <field name="description">No hay un metodo de pago identificado para aplicar.</field>
+        </record>
+    
+     </data>
+</openerp>

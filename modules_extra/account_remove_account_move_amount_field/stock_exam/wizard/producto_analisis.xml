@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+	<data>
+		<!-- Tree View Records -->
+		
+		<!-- Form View Records -->
+		<record id="producto_analisis_view" model="ir.ui.view">
+			<field name="name">Producto Analisis</field>
+			<field name="model">producto.analisis</field>
+			<field name="arch" type="xml">
+				<form string="Anlisis de productos" version="7.0">
+                    <group>
+                        <field name="stock_picking_in_id" style="width: 10cm"/>
+                    </group>
+                    <group>
+                       <field name="catalogo_bitacora_ids"/>
+                    </group>
+					<!--<separator string = "Sumar"/>-->
+					<group col="4">
+						<!--<field name="campo1"/>-->
+						<!--<field name="campo2"/>-->
+					</group>
+					<footer>
+						<!--<button name="suma" string="sumar" type="object" class='oe_highlight'/>-->
+						<!--or-->
+						<!--<button name="suma_total_precios_productos" string="Sumar total de precios" type="object" class='oe_highlight'/>-->
+						<!--or-->
+						<!--<button string="cancelar" class="oe_link" special="cancel"/>-->
+					</footer>
+        </form>
+			</field>
+		</record>
+		
+		<!-- Search View Records -->
+		<!-- Action View Records -->
+       <record id="producto_analisis_wizard" model="ir.actions.act_window">
+			<field name="name">Producto Analisis</field>
+			<field name="res_model">producto.analisis</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form,tree</field>
+			<field name="view_id" ref="producto_analisis_view"/>
+			<field name="context">{}</field>
+			<field name="target">new</field>
+		</record>
+
+		<!--<menuitem name="Ejemplo de wizards"
+							action="action_wizard_tonto"
+							id="menu_wizard_tonto"
+							parent="capacitacion.top_producto"
+							sequence="2"/>-->
+	</data>
+</openerp>

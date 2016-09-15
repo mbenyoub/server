@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+        <menuitem name="Preparacion de la Ruta" id="menu_delivery_wizard" parent="delivery_routes.menu_delivery_root" sequence="0"/>
+        
+        <!--
+            Vista de producto por surtir
+        -->
+        
+        <!-- kanban view for stock picking with delivery-->
+        <record model="ir.ui.view" id="stock_picking_inout_kanban_elico">
+            <field name="name">stock.picking.out.kanban</field>
+            <field name="model">stock.picking</field>
+            <field name="arch" type="xml">
+                <kanban version="7.0" default_group_by="zone_id" class="oe_background_grey">
+                    <field name="zone_id"/>
+                    <field name="min_date"/>
+                    <field name="origin"/>
+                    <field name="delivery_date"/>
+                    <field name="partner_id"/>
+                    <field name="color"/>
+                    <field name="priority"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
+                                <div class="oe_dropdown_toggle oe_dropdown_kanban" groups="base.group_user">
+                                    <span class="oe_e">í</span>
+                                    <ul class="oe_dropdown_menu">
+                                        <t t-if="widget.view.is_action_enabled('edit')"><li><a type="edit">Edit...</a></li></t>
+                                        <t t-if="widget.view.is_action_enabled('delete')"><li><a type="delete">Delete</a></li></t>
+                                        <li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
+                                    </ul>
+                                </div>
+                                <div class="oe_kanban_content">
+                                    <div><b><field name="origin"/></b></div>
+                                    <div><b><field name="delivery_date"/></b></div>
+                                    <div>
+                                        <field name="zone_id"/><br />
+                                        <field name="street"/><br />
+                                        <field name="weight"/>(kg) / <field name="number_of_packages"/>(Bultos)
+                                    </div>
+                                </div>
+                                <div class="oe_clear"></div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        
+        <record id="view_picking_search_kanban" model="ir.ui.view">
+            <field name="name">stock.picking.search.kanban</field>
+            <field name="model">stock.picking</field>
+            <field name="arch" type="xml">
+                <search string="PO">
+                    <field name="name" string="Incoming Shipments" filter_domain="['|',('name','ilike',self),('origin','ilike',self)]"/>
+                    <field name='priority'/>
+                    
+                    <filter icon="terp-check" name="available" string="Ready to Process" domain="[('state','=','assigned')]" help="Incoming Shipments Available"/>
+                    <filter icon="terp-dialog-close" name="done" string="Done" domain="[('state','=','done')]" help="Incoming Shipments already processed"/>
+                    <separator/>
+                    <filter icon="terp-accessories-archiver-minus" string="Back Orders" domain="[('backorder_id', '!=', False)]" help="Is a Back Order"/>
+                    <separator/>
+                    <filter string="To Invoice" name="to_invoice" icon="terp-dolar" domain="[('invoice_state', '=', '2binvoiced')]"/>
+                    <separator/>
+                    <filter string="Pedidos facturados" icon="terp-dolar" domain="[('invoice_id', '!=', False)]"/>
+                    <filter string="Pedidos no facturados" icon="terp-dolar" domain="[('invoice_id', '=', False)]"/>
+                    <field name="stock_journal_id"/>
+                    <field name="product_id"/>
+                    <group expand="0" string="Group By...">
+                        <filter icon="terp-stock_effects-object-colorize" name="state" string="Status" domain="[]" context="{'group_by':'state'}"/>
+                        <filter string="Order Date" icon="terp-go-month" domain="[]" context="{'group_by':'date'}"/>
+                        <filter string="Expected Date" icon="terp-go-month" domain="[]" context="{'group_by':'min_date'}"/>
+                        <filter string="Journal" icon="terp-folder-orange" domain="[]" context="{'group_by':'stock_journal_id'}"/>
+                        <filter icon="terp-go-today" string="DTS Today" name="dts_today" domain="[('delivery_date','&lt;=',time.strftime('%%Y-%%m-%%d 23:59:59')),('delivery_date','&gt;=',time.strftime('%%Y-%%m-%%d 00:00:00'))]" help="DTS planned for Today"/>
+                        <filter icon="terp-go-today" string="DTS Today+Past" name="dts_min_today" domain="['|',('delivery_date','&lt;=',time.strftime('%%Y-%%m-%%d 23:59:59'))]" help="DTS planned Today or before"/>
+                        <filter icon="terp-go-today" string="Today" domain="[('min_date','&lt;=',time.strftime('%%Y-%%m-%%d 23:59:59')),('min_date','&gt;=',time.strftime('%%Y-%%m-%%d 00:00:00'))]" help="Orders processed Today or planned for Today"/>
+                        <filter icon="terp-go-today" string="Prioridad" domain="[]" context="{'group_by':'priority'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="action_picking_inout_kanban" model="ir.actions.act_window">
+            <field name="name">Producto por surtir</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">tree</field>
+            <field name="view_mode">kanban,form</field>
+            <field name="domain">[('type','=','out'),("state","not in",["cancel","done"]),("delivery_state","in",['','draft']),('route_line_id','=',False)]</field>
+            <field name="context">{'contact_display': 'partner_address', 'update_pts':1}</field>
+            <field name="search_view_id" ref="view_picking_search_kanban"/>
+        </record>
+        <menuitem action="action_picking_inout_kanban" id="menu_action_picking_delivery_kanban" parent="delivery_plan.menu_delivery_wizard" sequence="1"/>
+        
+        <!--
+            Revisar
+        -->
+        
+        <!--<record id="procurement_form_view_pts_elico" model="ir.ui.view">-->
+        <!--    <field name="name">procurement_form_view_pts_elico</field>-->
+        <!--    <field name="model">procurement.order</field>-->
+        <!--    <field name="inherit_id" ref="procurement.procurement_form_view" />-->
+        <!--    <field name="arch" type="xml">-->
+        <!--        <xpath expr="//field[@name='origin']" position="after">-->
+        <!--            <field name="pts_id" attrs="{'readonly': [('state','!=','draft')]}" domain="[('type','=','pts'),('active','=',True)]"/>-->
+        <!--        </xpath>-->
+        <!--    </field>-->
+        <!--</record>-->
+        <!--<record id="procurement_tree_view_pts_elico" model="ir.ui.view">-->
+        <!--    <field name="name">procurement_tree_view_pts_elico</field>-->
+        <!--    <field name="model">procurement.order</field>-->
+        <!--    <field name="inherit_id" ref="procurement.procurement_tree_view" />-->
+        <!--    <field name="arch" type="xml">-->
+        <!--        <xpath expr="//field[@name='origin']" position="before">-->
+        <!--            <field name="pts_id" domain="[('type','=','pts')]"/>-->
+        <!--        </xpath>-->
+        <!--    </field>-->
+        <!--</record>-->
+        <!---->
+        <!--<record id="mrp_production_search_view_pts_elico" model="ir.ui.view">-->
+        <!--    <field name="name">mrp_production_search_view_pts_elico</field>-->
+        <!--    <field name="model">mrp.production</field>-->
+        <!--    <field name="inherit_id" ref="mrp.view_mrp_production_filter" />-->
+        <!--    <field name="arch" type="xml">-->
+        <!--        <xpath expr="//field[@string='Production']" position="after">-->
+        <!--            <field name="pts_id" context="{'domain':[('type','=','pts')]}"/>-->
+        <!--        </xpath>-->
+        <!--        <xpath expr="//filter[@string='Date']" position="after">-->
+        <!--            <filter string="Preparation Time" icon="terp-folder-orange" domain="[]" context="{'group_by':'pts_id'}"/>-->
+        <!--        </xpath>-->
+        <!--    </field>-->
+        <!--</record>-->
+        <!--<record id="mrp_production_form_view_pts_elico" model="ir.ui.view">-->
+        <!--    <field name="name">mrp_production_form_view_pts_elico</field>-->
+        <!--    <field name="model">mrp.production</field>-->
+        <!--    <field name="inherit_id" ref="mrp.mrp_production_form_view" />-->
+        <!--    <field name="arch" type="xml">-->
+        <!--        <xpath expr="//field[@name='date_planned']" position="after">-->
+        <!--            <field name="pts_id" readonly="1" domain="[('type','=','pts'),('active','=',True)]"/>-->
+        <!--        </xpath>-->
+        <!--    </field>-->
+        <!--</record>-->
+        <!--<record id="mrp_production_tree_view_pts_elico" model="ir.ui.view">-->
+        <!--    <field name="name">mrp_production_tree_view_pts_elico</field>-->
+        <!--    <field name="model">mrp.production</field>-->
+        <!--    <field name="inherit_id" ref="mrp.mrp_production_tree_view" />-->
+        <!--    <field name="arch" type="xml">-->
+        <!--        <xpath expr="//field[@name='date_planned']" position="after">-->
+        <!--            <field name="pts_id" domain="[('type','=','pts')]"/>-->
+        <!--        </xpath>-->
+        <!--    </field>-->
+        <!--</record>-->
+        
+        <record id="view_picking_out_pts_form_elico" model="ir.ui.view">
+            <field name="name">stock.picking.out.form_pts_elico</field>
+            <field name="model">stock.picking.out</field>
+            <field name="inherit_id" ref="stock.view_picking_out_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='min_date']" position="after">
+                    <field name="priority"/>
+                </xpath>
+                <xpath expr="//field[@name='min_date']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="view_picking_dts_form" model="ir.ui.view">
+            <field name="name">stock.picking.form_dts</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='min_date']" position="after">
+                    <field name="priority"/>
+                </xpath>
+                <xpath expr="//field[@name='min_date']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- Delivery Picking Tree -->
+        <record id="delivery_picking_tree" model="ir.ui.view">
+            <field name="name">stock.picking.tree</field>
+            <field name="model">stock.picking</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:state == 'draft';grey:state == 'cancel';red:state not in ('cancel', 'done') and min_date &lt; current_date" string="Picking list">
+                    <field name="name"/>
+                    <field name="origin"/>
+                    <field name="partner_id"/>
+                    <field name="street"/>
+                    <field name="purchase_id" invisible="1"/>
+                    <field name="sale_id" invisible="1"/>
+                    <field name="priority" invisible="1"/>
+                    <field name="min_date"/>
+                    <field name="type"/>
+                    <field name="state"/>
+                    <field name="zone_id"/>
+                    <field name="delivery_state"/>
+                    <button name="%(delivery_routes.action_picking_get_order)d"
+                       string="Related Order" type="action"
+                       icon="terp-mail-forward"
+                       attrs="{'invisible': [('purchase_id','=',None),('sale_id','=',None)]}"
+                       groups="base.group_user"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Delivery Picking Search -->
+        <record id="view_picking_internal_search_extend" model="ir.ui.view">
+            <field name="name">stock.picking.internal.search.extend</field>
+            <field name="model">stock.picking</field>
+            <field name="arch" type="xml">
+                <search string="Internal Picking List">
+                    <field name="name" string="Internal Picking List" filter_domain="['|',('name','ilike', self),('origin','ilike',self)]"/>
+                    <filter icon="terp-go-today" name="for_past" string="Past" domain="[('min_date','&lt;=',time.strftime('%%Y-%%m-%%d 00:00:00'))]" help="Orders planned for the Past"/>
+                    <filter icon="terp-go-today" name="for_today" string="Today" domain="[('min_date','&lt;=',time.strftime('%%Y-%%m-%%d 23:59:59')),('min_date','&gt;=',time.strftime('%%Y-%%m-%%d 00:00:00'))]" help="Orders planned for Today"/>
+                    <filter icon="terp-go-today" name="for_future" string="Future" domain="[('min_date','&gt;=',time.strftime('%%Y-%%m-%%d 23:59:59'))]" help="Orders planned for the Future"/>
+                    <separator/>
+                    <filter icon="terp-check" name="not_planned" string="Not Planned" domain="[('delivery_state','=','not_planned')]"/>
+                    <filter icon="terp-check" name="delivery" string="In delivery" domain="[('delivery_state','=',['del_rt','in_del','in_del','in_del','planned'])]"/>
+                    <filter icon="terp-check" name="delivered" string="Delivered" domain="[('delivery_state','=',['del_ok','del_ex','del_rt_exp'])]"/>
+                    <separator/>
+                    <filter icon="terp-check" name="available" string="Ready" domain="[('state','=','assigned')]" help="Assigned Internal Moves"/>
+                    <filter icon="terp-camera_test" name="confirmed" string="Waiting" domain="[('state','=','confirmed')]" help="Confirmed Internal Moves"/>
+                    <filter icon="terp-dialog-close" name="done" string="Done" domain="[('state','=','done')]" help="Picking already processed"/>
+                    <filter icon="terp-dialog-close" name="no_batch" string="No batch" domain="[('batch_id','=',None)]" help="Picking without batch"/>
+                    <field name="partner_id"/>
+                    <field name="batch_id"/>
+                    <field name="product_id"/>
+                    <field name="origin"/>
+                    <field name="stock_journal_id"/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Status" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
+                        <filter string="Order Date" icon="terp-go-month" domain="[]"  context="{'group_by':'date'}"/>
+                        <filter string="Expected Date" icon="terp-go-month" domain="[]"  context="{'group_by':'min_date'}"/>
+                        <filter string="Origin" icon="terp-gtk-jump-to-rtl" domain="[]" context="{'group_by':'origin'}"/>
+                        <filter string="Batch" domain="[]" context="{'group_by':'batch_id'}"/>
+                        <filter string="Journal" icon="terp-folder-orange" domain="[]" context="{'group_by':'stock_journal_id'}"/>
+                        <filter string="Delivery State" icon="terp-folder-orange" domain="[]" context="{'group_by':'delivery_state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="delivery_routes.action_delivery_routes_picking" model="ir.actions.act_window">
+            <field name="name">Delivery Pickings</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="delivery_picking_tree"/>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="domain">[('type','in',['out','in']),('return','=','none'),('state','!=','cancel')]</field>
+            <field name="context">{'default_type': 'out', 'search_default_for_today':1, 'contact_display': 'partner_address'}</field>
+            <field name="search_view_id" ref="view_picking_internal_search_extend"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create"> 
+              </p><p>
+                Pack selected delivery notes
+              </p>
+            </field>
+        </record>
+
+        <!-- picking batch Form view -->
+        <record id="picking_batch_view" model="ir.ui.view">
+            <field name="name">picking.batch.form</field>
+            <field name="model">picking.batch</field>
+            <field name="type">form</field>  
+            <field name="arch" type="xml">
+                <form string="Picking Batch" version="7.0">
+                    <group>
+                        <field name="name"/>
+                        <field name="active"/>
+                    </group>
+                    <field name="picking_ids"/>
+                </form>
+            </field>
+        </record>
+
+        <!-- picking batch Tree view -->
+        <record id="picking_batch_tree_view" model="ir.ui.view">
+            <field name="name">picking.batch.tree</field>
+            <field name="model">picking.batch</field>
+            <field name="arch" type="xml">
+                <tree string="Picking Batch">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- picking batch action -->
+        <record id="action_picking_batch" model="ir.actions.act_window">
+            <field name="name">Picking Batch</field>
+            <field name="res_model">picking.batch</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>        
+        
+    </data>
+</openerp>

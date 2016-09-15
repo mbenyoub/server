@@ -1,0 +1,4 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+account_budget_log_moments,account.budget.log.moments,model_account_budget_log_moments,account.group_account_manager,1,1,0,0
+access_budget_log,access_budget_log,model_account_budget_log_moments,base.group_user,0,1,0,0
+debug_budget_log,debug_budget_log,model_account_budget_log_moments,group_manager,1,1,0,0

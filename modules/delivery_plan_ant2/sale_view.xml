@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <!-- Vista del formulario de Cotizacion -->
+        <record id="view_order_pts_form_elico" model="ir.ui.view">
+            <field name="name">sale.order.form_pts</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="priority" eval="19" />
+            <field name="arch" type="xml">
+                <group name="delivery_route" position="after">
+                    <group>
+                        <group>
+                            <field name="dts_id" string="Entrega"/>
+                            <field name="pts_id" string="Preparacion entrega"/>
+                        </group>
+                        <group>
+                            <field name="start_date" string="Fecha inicio"/>
+                            <field name="end_date" string="Fecha fin"/>
+                        </group>
+                    </group>
+                </group>
+            </field>
+        </record>
+        
+        <record id="view_order_pts_tree_elico" model="ir.ui.view">
+            <field name="name">sale.order.tree_pts_elico</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date_order']" position="after">
+                    <field name="dts_id" domain="[('type','=','dts')]"/>
+                    <field name="pts_id" domain="[('type','=','pts')]"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_quotation_pts_tree_elico" model="ir.ui.view">
+            <field name="name">sale.quotation.tree_pts_elico</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date_order']" position="after">
+                    <field name="dts_id" invisible="1"/>
+                    <field name="pts_id" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_order_pts_search_elico" model="ir.ui.view">
+            <field name="name">sale.order.search_pts_elico</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="/search/group/filter[@string='Order Date']" position="after">
+                    <field name="pts_id" context="{'domain':[('type','=','pts')]}"/>
+                    <field name="dts_id" context="{'domain':[('type','=','dts')]}"/>
+                    <filter string="Preparation Time" icon="terp-folder-orange" domain="[]" context="{'group_by':'pts_id'}"/>
+                    <filter string="Delivery Time" icon="terp-folder-orange" domain="[]" context="{'group_by':'dts_id'}"/>
+                </xpath>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

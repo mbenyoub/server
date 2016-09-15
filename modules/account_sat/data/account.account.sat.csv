@@ -1,0 +1,1077 @@
+id,code,number,name,parent_id/id,type,nature,active
+account_sat.account_sat_v2_001,,000-000-000,Compañia,,view,D,True
+account_sat.account_sat_v2_002,100,000-000-001,Activo ,account_sat.account_sat_v2_001,view,D,True
+account_sat.account_sat_v2_003,100.01,000-100-000,Activo a corto plazo,account_sat.account_sat_v2_002,view,D,True
+account_sat.account_sat_v2_004,101,101-000-000,Caja,account_sat.account_sat_v2_003,view,D,True
+account_sat.account_sat_v2_005,101.01,101-100-000,Caja y efectivo,account_sat.account_sat_v2_004,other,D,True
+account_sat.account_sat_v2_006,102,102-000-000,Bancos,account_sat.account_sat_v2_003,view,D,True
+account_sat.account_sat_v2_007,102.01,102-100-000,Bancos nacionales,account_sat.account_sat_v2_006,other,D,True
+account_sat.account_sat_v2_008,102.02,102-200-000,Bancos extranjeros,account_sat.account_sat_v2_006,other,D,True
+account_sat.account_sat_v2_009,103,103-000-000,Inversiones,account_sat.account_sat_v2_003,view,D,True
+account_sat.account_sat_v2_010,103.01,103-100-001,Inversiones temporales,account_sat.account_sat_v2_009,other,D,True
+account_sat.account_sat_v2_011,103.02,103-100-002,Inversiones en fideicomisos,account_sat.account_sat_v2_009,other,D,True
+account_sat.account_sat_v2_012,103.03,103-100-003,Otras inversiones,account_sat.account_sat_v2_009,other,D,True
+account_sat.account_sat_v2_013,104,104-000-000,Otros instrumentos financieros,account_sat.account_sat_v2_003,view,D,True
+account_sat.account_sat_v2_014,104.01,104-100-001,Otros instrumentos financieros,account_sat.account_sat_v2_013,other,D,True
+account_sat.account_sat_v2_015,105,105-000-000,Clientes,account_sat.account_sat_v2_003,view,D,True
+account_sat.account_sat_v2_016,105.01,105-100-001,Clientes nacionales,account_sat.account_sat_v2_015,other,D,True
+account_sat.account_sat_v2_017,105.02,105-100-002,Clientes extranjeros,account_sat.account_sat_v2_015,other,D,True
+account_sat.account_sat_v2_018,105.03,105-100-003,Clientes nacionales parte relacionada,account_sat.account_sat_v2_015,other,D,True
+account_sat.account_sat_v2_019,105.04,105-100-004,Clientes extranjeros parte relacionada,account_sat.account_sat_v2_015,other,D,True
+account_sat.account_sat_v2_020,106,106-000-000,Cuentas y documentos por cobrar a corto plazo,account_sat.account_sat_v2_003,view,D,True
+account_sat.account_sat_v2_021,106.01,106-100-001,Cuentas y documentos por cobrar a corto plazo nacional,account_sat.account_sat_v2_020,other,D,True
+account_sat.account_sat_v2_022,106.02,106-100-002,Cuentas y documentos por cobrar a corto plazo extranjero,account_sat.account_sat_v2_020,other,D,True
+account_sat.account_sat_v2_023,106.03,106-100-003,Cuentas y documentos por cobrar a corto plazo nacional parte relacionada,account_sat.account_sat_v2_020,other,D,True
+account_sat.account_sat_v2_024,106.04,106-100-004,Cuentas y documentos por cobrar a corto plazo extranjero parte relacionada,account_sat.account_sat_v2_020,other,D,True
+account_sat.account_sat_v2_025,106.05,106-100-005,Intereses por cobrar a corto plazo nacional ,account_sat.account_sat_v2_020,other,D,True
+account_sat.account_sat_v2_026,106.06,106-100-006,Intereses por cobrar a corto plazo extranjero,account_sat.account_sat_v2_020,other,D,True
+account_sat.account_sat_v2_027,106.07,106-100-007,Intereses por cobrar a corto plazo nacional parte relacionada,account_sat.account_sat_v2_020,other,D,True
+account_sat.account_sat_v2_028,106.08,106-100-008,Intereses por cobrar a corto plazo extranjero parte relacionada,account_sat.account_sat_v2_020,other,D,True
+account_sat.account_sat_v2_029,106.09,106-100-009,Otras cuentas y documentos por cobrar a corto plazo,account_sat.account_sat_v2_020,other,D,True
+account_sat.account_sat_v2_030,106.10,106-100-010,Otras cuentas y documentos por cobrar a corto plazo parte relacionada,account_sat.account_sat_v2_020,other,D,True
+account_sat.account_sat_v2_031,107,107-000-000,Deudores diversos,account_sat.account_sat_v2_003,view,D,True
+account_sat.account_sat_v2_032,107.01,107-100-001,Funcionarios y empleados,account_sat.account_sat_v2_031,other,D,True
+account_sat.account_sat_v2_033,107.02,107-100-002,Socios y accionistas,account_sat.account_sat_v2_031,other,D,True
+account_sat.account_sat_v2_034,107.03,107-100-003,Partes relacionadas nacionales,account_sat.account_sat_v2_031,other,D,True
+account_sat.account_sat_v2_035,107.04,107-100-004,Partes relacionadas extranjeros,account_sat.account_sat_v2_031,other,D,True
+account_sat.account_sat_v2_036,107.05,107-100-005,Otros deudores diversos,account_sat.account_sat_v2_031,other,D,True
+account_sat.account_sat_v2_037,108,108-000-000,Estimación de cuentas incobrables,account_sat.account_sat_v2_003,view,D,True
+account_sat.account_sat_v2_038,108.01,108-100-001,Estimación de cuentas incobrables nacional,account_sat.account_sat_v2_031,other,D,True
+account_sat.account_sat_v2_039,108.02,108-100-002,Estimación de cuentas incobrables extranjero,account_sat.account_sat_v2_031,other,D,True
+account_sat.account_sat_v2_040,108.03,108-100-003,Estimación de cuentas incobrables nacional parte relacionada,account_sat.account_sat_v2_031,other,D,True
+account_sat.account_sat_v2_041,108.04,108-100-004,Estimación de cuentas incobrables extranjero parte relacionada,account_sat.account_sat_v2_031,other,D,True
+account_sat.account_sat_v2_042,109,109-000-000,Pagos anticipados,account_sat.account_sat_v2_003,view,D,True
+account_sat.account_sat_v2_043,109.01,109-100-001,Seguros y fianzas pagados por anticipado nacional,account_sat.account_sat_v2_042,other,D,True
+account_sat.account_sat_v2_044,109.02,109-100-002,Seguros y fianzas pagados por anticipado extranjero,account_sat.account_sat_v2_042,other,D,True
+account_sat.account_sat_v2_045,109.03,109-100-003,Seguros y fianzas pagados por anticipado nacional parte relacionada,account_sat.account_sat_v2_042,other,D,True
+account_sat.account_sat_v2_046,109.04,109-100-004,Seguros y fianzas pagados por anticipado extranjero parte relacionada,account_sat.account_sat_v2_042,other,D,True
+account_sat.account_sat_v2_047,109.05,109-100-005,Rentas pagados por anticipado nacional,account_sat.account_sat_v2_042,other,D,True
+account_sat.account_sat_v2_048,109.06,109-100-006,Rentas pagados por anticipado extranjero,account_sat.account_sat_v2_042,other,D,True
+account_sat.account_sat_v2_049,109.07,109-100-007,Rentas pagados por anticipado nacional parte relacionada,account_sat.account_sat_v2_042,other,D,True
+account_sat.account_sat_v2_050,109.08,109-100-008,Rentas pagados por anticipado extranjero parte relacionada,account_sat.account_sat_v2_042,other,D,True
+account_sat.account_sat_v2_051,109.09,109-100-009,Intereses pagados por anticipado nacional,account_sat.account_sat_v2_042,other,D,True
+account_sat.account_sat_v2_052,109.10,109-100-010,Intereses pagados por anticipado extranjero,account_sat.account_sat_v2_042,other,D,True
+account_sat.account_sat_v2_053,109.11,109-100-011,Intereses pagados por anticipado nacional parte relacionada,account_sat.account_sat_v2_042,other,D,True
+account_sat.account_sat_v2_054,109.12,109-100-012,Intereses pagados por anticipado extranjero parte relacionada,account_sat.account_sat_v2_042,other,D,True
+account_sat.account_sat_v2_055,109.13,109-100-013,Factoraje financiero pagados por anticipado nacional,account_sat.account_sat_v2_042,other,D,True
+account_sat.account_sat_v2_056,109.14,109-100-014,Factoraje financiero pagados por anticipado extranjero,account_sat.account_sat_v2_042,other,D,True
+account_sat.account_sat_v2_057,109.15,109-100-015,Factoraje financiero pagados por anticipado nacional parte relacionada,account_sat.account_sat_v2_042,other,D,True
+account_sat.account_sat_v2_058,109.16,109-100-016,Factoraje financiero pagados por anticipado extranjero parte relacionada,account_sat.account_sat_v2_042,other,D,True
+account_sat.account_sat_v2_059,109.17,109-100-017,Arrendamiento financiero pagados por anticipado nacional,account_sat.account_sat_v2_042,other,D,True
+account_sat.account_sat_v2_060,109.18,109-100-018,Arrendamiento financiero pagados por anticipado extranjero,account_sat.account_sat_v2_042,other,D,True
+account_sat.account_sat_v2_061,109.19,109-100-019,Arrendamiento financiero pagados por anticipado nacional parte relacionada,account_sat.account_sat_v2_042,other,D,True
+account_sat.account_sat_v2_062,109.20,109-100-020,Arrendamiento financiero pagados por anticipado extranjero parte relacionada,account_sat.account_sat_v2_042,other,D,True
+account_sat.account_sat_v2_063,109.21,109-100-021,Pérdida por deterioro de pagos anticipados,account_sat.account_sat_v2_042,other,D,True
+account_sat.account_sat_v2_064,109.22,109-100-022,Derechos fiduciarios,account_sat.account_sat_v2_042,other,D,True
+account_sat.account_sat_v2_065,109.23,109-100-023,Otros pagos anticipados,account_sat.account_sat_v2_042,other,D,True
+account_sat.account_sat_v2_066,110,110-000-000,Subsidio al empleo por aplicar,account_sat.account_sat_v2_003,view,D,True
+account_sat.account_sat_v2_067,110.01,110-100-001,Subsidio al empleo por aplicar,account_sat.account_sat_v2_066,other,D,True
+account_sat.account_sat_v2_068,111,111-000-000,Crédito al diesel por acreditar,account_sat.account_sat_v2_003,view,D,True
+account_sat.account_sat_v2_069,111.01,111-100-001,Crédito al diesel por acreditar,account_sat.account_sat_v2_068,other,D,True
+account_sat.account_sat_v2_070,112,112-000-000,Otros estímulos,account_sat.account_sat_v2_003,view,D,True
+account_sat.account_sat_v2_071,112.01,112-100-001,Otros estímulos,account_sat.account_sat_v2_070,other,D,True
+account_sat.account_sat_v2_072,113,113-000-000,Impuestos a favor,account_sat.account_sat_v2_003,view,D,True
+account_sat.account_sat_v2_073,113.01,113-100-001,IVA a favor ,account_sat.account_sat_v2_072,other,D,True
+account_sat.account_sat_v2_074,113.02,113-100-002,ISR a favor,account_sat.account_sat_v2_072,other,D,True
+account_sat.account_sat_v2_075,113.03,113-100-003,IETU a favor,account_sat.account_sat_v2_072,other,D,True
+account_sat.account_sat_v2_076,113.04,113-100-004,IDE a favor,account_sat.account_sat_v2_072,other,D,True
+account_sat.account_sat_v2_077,113.05,113-100-005,IA a favor,account_sat.account_sat_v2_072,other,D,True
+account_sat.account_sat_v2_078,113.06,113-100-006,Subsidio al empleo,account_sat.account_sat_v2_072,other,D,True
+account_sat.account_sat_v2_079,113.07,113-100-007,Pago de lo indebido,account_sat.account_sat_v2_072,other,D,True
+account_sat.account_sat_v2_080,113.08,113-100-008,Otros impuestos a favor,account_sat.account_sat_v2_072,other,D,True
+account_sat.account_sat_v2_081,114,114-000-000,Pagos provisionales,account_sat.account_sat_v2_003,view,D,True
+account_sat.account_sat_v2_082,114.01,114-100-001,Pagos provisionales de ISR,account_sat.account_sat_v2_081,other,D,True
+account_sat.account_sat_v2_083,115,115-000-000,Inventario,account_sat.account_sat_v2_003,view,D,True
+account_sat.account_sat_v2_084,115.01,115-100-001,Inventario,account_sat.account_sat_v2_083,other,D,True
+account_sat.account_sat_v2_085,115.02,115-100-002,Materia prima y materiales,account_sat.account_sat_v2_083,other,D,True
+account_sat.account_sat_v2_086,115.03,115-100-003,Producción en proceso,account_sat.account_sat_v2_083,other,D,True
+account_sat.account_sat_v2_087,115.04,115-100-004,Productos terminados,account_sat.account_sat_v2_083,other,D,True
+account_sat.account_sat_v2_088,115.05,115-100-005,Mercancías en tránsito,account_sat.account_sat_v2_083,other,D,True
+account_sat.account_sat_v2_089,115.06,115-100-006,Mercancías en poder de terceros,account_sat.account_sat_v2_083,other,D,True
+account_sat.account_sat_v2_090,115.07,115-100-007,Otros,account_sat.account_sat_v2_083,other,D,True
+account_sat.account_sat_v2_091,116,116-000-000,Estimación de inventarios obsoletos y de lento movimiento,account_sat.account_sat_v2_003,view,D,True
+account_sat.account_sat_v2_092,116.01,116-100-001,Estimación de inventarios obsoletos y de lento movimiento,account_sat.account_sat_v2_091,other,D,True
+account_sat.account_sat_v2_093,117,117-000-000,Obras en proceso de inmuebles,account_sat.account_sat_v2_003,view,D,True
+account_sat.account_sat_v2_094,117.01,117-100-001,Obras en proceso de inmuebles,account_sat.account_sat_v2_093,other,D,True
+account_sat.account_sat_v2_095,118,118-000-000,Impuestos acreditables pagados,account_sat.account_sat_v2_003,view,D,True
+account_sat.account_sat_v2_096,118.01,118-100-001,IVA acreditable pagado,account_sat.account_sat_v2_095,other,D,True
+account_sat.account_sat_v2_097,118.02,118-100-002,IVA acreditable de importación pagado,account_sat.account_sat_v2_095,other,D,True
+account_sat.account_sat_v2_098,118.03,118-100-003,IEPS acreditable pagado,account_sat.account_sat_v2_095,other,D,True
+account_sat.account_sat_v2_099,118.04,118-100-004,IEPS pagado en importación,account_sat.account_sat_v2_095,other,D,True
+account_sat.account_sat_v2_100,119,119-000-000,Impuestos acreditables por pagar,account_sat.account_sat_v2_003,view,D,True
+account_sat.account_sat_v2_101,119.01,119-100-001,IVA pendiente de pago,account_sat.account_sat_v2_100,other,D,True
+account_sat.account_sat_v2_102,119.02,119-100-002,IVA de importación pendiente de pago,account_sat.account_sat_v2_100,other,D,True
+account_sat.account_sat_v2_103,119.03,119-100-003,IEPS pendiente de pago,account_sat.account_sat_v2_100,other,D,True
+account_sat.account_sat_v2_104,119.04,119-100-004,IEPS pendiente de pago en importación,account_sat.account_sat_v2_100,other,D,True
+account_sat.account_sat_v2_105,120,120-000-000,Anticipo a proveedores,account_sat.account_sat_v2_003,view,D,True
+account_sat.account_sat_v2_106,120.01,120-100-001,Anticipo a proveedores nacional,account_sat.account_sat_v2_105,other,D,True
+account_sat.account_sat_v2_107,120.02,120-100-002,Anticipo a proveedores extranjero,account_sat.account_sat_v2_105,other,D,True
+account_sat.account_sat_v2_108,120.03,120-100-003,Anticipo a proveedores nacional parte relacionada,account_sat.account_sat_v2_105,other,D,True
+account_sat.account_sat_v2_109,120.04,120-100-004,Anticipo a proveedores extranjero parte relacionada,account_sat.account_sat_v2_105,other,D,True
+account_sat.account_sat_v2_110,121,121-000-000,Otros activos a corto plazo,account_sat.account_sat_v2_003,view,D,True
+account_sat.account_sat_v2_111,121.01,121-100-001,Otros activos a corto plazo,account_sat.account_sat_v2_110,other,D,True
+account_sat.account_sat_v2_112,100.02,000-150-000,Activo a largo plazo,account_sat.account_sat_v2_002,view,D,True
+account_sat.account_sat_v2_113,151,151-000-000,Terrenos,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_114,151.01,151-100-001,Terrenos,account_sat.account_sat_v2_113,other,D,True
+account_sat.account_sat_v2_115,152,152-000-000,Edificios,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_116,152.01,152-100-001,Edificios,account_sat.account_sat_v2_115,other,D,True
+account_sat.account_sat_v2_117,153,153-000-000,Maquinaria y equipo,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_118,153.01,153-100-001,Maquinaria y equipo,account_sat.account_sat_v2_117,other,D,True
+account_sat.account_sat_v2_119,154,154-000-000,"Automóviles, autobuses, camiones de carga, tractocamiones, montacargas y remolques",account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_120,154.01,154-100-001,"Automóviles, autobuses, camiones de carga, tractocamiones, montacargas y remolques",account_sat.account_sat_v2_119,other,D,True
+account_sat.account_sat_v2_121,155,155-000-000,Mobiliario y equipo de oficina,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_122,155.01,155-100-001,Mobiliario y equipo de oficina,account_sat.account_sat_v2_121,other,D,True
+account_sat.account_sat_v2_123,156,156-000-000,Equipo de cómputo,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_124,156.01,156-100-001,Equipo de cómputo,account_sat.account_sat_v2_123,other,D,True
+account_sat.account_sat_v2_125,157,157-000-000,Equipo de comunicación,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_126,157.01,157-100-001,Equipo de comunicación,account_sat.account_sat_v2_125,other,D,True
+account_sat.account_sat_v2_127,158,158-000-000,"Activos biológicos, vegetales y semovientes",account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_128,158.01,158-100-001,"Activos biológicos, vegetales y semovientes",account_sat.account_sat_v2_127,other,D,True
+account_sat.account_sat_v2_129,159,159-000-000,Obras en proceso de activos fijos,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_130,159.01,159-100-001,Obras en proceso de activos fijos,account_sat.account_sat_v2_129,other,D,True
+account_sat.account_sat_v2_131,160,160-000-000,Otros activos fijos,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_132,160.01,160-100-001,Otros activos fijos,account_sat.account_sat_v2_131,other,D,True
+account_sat.account_sat_v2_133,161,161-000-000,Ferrocarriles,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_134,161.01,161-100-001,Ferrocarriles,account_sat.account_sat_v2_133,other,D,True
+account_sat.account_sat_v2_135,162,162-000-000,Embarcaciones,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_136,162.01,162-100-001,Embarcaciones,account_sat.account_sat_v2_135,other,D,True
+account_sat.account_sat_v2_137,163,163-000-000,Aviones,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_138,163.01,163-100-001,Aviones,account_sat.account_sat_v2_137,other,D,True
+account_sat.account_sat_v2_139,164,164-000-000,"Troqueles, moldes, matrices y herramental",account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_140,164.01,164-100-001,"Troqueles, moldes, matrices y herramental",account_sat.account_sat_v2_139,other,D,True
+account_sat.account_sat_v2_141,165,165-000-000,Equipo de comunicaciones telefónicas,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_142,165.01,165-100-001,Equipo de comunicaciones telefónicas,account_sat.account_sat_v2_141,other,D,True
+account_sat.account_sat_v2_143,166,166-000-000,Equipo de comunicación satelital,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_144,166.01,166-100-001,Equipo de comunicación satelital,account_sat.account_sat_v2_143,other,D,True
+account_sat.account_sat_v2_145,167,167-000-000,Equipo de adaptaciones para personas con capacidades diferentes,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_146,167.01,167-100-001,Equipo de adaptaciones para personas con capacidades diferentes,account_sat.account_sat_v2_145,other,D,True
+account_sat.account_sat_v2_147,168,168-000-000,Maquinaria y equipo de generación de energía de fuentes renovables o de sistemas de cogeneración de electricidad eficiente,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_148,168.01,168-100-001,Maquinaria y equipo de generación de energía de fuentes renovables o de sistemas de cogeneración de electricidad eficiente,account_sat.account_sat_v2_147,other,D,True
+account_sat.account_sat_v2_149,169,169-000-000,Otra maquinaria y equipo,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_150,169.01,169-100-001,Otra maquinaria y equipo,account_sat.account_sat_v2_149,other,D,True
+account_sat.account_sat_v2_151,170,170-000-000,Adaptaciones y mejoras,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_152,170.01,170-100-001,Adaptaciones y mejoras,account_sat.account_sat_v2_151,other,D,True
+account_sat.account_sat_v2_153,171,171-000-000,Depreciación acumulada de activos fijos,account_sat.account_sat_v2_112,view,A,True
+account_sat.account_sat_v2_154,171.01,171-100-001,Depreciación acumulada de edificios,account_sat.account_sat_v2_153,other,A,True
+account_sat.account_sat_v2_155,171.02,171-100-002,Depreciación acumulada de maquinaria y equipo,account_sat.account_sat_v2_153,other,A,True
+account_sat.account_sat_v2_156,171.03,171-100-003,"Depreciación acumulada de automóviles, autobuses, camiones de carga, tractocamiones, montacargas y remolques",account_sat.account_sat_v2_153,other,A,True
+account_sat.account_sat_v2_157,171.04,171-100-004,Depreciación acumulada de mobiliario y equipo de oficina,account_sat.account_sat_v2_153,other,A,True
+account_sat.account_sat_v2_158,171.05,171-100-005,Depreciación acumulada de equipo de cómputo,account_sat.account_sat_v2_153,other,A,True
+account_sat.account_sat_v2_159,171.06,171-100-006,Depreciación acumulada de equipo de comunicación,account_sat.account_sat_v2_153,other,A,True
+account_sat.account_sat_v2_160,171.07,171-100-007,"Depreciación acumulada de activos biológicos, vegetales y semovientes",account_sat.account_sat_v2_153,other,A,True
+account_sat.account_sat_v2_161,171.08,171-100-008,Depreciación acumulada de otros activos fijos,account_sat.account_sat_v2_153,other,A,True
+account_sat.account_sat_v2_162,171.09,171-100-009,Depreciación acumulada de ferrocarriles,account_sat.account_sat_v2_153,other,A,True
+account_sat.account_sat_v2_163,171.10,171-100-010,Depreciación acumulada de embarcaciones,account_sat.account_sat_v2_153,other,A,True
+account_sat.account_sat_v2_164,171.11,171-100-011,Depreciación acumulada de aviones,account_sat.account_sat_v2_153,other,A,True
+account_sat.account_sat_v2_165,171.12,171-100-012,"Depreciación acumulada de troqueles, moldes, matrices y herramental",account_sat.account_sat_v2_153,other,A,True
+account_sat.account_sat_v2_166,171.13,171-100-013,Depreciación acumulada de equipo de comunicaciones telefónicas,account_sat.account_sat_v2_153,other,A,True
+account_sat.account_sat_v2_167,171.14,171-100-014,Depreciación acumulada de equipo de comunicación satelital,account_sat.account_sat_v2_153,other,A,True
+account_sat.account_sat_v2_168,171.15,171-100-015,Depreciación acumulada de equipo de adaptaciones para personas con capacidades diferentes,account_sat.account_sat_v2_153,other,A,True
+account_sat.account_sat_v2_169,171.16,171-100-016,Depreciación acumulada de maquinaria y equipo de generación de energía de fuentes renovables o de sistemas de cogeneración de electricidad eficiente,account_sat.account_sat_v2_153,other,A,True
+account_sat.account_sat_v2_170,171.17,171-100-017,Depreciación acumulada de adaptaciones y mejoras,account_sat.account_sat_v2_153,other,A,True
+account_sat.account_sat_v2_171,171.18,171-100-018,Depreciación acumulada de otra maquinaria y equipo,account_sat.account_sat_v2_153,other,A,True
+account_sat.account_sat_v2_172,172,172-000-000,Pérdida por deterioro acumulado de activos fijos,account_sat.account_sat_v2_112,view,A,True
+account_sat.account_sat_v2_173,172.01,172-100-001,Pérdida por deterioro acumulado de edificios,account_sat.account_sat_v2_172,other,D,True
+account_sat.account_sat_v2_174,172.02,172-100-002,Pérdida por deterioro acumulado de maquinaria y equipo,account_sat.account_sat_v2_172,other,D,True
+account_sat.account_sat_v2_175,172.03,172-100-003,"Pérdida por deterioro acumulado de automóviles, autobuses, camiones de carga, tractocamiones, montacargas y remolques",account_sat.account_sat_v2_172,other,D,True
+account_sat.account_sat_v2_176,172.04,172-100-004,Pérdida por deterioro acumulado de mobiliario y equipo de oficina,account_sat.account_sat_v2_172,other,D,True
+account_sat.account_sat_v2_177,172.05,172-100-005,Pérdida por deterioro acumulado de equipo de cómputo,account_sat.account_sat_v2_172,other,D,True
+account_sat.account_sat_v2_178,172.06,172-100-006,Pérdida por deterioro acumulado de equipo de comunicación,account_sat.account_sat_v2_172,other,D,True
+account_sat.account_sat_v2_179,172.07,172-100-007,"Pérdida por deterioro acumulado de activos biológicos, vegetales y semovientes",account_sat.account_sat_v2_172,other,D,True
+account_sat.account_sat_v2_180,172.08,172-100-008,Pérdida por deterioro acumulado de otros activos fijos,account_sat.account_sat_v2_172,other,D,True
+account_sat.account_sat_v2_181,172.09,172-100-009,Pérdida por deterioro acumulado de ferrocarriles,account_sat.account_sat_v2_172,other,D,True
+account_sat.account_sat_v2_182,172.10,172-100-010,Pérdida por deterioro acumulado de embarcaciones,account_sat.account_sat_v2_172,other,D,True
+account_sat.account_sat_v2_183,172.11,172-100-011,Pérdida por deterioro acumulado de aviones,account_sat.account_sat_v2_172,other,D,True
+account_sat.account_sat_v2_184,172.12,172-100-012,"Pérdida por deterioro acumulado de troqueles, moldes, matrices y herramental",account_sat.account_sat_v2_172,other,D,True
+account_sat.account_sat_v2_185,172.13,172-100-013,Pérdida por deterioro acumulado de equipo de comunicaciones telefónicas,account_sat.account_sat_v2_172,other,D,True
+account_sat.account_sat_v2_186,172.14,172-100-014,Pérdida por deterioro acumulado de equipo de comunicación satelital,account_sat.account_sat_v2_172,other,D,True
+account_sat.account_sat_v2_187,172.15,172-100-015,Pérdida por deterioro acumulado de equipo de adaptaciones para personas con capacidades diferentes,account_sat.account_sat_v2_172,other,D,True
+account_sat.account_sat_v2_188,172.16,172-100-016,Pérdida por deterioro acumulado de maquinaria y equipo de generación de energía de fuentes renovables o de sistemas de cogeneración de electricidad eficiente,account_sat.account_sat_v2_172,other,D,True
+account_sat.account_sat_v2_189,172.17,172-100-017,Pérdida por deterioro acumulado de adaptaciones y mejoras,account_sat.account_sat_v2_172,other,D,True
+account_sat.account_sat_v2_190,172.18,172-100-018,Pérdida por deterioro acumulado de otra maquinaria y equipo,account_sat.account_sat_v2_172,other,D,True
+account_sat.account_sat_v2_191,173,173-000-000,Gastos diferidos,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_192,173.01,173-100-001,Gastos diferidos,account_sat.account_sat_v2_191,other,D,True
+account_sat.account_sat_v2_193,174,174-000-000,Gastos pre operativos,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_194,174.01,174-100-001,Gastos pre operativos,account_sat.account_sat_v2_193,other,D,True
+account_sat.account_sat_v2_195,175,175-000-000,"Regalías, asistencia técnica y otros gastos diferidos",account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_196,175.01,175-100-001,"Regalías, asistencia técnica y otros gastos diferidos",account_sat.account_sat_v2_195,other,D,True
+account_sat.account_sat_v2_197,176,176-000-000,Activos intangibles,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_198,176.01,176-100-001,Activos intangibles,account_sat.account_sat_v2_197,other,D,True
+account_sat.account_sat_v2_199,177,177-000-000,Gastos de organización,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_200,177.01,177-100-001,Gastos de organización,account_sat.account_sat_v2_199,other,D,True
+account_sat.account_sat_v2_201,178,178-000-000,Investigación y desarrollo de mercado,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_202,178.01,178-100-001,Investigación y desarrollo de mercado,account_sat.account_sat_v2_201,other,D,True
+account_sat.account_sat_v2_203,179,179-000-000,Marcas y patentes,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_204,179.01,179-100-001,Marcas y patentes,account_sat.account_sat_v2_203,other,D,True
+account_sat.account_sat_v2_205,180,180-000-000,Crédito mercantil,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_206,180.01,180-100-001,Crédito mercantil,account_sat.account_sat_v2_205,other,D,True
+account_sat.account_sat_v2_207,181,181-000-000,Gastos de instalación,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_208,181.01,181-100-001,Gastos de instalación,account_sat.account_sat_v2_207,other,D,True
+account_sat.account_sat_v2_209,182,182-000-000,Otros activos diferidos,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_210,182.01,182-100-001,Otros activos diferidos,account_sat.account_sat_v2_209,other,D,True
+account_sat.account_sat_v2_211,183,183-000-000,Amortización acumulada de activos diferidos,account_sat.account_sat_v2_112,view,A,True
+account_sat.account_sat_v2_212,183.01,183-100-001,Amortización acumulada de gastos diferidos,account_sat.account_sat_v2_211,other,A,True
+account_sat.account_sat_v2_213,183.02,183-100-002,Amortización acumulada de gastos pre operativos,account_sat.account_sat_v2_211,other,A,True
+account_sat.account_sat_v2_214,183.03,183-100-003,"Amortización acumulada de regalías, asistencia técnica y otros gastos diferidos",account_sat.account_sat_v2_211,other,A,True
+account_sat.account_sat_v2_215,183.04,183-100-004,Amortización acumulada de activos intangibles,account_sat.account_sat_v2_211,other,A,True
+account_sat.account_sat_v2_216,183.05,183-100-005,Amortización acumulada de gastos de organización,account_sat.account_sat_v2_211,other,A,True
+account_sat.account_sat_v2_217,183.06,183-100-006,Amortización acumulada de investigación y desarrollo de mercado,account_sat.account_sat_v2_211,other,A,True
+account_sat.account_sat_v2_218,183.07,183-100-007,Amortización acumulada de marcas y patentes,account_sat.account_sat_v2_211,other,A,True
+account_sat.account_sat_v2_219,183.08,183-100-008,Amortización acumulada de crédito mercantil,account_sat.account_sat_v2_211,other,A,True
+account_sat.account_sat_v2_220,183.09,183-100-009,Amortización acumulada de gastos de instalación,account_sat.account_sat_v2_211,other,A,True
+account_sat.account_sat_v2_221,183.10,183-100-010,Amortización acumulada de otros activos diferidos,account_sat.account_sat_v2_211,other,A,True
+account_sat.account_sat_v2_222,184,184-000-000,Depósitos en garantía,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_223,184.01,184-100-001,Depósitos de fianzas,account_sat.account_sat_v2_222,other,D,True
+account_sat.account_sat_v2_224,184.02,184-100-002,Depósitos de arrendamiento de bienes inmuebles,account_sat.account_sat_v2_222,other,D,True
+account_sat.account_sat_v2_225,184.03,184-100-003,Otros depósitos en garantía,account_sat.account_sat_v2_222,other,D,True
+account_sat.account_sat_v2_226,185,185-000-000,Impuestos diferidos,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_227,185.01,185-100-001,Impuestos diferidos ISR,account_sat.account_sat_v2_226,other,D,True
+account_sat.account_sat_v2_228,186,186-000-000,Cuentas y documentos por cobrar a largo plazo,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_229,186.01,186-100-001,Cuentas y documentos por cobrar a largo plazo nacional,account_sat.account_sat_v2_228,other,D,True
+account_sat.account_sat_v2_230,186.02,186-100-002,Cuentas y documentos por cobrar a largo plazo extranjero,account_sat.account_sat_v2_228,other,D,True
+account_sat.account_sat_v2_231,186.03,186-100-003,Cuentas y documentos por cobrar a largo plazo nacional parte relacionada,account_sat.account_sat_v2_228,other,D,True
+account_sat.account_sat_v2_232,186.04,186-100-004,Cuentas y documentos por cobrar a largo plazo extranjero parte relacionada,account_sat.account_sat_v2_228,other,D,True
+account_sat.account_sat_v2_233,186.05,186-100-005,Intereses por cobrar a largo plazo nacional ,account_sat.account_sat_v2_228,other,D,True
+account_sat.account_sat_v2_234,186.06,186-100-006,Intereses por cobrar a largo plazo extranjero,account_sat.account_sat_v2_228,other,D,True
+account_sat.account_sat_v2_235,186.07,186-100-007,Intereses por cobrar a largo plazo nacional parte relacionada,account_sat.account_sat_v2_228,other,D,True
+account_sat.account_sat_v2_236,186.08,186-100-008,Intereses por cobrar a largo plazo extranjero parte relacionada,account_sat.account_sat_v2_228,other,D,True
+account_sat.account_sat_v2_237,186.09,186-100-009,Otras cuentas y documentos por cobrar a largo plazo,account_sat.account_sat_v2_228,other,D,True
+account_sat.account_sat_v2_238,186.10,186-100-010,Otras cuentas y documentos por cobrar a largo plazo parte relacionada,account_sat.account_sat_v2_228,other,D,True
+account_sat.account_sat_v2_239,187,187-000-000,Participación de los trabajadores en las utilidades diferidas,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_240,187.01,187-100-001,Participación de los trabajadores en las utilidades diferidas,account_sat.account_sat_v2_239,other,D,True
+account_sat.account_sat_v2_241,188,188-000-000,Inversiones permanentes en acciones,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_242,188.01,188-100-001,Inversiones a largo plazo en subsidiarias,account_sat.account_sat_v2_241,other,D,True
+account_sat.account_sat_v2_243,188.02,188-100-002,Inversiones a largo plazo en asociadas,account_sat.account_sat_v2_241,other,D,True
+account_sat.account_sat_v2_244,188.03,188-100-003,Otras inversiones permanentes en acciones,account_sat.account_sat_v2_241,other,D,True
+account_sat.account_sat_v2_245,189,189-000-000,Estimación por deterioro de inversiones permanentes en acciones,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_246,189.01,189-100-001,Estimación por deterioro de inversiones permanentes en acciones,account_sat.account_sat_v2_245,other,D,True
+account_sat.account_sat_v2_247,190,190-000-000,Otros instrumentos financieros,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_248,190.01,190-100-001,Otros instrumentos financieros,account_sat.account_sat_v2_247,other,D,True
+account_sat.account_sat_v2_249,191,191-000-000,Otros activos a largo plazo,account_sat.account_sat_v2_112,view,D,True
+account_sat.account_sat_v2_250,191.01,191-100-001,Otros activos a largo plazo,account_sat.account_sat_v2_249,other,D,True
+account_sat.account_sat_v2_251,200,000-000-002,Pasivo ,account_sat.account_sat_v2_001,view,A,True
+account_sat.account_sat_v2_252,200.01,000-200-000,Pasivo a corto plazo,account_sat.account_sat_v2_251,view,A,True
+account_sat.account_sat_v2_253,201,201-000-000,Proveedores ,account_sat.account_sat_v2_252,view,A,True
+account_sat.account_sat_v2_254,201.01,201-100-001,Proveedores nacionales,account_sat.account_sat_v2_253,other,A,True
+account_sat.account_sat_v2_255,201.02,201-100-002,Proveedores extranjeros,account_sat.account_sat_v2_253,other,A,True
+account_sat.account_sat_v2_256,201.03,201-100-003,Proveedores nacionales parte relacionada,account_sat.account_sat_v2_253,other,A,True
+account_sat.account_sat_v2_257,201.04,201-100-004,Proveedores extranjeros parte relacionada,account_sat.account_sat_v2_253,other,A,True
+account_sat.account_sat_v2_258,202,202-000-000,Cuentas por pagar a corto plazo,account_sat.account_sat_v2_252,view,A,True
+account_sat.account_sat_v2_259,202.01,202-100-001,Documentos por pagar bancario y financiero nacional,account_sat.account_sat_v2_258,other,A,True
+account_sat.account_sat_v2_260,202.02,202-100-002,Documentos por pagar bancario y financiero extranjero,account_sat.account_sat_v2_258,other,A,True
+account_sat.account_sat_v2_261,202.03,202-100-003,Documentos y cuentas por pagar a corto plazo nacional,account_sat.account_sat_v2_258,other,A,True
+account_sat.account_sat_v2_262,202.04,202-100-004,Documentos y cuentas por pagar a corto plazo extranjero,account_sat.account_sat_v2_258,other,A,True
+account_sat.account_sat_v2_263,202.05,202-100-005,Documentos y cuentas por pagar a corto plazo nacional parte relacionada,account_sat.account_sat_v2_258,other,A,True
+account_sat.account_sat_v2_264,202.06,202-100-006,Documentos y cuentas por pagar a corto plazo extranjero parte relacionada,account_sat.account_sat_v2_258,other,A,True
+account_sat.account_sat_v2_265,202.07,202-100-007,Intereses por pagar a corto plazo nacional,account_sat.account_sat_v2_258,other,A,True
+account_sat.account_sat_v2_266,202.08,202-100-008,Intereses por pagar a corto plazo extranjero,account_sat.account_sat_v2_258,other,A,True
+account_sat.account_sat_v2_267,202.09,202-100-009,Intereses por pagar a corto plazo nacional parte relacionada,account_sat.account_sat_v2_258,other,A,True
+account_sat.account_sat_v2_268,202.10,202-100-010,Intereses por pagar a corto plazo extranjero parte relacionada,account_sat.account_sat_v2_258,other,A,True
+account_sat.account_sat_v2_269,202.11,202-100-011,Dividendo por pagar nacional,account_sat.account_sat_v2_258,other,A,True
+account_sat.account_sat_v2_270,202.12,202-100-012,Dividendo por pagar extranjero,account_sat.account_sat_v2_258,other,A,True
+account_sat.account_sat_v2_271,203,203-000-000,Cobros anticipados a corto plazo,account_sat.account_sat_v2_252,view,A,True
+account_sat.account_sat_v2_272,203.01,203-100-001,Rentas cobradas por anticipado a corto plazo nacional,account_sat.account_sat_v2_271,other,A,True
+account_sat.account_sat_v2_273,203.02,203-100-002,Rentas cobradas por anticipado a corto plazo extranjero,account_sat.account_sat_v2_271,other,A,True
+account_sat.account_sat_v2_274,203.03,203-100-003,Rentas cobradas por anticipado a corto plazo nacional parte relacionada,account_sat.account_sat_v2_271,other,A,True
+account_sat.account_sat_v2_275,203.04,203-100-004,Rentas cobradas por anticipado a corto plazo extranjero parte relacionada,account_sat.account_sat_v2_271,other,A,True
+account_sat.account_sat_v2_276,203.05,203-100-005,Intereses cobrados por anticipado a corto plazo nacional,account_sat.account_sat_v2_271,other,A,True
+account_sat.account_sat_v2_277,203.06,203-100-006,Intereses cobrados por anticipado a corto plazo extranjero,account_sat.account_sat_v2_271,other,A,True
+account_sat.account_sat_v2_278,203.07,203-100-007,Intereses cobrados por anticipado a corto plazo nacional parte relacionada,account_sat.account_sat_v2_271,other,A,True
+account_sat.account_sat_v2_279,203.08,203-100-008,Intereses cobrados por anticipado a corto plazo extranjero parte relacionada,account_sat.account_sat_v2_271,other,A,True
+account_sat.account_sat_v2_280,203.09,203-100-009,Factoraje financiero cobrados por anticipado a corto plazo nacional,account_sat.account_sat_v2_271,other,A,True
+account_sat.account_sat_v2_281,203.10,203-100-010,Factoraje financiero cobrados por anticipado a corto plazo extranjero,account_sat.account_sat_v2_271,other,A,True
+account_sat.account_sat_v2_282,203.11,203-100-011,Factoraje financiero cobrados por anticipado a corto plazo nacional parte relacionada,account_sat.account_sat_v2_271,other,A,True
+account_sat.account_sat_v2_283,203.12,203-100-012,Factoraje financiero cobrados por anticipado a corto plazo extranjero parte relacionada,account_sat.account_sat_v2_271,other,A,True
+account_sat.account_sat_v2_284,203.13,203-100-013,Arrendamiento financiero cobrados por anticipado a corto plazo nacional,account_sat.account_sat_v2_271,other,A,True
+account_sat.account_sat_v2_285,203.14,203-100-014,Arrendamiento financiero cobrados por anticipado a corto plazo extranjero,account_sat.account_sat_v2_271,other,A,True
+account_sat.account_sat_v2_286,203.15,203-100-015,Arrendamiento financiero cobrados por anticipado a corto plazo nacional parte relacionada,account_sat.account_sat_v2_271,other,A,True
+account_sat.account_sat_v2_287,203.16,203-100-016,Arrendamiento financiero cobrados por anticipado a corto plazo extranjero parte relacionada,account_sat.account_sat_v2_271,other,A,True
+account_sat.account_sat_v2_288,203.17,203-100-017,Derechos fiduciarios,account_sat.account_sat_v2_271,other,A,True
+account_sat.account_sat_v2_289,203.18,203-100-018,Otros cobros anticipados,account_sat.account_sat_v2_271,other,A,True
+account_sat.account_sat_v2_290,204,204-000-000,Instrumentos financieros a corto plazo,account_sat.account_sat_v2_252,view,A,True
+account_sat.account_sat_v2_291,204.01,204-100-001,Instrumentos financieros a corto plazo,account_sat.account_sat_v2_290,other,A,True
+account_sat.account_sat_v2_292,205,205-000-000,Acreedores diversos a corto plazo,account_sat.account_sat_v2_252,view,A,True
+account_sat.account_sat_v2_293,205.01,205-100-001,"Socios, accionistas o representante legal",account_sat.account_sat_v2_292,other,A,True
+account_sat.account_sat_v2_294,205.02,205-100-002,Acreedores diversos a corto plazo nacional,account_sat.account_sat_v2_292,other,A,True
+account_sat.account_sat_v2_295,205.03,205-100-003,Acreedores diversos a corto plazo extranjero,account_sat.account_sat_v2_292,other,A,True
+account_sat.account_sat_v2_296,205.04,205-100-004,Acreedores diversos a corto plazo nacional parte relacionada,account_sat.account_sat_v2_292,other,A,True
+account_sat.account_sat_v2_297,205.05,205-100-005,Acreedores diversos a corto plazo extranjero parte relacionada,account_sat.account_sat_v2_292,other,A,True
+account_sat.account_sat_v2_298,205.06,205-100-006,Otros acreedores diversos a corto plazo,account_sat.account_sat_v2_292,other,A,True
+account_sat.account_sat_v2_299,206,206-000-000,Anticipo de cliente,account_sat.account_sat_v2_252,view,A,True
+account_sat.account_sat_v2_300,206.01,206-100-001,Anticipo de cliente nacional,account_sat.account_sat_v2_299,other,A,True
+account_sat.account_sat_v2_301,206.02,206-100-002,Anticipo de cliente extranjero,account_sat.account_sat_v2_299,other,A,True
+account_sat.account_sat_v2_302,206.03,206-100-003,Anticipo de cliente nacional parte relacionada,account_sat.account_sat_v2_299,other,A,True
+account_sat.account_sat_v2_303,206.04,206-100-004,Anticipo de cliente extranjero parte relacionada,account_sat.account_sat_v2_299,other,A,True
+account_sat.account_sat_v2_304,206.05,206-100-005,Otros anticipos de clientes,account_sat.account_sat_v2_299,other,A,True
+account_sat.account_sat_v2_305,207,207-000-000,Impuestos trasladados,account_sat.account_sat_v2_252,view,A,True
+account_sat.account_sat_v2_306,207.01,207-100-001,IVA trasladado ,account_sat.account_sat_v2_305,other,A,True
+account_sat.account_sat_v2_307,207.02,207-100-002,IEPS trasladado,account_sat.account_sat_v2_305,other,A,True
+account_sat.account_sat_v2_308,208,208-000-000,Impuestos trasladados cobrados,account_sat.account_sat_v2_252,view,A,True
+account_sat.account_sat_v2_309,208.01,208-100-001,IVA trasladado cobrado,account_sat.account_sat_v2_308,other,A,True
+account_sat.account_sat_v2_310,208.02,208-100-002,IEPS trasladado cobrado,account_sat.account_sat_v2_308,other,A,True
+account_sat.account_sat_v2_311,209,209-000-000,Impuestos trasladados no cobrados,account_sat.account_sat_v2_252,view,A,True
+account_sat.account_sat_v2_312,209.01,209-100-001,IVA trasladado no cobrado,account_sat.account_sat_v2_311,other,A,True
+account_sat.account_sat_v2_313,209.02,209-100-002,IEPS trasladado no cobrado,account_sat.account_sat_v2_311,other,A,True
+account_sat.account_sat_v2_314,210,210-000-000,Provisión de sueldos y salarios por pagar,account_sat.account_sat_v2_252,view,A,True
+account_sat.account_sat_v2_315,210.01,210-100-001,Provisión de sueldos y salarios por pagar,account_sat.account_sat_v2_314,other,A,True
+account_sat.account_sat_v2_316,210.02,210-100-002,Provisión de vacaciones por pagar,account_sat.account_sat_v2_314,other,A,True
+account_sat.account_sat_v2_317,210.03,210-100-003,Provisión de aguinaldo por pagar,account_sat.account_sat_v2_314,other,A,True
+account_sat.account_sat_v2_318,210.04,210-100-004,Provisión de fondo de ahorro por pagar,account_sat.account_sat_v2_314,other,A,True
+account_sat.account_sat_v2_319,210.05,210-100-005,Provisión de asimilados a salarios por pagar,account_sat.account_sat_v2_314,other,A,True
+account_sat.account_sat_v2_320,210.06,210-100-006,Provisión de anticipos o remanentes por distribuir,account_sat.account_sat_v2_314,other,A,True
+account_sat.account_sat_v2_321,210.07,210-100-007,Provisión de otros sueldos y salarios por pagar,account_sat.account_sat_v2_314,other,A,True
+account_sat.account_sat_v2_322,211,211-000-000,Provisión de contribuciones de seguridad social por pagar,account_sat.account_sat_v2_252,view,A,True
+account_sat.account_sat_v2_323,211.01,211-100-001,Provisión de IMSS patronal por pagar,account_sat.account_sat_v2_322,other,A,True
+account_sat.account_sat_v2_324,211.02,211-100-002,Provisión de SAR por pagar,account_sat.account_sat_v2_322,other,A,True
+account_sat.account_sat_v2_325,211.03,211-100-003,Provisión de infonavit por pagar,account_sat.account_sat_v2_322,other,A,True
+account_sat.account_sat_v2_326,212,212-000-000,Provisión de impuesto estatal sobre nómina por pagar,account_sat.account_sat_v2_252,view,A,True
+account_sat.account_sat_v2_327,212.01,212-100-001,Provisión de impuesto estatal sobre nómina por pagar,account_sat.account_sat_v2_326,other,A,True
+account_sat.account_sat_v2_328,213,213-000-000,Impuestos y derechos por pagar,account_sat.account_sat_v2_252,view,A,True
+account_sat.account_sat_v2_329,213.01,213-100-001,IVA por pagar,account_sat.account_sat_v2_328,other,A,True
+account_sat.account_sat_v2_330,213.02,213-100-002,IEPS por pagar,account_sat.account_sat_v2_328,other,A,True
+account_sat.account_sat_v2_331,213.03,213-100-003,ISR por pagar,account_sat.account_sat_v2_328,other,A,True
+account_sat.account_sat_v2_332,213.04,213-100-004,Impuesto estatal sobre nómina por pagar,account_sat.account_sat_v2_328,other,A,True
+account_sat.account_sat_v2_333,213.05,213-100-005,Impuesto estatal y municipal por pagar,account_sat.account_sat_v2_328,other,A,True
+account_sat.account_sat_v2_334,213.06,213-100-006,Derechos por pagar,account_sat.account_sat_v2_328,other,A,True
+account_sat.account_sat_v2_335,213.07,213-100-007,Otros impuestos por pagar,account_sat.account_sat_v2_328,other,A,True
+account_sat.account_sat_v2_336,214,214-000-000,Dividendos por pagar,account_sat.account_sat_v2_252,view,A,True
+account_sat.account_sat_v2_337,214.01,214-100-001,Dividendos por pagar,account_sat.account_sat_v2_336,other,A,True
+account_sat.account_sat_v2_338,215,215-000-000,PTU por pagar,account_sat.account_sat_v2_252,view,A,True
+account_sat.account_sat_v2_339,215.01,215-100-001,PTU por pagar,account_sat.account_sat_v2_338,other,A,True
+account_sat.account_sat_v2_340,215.02,215-100-002,PTU por pagar de ejercicios anteriores,account_sat.account_sat_v2_338,other,A,True
+account_sat.account_sat_v2_341,215.03,215-100-003,Provisión de PTU por pagar,account_sat.account_sat_v2_338,other,A,True
+account_sat.account_sat_v2_342,216,216-000-000,Impuestos retenidos,account_sat.account_sat_v2_252,view,A,True
+account_sat.account_sat_v2_343,216.01,216-100-001,Impuestos retenidos de ISR por sueldos y salarios ,account_sat.account_sat_v2_342,other,A,True
+account_sat.account_sat_v2_344,216.02,216-100-002,Impuestos retenidos de ISR por asimilados a salarios,account_sat.account_sat_v2_342,other,A,True
+account_sat.account_sat_v2_345,216.03,216-100-003,Impuestos retenidos de ISR por arrendamiento,account_sat.account_sat_v2_342,other,A,True
+account_sat.account_sat_v2_346,216.04,216-100-004,Impuestos retenidos de ISR por servicios profesionales,account_sat.account_sat_v2_342,other,A,True
+account_sat.account_sat_v2_347,216.05,216-100-005,Impuestos retenidos de ISR por dividendos,account_sat.account_sat_v2_342,other,A,True
+account_sat.account_sat_v2_348,216.06,216-100-006,Impuestos retenidos de ISR por intereses,account_sat.account_sat_v2_342,other,A,True
+account_sat.account_sat_v2_349,216.07,216-100-007,Impuestos retenidos de ISR por pagos al extranjero,account_sat.account_sat_v2_342,other,A,True
+account_sat.account_sat_v2_350,216.08,216-100-008,Impuestos retenidos de ISR por venta de acciones,account_sat.account_sat_v2_342,other,A,True
+account_sat.account_sat_v2_351,216.09,216-100-009,Impuestos retenidos de ISR por venta de partes sociales,account_sat.account_sat_v2_342,other,A,True
+account_sat.account_sat_v2_352,216.10,216-100-010,Impuestos retenidos de IVA,account_sat.account_sat_v2_342,other,A,True
+account_sat.account_sat_v2_353,216.11,216-100-011,Retenciones de IMSS a los trabajadores,account_sat.account_sat_v2_342,other,A,True
+account_sat.account_sat_v2_354,216.12,216-100-012,Otras impuestos retenidos,account_sat.account_sat_v2_342,other,A,True
+account_sat.account_sat_v2_355,217,217-000-000,Pagos realizados por cuenta de terceros,account_sat.account_sat_v2_252,view,A,True
+account_sat.account_sat_v2_356,217.01,217-100-001,Pagos realizados por cuenta de terceros,account_sat.account_sat_v2_355,other,A,True
+account_sat.account_sat_v2_357,218,218-000-000,Otros pasivos a corto plazo,account_sat.account_sat_v2_252,view,A,True
+account_sat.account_sat_v2_358,218.01,218-100-001,Otros pasivos a corto plazo,account_sat.account_sat_v2_357,other,A,True
+account_sat.account_sat_v2_359,200.02,000-250-000,Pasivo a largo plazo,account_sat.account_sat_v2_251,view,A,True
+account_sat.account_sat_v2_360,251,251-000-000,Acreedores diversos a largo plazo,account_sat.account_sat_v2_359,view,A,True
+account_sat.account_sat_v2_361,251.01,251-100-001,"Socios, accionistas o representante legal",account_sat.account_sat_v2_360,other,A,True
+account_sat.account_sat_v2_362,251.02,251-100-002,Acreedores diversos a largo plazo nacional,account_sat.account_sat_v2_360,other,A,True
+account_sat.account_sat_v2_363,251.03,251-100-003,Acreedores diversos a largo plazo extranjero,account_sat.account_sat_v2_360,other,A,True
+account_sat.account_sat_v2_364,251.04,251-100-004,Acreedores diversos a largo plazo nacional parte relacionada,account_sat.account_sat_v2_360,other,A,True
+account_sat.account_sat_v2_365,251.05,251-100-005,Acreedores diversos a largo plazo extranjero parte relacionada,account_sat.account_sat_v2_360,other,A,True
+account_sat.account_sat_v2_366,251.06,251-100-006,Otros acreedores diversos a largo plazo,account_sat.account_sat_v2_360,other,A,True
+account_sat.account_sat_v2_367,252,252-000-000,Cuentas por pagar a largo plazo,account_sat.account_sat_v2_359,view,A,True
+account_sat.account_sat_v2_368,252.01,252-100-001,Documentos bancarios y financieros por pagar a largo plazo nacional ,account_sat.account_sat_v2_367,other,A,True
+account_sat.account_sat_v2_369,252.02,252-100-002,Documentos bancarios y financieros por pagar a largo plazo extranjero,account_sat.account_sat_v2_367,other,A,True
+account_sat.account_sat_v2_370,252.03,252-100-003,Documentos y cuentas por pagar a largo plazo nacional,account_sat.account_sat_v2_367,other,A,True
+account_sat.account_sat_v2_371,252.04,252-100-004,Documentos y cuentas por pagar a largo plazo extranjero,account_sat.account_sat_v2_367,other,A,True
+account_sat.account_sat_v2_372,252.05,252-100-005,Documentos y cuentas por pagar a largo plazo nacional parte relacionada,account_sat.account_sat_v2_367,other,A,True
+account_sat.account_sat_v2_373,252.06,252-100-006,Documentos y cuentas por pagar a largo plazo extranjero parte relacionada,account_sat.account_sat_v2_367,other,A,True
+account_sat.account_sat_v2_374,252.07,252-100-007,Hipotecas por pagar a largo plazo nacional,account_sat.account_sat_v2_367,other,A,True
+account_sat.account_sat_v2_375,252.08,252-100-008,Hipotecas por pagar a largo plazo extranjero,account_sat.account_sat_v2_367,other,A,True
+account_sat.account_sat_v2_376,252.09,252-100-009,Hipotecas por pagar a largo plazo nacional parte relacionada,account_sat.account_sat_v2_367,other,A,True
+account_sat.account_sat_v2_377,252.10,252-100-010,Hipotecas por pagar a largo plazo extranjero parte relacionada,account_sat.account_sat_v2_367,other,A,True
+account_sat.account_sat_v2_378,252.11,252-100-011,Intereses por pagar a largo plazo nacional,account_sat.account_sat_v2_367,other,A,True
+account_sat.account_sat_v2_379,252.12,252-100-012,Intereses por pagar a largo plazo extranjero,account_sat.account_sat_v2_367,other,A,True
+account_sat.account_sat_v2_380,252.13,252-100-013,Intereses por pagar a largo plazo nacional parte relacionada,account_sat.account_sat_v2_367,other,A,True
+account_sat.account_sat_v2_381,252.14,252-100-014,Intereses por pagar a largo plazo extranjero parte relacionada,account_sat.account_sat_v2_367,other,A,True
+account_sat.account_sat_v2_382,252.15,252-100-015,Dividendos por pagar nacionales,account_sat.account_sat_v2_367,other,A,True
+account_sat.account_sat_v2_383,252.16,252-100-016,Dividendos por pagar extranjeros,account_sat.account_sat_v2_367,other,A,True
+account_sat.account_sat_v2_384,252.17,252-100-017,Otras cuentas y documentos por pagar a largo plazo,account_sat.account_sat_v2_367,other,A,True
+account_sat.account_sat_v2_385,253,253-000-000,Cobros anticipados a largo plazo,account_sat.account_sat_v2_359,view,A,True
+account_sat.account_sat_v2_386,253.01,253-100-001,Rentas cobradas por anticipado a largo plazo nacional,account_sat.account_sat_v2_385,other,A,True
+account_sat.account_sat_v2_387,253.02,253-100-002,Rentas cobradas por anticipado a largo plazo extranjero,account_sat.account_sat_v2_385,other,A,True
+account_sat.account_sat_v2_388,253.03,253-100-003,Rentas cobradas por anticipado a largo plazo nacional parte relacionada,account_sat.account_sat_v2_385,other,A,True
+account_sat.account_sat_v2_389,253.04,253-100-004,Rentas cobradas por anticipado a largo plazo extranjero parte relacionada,account_sat.account_sat_v2_385,other,A,True
+account_sat.account_sat_v2_390,253.05,253-100-005,Intereses cobrados por anticipado a largo plazo nacional,account_sat.account_sat_v2_385,other,A,True
+account_sat.account_sat_v2_391,253.06,253-100-006,Intereses cobrados por anticipado a largo plazo extranjero,account_sat.account_sat_v2_385,other,A,True
+account_sat.account_sat_v2_392,253.07,253-100-007,Intereses cobrados por anticipado a largo plazo nacional parte relacionada,account_sat.account_sat_v2_385,other,A,True
+account_sat.account_sat_v2_393,253.08,253-100-008,Intereses cobrados por anticipado a largo plazo extranjero parte relacionada,account_sat.account_sat_v2_385,other,A,True
+account_sat.account_sat_v2_394,253.09,253-100-009,Factoraje financiero cobrados por anticipado a largo plazo nacional,account_sat.account_sat_v2_385,other,A,True
+account_sat.account_sat_v2_395,253.10,253-100-010,Factoraje financiero cobrados por anticipado a largo plazo extranjero,account_sat.account_sat_v2_385,other,A,True
+account_sat.account_sat_v2_396,253.11,253-100-011,Factoraje financiero cobrados por anticipado a largo plazo nacional parte relacionada,account_sat.account_sat_v2_385,other,A,True
+account_sat.account_sat_v2_397,253.12,253-100-012,Factoraje financiero cobrados por anticipado a largo plazo extranjero parte relacionada,account_sat.account_sat_v2_385,other,A,True
+account_sat.account_sat_v2_398,253.13,253-100-013,Arrendamiento financiero cobrados por anticipado a largo plazo nacional,account_sat.account_sat_v2_385,other,A,True
+account_sat.account_sat_v2_399,253.14,253-100-014,Arrendamiento financiero cobrados por anticipado a largo plazo extranjero,account_sat.account_sat_v2_385,other,A,True
+account_sat.account_sat_v2_400,253.15,253-100-015,Arrendamiento financiero cobrados por anticipado a largo plazo nacional parte relacionada,account_sat.account_sat_v2_385,other,A,True
+account_sat.account_sat_v2_401,253.16,253-100-016,Arrendamiento financiero cobrados por anticipado a largo plazo extranjero parte relacionada,account_sat.account_sat_v2_385,other,A,True
+account_sat.account_sat_v2_402,253.17,253-100-017,Derechos fiduciarios,account_sat.account_sat_v2_385,other,A,True
+account_sat.account_sat_v2_403,253.18,253-100-018,Otros cobros anticipados,account_sat.account_sat_v2_385,other,A,True
+account_sat.account_sat_v2_404,254,254-000-000,Instrumentos financieros a largo plazo,account_sat.account_sat_v2_359,view,A,True
+account_sat.account_sat_v2_405,254.01,254-100-001,Instrumentos financieros a largo plazo,account_sat.account_sat_v2_404,other,A,True
+account_sat.account_sat_v2_406,255,255-000-000,Pasivos por beneficios a los empleados a largo plazo,account_sat.account_sat_v2_359,view,A,True
+account_sat.account_sat_v2_407,255.01,255-100-001,Pasivos por beneficios a los empleados a largo plazo,account_sat.account_sat_v2_406,other,A,True
+account_sat.account_sat_v2_408,256,256-000-000,Otros pasivos a largo plazo,account_sat.account_sat_v2_359,view,A,True
+account_sat.account_sat_v2_409,256.01,256-100-001,Otros pasivos a largo plazo,account_sat.account_sat_v2_408,other,A,True
+account_sat.account_sat_v2_410,257,257-000-000,Participación de los trabajadores en las utilidades diferida,account_sat.account_sat_v2_359,view,A,True
+account_sat.account_sat_v2_411,257.01,257-100-001,Participación de los trabajadores en las utilidades diferida,account_sat.account_sat_v2_410,other,A,True
+account_sat.account_sat_v2_412,258,258-000-000,Obligaciones contraídas de fideicomisos,account_sat.account_sat_v2_359,view,A,True
+account_sat.account_sat_v2_413,258.01,258-100-001,Obligaciones contraídas de fideicomisos,account_sat.account_sat_v2_412,other,A,True
+account_sat.account_sat_v2_414,259,259-000-000,Impuestos diferidos,account_sat.account_sat_v2_359,view,A,True
+account_sat.account_sat_v2_415,259.01,259-100-001,ISR diferido,account_sat.account_sat_v2_414,other,A,True
+account_sat.account_sat_v2_416,259.02,259-100-002,ISR por dividendo diferido,account_sat.account_sat_v2_414,other,A,True
+account_sat.account_sat_v2_417,259.03,259-100-003,Otros impuestos diferidos,account_sat.account_sat_v2_414,other,A,True
+account_sat.account_sat_v2_418,260,260-000-000,Pasivos diferidos,account_sat.account_sat_v2_359,view,A,True
+account_sat.account_sat_v2_419,260.01,260-100-001,Pasivos diferidos,account_sat.account_sat_v2_418,other,A,True
+account_sat.account_sat_v2_420,300,000-000-003,Capital contable,account_sat.account_sat_v2_001,view,A,True
+account_sat.account_sat_v2_421,301,301-000-000,Capital social,account_sat.account_sat_v2_420,view,A,True
+account_sat.account_sat_v2_422,301.01,301-100-001,Capital fijo,account_sat.account_sat_v2_421,other,A,True
+account_sat.account_sat_v2_423,301.02,301-100-002,Capital variable,account_sat.account_sat_v2_421,other,A,True
+account_sat.account_sat_v2_424,301.03,301-100-003,Aportaciones para futuros aumentos de capital,account_sat.account_sat_v2_421,other,A,True
+account_sat.account_sat_v2_425,301.04,301-100-004,Prima en suscripción de acciones,account_sat.account_sat_v2_421,other,A,True
+account_sat.account_sat_v2_426,301.05,301-100-005,Prima en suscripción de partes sociales,account_sat.account_sat_v2_421,other,A,True
+account_sat.account_sat_v2_427,302,302-000-000,Patrimonio,account_sat.account_sat_v2_420,view,A,True
+account_sat.account_sat_v2_428,302.01,302-100-001,Patrimonio,account_sat.account_sat_v2_427,other,A,True
+account_sat.account_sat_v2_429,302.02,302-100-002,Aportación patrimonial,account_sat.account_sat_v2_427,other,A,True
+account_sat.account_sat_v2_430,302.03,302-100-003,Déficit o remanente del ejercicio,account_sat.account_sat_v2_427,other,A,True
+account_sat.account_sat_v2_431,303,303-000-000,Reserva legal,account_sat.account_sat_v2_420,view,A,True
+account_sat.account_sat_v2_432,303.01,303-100-001,Reserva legal,account_sat.account_sat_v2_431,other,A,True
+account_sat.account_sat_v2_433,304,304-000-000,Resultado de ejercicios anteriores,account_sat.account_sat_v2_420,view,A,True
+account_sat.account_sat_v2_434,304.01,304-100-001,Utilidad de ejercicios anteriores,account_sat.account_sat_v2_433,other,A,True
+account_sat.account_sat_v2_435,304.02,304-100-002,Pérdida de ejercicios anteriores,account_sat.account_sat_v2_433,other,A,True
+account_sat.account_sat_v2_436,304.03,304-100-003,Resultado integral de ejercicios anteriores,account_sat.account_sat_v2_433,other,A,True
+account_sat.account_sat_v2_437,304.04,304-100-004,Déficit o remanente de ejercicio anteriores,account_sat.account_sat_v2_433,other,A,True
+account_sat.account_sat_v2_438,305,305-000-000,Resultado del ejercicio,account_sat.account_sat_v2_420,view,A,True
+account_sat.account_sat_v2_439,305.01,305-100-001,Utilidad del ejercicio,account_sat.account_sat_v2_438,other,A,True
+account_sat.account_sat_v2_440,305.02,305-100-002,Pérdida del ejercicio,account_sat.account_sat_v2_438,other,A,True
+account_sat.account_sat_v2_441,305.03,305-100-003,Resultado integral,account_sat.account_sat_v2_438,other,A,True
+account_sat.account_sat_v2_442,306,306-000-000,Otras cuentas de capital,account_sat.account_sat_v2_420,view,A,True
+account_sat.account_sat_v2_443,306.01,306-100-001,Otras cuentas de capital,account_sat.account_sat_v2_442,other,A,True
+account_sat.account_sat_v2_444,400,000-000-004,Ingresos ,account_sat.account_sat_v2_001,view,A,True
+account_sat.account_sat_v2_445,401,401-000-000,Ingresos,account_sat.account_sat_v2_444,view,A,True
+account_sat.account_sat_v2_446,401.01,401-100-001,Ventas y/o servicios gravados a la tasa general,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_447,401.02,401-100-002,Ventas y/o servicios gravados a la tasa general de contado,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_448,401.03,401-100-003,Ventas y/o servicios gravados a la tasa general a crédito,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_449,401.04,401-100-004,Ventas y/o servicios gravados al 0%,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_450,401.05,401-100-005,Ventas y/o servicios gravados al 0% de contado,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_451,401.06,401-100-006,Ventas y/o servicios gravados al 0% a crédito,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_452,401.07,401-100-007,Ventas y/o servicios exentos,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_453,401.08,401-100-008,Ventas y/o servicios exentos de contado,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_454,401.09,401-100-009,Ventas y/o servicios exentos a crédito,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_455,401.10,401-100-010,Ventas y/o servicios gravados a la tasa general nacionales partes relacionadas,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_456,401.11,401-100-011,Ventas y/o servicios gravados a la tasa general extranjeros partes relacionadas,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_457,401.12,401-100-012,Ventas y/o servicios gravados al 0% nacionales partes relacionadas,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_458,401.13,401-100-013,Ventas y/o servicios gravados al 0% extranjeros partes relacionadas,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_459,401.14,401-100-014,Ventas y/o servicios exentos nacionales partes relacionadas,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_460,401.15,401-100-015,Ventas y/o servicios exentos extranjeros partes relacionadas,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_461,401.16,401-100-016,Ingresos por servicios administrativos,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_462,401.17,401-100-017,Ingresos por servicios administrativos nacionales partes relacionadas,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_463,401.18,401-100-018,Ingresos por servicios administrativos extranjeros partes relacionadas,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_464,401.19,401-100-019,Ingresos por servicios profesionales,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_465,401.20,401-100-020,Ingresos por servicios profesionales nacionales partes relacionadas,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_466,401.21,401-100-021,Ingresos por servicios profesionales extranjeros partes relacionadas,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_467,401.22,401-100-022,Ingresos por arrendamiento,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_468,401.23,401-100-023,Ingresos por arrendamiento nacionales partes relacionadas,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_469,401.24,401-100-024,Ingresos por arrendamiento extranjeros partes relacionadas,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_470,401.25,401-100-025,Ingresos por exportación,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_471,401.26,401-100-026,Ingresos por comisiones,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_472,401.27,401-100-027,Ingresos por maquila,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_473,401.28,401-100-028,Ingresos por coordinados,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_474,401.29,401-100-029,Ingresos por regalías,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_475,401.30,401-100-030,Ingresos por asistencia técnica,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_476,401.31,401-100-031,Ingresos por donativos,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_477,401.32,401-100-032,Ingresos por intereses (actividad propia),account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_478,401.33,401-100-033,Ingresos de copropiedad,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_479,401.34,401-100-034,Ingresos por fideicomisos,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_480,401.35,401-100-035,Ingresos por factoraje financiero,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_481,401.36,401-100-036,Ingresos por arrendamiento financiero,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_482,401.37,401-100-037,Ingresos de extranjeros con establecimiento en el país,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_483,401.38,401-100-038,Otros ingresos propios,account_sat.account_sat_v2_445,other,A,True
+account_sat.account_sat_v2_484,402,402-000-000,"Devoluciones, descuentos o bonificaciones sobre ingresos",account_sat.account_sat_v2_444,view,D,True
+account_sat.account_sat_v2_485,402.01,402-100-001,"Devoluciones, descuentos o bonificaciones sobre ventas y/o servicios a la tasa general",account_sat.account_sat_v2_484,other,D,True
+account_sat.account_sat_v2_486,402.02,402-100-002,"Devoluciones, descuentos o bonificaciones sobre ventas y/o servicios al 0%",account_sat.account_sat_v2_484,other,D,True
+account_sat.account_sat_v2_487,402.03,402-100-003,"Devoluciones, descuentos o bonificaciones sobre ventas y/o servicios exentos",account_sat.account_sat_v2_484,other,D,True
+account_sat.account_sat_v2_488,402.04,402-100-004,"Devoluciones, descuentos o bonificaciones de otros ingresos",account_sat.account_sat_v2_484,other,D,True
+account_sat.account_sat_v2_489,403,403-000-000,Otros ingresos,account_sat.account_sat_v2_444,view,A,True
+account_sat.account_sat_v2_490,403.01,403-100-001,Otros Ingresos,account_sat.account_sat_v2_489,other,A,True
+account_sat.account_sat_v2_491,403.02,403-100-002,Otros ingresos nacionales parte relacionada,account_sat.account_sat_v2_489,other,A,True
+account_sat.account_sat_v2_492,403.03,403-100-003,Otros ingresos extranjeros parte relacionada,account_sat.account_sat_v2_489,other,A,True
+account_sat.account_sat_v2_493,403.04,403-100-004,Ingresos por operaciones discontinuas,account_sat.account_sat_v2_489,other,A,True
+account_sat.account_sat_v2_494,403.05,403-100-005,Ingresos por condonación de adeudo,account_sat.account_sat_v2_489,other,A,True
+account_sat.account_sat_v2_495,500,000-000-005,Costos ,account_sat.account_sat_v2_001,view,D,True
+account_sat.account_sat_v2_496,501,501-000-000,Costo de venta y/o servicio,account_sat.account_sat_v2_495,view,D,True
+account_sat.account_sat_v2_497,501.01,501-100-001,Costo de venta,account_sat.account_sat_v2_496,other,D,True
+account_sat.account_sat_v2_498,501.02,501-100-002,Costo de servicios (Mano de obra),account_sat.account_sat_v2_496,other,D,True
+account_sat.account_sat_v2_499,501.03,501-100-003,Materia prima directa utilizada para la producción,account_sat.account_sat_v2_496,other,D,True
+account_sat.account_sat_v2_500,501.04,501-100-004,Materia prima consumida en el proceso productivo,account_sat.account_sat_v2_496,other,D,True
+account_sat.account_sat_v2_501,501.05,501-100-005,Mano de obra directa consumida,account_sat.account_sat_v2_496,other,D,True
+account_sat.account_sat_v2_502,501.06,501-100-006,Mano de obra directa,account_sat.account_sat_v2_496,other,D,True
+account_sat.account_sat_v2_503,501.07,501-100-007,Cargos indirectos de producción,account_sat.account_sat_v2_496,other,D,True
+account_sat.account_sat_v2_504,501.08,501-100-008,Otros conceptos de costo,account_sat.account_sat_v2_496,other,D,True
+account_sat.account_sat_v2_505,502,502-000-000,Compras,account_sat.account_sat_v2_495,view,D,True
+account_sat.account_sat_v2_506,502.01,502-100-001,Compras nacionales,account_sat.account_sat_v2_505,other,D,True
+account_sat.account_sat_v2_507,502.02,502-100-002,Compras nacionales parte relacionada,account_sat.account_sat_v2_505,other,D,True
+account_sat.account_sat_v2_508,502.03,502-100-003,Compras de Importación,account_sat.account_sat_v2_505,other,D,True
+account_sat.account_sat_v2_509,502.04,502-100-004,Compras de Importación partes relacionadas,account_sat.account_sat_v2_505,other,D,True
+account_sat.account_sat_v2_510,503,503-000-000,"Devoluciones, descuentos o bonificaciones sobre compras",account_sat.account_sat_v2_495,view,D,True
+account_sat.account_sat_v2_511,503.01,503-100-001,"Devoluciones, descuentos o bonificaciones sobre compras",account_sat.account_sat_v2_510,other,D,True
+account_sat.account_sat_v2_512,504,504-000-000,Otras cuentas de costos,account_sat.account_sat_v2_495,view,D,True
+account_sat.account_sat_v2_513,504.01,504-100-001,Gastos indirectos de fabricación,account_sat.account_sat_v2_512,other,D,True
+account_sat.account_sat_v2_514,504.02,504-100-002,Gastos indirectos de fabricación de partes relacionadas nacionales,account_sat.account_sat_v2_512,other,D,True
+account_sat.account_sat_v2_515,504.03,504-100-003,Gastos indirectos de fabricación de partes relacionadas extranjeras,account_sat.account_sat_v2_512,other,D,True
+account_sat.account_sat_v2_516,504.04,504-100-004,Otras cuentas de costos incurridos,account_sat.account_sat_v2_512,other,D,True
+account_sat.account_sat_v2_517,504.05,504-100-005,Otras cuentas de costos incurridos con partes relacionadas nacionales,account_sat.account_sat_v2_512,other,D,True
+account_sat.account_sat_v2_518,504.06,504-100-006,Otras cuentas de costos incurridos con partes relacionadas extranjeras,account_sat.account_sat_v2_512,other,D,True
+account_sat.account_sat_v2_519,504.07,504-100-007,Depreciación de edificios,account_sat.account_sat_v2_512,other,D,True
+account_sat.account_sat_v2_520,504.08,504-100-008,Depreciación de maquinaria y equipo,account_sat.account_sat_v2_512,other,D,True
+account_sat.account_sat_v2_521,504.09,504-100-009,"Depreciación de automóviles, autobuses, camiones de carga, tractocamiones, montacargas y remolques",account_sat.account_sat_v2_512,other,D,True
+account_sat.account_sat_v2_522,504.10,504-100-010,Depreciación de mobiliario y equipo de oficina,account_sat.account_sat_v2_512,other,D,True
+account_sat.account_sat_v2_523,504.11,504-100-011,Depreciación de equipo de cómputo,account_sat.account_sat_v2_512,other,D,True
+account_sat.account_sat_v2_524,504.12,504-100-012,Depreciación de equipo de comunicación,account_sat.account_sat_v2_512,other,D,True
+account_sat.account_sat_v2_525,504.13,504-100-013,"Depreciación de activos biológicos, vegetales y semovientes",account_sat.account_sat_v2_512,other,D,True
+account_sat.account_sat_v2_526,504.14,504-100-014,Depreciación de otros activos fijos,account_sat.account_sat_v2_512,other,D,True
+account_sat.account_sat_v2_527,504.15,504-100-015,Depreciación de ferrocarriles,account_sat.account_sat_v2_512,other,D,True
+account_sat.account_sat_v2_528,504.16,504-100-016,Depreciación de embarcaciones,account_sat.account_sat_v2_512,other,D,True
+account_sat.account_sat_v2_529,504.17,504-100-017,Depreciación de aviones,account_sat.account_sat_v2_512,other,D,True
+account_sat.account_sat_v2_530,504.18,504-100-018,"Depreciación de troqueles, moldes, matrices y herramental",account_sat.account_sat_v2_512,other,D,True
+account_sat.account_sat_v2_531,504.19,504-100-019,Depreciación de equipo de comunicaciones telefónicas,account_sat.account_sat_v2_512,other,D,True
+account_sat.account_sat_v2_532,504.20,504-100-020,Depreciación de equipo de comunicación satelital,account_sat.account_sat_v2_512,other,D,True
+account_sat.account_sat_v2_533,504.21,504-100-021,Depreciación de equipo de adaptaciones para personas con capacidades diferentes,account_sat.account_sat_v2_512,other,D,True
+account_sat.account_sat_v2_534,504.22,504-100-022,Depreciación de maquinaria y equipo de generación de energía de fuentes renovables o de sistemas de cogeneración de electricidad eficiente,account_sat.account_sat_v2_512,other,D,True
+account_sat.account_sat_v2_535,504.23,504-100-023,Depreciación de adaptaciones y mejoras,account_sat.account_sat_v2_512,other,D,True
+account_sat.account_sat_v2_536,504.24,504-100-024,Depreciación de otra maquinaria y equipo,account_sat.account_sat_v2_512,other,D,True
+account_sat.account_sat_v2_537,504.25,504-100-025,Otras cuentas de costos,account_sat.account_sat_v2_512,other,D,True
+account_sat.account_sat_v2_538,505,505-000-000,Costo de activo fijo,account_sat.account_sat_v2_495,view,D,True
+account_sat.account_sat_v2_539,505.01,505-100-001,Costo por venta de activo fijo,account_sat.account_sat_v2_538,other,D,True
+account_sat.account_sat_v2_540,505.02,505-100-002,Costo por baja de activo fijo,account_sat.account_sat_v2_538,other,D,True
+account_sat.account_sat_v2_541,600,000-000-006,Gastos ,account_sat.account_sat_v2_001,view,D,True
+account_sat.account_sat_v2_542,601,601-000-000,Gastos generales,account_sat.account_sat_v2_541,view,D,True
+account_sat.account_sat_v2_543,601.01,601-100-001,Sueldos y salarios,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_544,601.02,601-100-002,Compensaciones,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_545,601.03,601-100-003,Tiempos extras,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_546,601.04,601-100-004,Premios de asistencia,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_547,601.05,601-100-005,Premios de puntualidad,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_548,601.06,601-100-006,Vacaciones,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_549,601.07,601-100-007,Prima vacacional,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_550,601.08,601-100-008,Prima dominical,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_551,601.09,601-100-009,Días festivos,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_552,601.10,601-100-010,Gratificaciones,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_553,601.11,601-100-011,Primas de antigüedad,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_554,601.12,601-100-012,Aguinaldo,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_555,601.13,601-100-013,Indemnizaciones,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_556,601.14,601-100-014,Destajo,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_557,601.15,601-100-015,Despensa,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_558,601.16,601-100-016,Transporte,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_559,601.17,601-100-017,Servicio médico,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_560,601.18,601-100-018,Ayuda en gastos funerarios,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_561,601.19,601-100-019,Fondo de ahorro,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_562,601.20,601-100-020,Cuotas sindicales,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_563,601.21,601-100-021,PTU,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_564,601.22,601-100-022,Estímulo al personal,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_565,601.23,601-100-023,Previsión social,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_566,601.24,601-100-024,Aportaciones para el plan de jubilación,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_567,601.25,601-100-025,Otras prestaciones al personal,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_568,601.26,601-100-026,Cuotas al IMSS,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_569,601.27,601-100-027,Aportaciones al infonavit,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_570,601.28,601-100-028,Aportaciones al SAR,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_571,601.29,601-100-029,Impuesto estatal sobre nóminas,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_572,601.30,601-100-030,Otras aportaciones,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_573,601.31,601-100-031,Asimilados a salarios,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_574,601.32,601-100-032,Servicios administrativos,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_575,601.33,601-100-033,Servicios administrativos partes relacionadas,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_576,601.34,601-100-034,Honorarios a personas físicas residentes nacionales,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_577,601.35,601-100-035,Honorarios a personas físicas residentes nacionales partes relacionadas,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_578,601.36,601-100-036,Honorarios a personas físicas residentes del extranjero,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_579,601.37,601-100-037,Honorarios a personas físicas residentes del extranjero partes relacionadas,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_580,601.38,601-100-038,Honorarios a personas morales residentes nacionales,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_581,601.39,601-100-039,Honorarios a personas morales residentes nacionales partes relacionadas,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_582,601.40,601-100-040,Honorarios a personas morales residentes del extranjero,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_583,601.41,601-100-041,Honorarios a personas morales residentes del extranjero partes relacionadas,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_584,601.42,601-100-042,Honorarios aduanales personas físicas,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_585,601.43,601-100-043,Honorarios aduanales personas morales,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_586,601.44,601-100-044,Honorarios al consejo de administración,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_587,601.45,601-100-045,Arrendamiento a personas físicas residentes nacionales,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_588,601.46,601-100-046,Arrendamiento a personas morales residentes nacionales,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_589,601.47,601-100-047,Arrendamiento a residentes del extranjero,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_590,601.48,601-100-048,Combustibles y lubricantes,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_591,601.49,601-100-049,Viáticos y gastos de viaje,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_592,601.50,601-100-050,"Teléfono, internet",account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_593,601.51,601-100-051,Agua,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_594,601.52,601-100-052,Energía eléctrica,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_595,601.53,601-100-053,Vigilancia y seguridad,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_596,601.54,601-100-054,Limpieza,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_597,601.55,601-100-055,Papelería y artículos de oficina,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_598,601.56,601-100-056,Mantenimiento y conservación,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_599,601.57,601-100-057,Seguros y fianzas,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_600,601.58,601-100-058,Otros impuestos y derechos,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_601,601.59,601-100-059,Recargos fiscales,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_602,601.60,601-100-060,Cuotas y suscripciones,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_603,601.61,601-100-061,Propaganda y publicidad,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_604,601.62,601-100-062,Capacitación al personal,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_605,601.63,601-100-063,Donativos y ayudas,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_606,601.64,601-100-064,Asistencia técnica,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_607,601.65,601-100-065,Regalías sujetas a otros porcentajes,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_608,601.66,601-100-066,Regalías sujetas al 5%,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_609,601.67,601-100-067,Regalías sujetas al 10%,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_610,601.68,601-100-068,Regalías sujetas al 15%,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_611,601.69,601-100-069,Regalías sujetas al 25%,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_612,601.70,601-100-070,Regalías sujetas al 30%,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_613,601.71,601-100-071,Regalías sin retención,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_614,601.72,601-100-072,Fletes y acarreos,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_615,601.73,601-100-073,Gastos de importación,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_616,601.74,601-100-074,Comisiones sobre ventas,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_617,601.75,601-100-075,Comisiones por tarjetas de crédito,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_618,601.76,601-100-076,Patentes y marcas,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_619,601.77,601-100-077,Uniformes,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_620,601.78,601-100-078,Prediales,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_621,601.79,601-100-079,Gastos generales de urbanización,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_622,601.80,601-100-080,Gastos generales de construcción,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_623,601.81,601-100-081,Fletes del extranjero,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_624,601.82,601-100-082,Recolección de bienes del sector agropecuario y/o ganadero,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_625,601.83,601-100-083,Gastos no deducibles (sin requisitos fiscales),account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_626,601.84,601-100-084,Otros gastos generales,account_sat.account_sat_v2_542,other,D,True
+account_sat.account_sat_v2_627,602,602-000-000,Gastos de venta,account_sat.account_sat_v2_541,view,D,True
+account_sat.account_sat_v2_628,602.01,602-100-001,Sueldos y salarios,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_629,602.02,602-100-002,Compensaciones,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_630,602.03,602-100-003,Tiempos extras,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_631,602.04,602-100-004,Premios de asistencia,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_632,602.05,602-100-005,Premios de puntualidad,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_633,602.06,602-100-006,Vacaciones,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_634,602.07,602-100-007,Prima vacacional,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_635,602.08,602-100-008,Prima dominical,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_636,602.09,602-100-009,Días festivos,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_637,602.10,602-100-010,Gratificaciones,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_638,602.11,602-100-011,Primas de antigüedad,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_639,602.12,602-100-012,Aguinaldo,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_640,602.13,602-100-013,Indemnizaciones,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_641,602.14,602-100-014,Destajo,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_642,602.15,602-100-015,Despensa,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_643,602.16,602-100-016,Transporte,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_644,602.17,602-100-017,Servicio médico,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_645,602.18,602-100-018,Ayuda en gastos funerarios,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_646,602.19,602-100-019,Fondo de ahorro,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_647,602.20,602-100-020,Cuotas sindicales,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_648,602.21,602-100-021,PTU,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_649,602.22,602-100-022,Estímulo al personal,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_650,602.23,602-100-023,Previsión social,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_651,602.24,602-100-024,Aportaciones para el plan de jubilación,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_652,602.25,602-100-025,Otras prestaciones al personal,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_653,602.26,602-100-026,Cuotas al IMSS,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_654,602.27,602-100-027,Aportaciones al infonavit,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_655,602.28,602-100-028,Aportaciones al SAR,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_656,602.29,602-100-029,Impuesto estatal sobre nóminas,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_657,602.30,602-100-030,Otras aportaciones,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_658,602.31,602-100-031,Asimilados a salarios,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_659,602.32,602-100-032,Servicios administrativos,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_660,602.33,602-100-033,Servicios administrativos partes relacionadas,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_661,602.34,602-100-034,Honorarios a personas físicas residentes nacionales,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_662,602.35,602-100-035,Honorarios a personas físicas residentes nacionales partes relacionadas,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_663,602.36,602-100-036,Honorarios a personas físicas residentes del extranjero,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_664,602.37,602-100-037,Honorarios a personas físicas residentes del extranjero partes relacionadas,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_665,602.38,602-100-038,Honorarios a personas morales residentes nacionales,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_666,602.39,602-100-039,Honorarios a personas morales residentes nacionales partes relacionadas,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_667,602.40,602-100-040,Honorarios a personas morales residentes del extranjero,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_668,602.41,602-100-041,Honorarios a personas morales residentes del extranjero partes relacionadas,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_669,602.42,602-100-042,Honorarios aduanales personas físicas,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_670,602.43,602-100-043,Honorarios aduanales personas morales,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_671,602.44,602-100-044,Honorarios al consejo de administración,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_672,602.45,602-100-045,Arrendamiento a personas físicas residentes nacionales,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_673,602.46,602-100-046,Arrendamiento a personas morales residentes nacionales,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_674,602.47,602-100-047,Arrendamiento a residentes del extranjero,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_675,602.48,602-100-048,Combustibles y lubricantes,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_676,602.49,602-100-049,Viáticos y gastos de viaje,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_677,602.50,602-100-050,"Teléfono, internet",account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_678,602.51,602-100-051,Agua,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_679,602.52,602-100-052,Energía eléctrica,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_680,602.53,602-100-053,Vigilancia y seguridad,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_681,602.54,602-100-054,Limpieza,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_682,602.55,602-100-055,Papelería y artículos de oficina,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_683,602.56,602-100-056,Mantenimiento y conservación,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_684,602.57,602-100-057,Seguros y fianzas,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_685,602.58,602-100-058,Otros impuestos y derechos,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_686,602.59,602-100-059,Recargos fiscales,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_687,602.60,602-100-060,Cuotas y suscripciones,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_688,602.61,602-100-061,Propaganda y publicidad,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_689,602.62,602-100-062,Capacitación al personal,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_690,602.63,602-100-063,Donativos y ayudas,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_691,602.64,602-100-064,Asistencia técnica,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_692,602.65,602-100-065,Regalías sujetas a otros porcentajes,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_693,602.66,602-100-066,Regalías sujetas al 5%,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_694,602.67,602-100-067,Regalías sujetas al 10%,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_695,602.68,602-100-068,Regalías sujetas al 15%,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_696,602.69,602-100-069,Regalías sujetas al 25%,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_697,602.70,602-100-070,Regalías sujetas al 30%,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_698,602.71,602-100-071,Regalías sin retención,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_699,602.72,602-100-072,Fletes y acarreos,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_700,602.73,602-100-073,Gastos de importación,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_701,602.74,602-100-074,Comisiones sobre ventas,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_702,602.75,602-100-075,Comisiones por tarjetas de crédito,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_703,602.76,602-100-076,Patentes y marcas,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_704,602.77,602-100-077,Uniformes,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_705,602.78,602-100-078,Prediales,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_706,602.79,602-100-079,Gastos de venta de urbanización,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_707,602.80,602-100-080,Gastos de venta de construcción,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_708,602.81,602-100-081,Fletes del extranjero,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_709,602.82,602-100-082,Recolección de bienes del sector agropecuario y/o ganadero,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_710,602.83,602-100-083,Gastos no deducibles (sin requisitos fiscales),account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_711,602.84,602-100-084,Otros gastos de venta,account_sat.account_sat_v2_627,other,D,True
+account_sat.account_sat_v2_712,603,603-000-000,Gastos de administración,account_sat.account_sat_v2_541,view,D,True
+account_sat.account_sat_v2_713,603.01,603-100-001,Sueldos y salarios,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_714,603.02,603-100-002,Compensaciones,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_715,603.03,603-100-003,Tiempos extras,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_716,603.04,603-100-004,Premios de asistencia,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_717,603.05,603-100-005,Premios de puntualidad,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_718,603.06,603-100-006,Vacaciones,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_719,603.07,603-100-007,Prima vacacional,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_720,603.08,603-100-008,Prima dominical,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_721,603.09,603-100-009,Días festivos,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_722,603.10,603-100-010,Gratificaciones,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_723,603.11,603-100-011,Primas de antigüedad,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_724,603.12,603-100-012,Aguinaldo,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_725,603.13,603-100-013,Indemnizaciones,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_726,603.14,603-100-014,Destajo,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_727,603.15,603-100-015,Despensa,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_728,603.16,603-100-016,Transporte,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_729,603.17,603-100-017,Servicio médico,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_730,603.18,603-100-018,Ayuda en gastos funerarios,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_731,603.19,603-100-019,Fondo de ahorro,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_732,603.20,603-100-020,Cuotas sindicales,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_733,603.21,603-100-021,PTU,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_734,603.22,603-100-022,Estímulo al personal,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_735,603.23,603-100-023,Previsión social,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_736,603.24,603-100-024,Aportaciones para el plan de jubilación,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_737,603.25,603-100-025,Otras prestaciones al personal,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_738,603.26,603-100-026,Cuotas al IMSS,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_739,603.27,603-100-027,Aportaciones al infonavit,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_740,603.28,603-100-028,Aportaciones al SAR,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_741,603.29,603-100-029,Impuesto estatal sobre nóminas,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_742,603.30,603-100-030,Otras aportaciones,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_743,603.31,603-100-031,Asimilados a salarios,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_744,603.32,603-100-032,Servicios administrativos,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_745,603.33,603-100-033,Servicios administrativos partes relacionadas,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_746,603.34,603-100-034,Honorarios a personas físicas residentes nacionales,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_747,603.35,603-100-035,Honorarios a personas físicas residentes nacionales partes relacionadas,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_748,603.36,603-100-036,Honorarios a personas físicas residentes del extranjero,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_749,603.37,603-100-037,Honorarios a personas físicas residentes del extranjero partes relacionadas,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_750,603.38,603-100-038,Honorarios a personas morales residentes nacionales,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_751,603.39,603-100-039,Honorarios a personas morales residentes nacionales partes relacionadas,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_752,603.40,603-100-040,Honorarios a personas morales residentes del extranjero,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_753,603.41,603-100-041,Honorarios a personas morales residentes del extranjero partes relacionadas,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_754,603.42,603-100-042,Honorarios aduanales personas físicas,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_755,603.43,603-100-043,Honorarios aduanales personas morales,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_756,603.44,603-100-044,Honorarios al consejo de administración,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_757,603.45,603-100-045,Arrendamiento a personas físicas residentes nacionales,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_758,603.46,603-100-046,Arrendamiento a personas morales residentes nacionales,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_759,603.47,603-100-047,Arrendamiento a residentes del extranjero,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_760,603.48,603-100-048,Combustibles y lubricantes,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_761,603.49,603-100-049,Viáticos y gastos de viaje,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_762,603.50,603-100-050,"Teléfono, internet",account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_763,603.51,603-100-051,Agua,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_764,603.52,603-100-052,Energía eléctrica,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_765,603.53,603-100-053,Vigilancia y seguridad,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_766,603.54,603-100-054,Limpieza,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_767,603.55,603-100-055,Papelería y artículos de oficina,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_768,603.56,603-100-056,Mantenimiento y conservación,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_769,603.57,603-100-057,Seguros y fianzas,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_770,603.58,603-100-058,Otros impuestos y derechos,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_771,603.59,603-100-059,Recargos fiscales,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_772,603.60,603-100-060,Cuotas y suscripciones,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_773,603.61,603-100-061,Propaganda y publicidad,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_774,603.62,603-100-062,Capacitación al personal,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_775,603.63,603-100-063,Donativos y ayudas,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_776,603.64,603-100-064,Asistencia técnica,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_777,603.65,603-100-065,Regalías sujetas a otros porcentajes,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_778,603.66,603-100-066,Regalías sujetas al 5%,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_779,603.67,603-100-067,Regalías sujetas al 10%,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_780,603.68,603-100-068,Regalías sujetas al 15%,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_781,603.69,603-100-069,Regalías sujetas al 25%,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_782,603.70,603-100-070,Regalías sujetas al 30%,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_783,603.71,603-100-071,Regalías sin retención,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_784,603.72,603-100-072,Fletes y acarreos,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_785,603.73,603-100-073,Gastos de importación,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_786,603.74,603-100-074,Patentes y marcas,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_787,603.75,603-100-075,Uniformes,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_788,603.76,603-100-076,Prediales,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_789,603.77,603-100-077,Gastos de administración de urbanización,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_790,603.78,603-100-078,Gastos de administración de construcción,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_791,603.79,603-100-079,Fletes del extranjero,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_792,603.80,603-100-080,Recolección de bienes del sector agropecuario y/o ganadero,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_793,603.81,603-100-081,Gastos no deducibles (sin requisitos fiscales),account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_794,603.82,603-100-082,Otros gastos de administración,account_sat.account_sat_v2_712,other,D,True
+account_sat.account_sat_v2_795,604,604-000-000,Gastos de fabricación,account_sat.account_sat_v2_541,view,D,True
+account_sat.account_sat_v2_796,604.01,604-100-001,Sueldos y salarios,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_797,604.02,604-100-002,Compensaciones,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_798,604.03,604-100-003,Tiempos extras,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_799,604.04,604-100-004,Premios de asistencia,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_800,604.05,604-100-005,Premios de puntualidad,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_801,604.06,604-100-006,Vacaciones,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_802,604.07,604-100-007,Prima vacacional,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_803,604.08,604-100-008,Prima dominical,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_804,604.09,604-100-009,Días festivos,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_805,604.10,604-100-010,Gratificaciones,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_806,604.11,604-100-011,Primas de antigüedad,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_807,604.12,604-100-012,Aguinaldo,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_808,604.13,604-100-013,Indemnizaciones,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_809,604.14,604-100-014,Destajo,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_810,604.15,604-100-015,Despensa,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_811,604.16,604-100-016,Transporte,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_812,604.17,604-100-017,Servicio médico,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_813,604.18,604-100-018,Ayuda en gastos funerarios,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_814,604.19,604-100-019,Fondo de ahorro,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_815,604.20,604-100-020,Cuotas sindicales,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_816,604.21,604-100-021,PTU,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_817,604.22,604-100-022,Estímulo al personal,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_818,604.23,604-100-023,Previsión social,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_819,604.24,604-100-024,Aportaciones para el plan de jubilación,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_820,604.25,604-100-025,Otras prestaciones al personal,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_821,604.26,604-100-026,Cuotas al IMSS,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_822,604.27,604-100-027,Aportaciones al infonavit,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_823,604.28,604-100-028,Aportaciones al SAR,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_824,604.29,604-100-029,Impuesto estatal sobre nóminas,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_825,604.30,604-100-030,Otras aportaciones,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_826,604.31,604-100-031,Asimilados a salarios,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_827,604.32,604-100-032,Servicios administrativos,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_828,604.33,604-100-033,Servicios administrativos partes relacionadas,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_829,604.34,604-100-034,Honorarios a personas físicas residentes nacionales,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_830,604.35,604-100-035,Honorarios a personas físicas residentes nacionales partes relacionadas,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_831,604.36,604-100-036,Honorarios a personas físicas residentes del extranjero,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_832,604.37,604-100-037,Honorarios a personas físicas residentes del extranjero partes relacionadas,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_833,604.38,604-100-038,Honorarios a personas morales residentes nacionales,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_834,604.39,604-100-039,Honorarios a personas morales residentes nacionales partes relacionadas,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_835,604.40,604-100-040,Honorarios a personas morales residentes del extranjero,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_836,604.41,604-100-041,Honorarios a personas morales residentes del extranjero partes relacionadas,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_837,604.42,604-100-042,Honorarios aduanales personas físicas,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_838,604.43,604-100-043,Honorarios aduanales personas morales,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_839,604.44,604-100-044,Honorarios al consejo de administración,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_840,604.45,604-100-045,Arrendamiento a personas físicas residentes nacionales,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_841,604.46,604-100-046,Arrendamiento a personas morales residentes nacionales,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_842,604.47,604-100-047,Arrendamiento a residentes del extranjero,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_843,604.48,604-100-048,Combustibles y lubricantes,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_844,604.49,604-100-049,Viáticos y gastos de viaje,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_845,604.50,604-100-050,"Teléfono, internet",account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_846,604.51,604-100-051,Agua,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_847,604.52,604-100-052,Energía eléctrica,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_848,604.53,604-100-053,Vigilancia y seguridad,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_849,604.54,604-100-054,Limpieza,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_850,604.55,604-100-055,Papelería y artículos de oficina,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_851,604.56,604-100-056,Mantenimiento y conservación,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_852,604.57,604-100-057,Seguros y fianzas,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_853,604.58,604-100-058,Otros impuestos y derechos,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_854,604.59,604-100-059,Recargos fiscales,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_855,604.60,604-100-060,Cuotas y suscripciones,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_856,604.61,604-100-061,Propaganda y publicidad,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_857,604.62,604-100-062,Capacitación al personal,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_858,604.63,604-100-063,Donativos y ayudas,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_859,604.64,604-100-064,Asistencia técnica,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_860,604.65,604-100-065,Regalías sujetas a otros porcentajes,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_861,604.66,604-100-066,Regalías sujetas al 5%,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_862,604.67,604-100-067,Regalías sujetas al 10%,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_863,604.68,604-100-068,Regalías sujetas al 15%,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_864,604.69,604-100-069,Regalías sujetas al 25%,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_865,604.70,604-100-070,Regalías sujetas al 30%,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_866,604.71,604-100-071,Regalías sin retención,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_867,604.72,604-100-072,Fletes y acarreos,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_868,604.73,604-100-073,Gastos de importación,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_869,604.74,604-100-074,Patentes y marcas,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_870,604.75,604-100-075,Uniformes,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_871,604.76,604-100-076,Prediales,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_872,604.77,604-100-077,Gastos de fabricación de urbanización,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_873,604.78,604-100-078,Gastos de fabricación de construcción,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_874,604.79,604-100-079,Fletes del extranjero,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_875,604.80,604-100-080,Recolección de bienes del sector agropecuario y/o ganadero,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_876,604.81,604-100-081,Gastos no deducibles (sin requisitos fiscales),account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_877,604.82,604-100-082,Otros gastos de fabricación,account_sat.account_sat_v2_795,other,D,True
+account_sat.account_sat_v2_878,605,605-000-000,Mano de obra directa,account_sat.account_sat_v2_541,view,D,True
+account_sat.account_sat_v2_879,605.01,605-100-001,Mano de obra,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_880,605.02,605-100-002,Sueldos y Salarios,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_881,605.03,605-100-003,Compensaciones,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_882,605.04,605-100-004,Tiempos extras,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_883,605.05,605-100-005,Premios de asistencia,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_884,605.06,605-100-006,Premios de puntualidad,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_885,605.07,605-100-007,Vacaciones,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_886,605.08,605-100-008,Prima vacacional,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_887,605.09,605-100-009,Prima dominical,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_888,605.10,605-100-010,Días festivos,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_889,605.11,605-100-011,Gratificaciones,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_890,605.12,605-100-012,Primas de antigüedad,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_891,605.13,605-100-013,Aguinaldo,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_892,605.14,605-100-014,Indemnizaciones,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_893,605.15,605-100-015,Destajo,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_894,605.16,605-100-016,Despensa,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_895,605.17,605-100-017,Transporte,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_896,605.18,605-100-018,Servicio médico,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_897,605.19,605-100-019,Ayuda en gastos funerarios,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_898,605.20,605-100-020,Fondo de ahorro,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_899,605.21,605-100-021,Cuotas sindicales,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_900,605.22,605-100-022,PTU,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_901,605.23,605-100-023,Estímulo al personal,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_902,605.24,605-100-024,Previsión social,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_903,605.25,605-100-025,Aportaciones para el plan de jubilación,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_904,605.26,605-100-026,Otras prestaciones al personal,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_905,605.27,605-100-027,Asimilados a salarios,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_906,605.28,605-100-028,Cuotas al IMSS,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_907,605.29,605-100-029,Aportaciones al infonavit,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_908,605.30,605-100-030,Aportaciones al SAR,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_909,605.31,605-100-031,Otros costos de mano de obra directa,account_sat.account_sat_v2_878,other,D,True
+account_sat.account_sat_v2_910,606,606-000-000,Facilidades administrativas fiscales,account_sat.account_sat_v2_541,view,D,True
+account_sat.account_sat_v2_911,606.01,606-100-001,Facilidades administrativas fiscales,account_sat.account_sat_v2_910,other,D,True
+account_sat.account_sat_v2_912,607,607-000-000,Participación de los trabajadores en las utilidades,account_sat.account_sat_v2_541,view,D,True
+account_sat.account_sat_v2_913,607.01,607-100-001,Participación de los trabajadores en las utilidades,account_sat.account_sat_v2_912,other,D,True
+account_sat.account_sat_v2_914,608,608-000-000,Participación en resultados de subsidiarias,account_sat.account_sat_v2_541,view,D,True
+account_sat.account_sat_v2_915,608.01,608-100-001,Participación en resultados de subsidiarias,account_sat.account_sat_v2_914,other,D,True
+account_sat.account_sat_v2_916,609,609-000-000,Participación en resultados de asociadas,account_sat.account_sat_v2_541,view,D,True
+account_sat.account_sat_v2_917,609.01,609-100-001,Participación en resultados de asociadas,account_sat.account_sat_v2_914,other,D,True
+account_sat.account_sat_v2_918,610,610-000-000,Participación de los trabajadores en las utilidades diferida,account_sat.account_sat_v2_541,view,D,True
+account_sat.account_sat_v2_919,610.01,610-100-001,Participación de los trabajadores en las utilidades diferida,account_sat.account_sat_v2_918,other,D,True
+account_sat.account_sat_v2_920,611,611-000-000,Impuesto Sobre la renta,account_sat.account_sat_v2_541,view,D,True
+account_sat.account_sat_v2_921,611.01,611-100-001,Impuesto Sobre la renta,account_sat.account_sat_v2_920,other,D,True
+account_sat.account_sat_v2_922,611.02,611-100-002,Impuesto Sobre la renta por remanente distribuible,account_sat.account_sat_v2_920,other,D,True
+account_sat.account_sat_v2_923,612,612-000-000,Gastos no deducibles para CUFIN,account_sat.account_sat_v2_541,view,D,True
+account_sat.account_sat_v2_924,612.01,612-100-001,Gastos no deducibles para CUFIN,account_sat.account_sat_v2_923,other,D,True
+account_sat.account_sat_v2_925,613,613-000-000,Depreciación contable,account_sat.account_sat_v2_541,view,D,True
+account_sat.account_sat_v2_926,613.01,613-100-001,Depreciación de edificios,account_sat.account_sat_v2_925,other,D,True
+account_sat.account_sat_v2_927,613.02,613-100-002,Depreciación de maquinaria y equipo,account_sat.account_sat_v2_925,other,D,True
+account_sat.account_sat_v2_928,613.03,613-100-003,"Depreciación de automóviles, autobuses, camiones de carga, tractocamiones, montacargas y remolques",account_sat.account_sat_v2_925,other,D,True
+account_sat.account_sat_v2_929,613.04,613-100-004,Depreciación de mobiliario y equipo de oficina,account_sat.account_sat_v2_925,other,D,True
+account_sat.account_sat_v2_930,613.05,613-100-005,Depreciación de equipo de cómputo,account_sat.account_sat_v2_925,other,D,True
+account_sat.account_sat_v2_931,613.06,613-100-006,Depreciación de equipo de comunicación,account_sat.account_sat_v2_925,other,D,True
+account_sat.account_sat_v2_932,613.07,613-100-007,"Depreciación de activos biológicos, vegetales y semovientes",account_sat.account_sat_v2_925,other,D,True
+account_sat.account_sat_v2_933,613.08,613-100-008,Depreciación de otros activos fijos,account_sat.account_sat_v2_925,other,D,True
+account_sat.account_sat_v2_934,613.09,613-100-009,Depreciación de ferrocarriles,account_sat.account_sat_v2_925,other,D,True
+account_sat.account_sat_v2_935,613.10,613-100-010,Depreciación de embarcaciones,account_sat.account_sat_v2_925,other,D,True
+account_sat.account_sat_v2_936,613.11,613-100-011,Depreciación de aviones,account_sat.account_sat_v2_925,other,D,True
+account_sat.account_sat_v2_937,613.12,613-100-012,"Depreciación de troqueles, moldes, matrices y herramental",account_sat.account_sat_v2_925,other,D,True
+account_sat.account_sat_v2_938,613.13,613-100-013,Depreciación de equipo de comunicaciones telefónicas,account_sat.account_sat_v2_925,other,D,True
+account_sat.account_sat_v2_939,613.14,613-100-014,Depreciación de equipo de comunicación satelital,account_sat.account_sat_v2_925,other,D,True
+account_sat.account_sat_v2_940,613.15,613-100-015,Depreciación de equipo de adaptaciones para personas con capacidades diferentes,account_sat.account_sat_v2_925,other,D,True
+account_sat.account_sat_v2_941,613.16,613-100-016,Depreciación de maquinaria y equipo de generación de energía de fuentes renovables o de sistemas de cogeneración de electricidad eficiente,account_sat.account_sat_v2_925,other,D,True
+account_sat.account_sat_v2_942,613.17,613-100-017,Depreciación de adaptaciones y mejoras,account_sat.account_sat_v2_925,other,D,True
+account_sat.account_sat_v2_943,613.18,613-100-018,Depreciación de otra maquinaria y equipo,account_sat.account_sat_v2_925,other,D,True
+account_sat.account_sat_v2_944,614,614-000-000,Amortización contable,account_sat.account_sat_v2_541,view,D,True
+account_sat.account_sat_v2_945,614.01,614-100-001,Amortización de gastos diferidos,account_sat.account_sat_v2_944,other,D,True
+account_sat.account_sat_v2_946,614.02,614-100-002,Amortización de gastos pre operativos,account_sat.account_sat_v2_944,other,D,True
+account_sat.account_sat_v2_947,614.03,614-100-003,"Amortización de regalías, asistencia técnica y otros gastos diferidos",account_sat.account_sat_v2_944,other,D,True
+account_sat.account_sat_v2_948,614.04,614-100-004,Amortización de activos intangibles,account_sat.account_sat_v2_944,other,D,True
+account_sat.account_sat_v2_949,614.05,614-100-005,Amortización de gastos de organización,account_sat.account_sat_v2_944,other,D,True
+account_sat.account_sat_v2_950,614.06,614-100-006,Amortización de investigación y desarrollo de mercado,account_sat.account_sat_v2_944,other,D,True
+account_sat.account_sat_v2_951,614.07,614-100-007,Amortización de marcas y patentes,account_sat.account_sat_v2_944,other,D,True
+account_sat.account_sat_v2_952,614.08,614-100-008,Amortización de crédito mercantil,account_sat.account_sat_v2_944,other,D,True
+account_sat.account_sat_v2_953,614.09,614-100-009,Amortización de gastos de instalación,account_sat.account_sat_v2_944,other,D,True
+account_sat.account_sat_v2_954,614.10,614-100-010,Amortización de otros activos diferidos,account_sat.account_sat_v2_944,other,D,True
+account_sat.account_sat_v2_955,700,000-000-007,Resultado integral de financiamiento,account_sat.account_sat_v2_001,view,D,True
+account_sat.account_sat_v2_956,701,701-000-000,Gastos financieros,account_sat.account_sat_v2_955,view,D,True
+account_sat.account_sat_v2_957,701.01,701-100-001,Pérdida cambiaria,account_sat.account_sat_v2_956,other,D,True
+account_sat.account_sat_v2_958,701.02,701-100-002,Pérdida cambiaria nacional parte relacionada,account_sat.account_sat_v2_956,other,D,True
+account_sat.account_sat_v2_959,701.03,701-100-003,Pérdida cambiaria extranjero parte relacionada,account_sat.account_sat_v2_956,other,D,True
+account_sat.account_sat_v2_960,701.04,701-100-004,Intereses a cargo bancario nacional,account_sat.account_sat_v2_956,other,D,True
+account_sat.account_sat_v2_961,701.05,701-100-005,Intereses a cargo bancario extranjero,account_sat.account_sat_v2_956,other,D,True
+account_sat.account_sat_v2_962,701.06,701-100-006,Intereses a cargo de personas físicas nacional,account_sat.account_sat_v2_956,other,D,True
+account_sat.account_sat_v2_963,701.07,701-100-007,Intereses a cargo de personas físicas extranjero,account_sat.account_sat_v2_956,other,D,True
+account_sat.account_sat_v2_964,701.08,701-100-008,Intereses a cargo de personas morales nacional,account_sat.account_sat_v2_956,other,D,True
+account_sat.account_sat_v2_965,701.09,701-100-009,Intereses a cargo de personas morales extranjero,account_sat.account_sat_v2_956,other,D,True
+account_sat.account_sat_v2_966,701.10,701-100-010,Comisiones bancarias,account_sat.account_sat_v2_956,other,D,True
+account_sat.account_sat_v2_967,701.11,701-100-011,Otros gastos financieros,account_sat.account_sat_v2_956,other,D,True
+account_sat.account_sat_v2_968,702,702-000-000,Productos financieros,account_sat.account_sat_v2_955,view,A,True
+account_sat.account_sat_v2_969,702.01,702-100-001,Utilidad cambiaria,account_sat.account_sat_v2_968,other,A,True
+account_sat.account_sat_v2_970,702.02,702-100-002,Utilidad cambiaria nacional parte relacionada,account_sat.account_sat_v2_968,other,A,True
+account_sat.account_sat_v2_971,702.03,702-100-003,Utilidad cambiaria extranjero parte relacionada,account_sat.account_sat_v2_968,other,A,True
+account_sat.account_sat_v2_972,702.04,702-100-004,Intereses a favor bancarios nacional,account_sat.account_sat_v2_968,other,A,True
+account_sat.account_sat_v2_973,702.05,702-100-005,Intereses a favor bancarios extranjero,account_sat.account_sat_v2_968,other,A,True
+account_sat.account_sat_v2_974,702.06,702-100-006,Intereses a favor de personas físicas nacional,account_sat.account_sat_v2_968,other,A,True
+account_sat.account_sat_v2_975,702.07,702-100-007,Intereses a favor de personas físicas extranjero,account_sat.account_sat_v2_968,other,A,True
+account_sat.account_sat_v2_976,702.08,702-100-008,Intereses a favor de personas morales nacional,account_sat.account_sat_v2_968,other,A,True
+account_sat.account_sat_v2_977,702.09,702-100-009,Intereses a favor de personas morales extranjero,account_sat.account_sat_v2_968,other,A,True
+account_sat.account_sat_v2_978,702.10,702-100-010,Otros productos financieros,account_sat.account_sat_v2_968,other,A,True
+account_sat.account_sat_v2_979,703,703-000-000,Otros gastos,account_sat.account_sat_v2_955,view,D,True
+account_sat.account_sat_v2_980,703.01,703-100-001,Pérdida en venta y/o baja de terrenos,account_sat.account_sat_v2_979,other,D,True
+account_sat.account_sat_v2_981,703.02,703-100-002,Pérdida en venta y/o baja de edificios,account_sat.account_sat_v2_979,other,D,True
+account_sat.account_sat_v2_982,703.03,703-100-003,Pérdida en venta y/o baja de maquinaria y equipo,account_sat.account_sat_v2_979,other,D,True
+account_sat.account_sat_v2_983,703.04,703-100-004,"Pérdida en venta y/o baja de automóviles, autobuses, camiones de carga, tractocamiones, montacargas y remolques",account_sat.account_sat_v2_979,other,D,True
+account_sat.account_sat_v2_984,703.05,703-100-005,Pérdida en venta y/o baja de mobiliario y equipo de oficina,account_sat.account_sat_v2_979,other,D,True
+account_sat.account_sat_v2_985,703.06,703-100-006,Pérdida en venta y/o baja de equipo de cómputo,account_sat.account_sat_v2_979,other,D,True
+account_sat.account_sat_v2_986,703.07,703-100-007,Pérdida en venta y/o baja de equipo de comunicación,account_sat.account_sat_v2_979,other,D,True
+account_sat.account_sat_v2_987,703.08,703-100-008,"Pérdida en venta y/o baja de activos biológicos, vegetales y semovientes",account_sat.account_sat_v2_979,other,D,True
+account_sat.account_sat_v2_988,703.09,703-100-009,Pérdida en venta y/o baja de otros activos fijos,account_sat.account_sat_v2_979,other,D,True
+account_sat.account_sat_v2_989,703.10,703-100-010,Pérdida en venta y/o baja de ferrocarriles,account_sat.account_sat_v2_979,other,D,True
+account_sat.account_sat_v2_990,703.11,703-100-011,Pérdida en venta y/o baja de embarcaciones,account_sat.account_sat_v2_979,other,D,True
+account_sat.account_sat_v2_991,703.12,703-100-012,Pérdida en venta y/o baja de aviones,account_sat.account_sat_v2_979,other,D,True
+account_sat.account_sat_v2_992,703.13,703-100-013,"Pérdida en venta y/o baja de troqueles, moldes, matrices y herramental",account_sat.account_sat_v2_979,other,D,True
+account_sat.account_sat_v2_993,703.14,703-100-014,Pérdida en venta y/o baja de equipo de comunicaciones telefónicas,account_sat.account_sat_v2_979,other,D,True
+account_sat.account_sat_v2_994,703.15,703-100-015,Pérdida en venta y/o baja de equipo de comunicación satelital,account_sat.account_sat_v2_979,other,D,True
+account_sat.account_sat_v2_995,703.16,703-100-016,Pérdida en venta y/o baja de equipo de adaptaciones para personas con capacidades diferentes,account_sat.account_sat_v2_979,other,D,True
+account_sat.account_sat_v2_996,703.17,703-100-017,Pérdida en venta y/o baja de maquinaria y equipo de generación de energía de fuentes renovables o de sistemas de cogeneración de electricidad eficiente,account_sat.account_sat_v2_979,other,D,True
+account_sat.account_sat_v2_997,703.18,703-100-018,Pérdida en venta y/o baja de otra maquinaria y equipo,account_sat.account_sat_v2_979,other,D,True
+account_sat.account_sat_v2_998,703.19,703-100-019,Pérdida por enajenación de acciones,account_sat.account_sat_v2_979,other,D,True
+account_sat.account_sat_v2_999,703.20,703-100-020,Pérdida por enajenación de partes sociales,account_sat.account_sat_v2_979,other,D,True
+account_sat.account_sat_v2_1000,703.21,703-100-021,Otros gastos,account_sat.account_sat_v2_979,other,D,True
+account_sat.account_sat_v2_1001,704,704-000-000,Otros productos,account_sat.account_sat_v2_955,view,A,True
+account_sat.account_sat_v2_1002,704.01,704-100-001,Ganancia en venta y/o baja de terrenos,account_sat.account_sat_v2_1001,other,A,True
+account_sat.account_sat_v2_1003,704.02,704-100-002,Ganancia en venta y/o baja de edificios,account_sat.account_sat_v2_1001,other,A,True
+account_sat.account_sat_v2_1004,704.03,704-100-003,Ganancia en venta y/o baja de maquinaria y equipo,account_sat.account_sat_v2_1001,other,A,True
+account_sat.account_sat_v2_1005,704.04,704-100-004,"Ganancia en venta y/o baja de automóviles, autobuses, camiones de carga, tractocamiones, montacargas y remolques",account_sat.account_sat_v2_1001,other,A,True
+account_sat.account_sat_v2_1006,704.05,704-100-005,Ganancia en venta y/o baja de mobiliario y equipo de oficina,account_sat.account_sat_v2_1001,other,A,True
+account_sat.account_sat_v2_1007,704.06,704-100-006,Ganancia en venta y/o baja de equipo de cómputo,account_sat.account_sat_v2_1001,other,A,True
+account_sat.account_sat_v2_1008,704.07,704-100-007,Ganancia en venta y/o baja de equipo de comunicación,account_sat.account_sat_v2_1001,other,A,True
+account_sat.account_sat_v2_1009,704.08,704-100-008,"Ganancia en venta y/o baja de activos biológicos, vegetales y semovientes",account_sat.account_sat_v2_1001,other,A,True
+account_sat.account_sat_v2_1010,704.09,704-100-009,Ganancia en venta y/o baja de otros activos fijos,account_sat.account_sat_v2_1001,other,A,True
+account_sat.account_sat_v2_1011,704.10,704-100-010,Ganancia en venta y/o baja de ferrocarriles,account_sat.account_sat_v2_1001,other,A,True
+account_sat.account_sat_v2_1012,704.11,704-100-011,Ganancia en venta y/o baja de embarcaciones,account_sat.account_sat_v2_1001,other,A,True
+account_sat.account_sat_v2_1013,704.12,704-100-012,Ganancia en venta y/o baja de aviones,account_sat.account_sat_v2_1001,other,A,True
+account_sat.account_sat_v2_1014,704.13,704-100-013,"Ganancia en venta y/o baja de troqueles, moldes, matrices y herramental",account_sat.account_sat_v2_1001,other,A,True
+account_sat.account_sat_v2_1015,704.14,704-100-014,Ganancia en venta y/o baja de equipo de comunicaciones telefónicas,account_sat.account_sat_v2_1001,other,A,True
+account_sat.account_sat_v2_1016,704.15,704-100-015,Ganancia en venta y/o baja de equipo de comunicación satelital,account_sat.account_sat_v2_1001,other,A,True
+account_sat.account_sat_v2_1017,704.16,704-100-016,Ganancia en venta y/o baja de equipo de adaptaciones para personas con capacidades diferentes,account_sat.account_sat_v2_1001,other,A,True
+account_sat.account_sat_v2_1018,704.17,704-100-017,Ganancia en venta de maquinaria y equipo de generación de energía de fuentes renovables o de sistemas de cogeneración de electricidad eficiente,account_sat.account_sat_v2_1001,other,A,True
+account_sat.account_sat_v2_1019,704.18,704-100-018,Ganancia en venta y/o baja de otra maquinaria y equipo,account_sat.account_sat_v2_1001,other,A,True
+account_sat.account_sat_v2_1020,704.19,704-100-019,Ganancia por enajenación de acciones,account_sat.account_sat_v2_1001,other,A,True
+account_sat.account_sat_v2_1021,704.20,704-100-020,Ganancia por enajenación de partes sociales,account_sat.account_sat_v2_1001,other,A,True
+account_sat.account_sat_v2_1022,704.21,704-100-021,Ingresos por estímulos fiscales,account_sat.account_sat_v2_1001,other,A,True
+account_sat.account_sat_v2_1023,704.22,704-100-022,Ingresos por condonación de adeudo,account_sat.account_sat_v2_1001,other,A,True
+account_sat.account_sat_v2_1024,704.23,704-100-023,Otros productos,account_sat.account_sat_v2_1001,other,A,True
+account_sat.account_sat_v2_1025,800,000-000-008,Cuentas de orden,account_sat.account_sat_v2_001,view,D,True
+account_sat.account_sat_v2_1026,801,801-000-000,UFIN del ejercicio,account_sat.account_sat_v2_1025,view,D,True
+account_sat.account_sat_v2_1027,801.01,801-100-001,UFIN ,account_sat.account_sat_v2_1026,other,D,True
+account_sat.account_sat_v2_1028,801.02,801-100-002,Contra cuenta UFIN ,account_sat.account_sat_v2_1026,other,A,True
+account_sat.account_sat_v2_1029,802,802-000-000,CUFIN del ejercicio,account_sat.account_sat_v2_1025,view,D,True
+account_sat.account_sat_v2_1030,802.01,802-100-001,CUFIN ,account_sat.account_sat_v2_1029,other,D,True
+account_sat.account_sat_v2_1031,802.02,802-100-002,Contra cuenta CUFIN ,account_sat.account_sat_v2_1029,other,A,True
+account_sat.account_sat_v2_1032,803,803-000-000,CUFIN de ejercicios anteriores,account_sat.account_sat_v2_1025,view,D,True
+account_sat.account_sat_v2_1033,803.01,803-100-001,CUFIN de ejercicios anteriores ,account_sat.account_sat_v2_1032,other,D,True
+account_sat.account_sat_v2_1034,803.02,803-100-002,Contra cuenta CUFIN de ejercicios anteriores,account_sat.account_sat_v2_1032,other,A,True
+account_sat.account_sat_v2_1035,804,804-000-000,CUFINRE del ejercicio,account_sat.account_sat_v2_1025,view,D,True
+account_sat.account_sat_v2_1036,804.01,804-100-001,CUFINRE ,account_sat.account_sat_v2_1035,other,D,True
+account_sat.account_sat_v2_1037,804.02,804-100-002,Contra cuenta CUFINRE ,account_sat.account_sat_v2_1035,other,A,True
+account_sat.account_sat_v2_1038,805,805-000-000,CUFINRE de ejercicios anteriores,account_sat.account_sat_v2_1025,view,D,True
+account_sat.account_sat_v2_1039,805.01,805-100-001,CUFINRE de ejercicios anteriores,account_sat.account_sat_v2_1038,other,D,True
+account_sat.account_sat_v2_1040,805.02,805-100-002,Contra cuenta CUFINRE de ejercicios anteriores,account_sat.account_sat_v2_1038,other,A,True
+account_sat.account_sat_v2_1041,806,806-000-000,CUCA del ejercicio,account_sat.account_sat_v2_1025,view,D,True
+account_sat.account_sat_v2_1042,806.01,806-100-001,CUCA,account_sat.account_sat_v2_1041,other,D,True
+account_sat.account_sat_v2_1043,806.02,806-100-002,Contra cuenta CUCA,account_sat.account_sat_v2_1041,other,A,True
+account_sat.account_sat_v2_1044,807,807-000-000,CUCA de ejercicios anteriores,account_sat.account_sat_v2_1025,view,D,True
+account_sat.account_sat_v2_1045,807.01,807-100-001,CUCA de ejercicios anteriores,account_sat.account_sat_v2_1044,other,D,True
+account_sat.account_sat_v2_1046,807.02,807-100-002,Contra cuenta CUCA de ejercicios anteriores,account_sat.account_sat_v2_1044,other,A,True
+account_sat.account_sat_v2_1047,808,808-000-000,Ajuste anual por inflación acumulable,account_sat.account_sat_v2_1025,view,D,True
+account_sat.account_sat_v2_1048,808.01,808-100-001,Ajuste anual por inflación acumulable,account_sat.account_sat_v2_1047,other,D,True
+account_sat.account_sat_v2_1049,808.02,808-100-002,Acumulación del ajuste anual inflacionario,account_sat.account_sat_v2_1047,other,A,True
+account_sat.account_sat_v2_1050,809,809-000-000,Ajuste anual por inflación deducible,account_sat.account_sat_v2_1025,view,D,True
+account_sat.account_sat_v2_1051,809.01,809-100-001,Ajuste anual por inflación deducible,account_sat.account_sat_v2_1050,other,D,True
+account_sat.account_sat_v2_1052,809.02,809-100-002,Deducción del ajuste anual inflacionario,account_sat.account_sat_v2_1050,other,A,True
+account_sat.account_sat_v2_1053,810,810-000-000,Deducción de inversión,account_sat.account_sat_v2_1025,view,D,True
+account_sat.account_sat_v2_1054,810.01,810-100-001,Deducción de inversión,account_sat.account_sat_v2_1053,other,D,True
+account_sat.account_sat_v2_1055,810.02,810-100-002,Contra cuenta deducción de inversiones ,account_sat.account_sat_v2_1053,other,A,True
+account_sat.account_sat_v2_1056,811,811-000-000,Utilidad o pérdida fiscal en venta y/o baja de activo fijo,account_sat.account_sat_v2_1025,view,D,True
+account_sat.account_sat_v2_1057,811.01,811-100-001,Utilidad o pérdida fiscal en venta y/o baja de activo fijo,account_sat.account_sat_v2_1056,other,D,True
+account_sat.account_sat_v2_1058,811.02,811-100-002,Contra cuenta utilidad o pérdida fiscal en venta y/o baja de activo fijo,account_sat.account_sat_v2_1056,other,A,True
+account_sat.account_sat_v2_1059,812,812-000-000,Utilidad o pérdida fiscal en venta acciones o partes sociales,account_sat.account_sat_v2_1025,view,D,True
+account_sat.account_sat_v2_1060,812.01,812-100-001,Utilidad o pérdida fiscal en venta acciones o partes sociales,account_sat.account_sat_v2_1059,other,D,True
+account_sat.account_sat_v2_1061,812.02,812-100-002,Contra cuenta utilidad o pérdida fiscal en venta acciones o partes sociales,account_sat.account_sat_v2_1059,other,A,True
+account_sat.account_sat_v2_1062,813,813-000-000,Pérdidas fiscales pendientes de amortizar actualizadas de ejercicios anteriores,account_sat.account_sat_v2_1025,view,D,True
+account_sat.account_sat_v2_1063,813.01,813-100-001,Pérdidas fiscales pendientes de amortizar actualizadas de ejercicios anteriores,account_sat.account_sat_v2_1062,other,D,True
+account_sat.account_sat_v2_1064,813.02,813-100-002,Actualización de pérdidas fiscales pendientes de amortizar de ejercicios anteriores,account_sat.account_sat_v2_1062,other,A,True
+account_sat.account_sat_v2_1065,814,814-000-000,Mercancías recibidas en consignación,account_sat.account_sat_v2_1025,view,D,True
+account_sat.account_sat_v2_1066,814.01,814-100-001,Mercancías recibidas en consignación,account_sat.account_sat_v2_1065,other,D,True
+account_sat.account_sat_v2_1067,814.02,814-100-002,Consignación de mercancías recibidas,account_sat.account_sat_v2_1065,other,A,True
+account_sat.account_sat_v2_1068,815,815-000-000,Crédito fiscal de IVA e IEPS por la importación de mercancías para empresas certificadas,account_sat.account_sat_v2_1025,view,D,True
+account_sat.account_sat_v2_1069,815.01,815-100-001,Crédito fiscal de IVA e IEPS por la importación de mercancías,account_sat.account_sat_v2_1068,other,D,True
+account_sat.account_sat_v2_1070,815.02,815-100-002,Importación de mercancías con aplicación de crédito fiscal de IVA e IEPS,account_sat.account_sat_v2_1068,other,A,True
+account_sat.account_sat_v2_1071,816,816-000-000,Crédito fiscal de IVA e IEPS por la importación de activos fijos para empresas certificadas,account_sat.account_sat_v2_1025,view,D,True
+account_sat.account_sat_v2_1072,816.01,816-100-001,Crédito fiscal de IVA e IEPS por la importación de activo fijo,account_sat.account_sat_v2_1071,other,D,True
+account_sat.account_sat_v2_1073,816.02,816-100-002,Importación de activo fijo con aplicación de crédito fiscal de IVA e IEPS,account_sat.account_sat_v2_1071,other,A,True
+account_sat.account_sat_v2_1074,899,899-000-000,Otras cuentas de orden,account_sat.account_sat_v2_1025,view,D,True
+account_sat.account_sat_v2_1075,899.01,899-100-001,Otras cuentas de orden,account_sat.account_sat_v2_1074,other,D,True
+account_sat.account_sat_v2_1076,899.02,899-100-002,Contra cuenta otras cuentas de orden,account_sat.account_sat_v2_1074,other,A,True

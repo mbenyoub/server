@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+<!--
+        Ingresos/Egresos
+-->
+        <!-- Modificar formulario Egresos -->
+        <record model="ir.ui.view" id="view_account_fiscal_statement_expense_inherit">
+            <field name="name">account.fiscal.statement.expense.form.inherit</field>
+            <field name="model">account.fiscal.statement</field>
+            <field name="inherit_id" ref="account_fiscal.view_account_fiscal_statement_expense_form" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="type_statement_id" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_account_fiscal_statement_advanced</attribute>
+                </field>
+                <field name="partner_id" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_account_fiscal_statement_advanced</attribute>
+                </field>
+                <field name="period_id" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_account_fiscal_statement_advanced</attribute>
+                </field>
+                <field name="account_id" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_account_fiscal_statement_advanced</attribute>
+                </field>
+                <field name="move_id" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_account_fiscal_statement_advanced</attribute>
+                </field>
+                <field name="date_posted" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_account_fiscal_statement_advanced</attribute>
+                </field>
+                <field name="tax_line" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_account_fiscal_statement_advanced</attribute>
+                </field>
+                <page name="move_lines" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_account_fiscal_statement_advanced</attribute>
+                </page>
+            </field>
+        </record>
+        
+        <!-- Modificar formulario Ingresos -->
+        <record model="ir.ui.view" id="view_account_fiscal_statement_income_inherit">
+            <field name="name">account.fiscal.statement.income.form.inherit</field>
+            <field name="model">account.fiscal.statement</field>
+            <field name="inherit_id" ref="account_fiscal.view_account_fiscal_statement_income_form" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="type_statement_id" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_account_fiscal_statement_advanced</attribute>
+                </field>
+                <field name="partner_id" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_account_fiscal_statement_advanced</attribute>
+                </field>
+                <field name="period_id" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_account_fiscal_statement_advanced</attribute>
+                </field>
+                <field name="account_id" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_account_fiscal_statement_advanced</attribute>
+                </field>
+                <field name="move_id" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_account_fiscal_statement_advanced</attribute>
+                </field>
+                <field name="date_posted" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_account_fiscal_statement_advanced</attribute>
+                </field>
+                <field name="tax_line" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_account_fiscal_statement_advanced</attribute>
+                </field>
+                <page name="move_lines" position="attributes">
+                    <attribute name="groups">base.group_akk_back_v1_account_fiscal_statement_advanced</attribute>
+                </page>
+            </field>
+        </record>
+
+    </data>
+</openerp>

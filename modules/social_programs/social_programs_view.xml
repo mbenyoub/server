@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+<!--
+        Vistas para entrega beneficios
+-->
+
+        <!--  Filtros Beneficiario -->
+        <record id="view_social_programs_program_delivery_filter" model="ir.ui.view">
+            <field name="name">social.programs.program.delivery.select</field>
+            <field name="model">social.programs.program.delivery</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Entregas">
+                    <field name="program_id"/>
+                    <field name="product_id"/>
+                    <field name="partner_id"/>
+                    <field name="delivery"/>
+                    <field name="curp"/>
+                    <field name="name"
+                        filter_domain="['|','|',('name','ilike',self),('curp','ilike',self)]"/>
+                    
+                    <filter string="Entregado" name="delivery" domain="[('delivery','=',True)]"/>
+                    <filter string="no entregado" name="no_delivery" domain="[('delivery','=',False)]"/>
+                    <separator/>
+                  
+                   <group expand="0" string="Group By...">
+                       <filter string="Prorgama" context="{'group_by': 'program_id'}"/>
+                       <filter string="Producto" context="{'group_by': 'product_id'}"/>
+                       <filter string="Beneficiario" context="{'group_by': 'partner_id'}"/>
+                       <separator />
+                   </group>
+               </search>
+            </field>
+        </record>
+
+        <record id="view_social_programs_program_delivery_form" model="ir.ui.view">
+            <field name="name">social.programs.program.delivery.form</field>
+            <field name="model">social.programs.program.delivery</field>
+            <field eval="1" name="priority"/>
+            <field name="arch" type="xml">
+                <form string="Entrega" version="7.0">
+                <sheet>
+                    <field name="image" widget='image' class="oe_left oe_avatar" options='{"preview_image": "image_medium", "size": [100, 100]}'/>
+                    <div class="oe_title">
+                        <div class="oe_edit_only">
+                            <label for="partner_id"/>
+                        </div>
+                        <h1>
+                            <field name="partner_id" default_focus="1" placeholder="Nombre" />
+                        </h1>
+                        <field name="curp" placeholder="Curp... ej. BEML920313HCMLNS09."/>
+                    </div>
+                    <div class="oe_right oe_button_box" name="buttons">
+                        <button string="Entregar e Imprimir" class="oe_highlight" attrs="{'invisible': [('delivery','=',True)]}" 
+                            icon="gtk-redo"
+                            name="action_delivery_and_print" type="object"/>
+                        <button string="Imprimir" class="oe_highlight" attrs="{'invisible': [('delivery','=',False)]}" 
+                            name="action_print_report" type="object"/>
+                        <button string="Entregar" attrs="{'invisible': [('delivery','=',True)]}" 
+                            icon="gtk-redo"
+                            name="action_delivery" type="object"/>
+                    </div>
+
+                    <group>
+                        <group>
+                            <label for="street" string="Direccion"/>
+                            <div>
+                                <field name="street" placeholder="Direccion..."/>
+                                <field name="settlement_id" placeholder="Colonia" />
+                                <div class="address_format">
+                                    <field name="city_id" placeholder="Ciudad" style="width: 40%%"/>
+                                    <field name="state_id" class="oe_no_button" placeholder="State" style="width: 37%%" options='{"no_open": True}' on_change="onchange_state(state_id)" />
+                                    <field name="zip" placeholder="C.P." style="width: 20%%" />
+                                </div>
+                                <div class="address_format">
+                                    <field name="sector_id" class="oe_no_button" placeholder="Sector" style="width: 39%%"/>
+                                    <field name="area_id" class="oe_no_button" placeholder="Area" style="width: 59%%" />
+                                </div>
+                                <field name="country_id" placeholder="Country" class="oe_no_button" options='{"no_open": True}'/>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="phone" placeholder="ej. +32.81.81.37.00"/>
+                            <field name="mobile"/>
+                            <field name="email" widget="email"/>
+                            <field name="delivery" on_change="onchange_delivery(delivery)" attrs="{'invisible': [('delivery','=',True)]}" />
+                            <field name="date" attrs="{'invisible': [('delivery','=',False)]}" />
+                        </group>
+                    </group>
+                    <group>
+                        <div class="oe_title" style="margin-left: 100px;">
+                            <div class="oe_edit_only">
+                                <label for="program_id"/>
+                            </div>
+                            <h2>
+                               <field name="program_id" placeholder="Programa" />
+                            </h2>
+                            <group>
+                                <group>
+                                    <field name="product_id" placeholder="Producto"/>
+                                </group>
+                                <group>
+                                    <field name="qty" placeholder="Cantidad"/>
+                                </group>
+                            </group>
+                        </div>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Programas - Tree -->
+        <record id="view_social_programs_program_delivery_tree" model="ir.ui.view">
+            <field name="name">social.programs.program.delivery.tree</field>
+            <field name="model">social.programs.program.delivery</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Programas">
+                    <field name="program_id"/>
+                    <field name="partner_id"/>
+                    <field name="product_id"/>
+                    <field name="qty"/>
+                    <field name="delivery"/>
+                    <button string="Entregar" attrs="{'invisible': [('delivery','=',True)]}" 
+                        icon="gtk-redo"
+                        name="action_delivery_product" type="object"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Action Entregas -->
+        <record id="action_social_programs_program_delivery_form" model="ir.actions.act_window">
+            <field name="name">Programas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">social.programs.program.delivery</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="view_social_programs_program_delivery_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click para agregar entregas a beneficiarios.
+              </p>
+            </field>
+        </record>
+        
+        <!-- Menu Beneficiario -->
+        <menuitem id="menu_social_programs_program_delivery" name="Entrega Beneficios" parent="menu_social_programs" action="action_social_programs_program_delivery_form" sequence="6"/>
+
+<!--
+        Vistas para programas sociales
+-->
+
+        <!-- Programas - Tree -->
+        <record id="view_social_programs_program_tree" model="ir.ui.view">
+            <field name="name">social.programs.program.tree</field>
+            <field name="model">social.programs.program</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Programas">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="direction_id"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="user_id"/>
+                    <field name="state"/>
+                    <field name="parent_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_social_programs_program_form" model="ir.ui.view">
+            <field name="name">social.programs.program.form</field>
+            <field name="model">social.programs.program</field>
+            <field eval="1" name="priority"/>
+            <field name="arch" type="xml">
+                <form string="Programas" version="7.0">
+                    <header>
+                        <button name="action_confirm" states="draft" string="Confirmar" type="object" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm,done" statusbar_colors='{"cancel":"red"}' readonly="1"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <div class="oe_edit_only">
+                                <label for="name"/>
+                            </div>
+                            <h1>
+                                <field name="name" default_focus="1" placeholder="Name" />
+                            </h1>
+                            <field name="category_id" widget="many2many_tags" placeholder="Categorias..."/>
+                            <field name="code" placeholder="Codigo" style="width: 40%%"/>
+                        </div>
+                        <div class="oe_right oe_button_box" name="buttons"> </div>
+    
+                        <group>
+                            <group>
+                                <field name="direction_id"/>
+                                <field name="user_id"/>
+                                <field name="parent_id"/>
+                            </group>
+                            <group>
+                                <field name="ref"/>
+                                <field name="date_start"/>
+                                <field name="date_end"/>
+                            </group>
+                        </group>
+    
+                        <notebook colspan="4">
+                            <page string="Descripcion">
+                                <field name="description" placeholder="Agregar informacion detallada sobre programa..."/>
+                            </page>
+                            <page string="Programas Relacionados">
+                                <field name="program_ids" ></field>
+                            </page>
+                            <page string="Beneficiarios"  attrs="{'invisible': [('state','not in',('draft'))]}">
+                                <field name="partner_ids" ></field>
+                            </page>
+                            <page string="Productos"  attrs="{'invisible': [('state','not in',('draft'))]}">
+                                <field name="products" ></field>
+                            </page>
+                            <page string="Entregas" attrs="{'invisible': [('state','not in',('confirm','done','cancel'))]}">
+                                <field name="delivery_ids" readonly="1">
+                                    <tree string="Entregas" editable="bottom">
+                                        <field name="program_id" invisible="1"/>
+                                        <field name="partner_id" ></field>
+                                        <field name="product_id" ></field>
+                                        <field name="qty" ></field>
+                                        <field name="delivery" ></field>
+                                        <button string="Entregar" attrs="{'invisible': [('delivery','=',True)]}" 
+                                            icon="gtk-redo"
+                                            name="action_delivery_product" type="object"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--  Filtros Beneficiario -->
+        <record id="view_res_social_programs_program_filter" model="ir.ui.view">
+            <field name="name">social.programs.program.select</field>
+            <field name="model">social.programs.program</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Programa">
+                    <field name="code" />
+                    <field name="direction_id" />
+                    <field name="ref" />
+                    <field name="user_id" />
+                    <field name="date_start" />
+                    <field name="date_end" />
+                    <field name="state" />
+                    <field name="name"
+                       filter_domain="['|','|',('name','ilike',self),('code','ilike',self),('ref','=',self)]"/>
+                    <filter help="Mis programas" icon="terp-personal+" domain="[('user_id','=',uid)]"/>
+                    <separator/>
+                    <field name="category_id" string="Tag" filter_domain="[('category_id','ilike', self)]"/>
+                    <field name="parent_id" filter_domain="[('parent_id','child_of',[self])]"/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Periodo" icon="terp-personal" domain="[]" context="{'group_by' : 'date_start,date_end'}" />
+                        <filter string="Direccion" context="{'group_by': 'direction_id'}"/>
+                        <filter string="Estado" context="{'group_by': 'state'}"/>
+                        <filter string="Responsable" context="{'group_by': 'user_id'}"/>
+                        <filter string="Programa" context="{'group_by': 'parent_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <!-- Action Beneficiario -->
+        <record id="action_social_programs_program_form" model="ir.actions.act_window">
+            <field name="name">Programas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">social.programs.program</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="view_res_social_programs_program_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click para agregar un nuevo programa.
+              </p>
+            </field>
+        </record>
+        
+        <!-- Asignar vistas al Action -->
+        <record id="action_social_programs_program_form_view2" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_social_programs_program_form"/>
+            <field name="act_window_id" ref="action_social_programs_program_form"/>
+        </record>
+        <record id="action_social_programs_program_tree_view1" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_social_programs_program_tree"/>
+            <field name="act_window_id" ref="action_social_programs_program_form"/>
+        </record>
+        <!-- Menu Beneficiario -->
+        <menuitem id="menu_social_programs_program" name="Programas" parent="menu_social_programs" action="action_social_programs_program_form" sequence="4"/>
+
+<!--
+        Vistas para Direcciones
+-->
+
+        <!-- Direction - Tree -->
+        <record id="view_social_programs_direction_tree" model="ir.ui.view">
+            <field name="name">social.programs.direction.tree</field>
+            <field name="model">social.programs.direction</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Direcciones">
+                    <field name="name"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                    <field name="area_id"/>
+                    <field name="sector_id"/>
+                    <field name="user_id"/>
+                    <field name="country_id" invisible="1"/>
+                    <field name="city_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Direction - Form -->
+        <record id="view_social_programs_direction_form" model="ir.ui.view">
+            <field name="name">social.programs.direction.form</field>
+            <field name="model">social.programs.direction</field>
+            <field eval="1" name="priority"/>
+            <field name="arch" type="xml">
+                <form string="Direcciones" version="7.0">
+                    <sheet>
+                        <div class="oe_title">
+                            <div class="oe_edit_only">
+                                <label for="name"/>
+                            </div>
+                            <h1>
+                                <field name="name" default_focus="1" placeholder="Nombre direccion" />
+                            </h1>
+                        </div>
+                        <div class="oe_right oe_button_box" name="buttons"> </div>
+    
+                        <group>
+                            <group>
+                                <label for="street" string="Address"/>
+                                <div>
+                                    <field name="street" placeholder="Direccion..."/>
+                                    <field name="settlement_id" placeholder="Colonia" on_change="onchange_settlement(settlement_id)"/>
+                                    <div class="address_format">
+                                        <field name="city_id" placeholder="Ciudad" style="width: 40%%"/>
+                                        <field name="state_id" class="oe_no_button" placeholder="State" style="width: 37%%" options='{"no_open": True}' on_change="onchange_state(state_id)" />
+                                        <field name="zip" placeholder="C.P." style="width: 20%%" />
+                                    </div>
+                                    <div class="address_format">
+                                        <field name="sector_id" class="oe_no_button" placeholder="Sector" style="width: 39%%"/>
+                                        <field name="area_id" class="oe_no_button" placeholder="Area" style="width: 59%%" />
+                                    </div>
+                                    <field name="country_id" placeholder="Country" class="oe_no_button" options='{"no_open": True}'/>
+                                </div>
+                                <label for="user_id" string="Director"/>
+                                <div>
+                                    <field name="user_id"/>
+                                </div>
+                            </group>
+                            <group>
+                                <field name="phone" placeholder="e.g. +32.81.81.37.00"/>
+                                <field name="mobile"/>
+                                <field name="fax"/>
+                                <field name="email" widget="email"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+    
+                        <notebook colspan="4">
+                            <page string="Notas Internas">
+                                <field name="comment" placeholder="Escribe una nota..."/>
+                            </page>
+                            
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--  Filtros Direccion -->
+        <record id="view_res_social_programs_direction_filter" model="ir.ui.view">
+            <field name="name">social.programs.direction.select</field>
+            <field name="model">social.programs.direction</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Direccion">
+                    <field name="name"
+                       filter_domain="[('name','ilike',self)]"/>
+                    <field name="country_id"/>
+                    <field name="state_id"/>
+                    <field name="city_id"/>
+                    <field name="area_id"/>
+                    <field name="sector_id"/>
+                    <field name="active"/>
+                    <filter help="Mis Direcciones" icon="terp-personal+" domain="[('user_id','=',uid)]"/>
+                    <separator/>
+                    <filter string="Direcciones Activas" name="active_direction" domain="[('active','=',True)]"/>
+                    <filter string="Direcciones Inactivas" name="inactive_direction" domain="[('active','=',False)]"/>
+                    <separator/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Estado" icon="terp-personal" domain="[]" context="{'group_by' : 'state_id'}" />
+                        <filter string="Ciudad" icon="terp-personal" domain="[]" context="{'group_by' : 'city_id'}" />
+                        <filter string="Area" context="{'group_by': 'area_id'}"/>
+                        <filter string="Sector" context="{'group_by': 'sector_id'}"/>
+                        <separator/>
+                   </group>
+               </search>
+            </field>
+        </record>
+        
+        <!-- Action Direccion -->
+        <record id="action_social_programs_direction" model="ir.actions.act_window">
+            <field name="name">Direction</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">social.programs.direction</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{"default_active":True}</field>
+            <field name="search_view_id" ref="view_res_social_programs_direction_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click para agregar una nueva direccion.
+              </p>
+            </field>
+        </record>
+        
+        <!-- Asignar vistas al Action -->
+        <record id="action_social_programs_direction_tree_view1" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_social_programs_direction_tree"/>
+            <field name="act_window_id" ref="action_social_programs_direction"/>
+        </record>
+        <record id="action_social_programs_direction_form_view2" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_social_programs_direction_form"/>
+            <field name="act_window_id" ref="action_social_programs_direction"/>
+        </record>
+        
+        <!-- Menu Beneficiario -->
+        <menuitem id="menu_social_programs_direction" name="Direcciones" parent="menu_social_programs" action="action_social_programs_direction" sequence="2"/>
+        
+<!--
+        Vistas para categorias programas sociales
+-->
+
+ <!-- Categories -->
+        <record id="view_social_programs_category_form" model="ir.ui.view">
+            <field name="name">Categorias programa</field>
+            <field name="model">social.programs.category</field>
+            <field name="arch" type="xml">
+                <form string="Categorias programa" version="7.0">
+                    <group col="4">
+                        <field name="name"/>
+                        <field name="active"/>
+                        <field name="parent_id"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <record id="view_social_programs_category_list" model="ir.ui.view">
+            <field name="name">Categorias programa</field>
+            <field name="model">social.programs.category</field>
+            <field eval="6" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Categorias programa">
+                    <field name="complete_name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_social_programs_category_tree" model="ir.ui.view">
+            <field name="name">social.programs.category.tree</field>
+            <field name="model">social.programs.category</field>
+            <field name="field_parent">child_ids</field>
+            <field name="arch" type="xml">
+                <tree toolbar="1" string="Categorias programa">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--<record id="action_social_programs_by_category" model="ir.actions.act_window">-->
+        <!--    <field name="name">so Categories</field>-->
+        <!--    <field name="res_model">social.programs</field>-->
+        <!--    <field name="view_type">form</field>-->
+        <!--    <field name="view_mode">tree,form</field>-->
+        <!--    <field name="domain">[('category_id','child_of', [active_id])]</field>-->
+        <!--    <field name="context">{'category_id':active_id}</field>-->
+        <!--    <field name="search_view_id" ref="view_res_social_programs_filter"/>-->
+        <!--</record>-->
+
+        <!--<record id="ir_action_social_programs_by_category" model="ir.values">-->
+        <!--    <field eval="'tree_but_open'" name="key2"/>-->
+        <!--    <field eval="'social.programs.category'" name="model"/>-->
+        <!--    <field name="name">Abrir categoria programa</field>-->
+        <!--    <field eval="'ir.actions.act_window,%d'%action_social_programs_by_category" name="value"/>-->
+        <!--</record>-->
+
+        <record id="action_social_programs_category_form" model="ir.actions.act_window">
+            <field name="name">Categorias programas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">social.programs.category</field>
+            <field name="view_type">form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click para crear una nueva categoria para el programa.
+              </p><p>
+                Administrar las categorías asociadas con el fin de clasificar mejor para fines de seguimiento y análisis.
+                Un programa puede pertenecer a varias categorías y las categorías tienen una estructura jerárquica: un programa que pertenece a una categoría también pertenecen a la categoría padre.
+              </p>
+            </field>
+        </record>
+
+        <menuitem action="action_social_programs_category_form" id="menu_config_social_programs_category" parent="menu_config" name="Categorias programas sociales" sequence="40" groups="group_social_programs_manager"/>
+    </data>
+</openerp>

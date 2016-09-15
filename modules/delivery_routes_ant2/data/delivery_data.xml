@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+        
+        <!--
+            Plazos de entrega
+        -->
+
+        <!-- Entrega a 48 horas -->
+        <record id="delivery_routes.delivery_term_01" model="delivery.term">
+            <field name="name">48 Horas</field>
+            <field name="unit">hours</field>
+            <field name="value" eval="48"></field>
+            <field name="active" eval="True" />
+        </record>
+        <!-- Entrega a 12 horas -->
+        <record id="delivery_routes.delivery_term_02" model="delivery.term">
+            <field name="name">12 Horas</field>
+            <field name="unit">hours</field>
+            <field name="value" eval="12"></field>
+            <field name="active" eval="True" />
+        </record>
+        <!-- Entrega a 3 Dias -->
+        <record id="delivery_routes.delivery_term_03" model="delivery.term">
+            <field name="name">3 Dias</field>
+            <field name="unit">days</field>
+            <field name="value" eval="3"></field>
+            <field name="active" eval="True" />
+        </record>
+        <!-- Entrega a 6 Dias -->
+        <record id="delivery_routes.delivery_term_04" model="delivery.term">
+            <field name="name">6 Dias</field>
+            <field name="unit">days</field>
+            <field name="value" eval="6"></field>
+            <field name="active" eval="True" />
+        </record>
+        
+        <!--Horario de entrega-->
+        <record model="delivery.schedule" id="delivery_routes.delivery_schedule_01">
+            <field name="name">L-V 9:00AM - 6:00PM</field>
+        </record>
+        <record model="delivery.schedule.line" id="delivery_routes.delivery_schedule_line_01">
+            <field name="schedule_id" ref="delivery_routes.delivery_schedule_01"/>
+            <field name="day_week">0</field>
+            <field name="start_hour" eval="9.0"/>
+            <field name="close_hour" eval="18.0"/>
+            <field name="date" eval=""/>
+        </record>
+        <record model="delivery.schedule.line" id="delivery_routes.delivery_schedule_line_02">
+            <field name="schedule_id" ref="delivery_routes.delivery_schedule_01"/>
+            <field name="day_week">1</field>
+            <field name="start_hour" eval="9.0"/>
+            <field name="close_hour" eval="18.0"/>
+            <field name="date" eval=""/>
+        </record>
+        <record model="delivery.schedule.line" id="delivery_routes.delivery_schedule_line_03">
+            <field name="schedule_id" ref="delivery_routes.delivery_schedule_01"/>
+            <field name="day_week">2</field>
+            <field name="start_hour" eval="9.0"/>
+            <field name="close_hour" eval="18.0"/>
+            <field name="date" eval=""/>
+        </record>
+        <record model="delivery.schedule.line" id="delivery_routes.delivery_schedule_line_04">
+            <field name="schedule_id" ref="delivery_routes.delivery_schedule_01"/>
+            <field name="day_week">3</field>
+            <field name="start_hour" eval="9.0"/>
+            <field name="close_hour" eval="18.0"/>
+            <field name="date" eval=""/>
+        </record>
+        <record model="delivery.schedule.line" id="delivery_routes.delivery_schedule_line_05">
+            <field name="schedule_id" ref="delivery_routes.delivery_schedule_01"/>
+            <field name="day_week">4</field>
+            <field name="start_hour" eval="9.0"/>
+            <field name="close_hour" eval="18.0"/>
+            <field name="date" eval=""/>
+        </record>
+        
+        
+        <record id="delivery_schedule_property" model="ir.property">
+            <field name="name">delivery_schedule_property</field>
+            <field name="fields_id" search="[('model','=','res.partner'),('name','=','schedule_id')]"/>
+            <field eval="'delivery.schedule,'+str(ref('delivery_routes.delivery_schedule_01'))" model="delivery.schedule" name="value"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <!--
+            Secuencias sobre Rutas de entrega
+        -->
+        
+        <record id="delivery.delivery_route_sequence" model="ir.sequence.type">
+            <field name="name">Delivery Route</field>
+            <field name="code">delivery.route.seq</field>
+        </record>
+        <record id="delivery.sequence_delivery_route" model="ir.sequence">
+            <field name="name">Delivery Route Sequence</field>
+            <field name="code">delivery.route.seq</field>
+            <field name="prefix">ROUTE/%(year)s/%(month)s/</field>
+            <field name="padding">3</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+        </record>
+        
+    </data>
+</openerp>

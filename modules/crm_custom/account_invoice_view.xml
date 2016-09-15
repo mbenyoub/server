@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!-- Form Inherit - sale_make_invoice_advance -->
+        <record model="ir.ui.view" id="view_sale_make_invoice_inherit">
+            <field name="name">account.invoice.form.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form" />
+            <field name="arch" type="xml">
+                <field name="origin" position="before">
+                    <field name="partner_id2" attrs="{'invisible': [('partner_id2','=',False)]}"/>
+                </field>
+                <field name="origin" position="after">
+                    <field name="have_ref" invisible="1"/>
+                    <field name="have_ref2" invisible="1"/>
+                    <field name="ref" groups="base.group_user" attrs="{'invisible': [('have_ref','=',False)]}"/>
+                    <field name="ref2" groups="base.group_user" attrs="{'invisible': [('have_ref2','=',False)]}"/>
+                </field>
+                <field name="origin" position="attributes">
+                    <attribute name="attrs">{'invisible': [('have_ref','=',True)]}</attribute>
+                </field>
+                <xpath expr="/form/sheet/notebook/page/group/group/field[@name='name']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('have_ref2','=',True)]}</attribute>
+                </xpath>
+                <field name="quantity" position="after">
+                    <field name ="virtual_available" readonly="1" groups="base.group_akk_back_v1_stock_manager"/>
+                </field>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_account_invoice_tree_inherit">
+            <field name="name">account.invoice.tree</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_tree"/>
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="partner_id2" invisible="1"/>
+                </field>
+            </field>
+        </record>
+        
+        <!-- Modificacion de search -->
+        <record model="ir.ui.view" id="view_account_invoice_filter_inherit">
+            <field name="name">account.invoice.search.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter" />
+            <field name="priority" eval="17"/>
+            <field name="arch" type="xml">
+                <field name="number" position="after">
+                    <field name="partner_id2"/>
+                </field>
+                <filter string="Partner" position="after" >
+                    <filter string="Cliente Origen" name="group_partner_id2" icon="terp-accessories-archiver-minus" domain="[]" context="{'group_by':'partner_id2'}"/>
+                </filter>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <report
+            auto="False"
+            id="report_progress_project_webkit_view"
+            model="project.project"
+            name="report.progress.project.webkit"
+            file="project_rz_g2/report/progress_project_webkit.mako"
+            string="Plan de Seguimiento"
+            report_type="webkit"
+            menu="True"/>
+    </data>
+</openerp>
+
+

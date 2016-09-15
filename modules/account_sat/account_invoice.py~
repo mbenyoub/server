@@ -1,0 +1,597 @@
+# -*- encoding: utf-8 -*-
+###########################################################################
+#    Module Writen to OpenERP, Open Source Management Solution
+#
+#    Copyright (c) 2013 Akkadian - http://www.akkadian.com.mx/
+#    All Rights Reserved.
+#    info Akkadian
+############################################################################
+#    Coded by: 
+#              Roberto Ivan Serrano Saldaña (riss_600@hotmail.com)
+#
+############################################################################
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+
+import logging
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+from operator import itemgetter
+import time
+
+from openerp import SUPERUSER_ID
+from openerp import pooler, tools
+from openerp.osv import fields, osv
+from openerp.tools.translate import _
+from openerp.tools.float_utils import float_round
+import openerp.addons.decimal_precision as dp
+from openerp import netsvc
+
+class account_invoice(osv.Model):
+    _inherit='account.invoice'
+    
+    def create_ir_attachment_facturae(self, cr, uid, ids, context=None):
+        """
+            Proceso para timbrado factura electronica automatico
+        """
+        ir_attach_obj = self.pool.get('ir.attachment.facturae.mx')
+        # Proceso original para timbrado de facturas
+        res = super(account_invoice, self).create_ir_attachment_facturae(cr, uid, ids, context=context)
+        if not res:
+            res = {}
+        attach = res.get('res_id',False)
+        if attach:
+            print "************* factura electronica *********** ", attach
+            # Finaliza el proceso del timbrado sobre la factura
+            ir_attach_obj.action_create_ir_attachment_facturae(cr, uid, [attach], context=context)
+            return self.write(cr, uid, ids, {}, context=context)
+        return True
+    
+    def _check_apply_deduction(self, cr, uid, ids, field_names, arg, context=None, query='', query_params=()):
+        """
+            Checa si se debe aplicar la deduccion sobre la factura
+        """
+        res = {}
+        for inv in self.browse(cr, uid, ids, context=context):
+            apply = False
+            apply_sale = False
+            title = 'title_2'
+            # Valida que el estado no este en borrador y que sea factura de proveedor
+            if inv.state != 'draft' and inv.type == 'in_invoice':
+                # Valida si el contacto tiene el regimen fiscal
+                if inv.partner_id.regimen_fiscal_id:
+                    # Actualiza el valor de la deduccion del pago sobre el cliente
+                    apply = inv.partner_id.regimen_fiscal_id.apply_deduction
+                # Obtiene el titulo de la compañia
+                if inv.company_id:
+                    #print "********** busca compañia *************** ", inv.company_id
+                    if inv.company_id.partner_id and inv.company_id.partner_id.regimen_title:
+                        title = inv.company_id.partner_id.regimen_title
+            # Valida que el estado no este en borrador y que sea factura de cliente
+            elif inv.state != 'draft' and inv.type == 'out_invoice':
+                # Obtiene el titulo de la compañia
+                if inv.company_id:
+                    if inv.company_id.partner_id and inv.company_id.partner_id.regimen_title:
+                        apply_sale = inv.company_id.partner_id.regimen_fiscal_id.apply_deduction_sale
+            res[inv.id] = {
+                'apply_deduction': apply,
+                'apply_deduction_sale': apply_sale,
+                'title': title
+            }
+        return res
+    
+    _columns = {
+        'move_id_cancel': fields.many2one('account.move', 'Asiento Cancelacion', readonly=True, select=1, ondelete='restrict', help="Link to the automatically generated Journal Items."),
+        'invoice_id': fields.many2one('account.invoice', 'Factura origen', readonly=True, select=1, ondelete='restrict', help="Referencia sobre factura"),
+        'deduction_ids': fields.one2many('account.fiscal.deduction', 'invoice_id', 'Deducciones'),
+        'apply_deduction': fields.function(_check_apply_deduction, string='Aplicar deduccion al pago', type='boolean', multi="regimen", store=True),
+        'apply_deduction_sale': fields.function(_check_apply_deduction, string='Aplicar deduccion al cobro', type='boolean', multi="regimen", store=True),
+        'title': fields.function(_check_apply_deduction, type='selection', multi="regimen", selection=[
+                        ('title_2','Titulo 2'),
+                        ('title_4','Titulo 4')], string='Titulo Compañia', readonly=True),
+    }
+    
+    def invoice_pay_customer(self, cr, uid, ids, context=None):
+        """
+            Relaciona el pago con la factura
+        """
+        # Funcionalidad original
+        res = super(account_invoice, self).invoice_pay_customer(cr, uid, ids, context=context)
+        
+        # Agrega relacion de pago con factura
+        res['context']['default_invoice_id'] = res['context']['invoice_id']
+        return res
+    
+    #def invoice_validate(self, cr, uid, ids, context=None):
+    #    """
+    #        Si es una factura de reintegro se agrega la informacion a la factura de origen
+    #    """
+    #    for inv in self.browse(cr, uid, ids, context=context):
+    #        # Valida si es una factura de reintegro y que proviene de una factura
+    #        if (inv.type == 'out_refund' or inv.type == 'in_refund') and inv.invoice_id:
+    #            #Ejecuta la cancelacion del timbrado de la factura
+    #            self.sf_cancel_invoice(cr, uid, [inv.invoice_id.id], context=context)
+    #            # Cancela la factura origen de la factura de reintegro y relaciona con la factura de reintegro
+    #            self.write(cr, uid, [inv.invoice_id.id], {'invoice_id': inv.id}, context=context)
+    #
+    #    return super(account_invoice, self).invoice_validate(cr, uid, ids, context=context)
+    
+    def button_reset_taxes(self, cr, uid, ids, context=None):
+        """
+            Actualiza los detalles de las facturas
+        """
+        if context is None:
+            context = {}
+        ctx = context.copy()
+        ctx['reset_tax'] = True
+        #print "**************+ reset ctx ************* ", ctx
+        # Funcion original de modificar
+        super(account_invoice, self).button_reset_taxes(cr, uid, ids, context=ctx)
+        return True
+    
+    def copy(self, cr, uid, id, default=None, context=None):
+        """
+            Limpia los movimientos y facturas relacionadas al documento factura
+        """
+        if default is None:
+            default = {}
+        default.update({'invoice_id': None, 'move_id_cancel':None, 'move_id': None})
+        
+        # Continua con la funcionalidad original
+        return super(account_invoice, self).copy(cr, uid, id, default, context)
+    
+    def write(self, cr, uid, ids, vals, context=None):
+        """
+            Actualiza los detalles de las facturas
+        """
+        # Funcion original de modificar
+        super(account_invoice, self).write(cr, uid, ids, vals, context=context)
+        if context is None:
+            context = {}
+        ctx = context.copy()
+        #print "******************** ctx ********** ", ctx.get('reset_tax'), "  - ", ctx
+        
+        # Actualiza los detalles
+        if context.get('reset_tax',False) != True:
+            ctx['reset_tax'] = True
+            if type(ids) == int:
+                ids = [ids]
+            self.button_reset_taxes(cr, uid, ids, context=ctx)
+            
+        #line_ids = self.pool.get('account.invoice.line').search(cr, uid, [('invoice_id','in',ids)], context=context)
+        #self.pool.get('account.invoice.line').write(cr, uid, line_ids, {}, context=context)
+        return True
+    
+    def _get_period(self, cr, uid, context=None):
+        """
+            Obtiene el periodo actual
+        """
+        if context is None: context = {}
+        if context.get('period_id', False):
+            return context.get('period_id')
+        ctx = dict(context, account_period_prefer_normal=True)
+        periods = self.pool.get('account.period').find(cr, uid, context=ctx)
+        return periods and periods[0] or False
+    
+    def create_move_id_cancel(self, cr, uid, inv_id, move_id, context=None):
+        """ 
+            Esta funcion Genera los asiento inverso al de la factura
+        """
+        move_obj = self.pool.get('account.move')
+        move_line_obj = self.pool.get('account.move.line')
+        obj_seq = self.pool.get('ir.sequence')
+        link_obj = self.pool.get('links.get.request')
+        date = time.strftime('%Y-%m-%d')
+        if context is None:
+            context = {}
+        
+        #~ Valida que el objeto account.invoice se encuentre en las referencias
+        link_obj.validate_link(cr, uid, 'account.invoice', 'Invoice', context=None)
+        
+        # Obtiene el periodo actual
+        act_period_id = self._get_period(cr, uid, context=context)
+        
+        # Obtiene el movimiento
+        move = move_obj.browse(cr, uid, move_id, context=context)
+        
+        ctx = context.copy()
+        
+        # Inicializa las variables para generar el movimiento
+        mov_lines = []
+        
+        # Obtiene el numero de la secuencia del movimiento
+        mov_number = 'CAN/' + move.name
+        
+        # Genera el asiento contable
+        new_move = {
+            'name': mov_number,
+            'ref': move.name,
+            'journal_id': move.journal_id.id,
+            'period_id': act_period_id,
+            'date': date,
+            'narration': move.narration,
+            'company_id': move.company_id.id,
+            'to_check': move.to_check,
+            'reference': 'account.invoice,' + str(inv_id),
+            'state': 'posted'
+        }
+        move_id_cancel = move_obj.create(cr, uid, new_move, context=context)
+        #print "*************** crea movimiento de cancelacion ************** ", move_id_cancel
+        
+        # Recorre las lineas del movimiento
+        for line in move.line_id:
+            # Genera las lineas de movimiento sobre el ingreso
+            move_line = {
+                'journal_id': line.journal_id.id,
+                'period_id': act_period_id,
+                'name': line.name,
+                'account_id': line.account_id.id,
+                'move_id': move_id_cancel,
+                'partner_id': line.partner_id.id or False,
+                'amount_currency': line.amount_currency,
+                'quantity': line.quantity,
+                'credit': line.debit,
+                'debit': line.credit,
+                'date': date,
+                'ref': line.name,
+                'reference': 'account.invoice,' + str(inv_id),
+            }
+            new_id = move_line_obj.create(cr, uid, move_line, context=context)
+            mov_lines.append(new_id)
+            #print "*************************** new_id cancel ******** ", new_id
+            
+        return move_id_cancel
+    
+    def sf_cancel_invoice(self, cr, uid, ids, context=None):
+        """
+            Ejecuta la funcionalidad de cancelar para los timbrados de facturacion electronica
+        """
+        if context is None:
+            context = {}
+        #print "***************** cancelar sf agregado a account_fiscal ************* "
+        # Funcionalidad cancelar l10n_mx_ir_attachment_facturae/invoice
+        ir_attach_obj = self.pool.get('ir.attachment.facturae.mx')
+        id_attach = ir_attach_obj.search(
+            cr, uid, [('invoice_id', '=', ids[0])], context)
+        wf_service = netsvc.LocalService("workflow")
+        inv_type_facturae = {
+            'out_invoice': True,
+            'out_refund': True,
+            'in_invoice': False,
+            'in_refund': False}
+        for inv in self.browse(cr, uid, ids):
+            if inv_type_facturae.get(inv.type, False):
+                for attachment in ir_attach_obj.browse(cr, uid, id_attach,
+                                                       context):
+                    if attachment.state == 'done':
+                        wf_service.trg_validate(
+                            uid, 'ir.attachment.facturae.mx',
+                            attachment.id, 'action_cancel', cr)
+        self.write(cr, uid, ids, {
+                   'date_invoice_cancel': time.strftime('%Y-%m-%d %H:%M:%S')})
+        return True
+    
+    def line_get_convert(self, cr, uid, x, part, date, context=None):
+        """
+            Quita la referencia a el codigo de impuestos para crear el movimimento de la factura
+        """
+        return {
+            'date_maturity': x.get('date_maturity', False),
+            'partner_id': part,
+            'name': x['name'][:64],
+            'date': date,
+            'debit': x['price']>0 and x['price'],
+            'credit': x['price']<0 and -x['price'],
+            'account_id': x['account_id'],
+            'analytic_lines': x.get('analytic_lines', []),
+            'amount_currency': x['price']>0 and abs(x.get('amount_currency', False)) or -abs(x.get('amount_currency', False)),
+            'currency_id': x.get('currency_id', False),
+            #'tax_code_id': x.get('tax_code_id', False),
+            'tax_amount': x.get('tax_amount', False),
+            'ref': x.get('ref', False),
+            'quantity': x.get('quantity',1.00),
+            'product_id': x.get('product_id', False),
+            'product_uom_id': x.get('uos_id', False),
+            'analytic_account_id': x.get('account_analytic_id', False),
+        }
+    
+    def action_move_create(self, cr, uid, ids, context=None):
+        """
+            Agrega al asiento contable la informacion de los impuestos
+        """
+        #print "******************* context **************** ", context
+        if context is None:
+            context = {}
+        # Funcionalidad original de create
+        res = super(account_invoice, self).action_move_create(cr, uid, ids, context)
+        
+        ait_obj = self.pool.get('account.invoice.tax')
+        move_obj = self.pool.get('account.move')
+        move_line_obj = self.pool.get('account.move.line')
+        move_tax_obj = self.pool.get('account.move.tax')
+        link_obj = self.pool.get('links.get.request')
+        
+        #~ Valida que el objeto account.invoice se encuentre en las referencias
+        link_obj.validate_link(cr, uid, 'account.invoice', 'Invoice', context=None)
+        
+        # Recorre las facturas
+        for inv in self.browse(cr, uid, ids, context=context):
+            move_tax_ids = []
+            
+            # Obtiene el movimiento a aplicar en el asiento
+            ml_ids = move_line_obj.search(cr, uid, [('state','=','valid'), '|',('account_id.type', '=', 'payable'),('account_id.type', '=', 'receivable'), ('reconcile_id', '=', False), ('move_id', '=', inv.move_id.id)], context=context)
+            # Valida que se haya encontrado el apunte
+            if not len(ml_ids):
+                raise osv.except_osv('Error Validacion', 'Ocurrio un error al tratar de obtener los apuntes del Asiento creado.')
+            
+            # Valida que haya un monto a pagar
+            if inv.amount_total:
+                # Obtiene los impuestos de la factura
+                for tax_line in inv.tax_line:
+                    # Valida que tenga valor en la base del monto
+                    if tax_line.base:
+                        percent = tax_line.amount/inv.amount_total
+                        mt_id = move_tax_obj.create(cr, uid, {
+                                                    'move_line_id':ml_ids[0],
+                                                    'name': tax_line.name,
+                                                    'tax_id': tax_line.account_tax_id.id,
+                                                    'invoice_total': inv.amount_total,
+                                                    'base': tax_line.base,
+                                                    'base_tax': tax_line.amount,
+                                                    'amount': 0.0,
+                                                    'percent': percent,
+                                                    'account_id': tax_line.account_tax_id.account_collected_id_apply.id}, context=context)
+                        #print "****************** account_tax_id ************ ", tax_line.account_tax_id
+                        #print "****************** base tax ************** ", tax_line.base
+                        #print "****************** tax ************** ", tax_line.amount
+                        move_tax_ids.append(mt_id)
+            percent = 0
+            if inv.amount_total > 0:
+                percent = inv.amount_untaxed/inv.amount_total
+            # Actualiza el movimiento de cuentas por pagar
+            # move_line_obj.write(cr, uid, ml_ids, {'base': inv.amount_untaxed, 'percent': percent}, context=context)
+            
+            # Obtiene los apuntes del movimiento
+            ml_ids = move_line_obj.search(cr, uid, [('move_id', '=', inv.move_id.id)], context=context)
+            move_line_obj.write(cr, uid, ml_ids, {'reference': 'account.invoice,' + str(inv.id), 'partner_id': inv.partner_id.id}, context=context)
+            
+            #~ Relaciona el documento movimiento con la factura 
+            move_obj.write(cr, uid, [inv.move_id.id], {'reference': 'account.invoice,' + str(inv.id)})
+        return res
+        
+    def action_cancel(self, cr, uid, ids, context=None):
+        """
+            Cancela la factura
+        """
+        # Ejecuta la funcionalidad de cancelar el timbrado
+        self.sf_cancel_invoice(cr, uid, ids, context=context)
+        #print "**************** funcion cancel fiscal ***************** "
+        if context is None:
+            context = {}
+        account_move_obj = self.pool.get('account.move')
+        invoices = self.read(cr, uid, ids, ['move_id', 'payment_ids','state'])
+        move_ids = [] # ones that we will need to remove
+        for i in invoices:
+            #print "*************** estado factura ************** ", i['state']
+            if i['state'] == 'draft':
+                #print "*************** estado borrador ************** ", i['state']
+                continue
+            
+            #print "**************** cancela factura ************** ", i['id']
+            if i['move_id']:
+                move_ids.append(i['move_id'][0])
+            if i['payment_ids']:
+                account_move_line_obj = self.pool.get('account.move.line')
+                pay_ids = account_move_line_obj.browse(cr, uid, i['payment_ids'])
+                for move_line in pay_ids:
+                    if move_line.reconcile_partial_id and move_line.reconcile_partial_id.line_partial_ids:
+                        raise osv.except_osv(_('Error!'), _('You cannot cancel an invoice which is partially paid. You need to unreconcile related payment entries first.'))
+            
+            # Genera movimiento inverso para la cancelacion de la factura si tiene un movimiento
+            move_id_cancel = self.create_move_id_cancel(cr, uid, i['id'], i['move_id'][0], context=context)
+            #print "***************** movimiento de cancelacion de factura ************ ", move_id_cancel
+            # First, set the invoices as cancelled and detach the move ids
+            self.write(cr, uid, [i['id']], {'state':'cancel', 'move_id_cancel': move_id_cancel})
+        
+        # if move_ids:
+            # second, invalidate the move(s)
+            # account_move_obj.button_cancel(cr, uid, move_ids, context=context)
+            # delete the move this invoice was pointing to
+            # Note that the corresponding move_lines and move_reconciles
+            # will be automatically deleted too
+            
+            # No eliminar los movimientos
+            # account_move_obj.unlink(cr, uid, move_ids, context=context)
+        self._log_event(cr, uid, ids, -1.0, 'Cancel Invoice')
+        return True
+    
+    def check_tax_lines(self, cr, uid, inv, compute_taxes, ait_obj):
+        company_currency = self.pool['res.company'].browse(cr, uid, inv.company_id.id).currency_id
+        if not inv.tax_line:
+            print "********************** compute_taxes ****************** "
+            for tax in compute_taxes.values():
+                print "**************** compute tax ***************** ", tax
+                ait_obj.create(cr, uid, tax)
+        else:
+            tax_key = []
+            for tax in inv.tax_line:
+                if tax.manual:
+                    continue
+                key = (tax.account_tax_id.id, tax.tax_code_id.id, tax.base_code_id.id, tax.account_id.id, tax.account_analytic_id.id)
+                print "****************** key ****************** ", key
+                tax_key.append(key)
+                if not key in compute_taxes:
+                    raise osv.except_osv(_('Warning!'), _('Global taxes defined, but they are not in invoice lines !'))
+                base = compute_taxes[key]['base']
+                #print "***************** base **************** ", base
+                if abs(base - tax.base) > company_currency.rounding:
+                    raise osv.except_osv(_('Warning!'), _('Tax base different!\nClick on compute to update the tax base.'))
+            for key in compute_taxes:
+                if not key in tax_key:
+                    raise osv.except_osv(_('Warning!'), _('Taxes are missing!\nClick on compute button.'))
+
+account_invoice()
+
+class account_invoice_line(osv.Model):
+    _inherit = "account.invoice.line"
+    
+    def action_redirect_invoice(self, cr, uid, ids, context=None):
+        """
+            Redirecciona a la factura del registro
+        """
+        # Obtiene el objeto a cargar
+        invoice_line = self.browse(cr, uid, ids[0], context=context)
+        
+        if not ids: return []
+        dummy, view_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'account', 'invoice_form')
+        
+        return {
+            'name':_("Factura"),
+            'view_mode': 'form',
+            'view_id': view_id,
+            'view_type': 'form',
+            'res_model': 'account.invoice',
+            'type': 'ir.actions.act_window',
+            'nodestroy': True,
+            'target': 'current',
+            'domain': '[]',
+            'context': context,
+            'res_id': invoice_line.invoice_id.id
+        }
+    
+    def action_redirect_invoice_supplier(self, cr, uid, ids, context=None):
+        """
+            Redirecciona a la factura del registro
+        """
+        # Obtiene el objeto a cargar
+        invoice_line = self.browse(cr, uid, ids[0], context=context)
+        
+        if not ids: return []
+        dummy, view_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'account', 'invoice_supplier_form')
+        
+        return {
+            'name':_("Factura"),
+            'view_mode': 'form',
+            'view_id': view_id,
+            'view_type': 'form',
+            'res_model': 'account.invoice',
+            'type': 'ir.actions.act_window',
+            'nodestroy': True,
+            'target': 'current',
+            'domain': '[]',
+            'context': context,
+            'res_id': invoice_line.invoice_id.id
+        }
+    
+    def _get_account_tax(self, cr, uid, ids, field_name, arg, context=None):
+        """
+            Obtiene la cuenta del impuesto
+        """
+        res = {}
+        for line in self.browse(cr, uid, ids, context=context):
+            res[line.id] = False
+            for tax in line.invoice_line_tax_id:
+                res[line.id] = tax.id
+                break
+        return res
+    
+    _columns = {
+        'journal_id': fields.related('invoice_id', 'journal_id', type='many2one', relation='account.journal', string='Diario', store=True, readonly=True),
+        'period_id': fields.related('invoice_id', 'period_id', type='many2one', relation='account.period', string='Periodo', store=True, readonly=True),
+        'currency_id': fields.related('invoice_id', 'currency_id', type='many2one', relation='res.currency', string='Moneda', store=True, readonly=True),
+        'user_id': fields.related('invoice_id', 'user_id', type='many2one', relation='res.users', string='Comercial', store=True, readonly=True),
+        'date_invoice': fields.related('invoice_id','date_invoice', type='date', readonly=True, store=True, string='Fecha factura'),
+        'invoice_number': fields.related('invoice_id','number', type='char', readonly=True, store=True, string='Factura'),
+        'state': fields.related('invoice_id','state', type='selection', selection=[('draft','Borrador'),('open','Abierto'),('paid','Pagado'),('cancel','Cancelado')], readonly=True, store=True, string='Estado Factura'),
+        'type': fields.related('invoice_id','type', type='selection', selection=[
+                                                                            ('out_invoice','Customer Invoice'),
+                                                                            ('in_invoice','Supplier Invoice'),
+                                                                            ('out_refund','Customer Refund'),
+                                                                            ('in_refund','Supplier Refund'),
+                                                                            ], readonly=True, store=True, string='Tipo Factura'),
+        'account_tax': fields.function(_get_account_tax, type='many2one', relation='account.tax', string='Impuesto', store=True)
+    }
+
+account_invoice_line()
+
+class account_invoice_tax(osv.Model):
+    _inherit = "account.invoice.tax"
+    
+    def compute(self, cr, uid, invoice_id, context=None):
+        """
+            Calcula los impuestos de la factura
+        """
+        tax_grouped = {}
+        tax_obj = self.pool.get('account.tax')
+        cur_obj = self.pool.get('res.currency')
+        inv = self.pool.get('account.invoice').browse(cr, uid, invoice_id, context=context)
+        cur = inv.currency_id
+        company_currency = self.pool['res.company'].browse(cr, uid, inv.company_id.id).currency_id.id
+        for line in inv.invoice_line:
+            for tax in tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, (line.price_unit* (1-(line.discount or 0.0)/100.0)), line.quantity, line.product_id, inv.partner_id)['taxes']:
+                val={}
+                val['invoice_id'] = inv.id
+                val['name'] = tax['name']
+                val['amount'] = tax['amount']
+                val['manual'] = False
+                val['sequence'] = tax['sequence']
+                val['base'] = cur_obj.round(cr, uid, cur, tax['price_unit'] * line['quantity'])
+                val['account_tax_id'] = tax['id']
+                
+                if inv.type in ('out_invoice','in_invoice'):
+                    val['base_code_id'] = tax['base_code_id']
+                    val['tax_code_id'] = tax['tax_code_id']
+                    val['base_amount'] = cur_obj.compute(cr, uid, inv.currency_id.id, company_currency, val['base'] * tax['base_sign'], context={'date': inv.date_invoice or time.strftime('%Y-%m-%d')}, round=False)
+                    val['tax_amount'] = cur_obj.compute(cr, uid, inv.currency_id.id, company_currency, val['amount'] * tax['tax_sign'], context={'date': inv.date_invoice or time.strftime('%Y-%m-%d')}, round=False)
+                    val['account_id'] = tax['account_collected_id'] or line.account_id.id
+                    val['account_analytic_id'] = tax['account_analytic_collected_id']
+                else:
+                    val['base_code_id'] = tax['ref_base_code_id']
+                    val['tax_code_id'] = tax['ref_tax_code_id']
+                    val['base_amount'] = cur_obj.compute(cr, uid, inv.currency_id.id, company_currency, val['base'] * tax['ref_base_sign'], context={'date': inv.date_invoice or time.strftime('%Y-%m-%d')}, round=False)
+                    val['tax_amount'] = cur_obj.compute(cr, uid, inv.currency_id.id, company_currency, val['amount'] * tax['ref_tax_sign'], context={'date': inv.date_invoice or time.strftime('%Y-%m-%d')}, round=False)
+                    val['account_id'] = tax['account_paid_id'] or line.account_id.id
+                    val['account_analytic_id'] = tax['account_analytic_paid_id']
+
+                key = (val['account_tax_id'], val['tax_code_id'], val['base_code_id'], val['account_id'], val['account_analytic_id'])
+                #print "***************** key compute tax **************** ", key
+                if not key in tax_grouped:
+                    tax_grouped[key] = val
+                else:
+                    tax_grouped[key]['amount'] += val['amount']
+                    tax_grouped[key]['base'] += val['base']
+                    tax_grouped[key]['base_amount'] += val['base_amount']
+                    tax_grouped[key]['tax_amount'] += val['tax_amount']
+        
+        #print "**************** tax grouped ************* ", tax_grouped
+        
+        for t in tax_grouped.values():
+            t['base'] = cur_obj.round(cr, uid, cur, t['base'])
+            t['amount'] = cur_obj.round(cr, uid, cur, t['amount'])
+            t['base_amount'] = cur_obj.round(cr, uid, cur, t['base_amount'])
+            t['tax_amount'] = cur_obj.round(cr, uid, cur, t['tax_amount'])
+            
+        #print "**************** tax grouped ************* ", tax_grouped
+        
+        return tax_grouped
+    
+    _columns = {
+        'account_tax_id': fields.many2one('account.tax', 'Tax', select=True)
+    }
+
+account_invoice_tax()
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

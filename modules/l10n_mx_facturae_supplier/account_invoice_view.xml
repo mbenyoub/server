@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+        <!-- View Form - Modificacion Formulario Facturacion -->
+        <record model="ir.ui.view" id="view_account_invoice_form_inherit">
+            <field name="name">account.invoice.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <button name="invoice_cancel" position="before">
+                    <button name="action_confirm_xml" type='object' string='Validar XML' attrs="{'invisible':[('type','in',['in_invoice','in_refund']),'|',('state','not in',['draft']),('file_xml','!=',False)]}" groups="base.group_user"/>
+                </button>
+                <field name="period_id" position="after">
+                    <field name="file_xml" readonly="1" attrs="{'invisible':[('file_xml','=',False)]}"/>
+                    <field name="xml_data" readonly="1" invisible="1"/>
+                </field>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

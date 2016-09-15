@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+    
+<!--
+        Foda
+-->
+
+        <record id="view_swot_form" model="ir.ui.view">
+            <field name="name">crm.swot.form</field>
+            <field name="model">crm.swot</field>
+            <field name="arch" type="xml">
+                <form string="Foda" version="7.0">
+                    <group>
+                        <field name="name"/>
+                    </group>
+                    <group>
+                        <group>
+                            <label for="strenghts" string="Fortalezas"/>
+                            <div>
+                                <field name="strenghts" nolabel="1"/>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="weaknesses" string="Debilidades"/>
+                            <div>
+                                <field name="weaknesses" nolabel="1"/>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="opportunities" string="Oportunidades"/>
+                            <div>
+                                <field name="opportunities" nolabel="1"/>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="threats" string="Amenazas"/>
+                            <div>
+                                <field name="threats" nolabel="1"/>
+                            </div>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_swot_tree" model="ir.ui.view">
+            <field name="name">crm.swot.tree</field>
+            <field name="model">crm.swot</field>
+            <field name="arch" type="xml">
+                <tree string="Foda">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="action_swot" model="ir.actions.act_window">
+            <field name="name">Foda</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">crm.swot</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_swot_tree"/>
+        </record>
+
+        <menuitem action="action_swot" id="menu_swot_partner" parent="base.menu_sales" sequence="50" groups="base.group_sale_manager"/>
+        
+    </data>
+</openerp>

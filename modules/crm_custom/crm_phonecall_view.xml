@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!-- Search de Llamadas -->
+        <record id="view_crm_case_phonecalls_filter_inherit" model="ir.ui.view">
+            <field name="name">view.crm.phonecall.filter.inherit</field>
+            <field name="model">crm.phonecall</field>
+            <field name="inherit_id" ref="crm.view_crm_case_phonecalls_filter"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="replace"/>
+                <field name="name" position="after">
+                    <field name="user_id"/>
+                </field>
+                <xpath expr="//filter[@name='current']" position="before">
+                    <filter icon="terp-gtk-go-back-rtl" string="Mis Llamadas" name="filter_user_id" domain="[('user_id','=',uid)]"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- Vista del lista -->
+        <record model="ir.ui.view" id="crm_case_phone_form_view_inherit">
+            <field name="name">CRM - Phone Call Form inherit</field>
+            <field name="model">crm.phonecall</field>
+            <field name="inherit_id" ref="crm.crm_case_phone_form_view" />
+            <field name="arch" type="xml">
+                <field name="opportunity_id" position="attributes">
+                    <attribute name="string">Iniciativa/Oportunidad</attribute>
+                </field>
+                <field name="opportunity_id" position="after">
+                    <field name="alarm_id" widget="selection"/>
+                    <field name="trigger_date" invisible="0"/>
+                    <button name="cron_notify_event_button" type="object" string="Ejecutar cron" invisible="1"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

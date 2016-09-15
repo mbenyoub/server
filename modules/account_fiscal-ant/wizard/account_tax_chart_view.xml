@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+        <record model="ir.ui.view" id="view_account_tax_chart_view_inherit">
+            <field name="name">account.tax.chart.form.inherit</field>
+            <field name="model">account.tax.chart</field>
+            <field name="inherit_id" ref="account.view_account_tax_chart" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="period_id" position="attributes">
+                    <attribute name="on_change">onchange_period_id(period_id, context)</attribute>
+                </field>
+                <field name="period_id" position="after">
+                    <field name="period_reg" invisible="1"/>
+                </field>
+                <button name="account_tax_chart_open_window" position="attributes">
+                    <attribute name="string">Calcular Impuestos</attribute>
+                </button>
+                <button name="account_tax_chart_open_window" position="after">
+                    <button string="Guardar y Continuar" name="account_tax_chart_save_window" type="object" class="oe_highlight" confirm="Ya se ha registrado en el historial la informacion de este periodo, ¿Desea reemplazar los registros?" attrs="{'invisible': [('period_reg','=',False)]}" groups="base.group_sale_manager"/>
+                    <button string="Guardar y Continuar" name="account_tax_chart_save_window" type="object" class="oe_highlight" attrs="{'invisible': [('period_reg','=',True)]}" groups="base.group_sale_manager"/>
+                    ,
+                </button>
+            </field>
+        </record>
+        
+<!--
+        Historial Tabla codigos de impuesto
+-->
+        <record id="view_account_tax_code_chart_history" model="ir.ui.view">
+            <field name="name">account.tax.code.chart.history.form</field>
+            <field name="model">account.tax.code.chart.history</field>
+            <field name="arch" type="xml">
+                <form string="Account tax charts" version="7.0">
+                    <group>
+                        <label for="fiscalyear_id"/>
+                        <div>
+                            <field name="fiscalyear_id" class="oe_inline"/>
+                        </div>
+                    </group>
+                    <footer>
+                        <button string="Continuar" name="account_tax_code_chart_history_open_window" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_account_tax_code_chart_history" model="ir.actions.act_window">
+            <field name="name">Historico codigos de Impuesto</field>
+            <field name="res_model">account.tax.code.chart.history</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="view_id" ref="view_account_tax_code_chart_history"/>
+            <field name="target">new</field>
+        </record>
+        
+    </data>
+</openerp>

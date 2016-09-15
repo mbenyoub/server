@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        
+        <!--
+            Diario de Facturacion Global
+        -->
+        
+        <!-- Resource: Secuencias y diarios -->
+        <record id="account_fiscal_invoice_global_01" model="ir.sequence">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="name">Facturacion Global</field>
+            <field name="active" eval="True"/>
+            <field name="prefix">NOTA/%(month)s/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+        </record>
+        <record id="account_fiscal_invoice_global_journal_01" model="account.journal">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="sequence_id" ref="account_fiscal_invoice_global_01"/>
+            <field name="name">Facturacion Global</field>
+            <field name="code">FGLOBAL</field>
+            <field name="type">general</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="company2_id" ref="base.main_company"/>
+            <field name="address_invoice_company_id" ref="base.main_company"/>
+            <field name="update_posted" eval="True"/>
+            <field name="paid_invoice_global" eval="True"/>
+        </record>
+        
+        <!--
+            Diario de Notas de Venta
+        -->
+        
+        <!-- Resource: Secuencias y diarios -->
+        <record id="account_fiscal_note_sale_01" model="ir.sequence">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="name">Nota de venta</field>
+            <field name="active" eval="True"/>
+            <field name="prefix">NOTA/%(month)s/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+        </record>
+        <record id="account_fiscal_note_sale_journal_01" model="account.journal">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="sequence_id" ref="account_fiscal_note_sale_01"/>
+            <field name="name">Nota de Venta</field>
+            <field name="code">NOTVEN</field>
+            <field name="type">sale</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="company2_id" ref="base.main_company"/>
+            <field name="address_invoice_company_id" ref="base.main_company"/>
+            <field name="update_posted" eval="True"/>
+            <field name="default_debit_account_id" search="[('code','=','4111001000')]" model="account.account"/>
+            <field name="default_credit_account_id" search="[('code','=','4111001000')]" model="account.account"/>
+            <field name="update_posted" eval="True"/>
+            <field name="allow_date" eval="True"/>
+            <field name="note_sale" eval="True"/>
+        </record>
+        
+    </data>
+</openerp>

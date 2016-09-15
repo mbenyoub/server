@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <!-- Menu item -->
+        <menuitem id="base.menu_custom_webservices" name="Webservices" parent="base.menu_custom" sequence="99" groups="base.group_no_one"/>
+
+        <!--
+            Control Webservice
+        -->
+        
+        <!-- action windows - Task log -->
+        <record model="ir.actions.act_window" id="act_crm_kober_ws_control_view">
+            <field name="name">Control Webservices</field>
+            <field name="res_model">crm.kober.ws.control</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Secuencia y control de Registro de tablas controladas por el webservice </p>
+            </field>
+        </record>
+
+        <!-- Menu Task log -->
+        <menuitem action="act_crm_kober_ws_control_view" id="menu_ws_control" parent="base.menu_custom_webservices" sequence="1"/>
+        
+        <!--View Tree - Task log -->
+        <record model="ir.ui.view" id="crm_kober_ws_control_tree_view">
+            <field name="name">Control Webservice</field>
+            <field name="model">crm.kober.ws.control</field>
+            <field name="arch" type="xml">
+                <tree string="Control Webservice" editable="top" create="0" delete="0">
+                    <field name="ws_name"/>
+                    <field name="ws_cve"/>
+                    <field name="ws_number"/>
+                    <field name="ws_update" invisible="1"/>
+                    <button string="Actualizar registros"
+                         icon="gtk-refresh"
+                         name="action_update_ws" type="object"
+                         attrs="{'invisible':[('ws_update','=',False)]}"/>
+                </tree>
+            </field>
+        </record>
+    
+    </data>
+</openerp>

@@ -1,0 +1,388 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+        <menuitem name="Reto Zapopan" parent="base.menu_reporting" sequence="1" id="menu_board_rz_g2" icon="terp-graph" />
+
+<!--
+            Reuniones de Seguimiento
+-->
+
+        <!-- Search - Reuniones -->
+        <record id="view_crm_meeting_report_filter" model="ir.ui.view">
+            <field name="name">crm.meeting.report.select</field>
+            <field name="model">crm.meeting.report</field>
+            <field name="arch" type="xml">
+                <search string="Filtrar Plantilla">
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="phase_id"/>
+                    <field name="state_meeting"/>
+                    <field name="date_week"/>
+                    <separator/>
+                    <filter string="Reuniones pendientes" name="filter_meeting_draft" icon="terp-folder-violet" domain="[('state_meeting','=','draft')]" context="{}"/>
+                    <filter string="Reuniones realizadas" name="filter_meeting_done" icon="terp-folder-violet" domain="[('state_meeting','=','done')]" context="{}"/>
+                    <filter string="Reuniones canceladas" name="filter_meeting_cancel" icon="terp-folder-violet" domain="[('state_meeting','=','cancel')]" context="{}"/>
+                    <filter string="Reuniones reagendadas" name="filter_meeting_reschedule" icon="terp-folder-violet" domain="[('state_meeting','=','reschedule')]" context="{}"/>
+                    <filter string="Reuniones sin asistencia" name="filter_meeting_absence" icon="terp-folder-violet" domain="[('state_meeting','=','absence')]" context="{}"/>
+                    <separator/>
+                    <filter icon="terp-go-month" 
+                            string="Mes actual"
+                            name="date_month"
+                            domain="[('date2','&lt;=',(context_today()+relativedelta(day=31)).strftime('%%Y-%%m-%%d')),('date2','&gt;=',(context_today()-relativedelta(day=1)).strftime('%%Y-%%m-%%d'))]"
+                            help="Mes actual" 
+                            context="{}"/>
+                    <separator/>
+                    <group expand="0" string="Agrupar por...">
+                        <filter string="Estado" name="group_state_meeting" icon="terp-gtk-jump-to-rtl" domain="[]" context="{'group_by':'state_meeting'}"/>
+                        <filter icon="terp-go-week"
+                                string="Agrupar por semana"
+                                name="group_date_week"
+                                domain="[]"
+                                help="Semana" 
+                                context="{'group_by':'date_week'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <!--View Tree - Reuniones Seguimiento -->
+        <record model="ir.ui.view" id="board_project_rz_meeting_seg_tree_view">
+            <field name="name">crm.meeting.board.tree</field>
+            <field name="model">crm.meeting.report</field>
+            <field name="arch" type="xml">
+                <tree string="Reuniones">
+                    <field name="name" string="No. de Seguimiento"/>
+                    <field name="project_id" string="Proyecto" />
+                    <field name="user_id" string="Evaluador"/>
+                    <field name="partner_id" string="Emprendedor"/>
+                    <field name="state_meeting" string="Estatus"/>
+                    <field name="date" string="Fecha"/>
+                    <field name="progress_eval" string="Avance (%%)" widget="progressbar"/>
+                    <field name="last_log_eval" string="Compromiso proyecto"/>
+                    <field name="description" string="Comentario"/>
+                    <field name="type" invisible="1 "/>
+                    <field name="date2" invisible="1"/>
+                    <field name="date_week" invisible="1"/>
+                    <field name="state" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        <!--Action - Reuniones seguimiento -->
+        <record model="ir.actions.act_window" id="action_board_project_rz_meeting_seg_tree">
+            <field name="res_model">crm.meeting.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','seg')]</field>
+            <field name="context">{'group_by': ['project_id','date_week'],'search_default_date_month':True}</field>
+            <field name="view_id" ref="board_project_rz_meeting_seg_tree_view"/>
+            <field name="search_view_id" ref="view_crm_meeting_report_filter"/>
+        </record>
+        <!--Action - Reuniones seguimiento -->
+        <record model="ir.actions.act_window" id="action_board_project_rz_meeting_seg_tree2">
+            <field name="res_model">crm.meeting.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','seg')]</field>
+            <field name="context">{'group_by': ['date2','project_id','date_week']}</field>
+            <field name="view_id" ref="board_project_rz_meeting_seg_tree_view"/>
+            <field name="search_view_id" ref="view_crm_meeting_report_filter"/>
+        </record>
+        <!--Action - Reuniones por tipo y estado-->
+        <record model="ir.actions.act_window" id="action_board_project_rz_meeting_seg_tree3">
+            <field name="res_model">crm.meeting.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{'group_by': ['type','state_meeting','project_id']}</field>
+            <field name="view_id" ref="board_project_rz_meeting_seg_tree_view"/>
+            <field name="search_view_id" ref="view_crm_meeting_report_filter"/>
+        </record>
+        
+<!--
+            DASHBOARD REUNIONES DE SEGUIMIENTO
+-->
+
+        <record model="ir.ui.view" id="board_rz_g2_meeting_seg_form">
+            <field name="name">Reuniones de Seguimiento</field>
+            <field name="model">board.board</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Reto Zapopan" version="7.0">
+                    <board style="2-1">
+                        <column>
+                            <action
+                                string="Reporte de Reuniones por Estado"
+                                name="%(action_board_project_rz_meeting_seg_tree3)d"
+                                colspan="4"/>
+                            <action
+                                string="Reporte Semanal de Seguimientos"
+                                name="%(action_board_project_rz_meeting_seg_tree)d"
+                                colspan="4"/>
+                            <action
+                                string="Reporte Mensual de Seguimientos"
+                                name="%(action_board_project_rz_meeting_seg_tree2)d"
+                                colspan="4"/>
+                        </column>
+                    </board>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="board_rz_g2_meeting_seg_action">
+            <field name="name">Reuniones de Seguimiento</field>
+            <field name="res_model">board.board</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="usage">menu</field>
+            <field name="view_id" ref="board_rz_g2_meeting_seg_form"/>
+        </record>
+
+        <menuitem name="Reuniones de Seguimiento" parent="menu_board_rz_g2" action="board_rz_g2_meeting_seg_action" sequence="5" id="menu_board_rz_g2_meeting_seg" icon="terp-graph" />
+        
+<!--
+            Reporte mensual de cumplimiento de fases
+-->
+        
+        <!--View Tree - Cumplimiento de Fases por proyecto -->
+        <record model="ir.ui.view" id="board_project_project_phase_tree_view">
+            <field name="name">project.project.board.tree</field>
+            <field name="model">project.project</field>
+            <field name="arch" type="xml">
+                <tree string="Reuniones">
+                    <field name="code" string="No. de Proyect"/>
+                    <field name="name" string="Proyecto"/>
+                    <field name="user_id" string="Evaluador"/>
+                    <field name="partner_id" string="Emprendedor"/>
+                    <field name="num_phase" string="Fases Terminadas" sum="Total Fases Terminadas"/>
+                    <field name="last_phase_id" string="Fase actual"/>
+                    <field name="progress" string="Avance Sistema (%%)" />
+                    <field name="progress_eval" string="Avance Evaluador (%%)" />
+                    <field name="last_log_eval" string="Compromiso" />
+                    <field name="progress_eval" string="Avance (%%)" widget="progressbar"/>
+                </tree>
+            </field>
+        </record>
+        <!--Action - Cumplimiento de Fases por proyecto -->
+        <record model="ir.actions.act_window" id="action_board_project_project_phase_tree">
+            <field name="res_model">project.project</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state','!=','done')]</field>
+            <field name="context">{}</field>
+            <field name="view_id" ref="board_project_project_phase_tree_view"/>
+            <field name="limit" eval="120"/>
+        </record>
+        
+<!--
+            Reporte mensual de fases por proyecto
+-->
+        
+        <!--View Tree - Fases por proyecto -->
+        <record model="ir.ui.view" id="board_project_phase_tree_view">
+            <field name="name">project.phase.board.tree</field>
+            <field name="model">project.phase</field>
+            <field name="arch" type="xml">
+                <tree string="Reuniones">
+                    <field name="project_id" string="Proyecto"/>
+                    <field name="user_id" string="Evaluador"/>
+                    <field name="partner_id" string="Emprendedor"/>
+                    <field name="name" string="Fase"/>
+                    <field name="progress_eval" string="Avance (%%)" widget="progressbar"/>
+                    <field name="code" string="Codigo" invisible="1"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="duration" invisible="1"/>
+                    <field name="state" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        <!--Action - Fases por proyecto -->
+        <record model="ir.actions.act_window" id="action_board_project_phase_tree">
+            <field name="res_model">project.phase</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state','!=','draft')]</field>
+            <field name="context">{'group_by': ['code','state']}</field>
+            <field name="view_id" ref="board_project_phase_tree_view"/>
+        </record>
+
+<!--
+            Reporte mensual de proyectos finalizados
+-->
+        
+        <!--View Tree - Cumplimiento de Fases por proyecto -->
+        <record model="ir.ui.view" id="board_project_project_done_tree_view">
+            <field name="name">project.project.board.tree</field>
+            <field name="model">project.project</field>
+            <field name="arch" type="xml">
+                <tree string="Reuniones">
+                    <field name="code" string="No. de Proyect"/>
+                    <field name="name" string="Proyecto"/>
+                    <field name="user_id" string="Evaluador"/>
+                    <field name="partner_id" string="Emprendedor"/>
+                </tree>
+            </field>
+        </record>
+        <!--Action - Cumplimiento de Fases por proyecto -->
+        <record model="ir.actions.act_window" id="action_board_project_project_done_tree">
+            <field name="res_model">project.project</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state','=','done')]</field>
+            <field name="context">{}</field>
+            <field name="view_id" ref="board_project_project_done_tree_view"/>
+        </record>
+        
+<!--
+            DASHBOARD Cumplimiento de Fases
+-->
+
+        <record model="ir.ui.view" id="board_rz_g2_project_project_phase_form">
+            <field name="name">Cumplimiento de Fases</field>
+            <field name="model">board.board</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Reto Zapopan" version="7.0">
+                    <board style="2-2">
+                        <column>
+                            <action
+                                string="Reporte mensual de Avances"
+                                name="%(action_board_project_project_phase_tree)d"
+                                colspan="2"/>
+                        </column>
+                        <column>
+                            <action
+                                string="Reporte mensual de cumplimiento de Fases"
+                                name="%(action_board_project_phase_tree)d"
+                                colspan="2"/>
+                            <action
+                                string="Listado de proyectos Finalizados"
+                                name="%(action_board_project_project_done_tree)d"
+                                colspan="2"/>
+                        </column>
+                    </board>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="board_rz_g2_project_project_phase_action">
+            <field name="name">Cumplimiento de Fases</field>
+            <field name="res_model">board.board</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="usage">menu</field>
+            <field name="view_id" ref="board_rz_g2_project_project_phase_form"/>
+        </record>
+
+        <menuitem name="Cumplimiento de Fases" parent="menu_board_rz_g2" action="board_rz_g2_project_project_phase_action" sequence="10" id="menu_board_rz_g2_project_project_phase" icon="terp-graph" />
+        
+<!--
+            Reporte mensual de estatus de seguimiento
+-->
+        
+        <!--View Tree - Estatus Reuniones -->
+        <record model="ir.ui.view" id="board_project_rz_state_meeting_tree_view">
+            <field name="name">crm.meeting.board.tree</field>
+            <field name="model">crm.meeting.report</field>
+            <field name="arch" type="xml">
+                <tree string="Reuniones">
+                    <field name="name" string="Reunion"/>
+                    <field name="project_id" string="Proyecto" invisible="1"/>
+                    <field name="user_id" string="Evaluador"/>
+                    <field name="partner_id" string="Emprendedor"/>
+                    <field name="state_meeting" string="Estatus" invisible="1"/>
+                    <field name="date" string="Fecha"/>
+                    <field name="type" invisible="1 "/>
+                    <field name="date2" invisible="1"/>
+                    <field name="date_week" invisible="1"/>
+                    <field name="state" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        <!--Action - Reuniones seguimiento -->
+        <record model="ir.actions.act_window" id="action_board_project_rz_state_meeting_seg_tree">
+            <field name="res_model">crm.meeting.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','seg')]</field>
+            <field name="context">{'group_by': ['project_id','date2','state_meeting']}</field>
+            <field name="view_id" ref="board_project_rz_state_meeting_tree_view"/>
+            <field name="search_view_id" ref="view_crm_meeting_report_filter"/>
+        </record>
+        <!--Action - Reuniones evaluacion -->
+        <record model="ir.actions.act_window" id="action_board_project_rz_state_meeting_eval_tree">
+            <field name="res_model">crm.meeting.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','eval')]</field>
+            <field name="context">{'group_by': ['project_id','state_meeting','date2']}</field>
+            <field name="view_id" ref="board_project_rz_state_meeting_tree_view"/>
+            <field name="search_view_id" ref="view_crm_meeting_report_filter"/>
+        </record>
+        <!--Action - Reuniones Consultoria -->
+        <record model="ir.actions.act_window" id="action_board_project_rz_state_meeting_ase_tree">
+            <field name="res_model">crm.meeting.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','ase')]</field>
+            <field name="context">{'group_by': ['project_id','state_meeting','date2']}</field>
+            <field name="view_id" ref="board_project_rz_state_meeting_tree_view"/>
+            <field name="search_view_id" ref="view_crm_meeting_report_filter"/>
+        </record>
+        <!--Action - Reuniones Resultados con Reto Zapopan -->
+        <record model="ir.actions.act_window" id="action_board_project_rz_state_meeting_result_tree">
+            <field name="res_model">crm.meeting.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','result')]</field>
+            <field name="context">{'group_by': ['project_id','state_meeting','date2']}</field>
+            <field name="view_id" ref="board_project_rz_state_meeting_tree_view"/>
+            <field name="search_view_id" ref="view_crm_meeting_report_filter"/>
+        </record>
+        
+<!--
+        DASHBOARD Estatus de Reuniones
+-->
+
+        <record model="ir.ui.view" id="board_rz_g2_state_meeting_form">
+            <field name="name">Cumplimiento de Fases</field>
+            <field name="model">board.board</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Reto Zapopan" version="7.0">
+                    <board style="1-4">
+                        <column>
+                            <action
+                                string="Reuniones de Seguimiento"
+                                name="%(action_board_project_rz_state_meeting_seg_tree)d"
+                                colspan="4"/>
+                            <action
+                                string="Reuniones de Evaluacion"
+                                name="%(action_board_project_rz_state_meeting_eval_tree)d"
+                                colspan="4"/>
+                            <action
+                                string="Reuniones de Consultoria"
+                                name="%(action_board_project_rz_state_meeting_ase_tree)d"
+                                colspan="4"/>
+                            <action
+                                string="Reuniones de Resultados Reto Zapopan"
+                                name="%(action_board_project_rz_state_meeting_result_tree)d"
+                                colspan="4"/>
+                        </column>
+                    </board>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="board_rz_g2_state_meeting_action">
+            <field name="name">Estatus de Reuniones</field>
+            <field name="res_model">board.board</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="usage">menu</field>
+            <field name="view_id" ref="board_rz_g2_state_meeting_form"/>
+        </record>
+
+        <menuitem name="Estatus de Reuniones" parent="menu_board_rz_g2" action="board_rz_g2_state_meeting_action" sequence="15" id="menu_board_rz_g2_state_meeting" icon="terp-graph" />
+        
+    </data>
+</openerp>
+

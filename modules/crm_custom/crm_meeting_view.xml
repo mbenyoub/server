@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <!--
+            Mueve de lugar las reuniones al apartado de ventas
+        -->
+    
+        <menuitem name="Reuniones"
+            id="sale_menu_meeting" parent="base.menu_base_partner"
+            sequence="22" />
+        
+        <menuitem name="Calendario"
+            id="base_calendar.mail_menu_calendar" parent="sale_menu_meeting"
+            sequence="14" action="base_calendar.action_crm_meeting"/>
+        
+        <!--
+            Modificacion de Vista Formulario Reuniones
+        -->
+        <record model="ir.ui.view" id="view_crm_meeting_form_inherit">
+            <field name="name">crm.meeting.form.inherit</field>
+            <field name="model">crm.meeting</field>
+            <field name="inherit_id" ref="base_calendar.view_crm_meeting_form" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <sheet position="before">
+                    <header>
+                        <button name="action_draft" string="Reabrir" attrs="{'invisible': [('state_meeting','not in',['cancel','reschedule','absence'])]}" groups="base.group_user"/>
+                        <button name="action_cancel" string="Cancelar" attrs="{'invisible': [('state_meeting','in',['cancel','reschedule','absence'])]}" groups="base.group_user"/>
+                        <button name="action_reschedule" string="Reagendar" attrs="{'invisible': [('state_meeting','not in',['draft'])]}" groups="base.group_user"/>
+                        <button name="action_absence" string="Inasistencia" attrs="{'invisible': [('state_meeting','not in',['draft'])]}" groups="base.group_user"/>
+                        <button name="action_done" string="Realizada" class="oe_highlight" attrs="{'invisible': [('state_meeting','not in',['draft'])]}" groups="base.group_user"/>
+                        <field name="state_meeting" widget="statusbar" nolabel="1" statusbar_visible="draft,done"/>
+                    </header>
+                </sheet>
+                <field name="alarm_id" position="attributes">
+                    <attribute name="groups"></attribute>
+                </field>
+                <field name="alarm_id" position="after">
+                    <field name="trigger_date" invisible="0" />
+                </field>
+            </field>
+        </record>
+        
+        <!--
+            Modificacion de Vista Busqueda
+        -->
+        <record id="view_crm_meeting_search_inherit" model="ir.ui.view">
+            <field name="name">crm.meeting.select.inherit</field>
+            <field name="model">crm.meeting</field>
+            <field name="inherit_id" ref="base_calendar.view_crm_meeting_search"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="date"/>
+                    <field name="date2"/>
+                    <field name="date_week"/>
+                    <field name="state_meeting"/>
+                </field>
+                <filter name="message_unread" position="after">
+                    <separator/>
+                    <filter string="Reuniones pendientes" name="filter_meeting_draft" icon="terp-folder-violet" domain="[('state_meeting','=','draft')]" context="{}"/>
+                    <filter string="Reuniones realizadas" name="filter_meeting_done" icon="terp-folder-violet" domain="[('state_meeting','=','done')]" context="{}"/>
+                    <filter string="Reuniones canceladas" name="filter_meeting_cancel" icon="terp-folder-violet" domain="[('state_meeting','=','cancel')]" context="{}"/>
+                    <filter string="Reuniones reagendadas" name="filter_meeting_reschedule" icon="terp-folder-violet" domain="[('state_meeting','=','reschedule')]" context="{}"/>
+                    <filter string="Reuniones sin asistencia" name="filter_meeting_absence" icon="terp-folder-violet" domain="[('state_meeting','=','absence')]" context="{}"/>
+                    <separator/>
+                    <filter icon="terp-go-month" 
+                            string="Mes actual"
+                            name="date_month"
+                            domain="[('date2','&lt;=',(context_today()+relativedelta(day=31)).strftime('%%Y-%%m-%%d')),('date2','&gt;=',(context_today()-relativedelta(day=1)).strftime('%%Y-%%m-%%d'))]"
+                            help="Mes actual" 
+                            context="{}"/>
+                    <!--<filter icon="terp-go-week"
+                            string="Semana Actual"
+                            name="filter_date_week"
+                            domain="[('date_week','=',(context_today()).strftime('%%W'))]"
+                            help="Semana Actual" 
+                            context="{}"/>-->
+                    <group expand="0" string="Agrupar por...">
+                        <filter string="Mes" name="group_date" icon="terp-gtk-jump-to-rtl" domain="[]" context="{'group_by':'date2'}"/>
+                        <filter string="Estado" name="group_state_meeting" icon="terp-gtk-jump-to-rtl" domain="[]" context="{'group_by':'state_meeting'}"/>
+                        <filter icon="terp-go-week"
+                            string="Agrupar por semana"
+                            name="group_date_week"
+                            domain="[]"
+                            help="Semana" 
+                            context="{'group_by':'date_week'}"/>
+                    </group>
+                </filter>
+            </field>
+        </record>
+        
+        <record id="view_crm_meeting_tree_inherit" model="ir.ui.view">
+            <field name="name">crm.meeting.tree.inherit</field>
+            <field name="model">crm.meeting</field>
+            <field name="inherit_id" ref="base_calendar.view_crm_meeting_tree"/>
+            <field name="arch" type="xml">
+                <field name="duration" position="after">
+                    <field name="date2" invisible="1"/>
+                    <field name="date_week" invisible="1"/>
+                    <field name="state_meeting"/>
+                </field>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

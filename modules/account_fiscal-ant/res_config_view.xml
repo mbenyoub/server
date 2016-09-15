@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+<!--
+        Configuracion contabilidad fiscal
+-->
+        
+        <!-- Configuracion modulo contabilidad fiscal -->
+        <record id="view_account_fiscal_configuration" model="ir.ui.view">
+            <field name="name">account fiscal settings</field>
+            <field name="model">account.fiscal.config.settings</field>
+            <field name="arch" type="xml">
+                <form string="Configuracion Contabilidad Fiscal" class="oe_form_configuration" version="7.0">
+                    <header>
+                        <button string="Aplicar" type="object" name="execute" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" type="object" name="cancel" class="oe_link"/>
+                    </header>
+                    <separator string="C"/>
+                    <group>
+                        <label for="code_id"/>
+                        <div>
+                            <field name="code_id" class="oe_inline"/>
+                        </div>
+                        <label for="result_code_id"/>
+                        <div>
+                            <field name="result_code_id" class="oe_inline"/>
+                        </div>
+                        <label for="balance_code_id"/>
+                        <div>
+                            <field name="balance_code_id" class="oe_inline"/>
+                        </div>
+                        <label for="balance_code_id2"/>
+                        <div>
+                            <field name="balance_code_id2" class="oe_inline"/>
+                        </div>
+                    </group>
+                    <separator string="Gestion de Saldos Fiscales"/>
+                    <group>
+                        <label for="balance_type_statement_id"/>
+                        <div>
+                            <field name="balance_type_statement_id" class="oe_inline"/>
+                        </div>
+                    </group>
+                    <separator string="Deducciones por flujo"/>
+                    <group>
+                        <label for="category_id_deduction"/>
+                        <div>
+                            <field name="category_id_deduction" class="oe_inline"/>
+                        </div>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_account_fiscal_configuration" model="ir.actions.act_window">
+            <field name="name">Configuracion Contabilidad Fiscal</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.fiscal.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+        </record>
+
+        <menuitem id="base.menu_account_fiscal_config" name="Contabilidad Fiscal" parent="base.menu_config" action="action_account_fiscal_configuration"/>
+
+<!--
+        Configuracion cierre periodo
+-->
+        
+        <!-- Configuracion modulo contabilidad fiscal -->
+        <record id="view_account_period_configuration" model="ir.ui.view">
+            <field name="name">account period settings</field>
+            <field name="model">account.period.config.settings</field>
+            <field name="arch" type="xml">
+                <form string="Configuracion Cierre Periodo" class="oe_form_configuration" version="7.0">
+                    <header>
+                        <button string="Aplicar" type="object" name="execute" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" type="object" name="cancel" class="oe_link"/>
+                    </header>
+                    <separator string="Configuracion de Periodo"/>
+                    <group>
+                        <label for="account_category_id"/>
+                        <div>
+                            <field name="account_category_id" class="oe_inline"/>
+                        </div>
+                        <label for="journal_id"/>
+                        <div>
+                            <field name="journal_id" class="oe_inline"/>
+                        </div>
+                        <label for="account_credit_id"/>
+                        <div>
+                            <field name="account_credit_id" class="oe_inline"/>
+                        </div>
+                        <label for="account_debit_id"/>
+                        <div>
+                            <field name="account_debit_id" class="oe_inline"/>
+                        </div>
+                    </group>
+                    <separator string="Ejercicio Fiscal"/>
+                    <group>
+                        <label for="apply_to_exercise"/>
+                        <div>
+                            <field name="apply_to_exercise" class="oe_inline"/>
+                        </div>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_account_period_configuration" model="ir.actions.act_window">
+            <field name="name">Configuracion de cierre de periodo</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.period.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+        </record>
+
+        <menuitem id="base.menu_account_period_config" name="Configuracion de cierre periodo" parent="account.next_id_23" action="action_account_period_configuration" sequence="60"/>
+        
+    </data>
+</openerp>

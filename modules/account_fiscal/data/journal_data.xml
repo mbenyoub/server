@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        
+        <!--
+            Diario para caja chica
+        -->
+        
+        <!-- Resource: Secuencias y diarios -->
+        <record id="account_fiscal_bank_ch_seq_01" model="ir.sequence">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="name">Caja Chica</field>
+            <field name="active" eval="True"/>
+            <field name="prefix">CAJA/%(month)s/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+        </record>
+        <record id="account_fiscal_bank_ch_journal_01" model="account.journal">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="sequence_id" ref="account_fiscal_bank_ch_seq_01"/>
+            <field name="name">Caja Chica</field>
+            <field name="code">CH</field>
+            <field name="type">bank</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="company2_id" ref="base.main_company"/>
+            <field name="address_invoice_company_id" ref="base.main_company"/>
+            <field name="update_posted" eval="True"/>
+            <field name="amount_limit">2000</field>
+            <field name="default_debit_account_id" search="[('code','=','1111001000')]" model="account.account"/>
+            <field name="default_credit_account_id" search="[('code','=','1111001000')]" model="account.account"/>
+            <field name="account_transit" search="[('code','=','1111001000')]" model="account.account"/>
+        </record>
+        <record id="account_fiscal_partner_bank_ch_01" model="res.partner.bank">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="bank_name">Caja Chica</field>
+            <field name="state">bank</field>
+            <field name="acc_number">CAJA01</field>
+            <field name="partner_id" ref="base.main_partner"/>
+            <field name="journal_id" ref="account_fiscal_bank_ch_journal_01"/>
+        </record>
+        
+        <!--
+            Diario para cierre del periodo
+        -->
+        
+        <!-- Resource: Diario para apertura/cierre Periodo -->
+        <record id="account_fiscal_period_end_seq_01" model="ir.sequence">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="name">Cierre del periodo</field>
+            <field name="active" eval="True"/>
+            <field name="prefix">FINPER/%(month)s/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+        </record>
+        <record id="account_fiscal_period_end_journal_01" model="account.journal">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="sequence_id" ref="account_fiscal_period_end_seq_01"/>
+            <field name="name">Cierre del periodo</field>
+            <field name="code">FINP</field>
+            <field name="type">period</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="company2_id" ref="base.main_company"/>
+            <field name="address_invoice_company_id" ref="base.main_company"/>
+            <field name="update_posted" eval="True"/>
+        </record>
+        
+    </data>
+</openerp>

@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+<!--
+    Vista formulario para solicitudes de credito desde venta
+-->
+        <record id="requisition_credit_credit_new_form_view" model="ir.ui.view">
+            <field name="name">requisition.credit.credit.form</field>
+            <field name="model">requisition.credit.credit</field>
+            <field name="arch" type="xml">
+                <form string="Solicitud de Credito/Ampliacion" version="7.0">
+                    <header>
+                        <button name="action_open" states="cancel" string="Reabrir solicitud" class="oe_highlight" type="object" groups="base.group_sale_manager"/>
+                        <button name="action_progress" states="open" string="Procesar" class="oe_highlight" type="object" />
+                        <button name="action_done" string="Aceptar" class="oe_highlight" attrs="{'invisible': ['|',('verify','=',True),('state','not in',['open','progress'])]}" modifiers="{'invisible': ['|',('verify','=',True),('state','not in',['open','progress'])]}" type="object" groups="base.group_sale_manager" confirm="El monto del credito que se esta pidiendo es menor que el que tenia el cliente, ¿desea reemplazarlo?"/>
+                        <button name="action_done" string="Aceptar" class="oe_highlight" type="object" groups="base.group_sale_manager" attrs="{'invisible': ['|',('verify','=',False),('state','not in',['open','progress'])]}" modifiers="{'invisible': ['|',('verify','=',False),('state','not in',['open','progress'])]}"/>
+                        <button name="action_cancel_wizard" states="open,progress" string="Cancelar" type="object" groups="base.group_sale_manager"/>
+                        <field name="state" widget="statusbar" statusbar_visible="open,progress,done,"/>
+                    </header>
+                    <sheet>
+                        <div>
+                            <h1>Solicitud <field name="number" nolabel="1" class="oe_inline"/></h1>
+                        </div>
+                        <group >
+                            <group >
+                                <field name="partner_id" readonly="1" on_change="onchange_partner_id(partner_id,context)" attrs="{'readonly': [('state', 'not in', ['draft','open'])]}"/>
+                                <field name="rfc" readonly="1"/>
+                                <field name="credit" required="1" attrs="{'readonly': [('state', 'not in', ['draft','open'])]}"/>
+                            </group>
+                            <group >
+                                <field name="requisition_date" attrs="{'readonly': [('state', 'not in', ['draft','open'])]}"/>
+                                <field name="type" attrs="{'readonly': [('state', 'not in', ['draft','open'])]}"/>
+                                <field name="verify" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Descripcion">
+                                <field name="note" nolabel="1" attrs="{'readonly': [('state', 'not in', ['draft','open'])]}"/>
+                            </page>
+                            <page string="Documentos">
+                                <field name="document_ids" nolabel="1" colspan="3" col="3" attrs="{'readonly': [('state', 'not in', ['draft','open','progress'])]}">
+                                    <tree string="Documentos" editable="top" create="0" delete="0">
+                                        <field name="apply"/>
+                                        <field name="name"/>
+                                        <field name="file" on_change="onchange_file(file,context)"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Otra Informacion">
+                                <group col="2" colspan="2">
+                                    <field name="user_id" attrs="{'readonly': [('state', 'not in', ['draft','open'])]}"/>
+                                    <field name="confirm_date" states="done" attrs="{'readonly': [('state', 'not in', ['draft','done'])]}"/>
+                                    <field name="current_credit" readonly = "1" attrs="{'readonly': [('state', 'not in', ['draft','open','done'])]}"/>
+                                </group>
+                                <group string="Datos de cancelacion" attrs="{'invisible': [('state','not in',['cancel','none','reject'])]}">
+                                    <field name="cancel_date" readonly="1"/>
+                                    <field name="cancel_description" readonly="1" />
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="requisition_credit_action_new">
+            <field name="name">Solicitud de Credito</field>
+            <field name="res_model">requisition.credit.credit</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{'default_user_id':uid, 'default_type':'credit'}</field>
+            <field name="domain">[]</field>
+            <field name="view_id" ref="requisition_credit_credit_new_form_view"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">No existen Solicitudes de Credito</p>
+            </field>
+        </record>
+
+<!--
+        Solicitud de credito
+-->
+        <record id="requisition_credit_tree_view" model="ir.ui.view">
+            <field name="name">requisition.credit.credit.tree</field>
+            <field name="model">requisition.credit.credit</field>
+            <field name="arch" type="xml">
+                <tree string="Solicitud de credito">
+                    <field name="number"/>
+                    <field name="partner_id"/>
+                    <field name="rfc"/>
+                    <field name="user_id"/>
+                    <field name="type"/>
+                    <field name="requisition_date"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="requisition_credit_credit_form_view" model="ir.ui.view">
+            <field name="name">requisition.credit.credit.form</field>
+            <field name="model">requisition.credit.credit</field>
+            <field name="arch" type="xml">
+                <form string="Solicitud de Credito/Ampliacion" version="7.0">
+                    <header>
+                        <button name="action_open" states="cancel" string="Reabrir solicitud" class="oe_highlight" type="object" groups="base.group_sale_manager"/>
+                        <button name="action_progress" states="open" string="Procesar" class="oe_highlight" type="object" />
+                        <button name="action_done" string="Aceptar" class="oe_highlight" attrs="{'invisible': ['|',('verify','=',True),('state','not in',['open','progress'])]}" modifiers="{'invisible': ['|',('verify','=',True),('state','not in',['open','progress'])]}" type="object" groups="base.group_sale_manager" confirm="El monto del credito que se esta pidiendo es menor que el que tenia el cliente, ¿desea reemplazarlo?"/>
+                        <button name="action_done" string="Aceptar" class="oe_highlight" type="object" groups="base.group_sale_manager" attrs="{'invisible': ['|',('verify','=',False),('state','not in',['open','progress'])]}" modifiers="{'invisible': ['|',('verify','=',False),('state','not in',['open','progress'])]}"/>
+                        <button name="action_cancel_wizard" states="open,progress" string="Cancelar" type="object" groups="base.group_sale_manager" />
+                        <field name="state" widget="statusbar" statusbar_visible="open,progress,done,"/>
+                    </header>
+                    <sheet>
+                        <div>
+                            <h1>Solicitud <field name="number" nolabel="1" class="oe_inline"/></h1>
+                        </div>
+                        <group >
+                            <group >
+                                <field name="partner_id" on_change="onchange_partner_id(partner_id,context)" attrs="{'readonly': [('state', 'not in', ['draft','open'])]}"/>
+                                <field name="rfc" readonly="1"/>
+                                <field name="credit" required="1" attrs="{'readonly': [('state', 'not in', ['draft','open'])]}"/>
+                                <field name="current_credit" readonly = "1" attrs="{'readonly': [('state', 'not in', ['draft','open','done'])]}"/>
+                            </group>
+                            <group >
+                                <field name="requisition_date" attrs="{'readonly': [('state', 'not in', ['draft','open'])]}"/>
+                                <field name="type" attrs="{'readonly': [('state', 'not in', ['draft','open'])]}"/>
+                                <field name="verify" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Descripcion">
+                                <field name="note" nolabel="1" attrs="{'readonly': [('state', 'not in', ['draft','open'])]}"/>
+                            </page>
+                            <page string="Documentos">
+                                <field name="document_ids" nolabel="1" colspan="3" col="3" attrs="{'readonly': [('state', 'not in', ['draft','open','progress'])]}">
+                                    <tree string="Documentos" editable="top" create="0" delete="0">
+                                        <field name="apply"/>
+                                        <field name="name"/>
+                                        <field name="file" on_change="onchange_file(file,context)" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Otra Informacion">
+                                <group col="2" colspan="2">
+                                    <field name="user_id" attrs="{'readonly': [('state', 'not in', ['draft','open'])]}"/>
+                                    <field name="confirm_date" states="done" attrs="{'readonly': [('state', 'not in', ['draft','done'])]}"/>
+                                </group>
+                                <group string="Datos de cancelacion" attrs="{'invisible': [('state','not in',['cancel','none','reject'])]}">
+                                    <field name="cancel_date" readonly="1"/>
+                                    <field name="cancel_description" readonly="1" />
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vista Kanban para solicitudes de credito  -->
+        <record id="requisition_credit_credit_kanban_view" model="ir.ui.view">
+            <field name="name">requisition.credit.credit.kanban</field>
+            <field name="model">requisition.credit.credit</field>
+            <field name="arch" type="xml">
+                <kanban version="7.0" default_group_by="state" class="oe_background_grey">
+                    <!--<field name="state" groups="base.group_no_one"/>-->
+                    <field name="color"/>
+                    <!--<field name="stage_id"/>-->
+                    <field name="partner_id"/>
+                    <field name="rfc"/>
+                    <field name="credit"/>
+                    <field name="type"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="#{record.state=='scheduled' ? oe_kanban_color_#{kanban_getcolor(1)} : oe_kanban_color_#{kanban_getcolor(0)}">
+                                <div class="oe_resource_image">
+                                    <a type="edit"><img t-att-src="kanban_image('res.users', 'photo', record.id.value)" class="oe_resource_picture"/></a>
+                                </div>
+                                <div class="oe_dropdown_toggle oe_dropdown_kanban" groups="base.group_user">
+                                    <span class="oe_e">i</span>
+                                    <ul class="oe_dropdown_menu">
+                                        <t t-if="widget.view.is_action_enabled('edit')"><li><a type="edit">Configuracion de solicitud</a></li></t>
+                                        <t t-if="widget.view.is_action_enabled('delete')"><li><a type="delete">Eliminar</a></li></t>
+                                        <li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
+                                    </ul>
+                                </div>
+                                <div class="oe_kanban_content">
+                                    <h4><field name="partner_id"/></h4>
+                                    <div style="margin-top:-5px;">
+                                        <span >
+                                            <li><field name="rfc"/></li>
+                                            <li><field name="credit"/></li>
+                                            <li><field name="type"/></li>
+                                            <field name="requisition_date"/>
+                                        </span>
+                                    </div>
+                                    <div class="oe_kanban_footer_left">
+                                        <span >
+                                            <span class="oe_e">N</span>
+                                            <field name="requisition_date"/>
+                                        </span>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <!-- Filtros para solicitud de credito  -->
+        <record id="view_requisition_credit_credit_filter" model="ir.ui.view">
+            <field name="name">requisition.credit.credit.list.select</field>
+            <field name="model">requisition.credit.credit</field>
+            <field name="arch" type="xml">
+                <search string="Filtrar Solicitud credito">
+                    <field name="partner_id" string="Cliente"/>
+                    <field name="credit"/>
+                    <field name="requisition_date"/>
+                    <field name="confirm_date"/>
+                    <field name="user_id"/>
+                    <field name="type"/>
+                    <separator/>
+                    <filter icon="terp-document-new" name="credito" string="por credito" domain="[('type','=','credit')]" help="Filtrar por tipo credito"/>
+                    <filter icon="terp-document-new" name="ampliacion" string="por ampliacion" domain="[('type','=','extension')]" help="Filtrar por tipo ampliacion de credito"/>
+                    <separator/>
+                    <group expand="0" string="Agrupar por...">
+                        <filter string="Fecha Solicitud" icon="terp-partner" domain="[]" context="{'group_by':'requisition_date'}"/>
+                        <filter string="Fecha Confirmacion" icon="terp-gtk-jump-to-rtl" domain="[]" context="{'group_by':'confirm_date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="requisition_credit_action">
+            <field name="name">requisition.credit.credit</field>
+            <field name="res_model">requisition.credit.credit</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'default_user_id':uid, 'search_default_user_id':uid, 'default_type':'credit'}</field>
+            <field name="domain">[]</field>
+            <field name="search_view_id" ref="view_requisition_credit_credit_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">No existen Solicitudes de Credito</p>
+            </field>
+        </record>
+        
+        <!--<record model="ir.actions.act_window.view" id="action_requisition_credit_credit_kanban_view">-->
+        <!--    <field name="sequence" eval="1"/>-->
+        <!--    <field name="view_mode">kanban</field>-->
+        <!--    <field name="view_id" ref="requisition_credit_credit_kanban_view"/>-->
+        <!--    <field name="act_window_id" ref="requisition_credit_action"/>-->
+        <!--</record>-->
+        <record model="ir.actions.act_window.view" id="action_requisition_credit_tree_view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="requisition_credit_tree_view"/>
+            <field name="act_window_id" ref="requisition_credit_action"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_requisition_credit_credit_form_view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="requisition_credit_credit_form_view"/>
+            <field name="act_window_id" ref="requisition_credit_action"/>
+        </record>
+        
+        <menuitem
+            action="requisition_credit_action" id="requisition_credit_action_menu" name="Solicitud de Credito"
+            parent="base.menu_sales_followup" sequence="15"/>
+    </data>
+</openerp>

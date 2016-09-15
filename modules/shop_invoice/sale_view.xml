@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    
+<!--
+        Tiendas
+-->
+    
+        <!-- Modificacion de la vista formulario -->
+        <record model="ir.ui.view" id="sale_shop_form_inherit">
+            <field name="name">sale.shop.form.inherit</field>
+            <field name="model">sale.shop</field>
+            <field name="inherit_id" ref="sale.view_shop_form" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <field name="payment_default_id" position="before">
+                    <field name="check_journal" invisible="1"/>
+                    <field name="cfdi" invisible="1"/>
+                    <field name="journal_id" domain="[('type','=','sale')]" on_change="onchange_journal_id(journal_id,context)" context="{'default_type':'sale'}" attrs="{'required': [('check_journal','=',True)]}"/>
+                    <field name="prefix2" attrs="{'invisible':[('cfdi','=',False)], 'readonly':[('journal_id','!=',False)]}"/>
+                    <field name="prefix" attrs="{'invisible':[('cfdi','=',True)]}"/>
+                    <field name="number_next_actual" />
+                </field>
+            </field>
+        </record>
+    
+        <menuitem id="sale_shop_invoice" action="sale.action_shop_form" name="Tiendas" sequence="12" parent="account.menu_finance_configuration" groups="stock.group_locations"/>
+        
+    
+    </data>
+</openerp>

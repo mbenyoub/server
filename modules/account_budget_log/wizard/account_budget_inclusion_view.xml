@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.actions.act_window" id="create_inclusion_budget_wizard_action">
+            <field name="name">Inclusión al presupuesto</field>
+            <field name="res_model">account.budget.log.create.inclusion.budget.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+            id="menu_inclusion_budget"
+            name="Inclusión al presupuesto"
+            groups="account.group_account_manager"
+            parent="account_budget_log.menu_modify_budget" sequence="1"
+            action="create_inclusion_budget_wizard_action"/>
+
+        <!-- Vista formulario para Ampliacion -->
+        <record model="ir.ui.view" id="create_inclusion_budget_form_view">
+            <field name="name">account.budget.log.create.inclusion.budget.wizard.form</field>
+            <field name="model">account.budget.log.create.inclusion.budget.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Inclusión al Presupuesto" col="2" version="7.0">
+                    <group colspan="2" col="2">
+                        <group colspan="2" col="2">
+                            <field name="budget_id" colspan="2" domain="[('state','=','validate')]"/>
+                            <field name="analytic_account_id" colspan="2" /> <!-- domain="[('budget_id','=',budget_id)]" - No se puede usar porque esta fuera de contexto-->
+                            <field name="general_budget_id" colspan="2" />
+                            <field name="inclusion_amount" colspan="2"/>
+                        </group>
+<!--
+                        <group colspan="2" col="2">
+                            <button type="object" name="calculate_amount_inclusion" string="Calcular"/>
+                        </group>
+-->
+                    </group>
+                    <footer>
+                        <button type="special" special="cancel"
+                            string="Cancelar" icon="gtk-cancel"/>
+                        <button type="object" name="action_add_inclusion_budget"
+                            string="Agregar" icon="gtk-ok" class="oe_highlight"
+                            confirm="¿Estas seguro que deseas modificar el presupuesto?"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>

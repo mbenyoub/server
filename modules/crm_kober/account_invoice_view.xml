@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+<!--
+        Detalle de Factura cliente
+-->
+        <!--  Filtros  -->
+        <record id="account_invoice_line_filter" model="ir.ui.view">
+            <field name="name">account.invoice.line.select</field>
+            <field name="model">account.invoice.line</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Tipo">
+                    <field name="name" filter_domain="['|','|','|',('name','ilike',self),('product_id','ilike',self),('invoice_id','ilike',self),('partner_id','ilike',self)]"/>
+                    <field name="invoice_id"/>
+                    <field name="product_id" />
+                    <field name="quantity"/>
+                    <field name="uos_id" />
+                    <field name="price_unit"/>
+                    <field name="stock" />
+                    <field name="invoice_line_tax_id"/>
+                    <field name="price_subtotal"/>
+                    <field name="currency_id"/>
+                    <field name="date_finish"/>
+                    <field name="branch_id" invisible="1"/>
+                    <field name="user_id" invisible="1"/>
+                    <field name="exercise" invisible="1"/>
+                    <field name="period" invisible="1"/>
+                    <filter string="Mis Facturas" domain="[('user_id','=',uid)]" context="{}"/>
+                    <filter icon="terp-gtk-go-back-rtl" string="Mi sucursal" name="filter_branch_id" domain="[('branch_id.branch_user_ids','in',(uid))]"/>
+                    <separator/>
+                    <filter string="Mas de un producto" domain="[('quantity','>',1)]" context="{}"/>
+                    <separator/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Factura" context="{'group_by': 'invoice_id'}"/>
+                        <filter string="Cliente" context="{'group_by': 'partner_id'}"/>
+                        <filter string="Almacen" context="{'group_by': 'stock'}"/>
+                        <filter string="Vendedor" context="{'group_by': 'user_id'}"/>
+                        <filter string="Producto" context="{'group_by': 'product_id'}"/>
+                        <filter string="Cantidad" context="{'group_by': 'quantity'}"/>
+                        <filter string="Unidad Medida" context="{'group_by': 'uos_id'}"/>
+                        <filter string="Moneda" context="{'group_by': 'currency_id'}"/>
+                        <filter string="Fecha Conclusion" context="{'group_by': 'date_finish'}"/>
+                        <filter string="Ejercicio" context="{'group_by': 'exercise'}"/>
+                        <filter string="Periodo" context="{'group_by': 'period'}"/>
+                        <filter string="Sucursal" context="{'group_by': 'branch_id'}"/>
+                        <separator />
+                    </group>
+               </search>
+            </field>
+        </record>
+        
+        <!-- Vista lista -->
+        <record id="account_invoice_line_tree_view" model="ir.ui.view">
+            <field name="name">account.invoice.line.tree</field>
+            <field name="model">account.invoice.line</field>
+            <field name="arch" type="xml">
+                <tree string="Detalle Factura" edit="0" create="0" delete="0">
+                    <field name="invoice_id" string="Factura"/>
+                    <field name="partner_id" />
+                    <field name="product_id" />
+                    <field name="name"/>
+                    <field name="company_id" invisible="1"/>
+                    <field name="quantity"/>
+                    <field name="uos_id" />
+                    <field name="price_unit"/>
+                    <field name="stock" />
+                    <field name="invoice_line_tax_id" widget="many2many_tags" context="{'type':parent.type}" domain="[('parent_id','=',False),('company_id', '=', parent.company_id)]"/>
+                    <field name="price_subtotal"/>
+                    <field name="currency_id"/>
+                    <field name="date_finish"/>
+                    <field name="branch_id" invisible="1"/>
+                    <field name="user_id" invisible="1"/>
+                    <field name="exercise" invisible="1"/>
+                    <field name="period" invisible="1"/>
+                    <button name="action_redirect_invoice" help="Ir a factura" string="" class="oe_edit_only" type="object" icon="gtk-redo"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Action -->
+        <record id="action_account_invoice_line_view1" model="ir.actions.act_window">
+            <field name="name">Detalle de Factura</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.invoice.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{'default_type':'out_invoice', 'type':'out_invoice', 'journal_type': 'sale'}</field>
+            <field name="domain">['|',('branch_id.user_ids','in',(uid)),('branch_id','=',False)]</field>
+            <field name="search_view_id" ref="account_invoice_line_filter"/>
+            <field name="view_id" ref="account_invoice_line_tree_view"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Informacion sobre el detalle de Facturas
+                </p>
+            </field>
+        </record>
+
+        <menuitem action="action_account_invoice_line_view1" name="Detalle de Facturas" id="menu_account_invoice_line_customer" parent="base.menu_sales" sequence="26"/>    
+        
+        <!--
+            Facturas de cliente
+        -->
+        
+        <record id="account.action_invoice_tree1" model="ir.actions.act_window">
+            <field name="name">Customer Invoices</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">['|',('branch_id.user_ids','in',(uid)),('branch_id','=',False)]</field>
+            <field name="context">{'default_type':'out_invoice', 'type':'out_invoice', 'journal_type': 'sale'}</field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a customer invoice.
+              </p><p>
+                OpenERP's electronic invoicing allows to ease and fasten the
+                collection of customer payments. Your customer receives the
+                invoice by email and he can pay online and/or import it
+                in his own system.
+              </p><p>
+                The discussions with your customer are automatically displayed at
+                the bottom of each invoice.
+              </p>
+            </field>
+        </record>
+
+        <!-- Menu Facturas -->
+        <menuitem action="account.action_invoice_tree1" name="Facturas del cliente" id="menu_account_invoice_customer" parent="base.menu_sales" sequence="25"/>
+        
+        <!-- Elimina el menu de lineas de factura de la venta-->
+        <delete model="ir.ui.menu" id="sale.menu_invoicing_sales_order_lines"/>
+        <delete model="ir.ui.menu" id="base.menu_invoiced"/>
+        
+        <!-- Search de Factura -->
+        <record id="view_account_invoice_filter_inherit" model="ir.ui.view">
+            <field name="name">account.invoice.select.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="after">
+                    <field name="branch_id"/>
+                    <field name="exercise"/>
+                    <field name="period"/>
+                    <field name="status"/>
+                    <field name="mov"/>
+                    <field name="user_id2"/>
+                </field>
+                <field name="number" position="attributes">
+                    <attribute name="filter_domain">['|','|','|','|','|', ('number','ilike',self), ('origin','ilike',self), ('supplier_invoice_number', 'ilike', self), ('name','ilike',self),('partner_id2','ilike',self), ('partner_id', 'child_of', self)]</attribute>
+                </field>
+                <xpath expr="//filter[@name='draft']" position="before">
+                    <filter icon="terp-gtk-go-back-rtl" string="Mi sucursal" name="filter_branch_id" domain="[('branch_id.branch_user_ids','in',(uid))]"/>
+                </xpath>
+                <filter name="draft" position="replace"/>
+                <filter name="proforma" position="replace"/>
+                <filter name="invoices" position="replace"/>
+                <filter name="unpaid" position="replace"/>
+                <filter help="My Invoices" position="replace"/>
+                <group expand="0" string="Group By..." position="replace">
+                    <group expand="0" string="Agrupar por...">
+                        <filter string="Sucursal" icon="terp-personal" domain="[]" context="{'group_by':'branch_id'}"/>
+                        <filter name="group_partner" string="Cliente" context="{'group_by':'partner_id2'}"/>
+                        <filter name="group_exercise" string="Ejercicio" context="{'group_by':'exercise'}"/>
+                        <filter name="group_period" string="Periodo" context="{'group_by':'period'}"/>
+                        <filter name="group_status" string="Estatus" context="{'group_by':'status'}"/>
+                        <filter name="group_mov" string="Movimiento" context="{'group_by':'mov'}"/>
+                        <filter name="group_user" string="Vendedor" context="{'group_by':'user_id2'}"/>
+                    </group>
+                </group>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="invoice_form_inherit">
+            <field name="name">invoice.form.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form" />
+            <field name="priority" eval="26"/>
+            <field name="arch" type="xml">
+                <xpath expr='//form[@string="Invoice"]' position='attributes'>
+                    <attribute name="create">false</attribute>
+                    <attribute name="edit">false</attribute>
+                    <attribute name="delete">false</attribute>
+                </xpath>
+                <xpath expr="/form/header" position="replace">
+                    <header>
+                        <field name="state" invisible="1"></field>
+                    </header>
+                </xpath>
+                
+                <group class="oe_subtotal_footer oe_right" position="replace">
+                    <group class="oe_subtotal_footer oe_right" name="subtotal_invoice">
+                        <field name="amount_untaxed2" string="Subtotal" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        <div>
+                            <label for="amount_tax2" string="Impuesto"/>
+                            <button name="button_reset_taxes" invisible="1" string="(update)" class="oe_link oe_edit_only" type="object" help="Recompute taxes and total"/>
+                        </div>
+                        <field name="amount_tax2" nolabel="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        <field name="amount_total2" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        <field name="residual" invisible="1"/>
+                        <field name="reconciled" invisible="1"/>
+                    </group>
+                </group>
+                <field name="partner_id" position="before">
+                    <field name="partner_id2"></field>
+                </field>
+                <field name="journal_id" position="before">
+                    <field name="mov"></field>
+                    <field name="user_id2"></field>
+                </field>
+                <field name="move_id" position="after">
+                    <field name="status"></field>
+                    <field name="currency_id"></field>
+                    <field name="condition"></field>
+                    <field name="discount"></field>
+                    <field name="global_discount"></field>
+                    <field name="price_list_esp"></field>
+                    <field name="branch_id"></field>
+                    <field name="branch"></field>
+                    <field name="branch_sale"></field>
+                </field>
+                <field name="date_due" position="after">
+                    <field name="date_req"></field>
+                    <field name="exercise"></field>
+                    <field name="period"></field>
+                    <field name="date_start"></field>
+                    <field name="date_finish"></field>
+                </field>
+                <field name="name" position="replace"/>
+                <notebook position="inside">
+                    <page string="Observaciones">
+                        <field name="notes" nolabel="1"></field>
+                    </page>
+                </notebook>
+                <field name="partner_id" position="attributes">
+                    <attribute name="on_change" ></attribute>
+                    <attribute name="string" >Enviar a</attribute>
+                </field>
+                <button name="button_reset_taxes" position="attributes">
+                    <attribute name="invisible" >1</attribute>
+                </button>
+                <field name="residual" position="attributes">
+                    <attribute name="invisible" >1</attribute>
+                </field>
+                <field name="journal_id" position="attributes">
+                    <attribute name="invisible" >1</attribute>
+                </field>
+                <field name="account_id" position="attributes">
+                    <attribute name="invisible" >1</attribute>
+                </field>
+                <field name="fiscal_position" position="attributes">
+                    <attribute name="invisible" >1</attribute>
+                </field>
+                <field name="date_due" position="attributes">
+                    <attribute name="invisible" >1</attribute>
+                </field>
+                <field name="payment_term" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <div class="oe_clear" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </div>
+                <field name="comment" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="tax_line" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="move_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="ref" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="section_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="partner_bank_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="period_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="date_invoice" position="attributes">
+                    <attribute name="string" >Fecha Emision</attribute>
+                </field>
+                <xpath expr="/form/sheet/notebook/page[@string='Payments']" position="attributes">
+                    <attribute name="invisible" >1</attribute>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Invoice Lines']/field[@name='invoice_line']" position="replace">
+                    <field name="invoice_line" nolabel="1" widget="one2many_list" context="{'type': type}">
+                        <tree string="Invoice Lines" editable="bottom">
+                            <field name="product_id" on_change="product_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.currency_id, context, parent.company_id)"/>
+                            <field name="name"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="account_id" invisible="1" groups="account.group_account_user" domain="[('company_id', '=', parent.company_id), ('journal_id', '=', parent.journal_id), ('type', '!=', 'view')]" required="0"/>
+                            <field name="account_analytic_id" groups="analytic.group_analytic_accounting" domain="[('type','!=','view'), ('company_id', '=', parent.company_id)]"/>
+                            <field name="quantity"/>
+                            <field name="uos_id" groups="product.group_uom" on_change="uos_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.currency_id, context, parent.company_id)"/>
+                            <field name="price_unit"/>
+                            <field name="stock" />
+                            <field name="discount" invisible="1" groups="sale.group_discount_per_so_line"/>
+                            <field name="invoice_line_tax_id" widget="many2many_tags" context="{'type':parent.type}" domain="[('parent_id','=',False),('company_id', '=', parent.company_id)]"/>
+                            <field name="price_subtotal"/>
+                        </tree>
+                    </field>
+                </xpath>
+                <h1 position="replace">
+                    <h1>
+                        Factura <field name="name" class="oe_inline"/>
+                    </h1>
+                </h1>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="invoice_tree_inherit">
+            <field name="name">invoice.tree.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_tree" />
+            <field name="priority" eval="26"/>
+            <field name="arch" type="xml">
+                <xpath expr='//tree[@string="Invoice"]' position='attributes'>
+                    <attribute name="create">false</attribute>
+                    <attribute name="edit">false</attribute>
+                    <attribute name="delete">false</attribute>
+                </xpath>
+                <field name="state" position="after">
+                    <field name="branch" invisible="1"/>
+                    <field name="branch_sale" invisible="1"/>
+                    <field name="branch_id" invisible="1"/>
+                    <field name="exercise" invisible="1"/>
+                    <field name="period" invisible="1"/>
+                    <field name="mov" invisible="1"/>
+                </field>
+                <field name="name" position="replace"/>
+                <field name="partner_id" position="before">
+                    <field name="name" string="Factura"/>
+                    <field name="partner_id2"/>
+                </field>
+                <field name="state" position="after">
+                    <field name="status"/>
+                </field>
+                <field name="partner_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="number" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="user_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="date_due" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="origin" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="residual" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="state" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="amount_total" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="amount_untaxed" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="amount_total" position="after">
+                    <field name="amount_untaxed2" string="Subtotal"/>
+                    <field name="amount_total2" string="Total"/>
+                    <field name="user_id2" string="Vendedor"/>
+                </field>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_invoice_graph_inherit">
+            <field name="name">account.invoice.graph.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.view_invoice_graph" />
+            <field name="priority" eval="18"/>
+            <field name="arch" type="xml">
+                <graph position="replace">
+                    <graph string="Invoices" type="bar">
+                        <field name="partner_id2"/>
+                        <field name="amount_total" operator="+"/>
+                    </graph>
+                </graph>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

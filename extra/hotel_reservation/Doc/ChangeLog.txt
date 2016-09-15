@@ -1,0 +1,16 @@
+============================================================================================================================
+ Version Change Log (hotel_reservation)
+============================================================================================================================
+
+0.04 on 2013-11-19 by Sudhir Arya
+    * Solved warnings and added scheduler to calculate room availability.
+
+0.03 on 2013-11-18 by Sudhir Arya
+    * Added access rights to some objects.
+
+0.02 on 2013-11-13 by Sudhir Arya
+    * Standardized the module as per v7 standards.
+
+1.01 --> Oct 1,2013 : Anil Kesariya
+
+	* Added Access control for manager user Improved label name.

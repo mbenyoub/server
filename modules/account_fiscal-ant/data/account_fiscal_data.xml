@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        
+        <!--
+        Account Journal Sequences
+        -->
+        
+        <record id="af_income_sequence_statement_type" model="ir.sequence.type">
+            <field name="name">Account Fiscal Statement Income</field>
+            <field name="code">account.fiscal.statement.income</field>
+        </record>
+        <record id="sequence_account_fiscal_income" model="ir.sequence">
+            <field name="name">Account fiscal Default Income Journal</field>
+            <field name="code">account.fiscal.statement.income</field>
+            <field name="prefix">INC/%(year)s/%(month)s/</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+        </record>
+        
+        <record id="af_expense_sequence_statement_type" model="ir.sequence.type">
+            <field name="name">Account Fiscal Statement Expense</field>
+            <field name="code">account.fiscal.statement.expense</field>
+        </record>
+        <record id="sequence_account_fiscal_expense" model="ir.sequence">
+            <field name="name">Account fiscal Default Expense Journal</field>
+            <field name="code">account.fiscal.statement.expense</field>
+            <field name="prefix">EXP/%(year)s/%(month)s/</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+        </record>
+        
+        <!--
+        Account bank statement - Conciliacion
+        -->
+        
+        <record id="af_account_bank_statement_con_sequence_type" model="ir.sequence.type">
+            <field name="name">Account Bank Statement Conciliate</field>
+            <field name="code">account.bank.statement.con</field>
+        </record>
+        <record id="sequence_account_bank_statement_con" model="ir.sequence">
+            <field name="name">Account Bank Statement Conciliate Default</field>
+            <field name="code">account.bank.statement.con</field>
+            <field name="prefix">CBAN/%(year)s/%(month)s/</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+        </record>
+        
+        <!--
+        Account fiscal statement type - TIpos de Movimiento
+        -->
+        
+        <record id="statement_type_01" model="account.fiscal.statement.type">
+            <field name="name">Otros Egresos</field>
+            <field name="type">expense</field>
+            <field name="sequence">1</field>
+            <field name="active" eval="True" />
+            <field name="account_id" search="[('code','=','9113099000')]" model="account.account"/>
+        </record>
+        <record id="statement_type_02" model="account.fiscal.statement.type">
+            <field name="name">Otros Ingresos</field>
+            <field name="type">income</field>
+            <field name="sequence">1</field>
+            <field name="active" eval="True" />
+            <field name="account_id" search="[('code','=','9212005000')]" model="account.account"/>
+        </record>
+        
+    </data>
+</openerp>
