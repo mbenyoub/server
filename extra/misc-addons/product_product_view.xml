@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_product_priority_form_inherit">
+            <field name="name">product.product.priority.form.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="priority" eval="20"/>
+            <field name='type'>form</field>
+            <field name='arch' type='xml'>
+                <field name="hr_expense_ok" position="before">
+       			<div>
+                                <field name="is_maintenance_parts"/>
+                                <label for="is_maintenance_parts"/>
+       			</div>
+                </field>
+
+            </field>
+        </record>
+
+
+    </data>
+</openerp>
