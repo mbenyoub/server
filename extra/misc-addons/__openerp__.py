@@ -5,6 +5,7 @@
     "version": "1.0",
     "description": """1.- Agrega constrain para que duplicar plantillas con el mismo nombre
        	\n2.- Agrega el campo is_maintenance_parts en Productos
+	\n3.- Agrega campos obligatorios en iniciativas 
     """,
     "author": "Ing. Gustavo Isidoro",
     "category": "Tools",
