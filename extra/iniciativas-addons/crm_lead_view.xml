@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data> 
+
+ <record id="view_iniciativas_addons_form" model="ir.ui.view">
+   	<field name="name">crm.lead.iniciativas.form</field>
+    <field name="model">crm.lead</field>
+    <field name="inherit_id" ref="crm.crm_case_form_view_leads"/>
+    <field name="arch" type="xml">
+	    <xpath expr="//page[@string='Extra Info']" position='after'>
+	    	<page string='PANT'>
+	    		<group>
+				<group string="Poder Adquisitivo">
+					<field name="company"/>
+					<field name="branch"/>
+					<field name="capacity"/>
+					<field name="corporate_culture"/>
+				</group>
+                                <group string="Autoridad">
+                                        <field name="required_aut"/>
+                                        <field name="name_contact"/>
+                                        <field name="email"/>
+                                        <field name="funcion"/>
+                                        <field name="telefono"/>
+                                </group>
+                                <group string="Necesidad">
+                                        <field name="required_need"/>
+                                        <field name="why_our_products"/>
+                                        <field name="about_us"/>
+                                        <field name="required_our_products"/>
+                                </group>
+                                <group string="Tiempo">
+                                        <field name="date_start"/>
+                                        <field name="duration"/>
+                                </group>
+                                <group string="Perfil del Cliente">
+                                        <field name="character_client"/>
+                                        <field name="attitude_client"/>
+                                        <field name="customer_treatment"/>
+                                        <field name="characteristic_1"/>
+                                        <field name="characteristic_2"/>
+                                </group>
+			</group>
+	    	</page>
+	    </xpath>
+    </field>
+</record>
+
+
+  </data>
+</openerp>
