@@ -8,26 +8,42 @@
     <field name="inherit_id" ref="crm.crm_case_form_view_leads"/>
     <field name="arch" type="xml">
 	    <xpath expr="//page[@string='Extra Info']" position='after'>
-	    	<page string='PANT'>
+                <page string='Formulario'>
+  			<group>
+				<group string="Envio de Formulario" colspan="2">
+					<field name='type_form_id' />
+                                        <field name='status'  readonly="1" />
+				</group>
+				<button name="sent_form" string="Enviar Formulario" type="object" class="oe_highlight" />
+			</group>
+		</page>
+                <page string='Llamada'>
+			<field name='calling_ids' colspan="4" />
+                </page>
+	    	<page string='Analisis PANT'>
 	    		<group>
 				<group string="Poder Adquisitivo">
-					<field name="company"/>
-					<field name="branch"/>
-					<field name="capacity"/>
-					<field name="corporate_culture"/>
+                                        <field name="project_estimate"/>
+                                        <field name="recognized_company"/>
+					<field name="company"  domain="[('is_company', '=', True)]" attrs="{'invisible':[('recognized_company', '!=', True)]}" />
+					<field name="branch" attrs="{'invisible':[('recognized_company', '!=', True)]}"/>
+					<field name="capacity" attrs="{'invisible':[('recognized_company', '!=', True)]}"/>
+					<field name="corporate_culture" attrs="{'invisible':[('recognized_company', '!=', True)]}"/>
 				</group>
                                 <group string="Autoridad">
                                         <field name="required_aut"/>
-                                        <field name="name_contact"/>
-                                        <field name="email"/>
-                                        <field name="funcion"/>
-                                        <field name="telefono"/>
+                                        <field name="title_id" attrs="{'invisible':[('required_aut', '!=', True)]}" />
+                                        <field name="name_contact" attrs="{'invisible':[('required_aut', '!=', True)]}" />
+                                        <field name="email" attrs="{'invisible':[('required_aut', '!=', True)]}" />
+                                        <field name="funcion" attrs="{'invisible':[('required_aut', '!=', True)]}" />
+                                        <field name="telefono" attrs="{'invisible':[('required_aut', '!=', True)]}" />
                                 </group>
                                 <group string="Necesidad">
                                         <field name="required_need"/>
-                                        <field name="why_our_products"/>
-                                        <field name="about_us"/>
-                                        <field name="required_our_products"/>
+                                        <field name="category_id" attrs="{'invisible':[('required_need', '!=', True)]}" />
+                                        <field name="why_our_products" attrs="{'invisible':[('required_need', '!=', True)]}" />
+                                        <field name="about_us" attrs="{'invisible':[('required_need', '!=', True)]}" />
+                                        <field name="required_our_products" attrs="{'invisible':[('required_need', '!=', True)]}" />
                                 </group>
                                 <group string="Tiempo">
                                         <field name="date_start"/>

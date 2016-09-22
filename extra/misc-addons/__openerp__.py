@@ -6,6 +6,7 @@
     "description": """1.- Agrega constrain para que duplicar plantillas con el mismo nombre
        	\n2.- Agrega el campo is_maintenance_parts en Productos
 	\n3.- Agrega campos obligatorios en iniciativas 
+	\n4.- Agrega campos obligatorios en oportunidades
     """,
     "author": "Ing. Gustavo Isidoro",
     "category": "Tools",
@@ -15,7 +16,7 @@
 	    'crm',
 	    'hr_expense',
                 ],
-    "data":['product_product_view.xml','cmr_lead_view.xml'],
+    "data":['product_product_view.xml','cmr_lead_view.xml', 'report/sale_order_report.xml'],
     "update_xml": [],
     "demo_xml": [],
     "update_xml": [],

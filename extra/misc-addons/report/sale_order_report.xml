@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+        <openerp>
+             <data>
+
+                      <report auto="False"
+                        id="sale_order_report_id"
+                        model="sale.order"
+                        name="sale.order.report"
+                        file="misc-addons/report/sale_order.mako"
+                        string="Cotizacion"
+			webkit_header="False"
+                        report_type="webkit"
+                         />
+            </data>
+        </openerp>
+
