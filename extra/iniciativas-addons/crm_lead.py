@@ -47,4 +47,15 @@ class crm_lead(osv.osv):
     }
 
 
+
+    _defaults = {       
+        'status' : 'no_sent',
+    }
+
+
+    def sent_form(self, cr, uid, ids, context=None):
+	self.write(cr,uid,ids,{'status':'sent'})
+	return True
+
+
 crm_lead()

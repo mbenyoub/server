@@ -20,9 +20,9 @@
                 <page string="Sales" position="attributes">
                     <attribute name="groups">base.group_akk_back_v1_sales_manager</attribute>
                 </page>
-                <field name="description" position="attributes">
+                <!--<field name="description" position="attributes">
                     <attribute name="invisible">1</attribute>
-                </field>
+                </field>-->
                 <!-- Configuracion avanzada productos -->
                 
                 <div name="options" position="attributes">

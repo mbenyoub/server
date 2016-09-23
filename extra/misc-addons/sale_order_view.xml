@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_product_priority_form_inherit">
+            <field name="name">sale.order.project.proposal.form.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="priority" eval="20"/>
+            <field name='type'>form</field>
+            <field name='arch' type='xml'>
+                <field name="pricelist_id" position="before">
+                                <field name="project"/>
+				<field name="proposal"/>
+                </field>
+
+            </field>
+        </record>
+
+
+    </data>
+</openerp>
