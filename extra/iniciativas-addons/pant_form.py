@@ -10,8 +10,7 @@ class pant_form(osv.osv):
 
         _columns = {
 		'name': fields.char('Nombre',size=300,required=True),
-                'html': fields.text('Html Body'),
-		'file': fields.char('File',size=50),
+                'html': fields.text('Html Body',required=True),
                 }
 
 pant_form()

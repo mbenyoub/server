@@ -30,7 +30,8 @@
 from datetime import datetime, timedelta, date
 from openerp.osv import fields, osv
 import logging
-_logger = logging.getLogger(__name__)
+#_logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 #
 # crm.phonecall is defined in module base_calendar

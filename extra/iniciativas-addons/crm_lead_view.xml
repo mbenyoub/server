@@ -7,14 +7,24 @@
     <field name="model">crm.lead</field>
     <field name="inherit_id" ref="crm.crm_case_form_view_leads"/>
     <field name="arch" type="xml">
+
+	<xpath expr="//page[@string='Extra Info']/group" position="after">
+  		<group string="Reprogramar Iniciativa">
+    		<field name="reprogram_date" readonly="1" />
+  		</group>
+		<button name="%(w_reprogram_lead_act)d" string="Enviar Solicitud" type="action"  /> 
+	</xpath>
+
 	    <xpath expr="//page[@string='Extra Info']" position='after'>
                 <page string='Formulario'>
   			<group>
 				<group string="Envio de Formulario" colspan="2">
-					<field name='type_form_id' />
+					<field name='type_form_id' on_change="change_form(type_form_id)" />
                                         <field name='status'  readonly="1" />
+                                	<field name='questions' />
+                                	<field name='answers' placeholder="Respuestas"  />
 				</group>
-				<button name="sent_form" string="Enviar Formulario" type="object" class="oe_highlight" />
+				<button name="sent_form" string="Enviar Formulario" type="object" />
 			</group>
 		</page>
                 <page string='Llamada'>
@@ -32,7 +42,6 @@
 				</group>
                                 <group string="Autoridad">
                                         <field name="required_aut"/>
-                                        <field name="title_id" attrs="{'invisible':[('required_aut', '!=', True)]}" />
                                         <field name="name_contact" attrs="{'invisible':[('required_aut', '!=', True)]}" />
                                         <field name="email" attrs="{'invisible':[('required_aut', '!=', True)]}" />
                                         <field name="funcion" attrs="{'invisible':[('required_aut', '!=', True)]}" />
@@ -40,7 +49,7 @@
                                 </group>
                                 <group string="Necesidad">
                                         <field name="required_need"/>
-                                        <field name="category_id" attrs="{'invisible':[('required_need', '!=', True)]}" />
+                                        <field name="category_id" attrs="{'invisible':[('required_need', '!=', True)]}"  on_change="change_category(category_id)" />
                                         <field name="why_our_products" attrs="{'invisible':[('required_need', '!=', True)]}" />
                                         <field name="about_us" attrs="{'invisible':[('required_need', '!=', True)]}" />
                                         <field name="required_our_products" attrs="{'invisible':[('required_need', '!=', True)]}" />

@@ -10,3 +10,4 @@ import pant_treatment
 import pant_attitude
 import pant_phonecall
 import pant_form
+import wizard

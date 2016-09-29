@@ -11,9 +11,9 @@
     "author": "Ing. Gustavo Isidoro",
     "category": "Tools",
     "depends": [
-	    'crm'
+	    'crm','mail','email_template'
                 ],
-    "data":['crm_lead_view.xml','pant_phonecall_view.xml'],
+    "data":['wizard/w_reprogram_lead_view.xml','crm_lead_view.xml','pant_phonecall_view.xml','pant_form_view.xml'],
     "update_xml": [                   ],
     "demo_xml": [],
     "update_xml": [],

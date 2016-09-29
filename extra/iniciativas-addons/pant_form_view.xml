@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data> 
+      <record model="ir.ui.view" id="view_pant_form_tree"> 
+            <field name="name">pant.form.tree</field>
+            <field name="model">pant.form</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Formularios ">
+                   <field name="name"/>
+		   <field name="html"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_pant_form_form">
+            <field name="name">pant.form.form</field>
+            <field name="model">pant.form</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+               <form string="Formularios" version="7.0">
+                  <sheet>
+			<group col="4">
+                                <field name="name"/>
+			</group>                        
+				<field name="html" widget="html" placeholder="Preguntas"/>
+
+                  </sheet>
+                </form>
+            </field>
+        </record>
+  
+         
+  </data>
+</openerp>
