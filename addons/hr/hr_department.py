@@ -23,7 +23,7 @@ from openerp.osv import fields, osv
 from openerp import tools
 
 class hr_department(osv.osv):
-    def name_get(self, cr, uid, ids, context=None):
+    """def name_get(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
         if not ids:
@@ -35,7 +35,7 @@ class hr_department(osv.osv):
             if record['parent_id']:
                 name = record['parent_id'][1]+' / '+name
             res.append((record['id'], name))
-        return res
+        return res"""
 
     def _dept_name_get_fnc(self, cr, uid, ids, prop, unknow_none, context=None):
         res = self.name_get(cr, uid, ids, context=context)

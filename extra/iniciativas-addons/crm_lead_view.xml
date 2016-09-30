@@ -42,7 +42,7 @@
 				</group>
                                 <group string="Autoridad">
                                         <field name="required_aut"/>
-                                        <field name="name_contact" attrs="{'invisible':[('required_aut', '!=', True)]}" />
+                                        <field name="name_contact" attrs="{'invisible':[('required_aut', '!=', True)]}"   />
                                         <field name="email" attrs="{'invisible':[('required_aut', '!=', True)]}" />
                                         <field name="funcion" attrs="{'invisible':[('required_aut', '!=', True)]}" />
                                         <field name="telefono" attrs="{'invisible':[('required_aut', '!=', True)]}" />
@@ -70,6 +70,54 @@
 	    </xpath>
     </field>
 </record>
+
+
+
+ <record id="view_oportunidades_addons_form" model="ir.ui.view">
+       	<field name="name">crm.lead.oportunidades.form</field>
+    <field name="model">crm.lead</field>
+    <field name="inherit_id" ref="crm.crm_case_form_view_oppor"/>
+    <field name="arch" type="xml">
+                <field name="title_action" position="attributes">
+                    <attribute name="attrs">{'required':True}</attribute>
+                </field>
+		<field name="priority" position="after">
+			<field name="cotizacion"/>
+			<field name="cotizacion_r"/>
+		</field>
+	    <xpath expr="//page[@string='Lead']" position='after'>
+                <page string='Llamada'>
+			<field name='calling_ids' colspan="4" />
+	    	</page>
+                <page string='Reunion'>
+                        <group>
+				<group string="Reunion" col="2" colspan="2">
+					<field name="meeting" nolabel="1" colspan="2"/>
+                                        <field name="objective_m" attrs="{'invisible':[('meeting', '!=', True)]}" />
+					<field name="meeting_date" attrs="{'invisible':[('meeting', '!=', True)]}" />
+
+                                        <field name="assistant_1" attrs="{'invisible':[('meeting', '!=', True)]}" />
+                                        <field name="assistant" attrs="{'invisible':[('meeting', '!=', True)]}" />
+                                        <field name="assistant_2" nolabel="1" colspan="2" attrs="{'invisible':[('assistant', '!=', True)]}" />
+                                        <field name="assistant_3" nolabel="1" colspan="2" attrs="{'invisible':[('assistant', '!=', True)]}" />
+
+                                        <field name="assistant_client" attrs="{'invisible':[('meeting', '!=', True)]}" />
+                                        <field name="assistant_client_name" attrs="{'invisible':[('assistant_client', '!=', True)]}" />
+                                        <field name="assistant_client_email" attrs="{'invisible':[('assistant_client', '!=', True)]}" />
+                                        <field name="assistant_client_function" attrs="{'invisible':[('assistant_client', '!=', True)]}" />
+                                        <field name="assistant_client_phone" attrs="{'invisible':[('assistant_client', '!=', True)]}" />
+                                        <field name="assistant_client_confirm" attrs="{'invisible':[('assistant_client', '!=', True)]}" />
+				</group>
+                        </group>
+                </page>		
+                <page string='Negociacion'>
+                </page>
+
+	    </xpath>
+    </field>
+</record>
+
+
 
 
   </data>

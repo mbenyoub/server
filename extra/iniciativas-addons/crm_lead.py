@@ -47,6 +47,23 @@ class crm_lead(osv.osv):
 
 	'reprogram_date': fields.datetime('Fecha Prevista'),
 
+	#Oportunidades
+	'cotizacion': fields.date('Cotizacion', required=True),
+        'cotizacion_r': fields.date('Cotizacion Recepcion', required=True),
+	#Reunion
+	'meeting': fields.boolean('Reunion'),
+        'meeting_date': fields.date('Fecha prevista'),
+	'objective_m': fields.many2one('op.objective', string='Objectivo de la Reunion'),
+	'assistant_1': fields.many2one('res.partner', string='Asistentes'),
+	'assistant': fields.boolean('Asistente Adicional'),
+        'assistant_2': fields.many2one('res.partner', string='Asistente 2'),
+        'assistant_3': fields.many2one('res.partner', string='Asistente 3'),
+        'assistant_client': fields.boolean('Asistente Adicional Cliente'),	
+	'assistant_client_name': fields.char('Nombre de Contacto',size=300),
+        'assistant_client_email': fields.char('Email',size=300),
+        'assistant_client_function': fields.char('Funcion',size=300),
+        'assistant_client_phone': fields.char('Telefono',size=300),	
+        'assistant_client_confirm': fields.boolean('Confirmacion del Cliente'),
     }
 
 
