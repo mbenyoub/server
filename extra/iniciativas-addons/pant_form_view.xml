@@ -22,7 +22,7 @@
 			<group col="4">
                                 <field name="name"/>
 			</group>                        
-				<field name="html" widget="html" placeholder="Preguntas"/>
+				<field name="html"  placeholder="Preguntas"/>
 
                   </sheet>
                 </form>

@@ -5,10 +5,9 @@ import time
 import logging
 logging.basicConfig(level=logging.INFO)
 
-class w_reprogram_lead(osv.osv_memory):
-    _name = 'w.reprogram.lead'
+class w_cancel_lead(osv.osv_memory):
+    _name = 'w.cancel.lead'
     _columns = {
-       	'reprogram_date': fields.datetime('Fecha prevista',required=True),
 	'description': fields.text('Descripcion',required=True),
 	'lead_id': fields.many2one('crm.lead', string='Iniciativa'),
         }
@@ -17,17 +16,13 @@ class w_reprogram_lead(osv.osv_memory):
         return {'type':'ir.actions.act_window_close'}
 
 
-    def action_reprogram(self, cr, uid, ids, context=None):
-        value = {}
-        if context is None:
-            context = {}
-
+    def action_request(self, cr, uid, ids, context=None):
 	lead_id = context.get('active_ids')[0]
-       	self.write(cr,uid,ids,{'lead_id':lead_id})
-        data = self.browse(cr, uid, ids, context=context)[0]
-	self.pool.get('crm.lead').write(cr,uid,lead_id,{'reprogram_date':data.reprogram_date})
+	self.write(cr,uid,ids,{'lead_id':lead_id})
+	data = self.browse(cr, uid, ids, context=context)[0]
+        self.pool.get('crm.lead').write(cr,uid,lead_id,{'reason_cancell':data.description})
         return {'type': 'ir.actions.act_window_close'}
 
-w_reprogram_lead()
+w_cancel_lead()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

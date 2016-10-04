@@ -13,13 +13,18 @@
     		<field name="reprogram_date" readonly="1" />
   		</group>
 		<button name="%(w_reprogram_lead_act)d" string="Enviar Solicitud" type="action"  /> 
+
+		<group string="Motivo de cancelacion" attrs="{'invisible':[('reason_cancell', 'in', [None,False])]}">
+			 <field name="reason_cancell" readonly="1" nolabel="1" />
+		</group>
+		
 	</xpath>
 
 	    <xpath expr="//page[@string='Extra Info']" position='after'>
                 <page string='Formulario'>
   			<group>
 				<group string="Envio de Formulario" colspan="2">
-					<field name='type_form_id' on_change="change_form(type_form_id)" />
+					<field name='type_form_id' domain="[('model', '=', 'crm.lead')]" on_change="change_form(type_form_id)" />
                                         <field name='status'  readonly="1" />
                                 	<field name='questions' />
                                 	<field name='answers' placeholder="Respuestas"  />

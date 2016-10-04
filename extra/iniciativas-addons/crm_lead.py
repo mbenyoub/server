@@ -40,9 +40,10 @@ class crm_lead(osv.osv):
 
 	'calling_ids': fields.one2many('pant.phonecall', 'lead_id','Llamadas'),
 
-	'type_form_id': fields.many2one('pant.form', string='Tipo'),
+	#'type_form_id': fields.many2one('pant.form', string='Tipo'),
+	'type_form_id': fields.many2one('email.template', string='Tipo'),
 	'status': fields.selection([('no_sent','No enviado'),('sent','Enviado'),('responded','Respondido')],select=True, string='Estado'),
-	'questions': fields.text('Preguntas'),
+	'questions': fields.html('Preguntas'),
         'answers': fields.text('Respuestas'),
 
 	'reprogram_date': fields.datetime('Fecha Prevista'),
@@ -64,6 +65,9 @@ class crm_lead(osv.osv):
         'assistant_client_function': fields.char('Funcion',size=300),
         'assistant_client_phone': fields.char('Telefono',size=300),	
         'assistant_client_confirm': fields.boolean('Confirmacion del Cliente'),
+
+	#Cancelacion iniciativa
+	'reason_cancell': fields.text('Motivo de cancelacion'),
     }
 
 
@@ -84,23 +88,29 @@ class crm_lead(osv.osv):
 	#logging.info(vals)
 	#return super(crm_lead,self).create(cr, uid, vals, context=context)
 
+    def case_cancel(self, cr, uid, ids, context=None):
+	view_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'iniciativas-addons', 'w_cancel_lead_view')
+	super(crm_lead,self).case_cancel(cr, uid, ids, context=context)
+  	return {'name':_("Solicitud de Cancelacion"),'view_mode': 'form','view_id': [view_id and view_id[1] or False] , 'view_type': 'form','res_model': 'w.cancel.lead','type': 'ir.actions.act_window','target': 'new',}
+	
+
     def change_form(self,cr,uid,ids,form_id,context=None):
 	vals={}
        	if form_id:
-       	     obj=self.pool.get('pant.form').browse(cr,uid,form_id)
-       	     vals.update({'questions':obj.html})
+       	     obj=self.pool.get('email.template').browse(cr,uid,form_id)
+       	     vals.update({'questions':obj.body_html})
        	return {'value':vals}
 
     def change_category(self,cr,uid,ids,category_id,context=None):
         vals={}
         if category_id:
         	obj=self.pool.get('pant.category').browse(cr,uid,category_id)
-        	form_pool= self.pool.get('pant.form')
+        	form_pool= self.pool.get('email.template')
         	condicion=[('name','=',obj.name)]
 		form_ids=form_pool.search(cr, uid,condicion,context=None)
 		if len(form_ids)>0:
 			obj_form=form_pool.browse(cr,uid,form_ids[0])
-			vals.update({'questions':obj_form.html,'type_form_id':obj_form.id})
+			vals.update({'questions':obj_form.body_html,'type_form_id':obj_form.id})
 
 	return {'value':vals}
 
@@ -109,11 +119,8 @@ class crm_lead(osv.osv):
         return True
 
     def sent_form(self, cr, uid, ids, context=None):
-
-	template_pool= self.pool.get('email.template')	
-	condicion=[('name','=','Formulario Iniciativas')]
-	template = template_pool.search(cr, uid,condicion,context=None)
-	self.pool.get('email.template').send_mail(cr, uid, template[0], ids[0] ,True, context=context)
+	obj=self.pool.get('crm.lead').browse(cr,uid,ids[0])
+	self.pool.get('email.template').send_mail(cr, uid, obj.type_form_id, ids[0] ,True, context=context)
 	self.write(cr,uid,ids,{'status':'sent'})
 
 	return True
