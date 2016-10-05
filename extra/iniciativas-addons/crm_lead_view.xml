@@ -86,36 +86,86 @@
                 <field name="title_action" position="attributes">
                     <attribute name="attrs">{'required':True}</attribute>
                 </field>
+                <field name="email_from" position="attributes">
+                    <attribute name="attrs">{'required':True}</attribute>
+                </field>
+
 		<field name="priority" position="after">
 			<field name="cotizacion"/>
 			<field name="cotizacion_r"/>
 		</field>
 	    <xpath expr="//page[@string='Lead']" position='after'>
+
+		<page string='Formulario'>
+  			<group>
+				<group string="Envio de Formulario" colspan="2">
+					<field name='type_form_id' domain="[('model', '=', 'crm.lead')]" on_change="change_form(type_form_id)" />
+                                        <field name='status'  readonly="1" />
+                                	<field name='questions' />
+                                	<field name='answers' placeholder="Respuestas"  />
+				</group>
+				<button name="sent_form" string="Enviar Formulario" type="object" />
+			</group>
+		</page>
+
                 <page string='Llamada'>
 			<field name='calling_ids' colspan="4" />
 	    	</page>
+		<page string='Analisis PANT'>
+	    		<group>
+				<group string="Poder Adquisitivo">
+                                        <field name="project_estimate"/>
+                                        <field name="recognized_company"/>
+					<field name="company"  domain="[('is_company', '=', True)]" attrs="{'invisible':[('recognized_company', '!=', True)]}" />
+					<field name="branch" attrs="{'invisible':[('recognized_company', '!=', True)]}"/>
+					<field name="capacity" attrs="{'invisible':[('recognized_company', '!=', True)]}"/>
+					<field name="corporate_culture" attrs="{'invisible':[('recognized_company', '!=', True)]}"/>
+				</group>
+                                <group string="Autoridad">
+                                        <field name="required_aut"/>
+                                        <field name="name_contact" attrs="{'invisible':[('required_aut', '!=', True)]}"   />
+                                        <field name="email" attrs="{'invisible':[('required_aut', '!=', True)]}" />
+                                        <field name="funcion" attrs="{'invisible':[('required_aut', '!=', True)]}" />
+                                        <field name="telefono" attrs="{'invisible':[('required_aut', '!=', True)]}" />
+                                </group>
+                                <group string="Necesidad">
+                                        <field name="required_need"/>
+                                        <field name="category_id" attrs="{'invisible':[('required_need', '!=', True)]}"  on_change="change_category(category_id)" />
+                                        <field name="why_our_products" attrs="{'invisible':[('required_need', '!=', True)]}" />
+                                        <field name="about_us" attrs="{'invisible':[('required_need', '!=', True)]}" />
+                                        <field name="required_our_products" attrs="{'invisible':[('required_need', '!=', True)]}" />
+                                </group>
+                                <group string="Tiempo">
+                                        <field name="date_start"/>
+                                        <field name="duration"/>
+                                </group>
+                                <group string="Perfil del Cliente">
+                                        <field name="character_client"/>
+                                        <field name="attitude_client"/>
+                                        <field name="customer_treatment"/>
+                                        <field name="characteristic_1"/>
+                                        <field name="characteristic_2"/>
+                                </group>
+			</group>
+	    	</page>
+
                 <page string='Reunion'>
-                        <group>
-				<group string="Reunion" col="2" colspan="2">
-					<field name="meeting" nolabel="1" colspan="2"/>
-                                        <field name="objective_m" attrs="{'invisible':[('meeting', '!=', True)]}" />
-					<field name="meeting_date" attrs="{'invisible':[('meeting', '!=', True)]}" />
+                        <field name='meeting_ids' colspan="4" />
+                </page>		
 
-                                        <field name="assistant_1" attrs="{'invisible':[('meeting', '!=', True)]}" />
-                                        <field name="assistant" attrs="{'invisible':[('meeting', '!=', True)]}" />
-                                        <field name="assistant_2" nolabel="1" colspan="2" attrs="{'invisible':[('assistant', '!=', True)]}" />
-                                        <field name="assistant_3" nolabel="1" colspan="2" attrs="{'invisible':[('assistant', '!=', True)]}" />
-
-                                        <field name="assistant_client" attrs="{'invisible':[('meeting', '!=', True)]}" />
-                                        <field name="assistant_client_name" attrs="{'invisible':[('assistant_client', '!=', True)]}" />
-                                        <field name="assistant_client_email" attrs="{'invisible':[('assistant_client', '!=', True)]}" />
-                                        <field name="assistant_client_function" attrs="{'invisible':[('assistant_client', '!=', True)]}" />
-                                        <field name="assistant_client_phone" attrs="{'invisible':[('assistant_client', '!=', True)]}" />
-                                        <field name="assistant_client_confirm" attrs="{'invisible':[('assistant_client', '!=', True)]}" />
+                <page string='Negociacion'>
+			<group>
+				<group string='Proyecto'>
+					<field name="project_type" on_change="change_project_type(project_type)" />
+                                        <field name="estimate_active"/>
+                                        <field name="description_project"  />
+                                        <field name="agreements" placeholder="Tiempos y Fechas de Entrega, Condiciones de Pago por Tiempos Extraordinarios, Garantias" />
+                                        <field name="promises" placeholder="Regalos, Descuentos, Garantias, Extenciones de Contratos, etc." />
+				<field  colspan="2" name="additional_note" placeholder="Descripcion adicional al proyecto" nolabel="1" />
+                                <button name="print_letter" string="Imprimir Carta Compromiso" type="object" /> <br/>
+                                <button name="%(mail.action_email_compose_message_wizard)d" string="Enviar Correo" type="action"  />
 				</group>
                         </group>
-                </page>		
-                <page string='Negociacion'>
                 </page>
 
 	    </xpath>

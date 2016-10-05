@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<openerp>
+        <data>
+<record id="view_sale_order_terms_lines" model="ir.ui.view">
+    <field name="name">view.sale.order.lines</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_order_form"/>
+    <field name="arch" type="xml">
+
+    <xpath expr="//page[@string='Other Information']" position="after">
+        <page string="Terminos y Condiciones">
+            <field name='terms_line'/>
+        </page>
+    </xpath>
+
+    </field>
+</record> 
+
+        </data>
+</openerp>
+
+

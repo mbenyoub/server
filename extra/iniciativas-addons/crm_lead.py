@@ -18,7 +18,7 @@ class crm_lead(osv.osv):
         'corporate_culture': fields.many2one('pant.culture', string='Cultura'),
 
         'required_aut': fields.boolean('Contacto requiere autorizacion'),
-        'name_contact': fields.char('Nombre del contacto objectivo', size=124),
+        'name_contact': fields.char('Nombre del contacto objetivo', size=124),
 	'email': fields.char('Email', size=124),
 	'funcion': fields.char('Funcion', size=124),
 	'telefono': fields.char('Telefono', size=124),
@@ -52,22 +52,18 @@ class crm_lead(osv.osv):
 	'cotizacion': fields.date('Cotizacion', required=True),
         'cotizacion_r': fields.date('Cotizacion Recepcion', required=True),
 	#Reunion
-	'meeting': fields.boolean('Reunion'),
-        'meeting_date': fields.date('Fecha prevista'),
-	'objective_m': fields.many2one('op.objective', string='Objectivo de la Reunion'),
-	'assistant_1': fields.many2one('res.partner', string='Asistentes'),
-	'assistant': fields.boolean('Asistente Adicional'),
-        'assistant_2': fields.many2one('res.partner', string='Asistente 2'),
-        'assistant_3': fields.many2one('res.partner', string='Asistente 3'),
-        'assistant_client': fields.boolean('Asistente Adicional Cliente'),	
-	'assistant_client_name': fields.char('Nombre de Contacto',size=300),
-        'assistant_client_email': fields.char('Email',size=300),
-        'assistant_client_function': fields.char('Funcion',size=300),
-        'assistant_client_phone': fields.char('Telefono',size=300),	
-        'assistant_client_confirm': fields.boolean('Confirmacion del Cliente'),
+	'meeting_ids': fields.one2many('op.meeting', 'lead_id','Reuniones'),
 
 	#Cancelacion iniciativa
 	'reason_cancell': fields.text('Motivo de cancelacion'),
+
+	#Negociacion
+	'project_type': fields.many2one('op.project', string='Tipo de Proyecto'),
+	'estimate_active': fields.boolean('Activar presupuesto'),
+	'agreements': fields.text('Acuerdos con el cliente'),
+	'promises': fields.text('Promesas'),
+	'additional_note': fields.text('Descripcion adicionales al proyecto'),
+	'description_project': fields.text('Descripciones Basicas'), 
     }
 
 
@@ -100,6 +96,13 @@ class crm_lead(osv.osv):
        	     obj=self.pool.get('email.template').browse(cr,uid,form_id)
        	     vals.update({'questions':obj.body_html})
        	return {'value':vals}
+
+    def change_project_type(self,cr,uid,ids,project_type,context=None):
+        vals={}
+        if project_type:
+             obj=self.pool.get('op.project').browse(cr,uid,project_type)
+             vals.update({'description_project':obj.description})
+        return {'value':vals}	
 
     def change_category(self,cr,uid,ids,category_id,context=None):
         vals={}

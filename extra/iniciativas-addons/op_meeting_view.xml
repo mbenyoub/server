@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data> 
+      <record model="ir.ui.view" id="view_op_meeting_tree"> 
+            <field name="name">op.meeting.tree</field>
+            <field name="model">op.meeting</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Reuniones">
+                   <field name="name"/>
+		   <field name="date"/>
+		   <field name="partner_ids"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_op_meeting_form">
+            <field name="name">op.meeting.form</field>
+            <field name="model">op.meeting</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+               <form string="Reuniones" version="7.0">
+					<header>
+					</header>
+                <sheet>
+			<group col="2">
+                                <field name="name"/>
+                                <field name="user_id"/>
+                                <field name="date"/>
+                                <field name="date_deadline"/>
+                                <field name="partner_ids" widget="many2many_tags"  />
+                                <field name="assistant_client"/>
+                                <field name="assistant_client_name" attrs="{'invisible':[('assistant_client', '!=', True)]}" />
+                                <field name="assistant_client_email" attrs="{'invisible':[('assistant_client', '!=', True)]}" />
+                                <field name="assistant_client_function" attrs="{'invisible':[('assistant_client', '!=', True)]}" />
+                                <field name="assistant_client_phone" attrs="{'invisible':[('assistant_client', '!=', True)]}" />
+                                <field name="assistant_client_confirm" attrs="{'invisible':[('assistant_client', '!=', True)]}" />
+                                <field name="alarm_id"/>				
+                                <field name="note"/>
+			</group>
+			<button name="%(mail.action_email_compose_message_wizard)d" string="Enviar Correos de invitacion" type="action"  />
+
+                  </sheet>
+                </form>
+            </field>
+        </record>
+         
+  </data>
+</openerp>

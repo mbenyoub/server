@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data> 
+      <record model="ir.ui.view" id="view_t_terms_tree"> 
+            <field name="name">t.terms.tree</field>
+            <field name="model">t.terms</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Terminos y Condiciones ">
+                   <field name="name"/>
+                   <field name="description"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_t_terms_form">
+            <field name="name">t.terms.form</field>
+            <field name="model">t.terms</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+               <form string="Terminos y Condiciones" version="7.0">
+					<header>
+					</header>
+                <sheet>
+			<group col="2">
+                                <field name="name"  />
+                                <field name="description"  />
+			</group>
+                  </sheet>
+                </form>
+            </field>
+        </record>
+ 
+    <record model="ir.actions.act_window" id="action_open_view_t_terms_form">
+        <field name="name">Terminos y Condiciones</field>
+        <field name="res_model">t.terms</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+ 
+
+           <menuitem id="menu_t_terms" name="Terminos y Condiciones" action="action_open_view_t_terms_form"
+                    parent="base.menu_sales" sequence="80"  />
+         
+  </data>
+</openerp>
+
