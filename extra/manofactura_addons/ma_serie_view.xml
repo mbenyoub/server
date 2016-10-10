@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data> 
+      <record model="ir.ui.view" id="view_ma_serie_tree"> 
+            <field name="name">ma.serie.tree</field>
+            <field name="model">ma.serie</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Reglas de No. Serie">
+                   <field name="product_id"/>
+		   <field name="rule"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_ma_serie_form">
+            <field name="name">ma.serie.form</field>
+            <field name="model">ma.serie</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+               <form string="Reglas de No. Serie" version="7.0">
+					<header>
+					</header>
+                <sheet>
+			<group col="2">
+                                <field name="product_id"/>
+                                <field name="rule"/>
+			</group>
+                        <group string='Leyenda para la fecha 7 de Octubre 2016'>
+                                <label colspan="2" string="(year): 2017 "/>
+                                <label colspan="2" string="(y): 17"/>
+                                <label colspan="2" string="(month): 10"/>
+                                <label colspan="2" string="(day): 07"/>
+                        </group>
+
+                  </sheet>
+                </form>
+            </field>
+        </record>
+
+
+
+   <record model="ir.actions.act_window" id="action_open_view_ma_serie_form">
+        <field name="name">Reglas No. Serie</field>
+        <field name="res_model">ma.serie</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+           <menuitem id="menu_ma_serie" name="Reglas No. Serie" action="action_open_view_ma_serie_form"
+                    parent="mrp.menu_mrp_configuration" sequence="1"  />
+
+
+         
+  </data>
+</openerp>
