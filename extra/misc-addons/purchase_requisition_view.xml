@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_purchase_requisition_addons_form_inherit">
+            <field name="name">purchase.requisition.addons.form.inherit</field>
+            <field name="model">purchase.requisition</field>
+            <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form"/>
+            <field name="priority" eval="20"/>
+            <field name='type'>form</field>
+            <field name='arch' type='xml'>
+                <field name="company_id" position="after">
+                                <field name="read"/>
+                </field>
+
+            </field>
+        </record>
+    </data>
+
+
+    <data>
+        <record model="ir.ui.view" id="view_purchase_requisition_addons_tree_inherit">
+            <field name="name">purchase.requisition.addons.tree.inherit</field>
+            <field name="model">purchase.requisition</field>
+            <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_tree"/>
+            <field name="priority" eval="20"/>
+            <field name='type'>tree</field>
+            <field name='arch' type='xml'>
+                <field name="state" position="after">
+                                <field name="read"  />
+                </field>
+                <xpath expr="//tree[@string='Purchase Requisition']" position="attributes">
+                            <attribute name="colors">orange:read==True;</attribute>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+
+
+
+</openerp>

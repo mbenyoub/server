@@ -31,7 +31,7 @@ import time
 from datetime import datetime, timedelta, date
 from openerp.osv import fields, osv
 import logging
-_logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 #
 # crm.meeting is defined in module base_calendar
@@ -74,6 +74,7 @@ class crm_meeting(osv.Model):
         }
     
     def action_done(self, cr, uid, ids, context=None):
+	logging.info('entra')
         """
             Pasa la reunion a estado Realizada
         """

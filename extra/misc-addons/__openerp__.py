@@ -9,6 +9,7 @@
 	\n4.- Agrega campos obligatorios en oportunidades
 	\n5.- Agrega el nuevo reporte de la cotizacion
 	\n6.- Agrega el campo de project y propuesta en cotizacion
+	\n7.- Agrega notificaciones con numero al modulo de compras
     """,
     "author": "Ing. Gustavo Isidoro",
     "category": "Tools",
@@ -18,8 +19,10 @@
 	    'crm',
 	    'hr_expense',
             'sale',
+	    'purchase_requisition',
+	    'stock',
                 ],
-    "data":['product_product_view.xml','cmr_lead_view.xml', 'report/sale_order_report.xml', 'sale_order_view.xml'],
+    "data":['product_product_view.xml','cmr_lead_view.xml', 'report/sale_order_report.xml', 'sale_order_view.xml', 'purchase_order_view.xml','purchase_requisition_view.xml','stock_move_view.xml',],
     "update_xml": [],
     "demo_xml": [],
     "update_xml": [],

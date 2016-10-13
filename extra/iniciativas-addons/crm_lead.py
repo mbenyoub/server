@@ -128,5 +128,14 @@ class crm_lead(osv.osv):
 
 	return True
 
+    def print_letter(self, cr, uid, ids, context=None):
+        logging.info('print_letter')
+        datas = {
+                     'model': 'crm.lead',
+                     'ids': ids,
+                     'form': self.read(cr, uid, ids[0], context=context),
+        }
+        return {'type': 'ir.actions.report.xml', 'report_name': 'carta.compromiso.report', 'datas': datas, 'nodestroy': True}
+
 
 crm_lead()

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+        <openerp>
+             <data>
+
+                      <report auto="False"
+                        id="carta_compromiso_report_id"
+                        model="crm.lead"
+                        name="carta.compromiso.report"
+                        file="iniciativas-addons/report/carta_compromiso.mako"
+                        string="Carta Compromiso"
+			webkit_header="False"
+                        report_type="webkit"
+                         />
+            </data>
+        </openerp>
