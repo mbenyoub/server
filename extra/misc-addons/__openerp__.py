@@ -10,6 +10,7 @@
 	\n5.- Agrega el nuevo reporte de la cotizacion
 	\n6.- Agrega el campo de project y propuesta en cotizacion
 	\n7.- Agrega notificaciones con numero al modulo de compras
+	\n8.- Agrega notificaciones con numero al modulo de Almance
     """,
     "author": "Ing. Gustavo Isidoro",
     "category": "Tools",
@@ -22,7 +23,7 @@
 	    'purchase_requisition',
 	    'stock',
                 ],
-    "data":['product_product_view.xml','cmr_lead_view.xml', 'report/sale_order_report.xml', 'sale_order_view.xml', 'purchase_order_view.xml','purchase_requisition_view.xml','stock_move_view.xml',],
+    "data":['product_product_view.xml','cmr_lead_view.xml', 'report/sale_order_report.xml', 'sale_order_view.xml', 'purchase_order_view.xml','purchase_requisition_view.xml','stock_move_view.xml','stock_picking_in_view.xml','stock_picking_out_view.xml','procurement_order_view.xml',],
     "update_xml": [],
     "demo_xml": [],
     "update_xml": [],

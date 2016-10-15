@@ -6,3 +6,6 @@ import sale_order
 import purchase_order
 import purchase_requisition
 import stock_move
+import stock_picking_in
+import procurement_order
+import stock_picking_out

@@ -40,7 +40,7 @@ from openerp import tools
 from openerp.tools import float_compare
 import openerp.addons.decimal_precision as dp
 import logging
-_logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 class stock_picking(osv.osv):
     """
@@ -134,6 +134,7 @@ class stock_move(osv.osv):
         """
             Retorna el producto disponible sobre la tienda
         """
+
         product_obj = self.pool.get('product.product')
         res = {}
         if context is None:
@@ -141,6 +142,7 @@ class stock_move(osv.osv):
         ctx = context.copy()
         ctx.update({ 'states': ('confirmed','waiting','assigned','done'), 'what': ('in', 'out') })
         #Recorre las lineas del producto
+
         for line in self.browse(cr, uid, ids, context=context):
             if not line.product_id:
                 # Retorna 0 si no hay producto
@@ -148,12 +150,18 @@ class stock_move(osv.osv):
             else:
                 # Obtiene el id de la ubicacion origen
                 if line.location_id:
-                    ctx['location'] = line.location_id.id
+                    #ctx['location'] = line.location_id.id
+		    ctx['location'] = False
+		    ctx['shop'] = False
                 # Asigna la stock virtual del producto a la linea del pedido de venta.
+
                 stock = product_obj.get_product_available(cr, uid, [line.product_id.id], context=ctx)
                 res[line.id] = stock.get(line.product_id.id, 0.0)
+
         return res
     
+
+
     _columns ={
         'virtual_available': fields.function(_product_available, type='float', string='Disponible'),
     }
