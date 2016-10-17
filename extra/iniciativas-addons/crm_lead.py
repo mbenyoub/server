@@ -49,8 +49,8 @@ class crm_lead(osv.osv):
 	'reprogram_date': fields.datetime('Fecha Prevista'),
 
 	#Oportunidades
-	'cotizacion': fields.date('Cotizacion', required=True),
-        'cotizacion_r': fields.date('Cotizacion Recepcion', required=True),
+	'cotizacion': fields.date('Cotizacion', required=False),
+        'cotizacion_r': fields.date('Cotizacion Recepcion', required=False),
 	#Reunion
 	'meeting_ids': fields.one2many('op.meeting', 'lead_id','Reuniones'),
 
