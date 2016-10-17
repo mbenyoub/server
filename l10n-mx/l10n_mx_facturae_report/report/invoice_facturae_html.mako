@@ -394,12 +394,13 @@
                     <td class="center_td">${ o.no_certificado or 'No identificado'|entity }</td>
                     <td class="center_td">${ o.pay_method_id.name or 'No identificado'|entity }</td>
                     <td class="center_td">
-                        % if o.company_id.no_show_paid:
-                            ${'No identificado'}
-                        % elif check_pay_method(o.id) == True:
-                            ${ o.acc_payment and o.acc_payment.bank_name or ''}
-                            ${o.acc_payment.last_acc_number or 'No identificado'}
-                        % endif
+			${o.acc_payment.last_acc_number or ''}
+                        ##% if o.company_id.no_show_paid:
+                            ##${'No identificado'}
+                        ##% elif check_pay_method(o.id) == True:
+                            ##${ o.acc_payment and o.acc_payment.bank_name or ''}
+                            ##${o.acc_payment.last_acc_number or 'No identificado'}
+                        ##% endif
                 </tr>
             </table>
         %endif
