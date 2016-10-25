@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_mrp_production_workcenter_line_addons_tree_inherit">
+            <field name="name">mrp.production.workcenter.line.addons.tree.inherit</field>
+            <field name="model">mrp.production.workcenter.line</field>
+            <field name="inherit_id" ref="mrp_operations.mrp_production_workcenter_tree_view_inherit"/>
+            <field name="priority" eval="20"/>
+            <field name='type'>tree</field>
+            <field name='arch' type='xml'>
+                <xpath expr="//tree[@string='Work Orders']" position="attributes">
+                            <attribute name="colors">orange:state not in ('cancel','done') and date_planned &gt; current_date;red:date_planned&lt;current_date and state in ('draft', 'confirmed', 'ready');gray:state in ('done','cancel');</attribute>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+
+</openerp>

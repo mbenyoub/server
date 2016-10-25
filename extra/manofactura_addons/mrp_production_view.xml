@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_mrp_production_addons_tree_inherit">
+            <field name="name">mrp.production.addons.tree.inherit</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
+            <field name="priority" eval="20"/>
+            <field name='type'>tree</field>
+            <field name='arch' type='xml'>
+                <xpath expr="//tree[@string='Manufacturing Orders']" position="attributes">
+                            <attribute name="colors">orange:state=='confirmed' and date_planned &gt; current_date; red:state=='cancel';gray:state=='done';blue:state=='confirmed' and date_planned &lt; current_date;</attribute>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+
+</openerp>
