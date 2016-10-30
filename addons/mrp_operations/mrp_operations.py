@@ -25,6 +25,8 @@ from openerp import netsvc
 import time
 from datetime import datetime
 from openerp.tools.translate import _
+import logging
+logging.basicConfig(level=logging.INFO)
 
 #----------------------------------------------------------
 # Work Centers
@@ -83,7 +85,7 @@ class mrp_production_workcenter_line(osv.osv):
         return {'value': result}
 
     _inherit = 'mrp.production.workcenter.line'
-    _order = "sequence, date_planned"
+    _order = "sequence,date_planned desc"
 
     _columns = {
        'state': fields.selection([('draft','Draft'),('cancel','Cancelled'),('pause','Pending'),('startworking', 'In Progress'),('done','Finished')],'Status', readonly=True,
@@ -112,6 +114,7 @@ class mrp_production_workcenter_line(osv.osv):
         'delay': 0.0,
         'production_state': 'draft'
     }
+
 
     def modify_production_order_state(self, cr, uid, ids, action):
         """ Modifies production order state if work order state is changed.

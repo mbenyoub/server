@@ -9,7 +9,6 @@ logging.basicConfig(level=logging.INFO)
 
 class mrp_production_workcenter_line(osv.osv):
     _inherit = 'mrp.production.workcenter.line'
-    _order = "date_planned desc"
 
 
 mrp_production_workcenter_line()

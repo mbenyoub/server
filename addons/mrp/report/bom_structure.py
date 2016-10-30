@@ -23,6 +23,8 @@ import time
 from openerp.report import report_sxw
 from openerp.osv import osv
 from openerp import pooler
+import logging
+logging.basicConfig(level=logging.INFO)
 
 class bom_structure(report_sxw.rml_parse):
     def __init__(self, cr, uid, name, context):
@@ -33,6 +35,8 @@ class bom_structure(report_sxw.rml_parse):
         })
 
     def get_children(self, object, level=0):
+	logging.info(object)
+	logging.info(level)
         result = []
 
         def _get_rec(object, level):
