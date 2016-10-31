@@ -35,7 +35,14 @@ class mrp_production(osv.osv):
 			ori=''
 		else:
 			ori=vals.get('origin')
-		doc=vals.get('name')+':'+ori
+
+                logging.info(vals.get('origin'))
+		logging.info(vals.get('name'))
+		if vals.get('name') is None:
+			m_name=''
+		else:
+			m_name=vals.get('name')
+		doc=m_name+':'+ori
 		obj_picking=self.pool.get('stock.picking')
 		#Busco la lista de materiales de producto
 		bom_obj=self.pool.get('mrp.bom')
@@ -45,9 +52,37 @@ class mrp_production(osv.osv):
 		res = bom_obj.search(cr, uid, condicion, context=context)
  		res2 = bom_obj.browse(cr, uid, res, context=context)
 		res3 = self.get_children(res2)
+		move_lines_list=[]
+
 		for r in res3:
-			logging.info(r)
-		#obj_picking.create(cr, uid, {'origin':doc,'date':datetime.now(),'min_date':datetime.now(),'invoice_state': 'none','stock_journal_id':1,'state': 'assigned'}, context=context)
+			list=[]
+			dic= {}
+			list.append(0)
+                        list.append(False)
+			dic['origin']=False
+			dic['product_uos_qty']=r['pqty']
+			dic['partner_id']=1
+			dic['name']=r['name']
+			dic['product_uom']=r['uom_po_id']
+			dic['location_id']=14 #Materia Prima
+			dic['date_expected']=datetime.now() #No estoy seguro
+                        dic['company_id']=1
+                        dic['date']=datetime.now()
+                        dic['prodlot_id']=False
+                        dic['location_dest_id']=12 #Produccion Existencias
+                        dic['tracking_id']=False
+                        dic['product_qty']=r['pqty']
+                        dic['product_uos']=False
+                        dic['type']='internal'
+                        dic['picking_id']=False
+			dic['product_id']=r['id']
+			list.append(dic)
+			move_lines_list.append(list)
+
+		d=datetime.now()
+        	n_format = '%Y-%m-%d %H:%M:%S'
+        	fecha = d.strftime(n_format)
+		obj_picking.create(cr, uid, {'origin':doc,'date':fecha,'min_date':datetime.now(),'invoice_state': 'none','stock_journal_id':1,'state': 'assigned','move_lines':move_lines_list}, context=context)
 
 	return super(mrp_production,self).create(cr, uid, vals, context=context)
 
@@ -65,6 +100,7 @@ class mrp_production(osv.osv):
                 res['pqty'] = l.product_qty
                 res['uname'] = l.product_uom.name
                 res['code'] = l.code
+		res['uom_po_id'] = l.product_id.product_tmpl_id.uom_po_id.id
 		#res['supply_method'] = l.product_id.product_tmpl_id.supply_method
                 res['level'] = level
 		if l.product_id.product_tmpl_id.supply_method <> 'produce':

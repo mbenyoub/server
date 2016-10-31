@@ -7,17 +7,15 @@ import logging
 from datetime import datetime, timedelta, date, time
 logging.basicConfig(level=logging.INFO)
 
-class mrp_production_workcenter_line(osv.osv):
-    _name = 'mrp.production.workcenter.line'
-    _inherit = ['mrp.production.workcenter.line','ir.needaction_mixin']
-
+class stock_picking(osv.osv):
+    _name = 'stock.picking'
+    _inherit = ['stock.picking','ir.needaction_mixin']
 
     def _needaction_domain_get(self, cr, uid, context=None):
 	d=datetime.now()
        	n_format = '%Y-%m-%d'
        	fecha = d.strftime(n_format)
        	fecha = fecha+ ' 00:00:00'
-        return ['&',('state','=','draft'),('date_planned', '>=',fecha)]
+        return ['&',('state','=','assigned'),('date', '>=',fecha)]
 
-
-mrp_production_workcenter_line()
+stock_picking()

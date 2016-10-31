@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_stock_picking_addons_tree_inherit">
+            <field name="name">stock.picking.addons.tree.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.vpicktree"/>
+            <field name="priority" eval="20"/>
+            <field name='type'>tree</field>
+            <field name='arch' type='xml'>
+                <xpath expr="//tree[@string='Picking list']" position="attributes">
+                            <attribute name="colors">orange:state=='assigned' and date &gt; current_date;</attribute>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+
+</openerp>

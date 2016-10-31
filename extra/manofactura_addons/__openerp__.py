@@ -10,8 +10,9 @@
     "depends": [
 	    'mrp',
 	    'mrp_operations',
+	    'stock',
                 ],
-    "data":['ma_serie_view.xml', 'mrp_production_view.xml', 'mrp_production_workcenter_line_view.xml',],
+    "data":['ma_serie_view.xml', 'mrp_production_view.xml', 'mrp_production_workcenter_line_view.xml','stock_picking_view.xml'],
     "update_xml": [],
     "demo_xml": [],
     "update_xml": [],
