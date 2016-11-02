@@ -6,18 +6,14 @@
     "description": """
         Agrega catalogo de terminos y condiciones y tambien fecha de entrega para pedidos
     """,
-    "author": "sysinfo",
+    "author": "Ing. Gustavo Isidoro",
     "category": "Tools",
     "depends": [
 	    'sale'
                 ],
-    "data":[],
-    "update_xml": [
-	'sale_order_view.xml',
-	't_terms_view.xml'
-                   ],
-    "demo_xml": [],
+    "data":['sale_order_view.xml','t_terms_view.xml'],
     "update_xml": [],
+    "demo_xml": [],
     "installable": True,
     "auto_install": False,
 }
