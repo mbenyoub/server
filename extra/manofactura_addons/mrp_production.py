@@ -30,19 +30,17 @@ class mrp_production(osv.osv):
                         rule= rule.replace("(month)", month)
                         rule= rule.replace("(day)", day)
 			vals['x_serie']= rule
-		#Se crea traspaso interno
-		if vals.get('origin') is False:
-			ori=''
-		else:
-			ori=vals.get('origin')
 
-                logging.info(vals.get('origin'))
-		logging.info(vals.get('name'))
-		if vals.get('name') is None:
-			m_name=''
-		else:
-			m_name=vals.get('name')
-		doc=m_name+':'+ori
+
+		resultado = super(mrp_production,self).create(cr, uid, vals, context=context)
+		m = self.pool.get('mrp.production').browse(cr, uid, resultado, context=context)
+		#Se crea traspaso interno
+		#if m.origin is False:
+		#	ori=''
+		#else:
+		#	ori=m.origin
+
+		doc=m.name#+':'+ori
 		obj_picking=self.pool.get('stock.picking')
 		#Busco la lista de materiales de producto
 		bom_obj=self.pool.get('mrp.bom')
@@ -51,40 +49,41 @@ class mrp_production(osv.osv):
 		condicion=[('bom_id','=',bom_id)]
 		res = bom_obj.search(cr, uid, condicion, context=context)
  		res2 = bom_obj.browse(cr, uid, res, context=context)
-		res3 = self.get_children(res2)
+		#res3 = self.get_children(res2)
 		move_lines_list=[]
 
-		for r in res3:
+	        for r in res2:
 			list=[]
 			dic= {}
-			list.append(0)
-                        list.append(False)
-			dic['origin']=False
-			dic['product_uos_qty']=r['pqty']
-			dic['partner_id']=1
-			dic['name']=r['name']
-			dic['product_uom']=r['uom_po_id']
-			dic['location_id']=14 #Materia Prima
-			dic['date_expected']=datetime.now() #No estoy seguro
-                        dic['company_id']=1
-                        dic['date']=datetime.now()
-                        dic['prodlot_id']=False
-                        dic['location_dest_id']=12 #Produccion Existencias
-                        dic['tracking_id']=False
-                        dic['product_qty']=r['pqty']
-                        dic['product_uos']=False
-                        dic['type']='internal'
-                        dic['picking_id']=False
-			dic['product_id']=r['id']
-			list.append(dic)
-			move_lines_list.append(list)
-
+			if r.product_id.product_tmpl_id.supply_method <> 'produce':
+				list.append(0)
+                        	list.append(False)
+				dic['origin']=False
+				dic['product_uos_qty']=r.product_qty
+				dic['partner_id']=1
+				dic['name']=r.name
+				dic['product_uom'] = r.product_id.product_tmpl_id.uom_po_id.id
+				dic['location_id']=14 #Materia Prima
+				dic['date_expected']=datetime.now() #No estoy seguro
+                        	dic['company_id']=1
+                        	dic['date']=datetime.now()
+                        	dic['prodlot_id']=False
+                        	dic['location_dest_id']=12 #Produccion Existencias
+                        	dic['tracking_id']=False
+                        	dic['product_qty']=r.product_qty
+                        	dic['product_uos']=False
+                        	dic['type']='internal'
+                        	dic['picking_id']=False
+				dic['product_id']=r.product_id.id
+				list.append(dic)
+				move_lines_list.append(list)
+		
 		d=datetime.now()
         	n_format = '%Y-%m-%d %H:%M:%S'
         	fecha = d.strftime(n_format)
 		obj_picking.create(cr, uid, {'origin':doc,'date':fecha,'min_date':datetime.now(),'invoice_state': 'none','stock_journal_id':1,'state': 'assigned','move_lines':move_lines_list}, context=context)
 
-	return super(mrp_production,self).create(cr, uid, vals, context=context)
+	return resultado
 
 
     def get_children(self, object, level=0):

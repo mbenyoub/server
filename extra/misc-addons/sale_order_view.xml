@@ -8,6 +8,15 @@
             <field name="priority" eval="20"/>
             <field name='type'>form</field>
             <field name='arch' type='xml'>
+		
+                <field name="state" position="replace">
+                    <field name="state" widget="statusbar" statusbar_visible="draft,sent,signed,progress,invoiced,done" statusbar_colors='{"invoice_except":"red","waiting_date":"blue"}'/>
+                </field>
+ 		<field name="state" position="before">
+                    <button string="Cotizacion Firmada" type="workflow" name="signal_signed_forward" states="sent" class="oe_highlight"/>
+                    <button string="Confirmar Venta" type="workflow" name="signal_order_confirm" states="signed" class="oe_highlight"/> 
+                </field>
+
                 <field name="pricelist_id" position="before">
                                 <field name="project"/>
 				<field name="proposal"/>
@@ -15,6 +24,7 @@
 
             </field>
         </record>
+
 
 
     </data>

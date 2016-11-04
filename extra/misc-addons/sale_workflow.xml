@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <!-- Create new activity for the new state -->
+        <record id="act_signed" model="workflow.activity">
+            <field name="wkf_id" ref="sale.wkf_sale"/>
+            <field name="name">signed</field>
+            <field name="kind">function</field>
+            <field name="action">action_signed()</field>
+        </record>
+
+	<!-- Create transitions -->
+        <!-- From Sent to Signed -->
+        <record id="trans_sent_signed" model="workflow.transition">
+            <field name="act_from" ref="sale.act_sent"/>
+            <field name="act_to" ref="act_signed"/>
+            <field name="signal">signal_signed_forward</field>
+        </record>    
+
+
+       
+        <record id="trans_signed_router" model="workflow.transition">
+            <field name="act_from" ref="act_signed"/>
+            <field name="act_to" ref="sale.act_router"/>
+            <field name="signal">signal_order_confirm</field>
+        </record>
+
+	<!--
+        <record id="trans_router_signed" model="workflow.transition">
+            <field name="act_from" ref="sale.act_router"/>
+            <field name="act_to" ref="act_signed"/>
+            <field name="signal">signal_signed_backward</field>
+        </record>  -->
+
+
+    </data>
+</openerp>
