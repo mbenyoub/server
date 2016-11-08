@@ -78,11 +78,10 @@ class crm_lead(osv.osv):
 		vals['status']='responded'
     	return super(crm_lead,self).write(cr, uid, ids, vals, context=context)
 
-    #def create(self, cr, uid, vals, context=None):
-	#vals['state']='draft'
-	#vals.update({'state':'draft'})
-	#logging.info(vals)
-	#return super(crm_lead,self).create(cr, uid, vals, context=context)
+    def create(self, cr, uid, vals, context=None):
+	vals['state']='draft'
+	vals.update({'state':'draft'})
+	return super(crm_lead,self).create(cr, uid, vals, context=context)
 
     def case_cancel(self, cr, uid, ids, context=None):
 	view_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'iniciativas-addons', 'w_cancel_lead_view')

@@ -33,7 +33,10 @@ AVAILABLE_STATES = [
     ('cancel', 'Cancelled'),
     ('open', 'In Progress'),
     ('pending', 'Pending'),
-    ('done', 'Closed')
+    ('done', 'Closed'),
+    ('form', 'Formulario'),
+    ('call', 'Llamada'),
+    ('pant', 'PANT'),
 ]
 
 AVAILABLE_PRIORITIES = [
