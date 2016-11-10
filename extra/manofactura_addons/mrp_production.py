@@ -33,26 +33,19 @@ class mrp_production(osv.osv):
 
 
 		resultado = super(mrp_production,self).create(cr, uid, vals, context=context)
-		m = self.pool.get('mrp.production').browse(cr, uid, resultado, context=context)
-		#Se crea traspaso interno
-		#if m.origin is False:
-		#	ori=''
-		#else:
-		#	ori=m.origin
-
-		doc=m.name#+':'+ori
-		obj_picking=self.pool.get('stock.picking')
+		#m = self.pool.get('mrp.production').browse(cr, uid, resultado, context=context)
+		#doc=m.name#+':'+ori
+		#obj_picking=self.pool.get('stock.picking')
 		#Busco la lista de materiales de producto
-		bom_obj=self.pool.get('mrp.bom')
-		bom_id = bom_obj._bom_find(cr, uid, product,'')
+		#bom_obj=self.pool.get('mrp.bom')
+		#bom_id = bom_obj._bom_find(cr, uid, product,'')
 		#Buscar los productos con el bom_id, despues llamar el metodo children y quitar los productos que son fabricados
-		condicion=[('bom_id','=',bom_id)]
-		res = bom_obj.search(cr, uid, condicion, context=context)
- 		res2 = bom_obj.browse(cr, uid, res, context=context)
-		#res3 = self.get_children(res2)
-		move_lines_list=[]
+		#condicion=[('bom_id','=',bom_id)]
+		#res = bom_obj.search(cr, uid, condicion, context=context)
+ 		#res2 = bom_obj.browse(cr, uid, res, context=context)
+		#move_lines_list=[]
 
-	        for r in res2:
+	        """for r in res2:
 			list=[]
 			dic= {}
 			if r.product_id.product_tmpl_id.supply_method <> 'produce':
@@ -76,12 +69,12 @@ class mrp_production(osv.osv):
                         	dic['picking_id']=False
 				dic['product_id']=r.product_id.id
 				list.append(dic)
-				move_lines_list.append(list)
+				move_lines_list.append(list)"""
 		
-		d=datetime.now()
-        	n_format = '%Y-%m-%d %H:%M:%S'
-        	fecha = d.strftime(n_format)
-		obj_picking.create(cr, uid, {'origin':doc,'date':fecha,'min_date':datetime.now(),'invoice_state': 'none','stock_journal_id':1,'state': 'assigned','move_lines':move_lines_list}, context=context)
+		#d=datetime.now()
+        	#n_format = '%Y-%m-%d %H:%M:%S'
+        	#fecha = d.strftime(n_format)
+		#obj_picking.create(cr, uid, {'origin':doc,'date':fecha,'min_date':datetime.now(),'invoice_state': 'none','stock_journal_id':1,'state': 'assigned','move_lines':move_lines_list}, context=context)
 
 	return resultado
 

@@ -9,7 +9,7 @@
             <field name='type'>tree</field>
             <field name='arch' type='xml'>
                 <xpath expr="//tree[@string='Picking list']" position="attributes">
-                            <attribute name="colors">orange:state=='assigned' and date &gt; current_date;</attribute>
+                            <attribute name="colors">orange:state in ('confirmed','assigned') and date &gt; current_date;</attribute>
                 </xpath>
 
             </field>

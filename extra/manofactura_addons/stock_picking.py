@@ -16,6 +16,7 @@ class stock_picking(osv.osv):
        	n_format = '%Y-%m-%d'
        	fecha = d.strftime(n_format)
        	fecha = fecha+ ' 00:00:00'
-        return ['&',('state','=','assigned'),('date', '>=',fecha)]
+        return ['&',('state','in',('assigned','confirmed')),('date', '>=',fecha)]
+
 
 stock_picking()
