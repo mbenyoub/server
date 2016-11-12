@@ -8,6 +8,10 @@
     <field name="inherit_id" ref="crm.crm_case_form_view_leads"/>
     <field name="arch" type="xml">
 
+	<xpath expr="//form/header//button[@name='case_cancel']" position="after">
+		<button name="%(w_reallocate_agent_act)d" string="Reasignar Agente" type="action"  />
+	</xpath>
+
 	<xpath expr="//page[@string='Extra Info']/group" position="after">
   		<group string="Reprogramar Iniciativa">
     		<field name="reprogram_date" readonly="1" />

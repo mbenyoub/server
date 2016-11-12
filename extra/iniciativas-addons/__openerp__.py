@@ -16,7 +16,7 @@
     "depends": [
 	    'crm','mail','email_template'
                 ],
-    "data":['wizard/w_cancel_lead_view.xml','wizard/w_reprogram_lead_view.xml','crm_lead_view.xml','pant_phonecall_view.xml','pant_form_view.xml','op_meeting_view.xml', 'report/carta_compromiso_report.xml'],
+    "data":['wizard/w_reallocate_agent_view.xml','wizard/w_cancel_lead_view.xml','wizard/w_reprogram_lead_view.xml','crm_lead_view.xml','pant_phonecall_view.xml','pant_form_view.xml','op_meeting_view.xml', 'report/carta_compromiso_report.xml'],
     "update_xml": [                   ],
     "demo_xml": [],
     "update_xml": [],
