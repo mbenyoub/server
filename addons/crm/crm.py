@@ -37,6 +37,8 @@ AVAILABLE_STATES = [
     ('form', 'Formulario'),
     ('call', 'Llamada'),
     ('pant', 'PANT'),
+    ('score', 'Calificacion'),
+    ('proposal', 'Propuesta'),
 ]
 
 AVAILABLE_PRIORITIES = [

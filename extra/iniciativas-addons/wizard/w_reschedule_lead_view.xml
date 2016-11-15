@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="w_reschedule_lead_view">
+            <field name="name">w.reschedule.lead.form</field>
+            <field name="model">w.reschedule.lead</field>
+            <field name="arch" type="xml">
+                <form string="Reprogramar Iniciativa" version="7.0">
+                    <group>
+                        <group>
+                            <field name="date"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="action_reschedule" type="object" string="Aceptar"  class="oe_highlight"/>
+                        or
+                        <button name="action_cancel" string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+         <record model="ir.actions.act_window" id="w_reschedule_lead_act">
+            <field name="name">Reprogramar Iniciativa</field>
+            <field name="res_model">w.reschedule.lead</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="w_reschedule_lead_view"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>

@@ -9,7 +9,8 @@
     <field name="arch" type="xml">
 
 	<xpath expr="//form/header//button[@name='case_cancel']" position="after">
-		<button name="%(w_reallocate_agent_act)d" string="Reasignar Agente" type="action"  />
+		<button name="%(w_reallocate_agent_act)d" string="Reasignar Agente" type="action"  groups="crm.commercial_manager_id" />
+                <button name="%(w_reschedule_lead_act)d" string="Reprogramar Iniciativa" type="action"  groups="crm.commercial_manager_id" />
 	</xpath>
 
 	<xpath expr="//page[@string='Extra Info']/group" position="after">
