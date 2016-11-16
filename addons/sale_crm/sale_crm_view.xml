@@ -10,7 +10,7 @@
                 <data>
                     <xpath expr="/form/header/button[@name='case_mark_lost']" position="after">
                         <button states="done" string="Create Quotation" name="%(action_crm_make_sale)d" type="action"/>
-                        <button states="draft,open,pending" string="Convert to Quotation" name="%(action_crm_make_sale)d" type="action" class="oe_highlight"/>
+                        <button states="draft,open,pending,proposal,score" string="Convert to Quotation" name="%(action_crm_make_sale)d" type="action" class="oe_highlight"/>
                     </xpath>
                 </data>
             </field>
