@@ -173,6 +173,10 @@
                         </group>
                 </page>
 
+                <page string='Lineas de Presupuesto'>
+                        <field name='sale_ids'  />
+                </page>
+
 	    </xpath>
     </field>
 </record>

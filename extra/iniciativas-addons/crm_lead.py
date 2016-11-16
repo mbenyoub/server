@@ -64,6 +64,10 @@ class crm_lead(osv.osv):
 	'promises': fields.text('Promesas'),
 	'additional_note': fields.text('Descripcion adicionales al proyecto'),
 	'description_project': fields.text('Descripciones Basicas'), 
+	
+	#Sales
+        'sale_ids': fields.one2many('sale.order', 'lead_id','Lineas de Presupuesto'),
+
     }
 
 
