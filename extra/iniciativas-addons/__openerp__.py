@@ -14,9 +14,9 @@
     "author": "Ing. Gustavo Isidoro",
     "category": "Tools",
     "depends": [
-	    'crm','mail','email_template'
+	    'crm','mail','email_template','sale_crm','sale'
                 ],
-    "data":['data/group_button_data.xml','wizard/w_reschedule_lead_view.xml','wizard/w_reallocate_agent_view.xml','wizard/w_cancel_lead_view.xml','wizard/w_reprogram_lead_view.xml','crm_lead_view.xml','pant_phonecall_view.xml','pant_form_view.xml','op_meeting_view.xml', 'report/carta_compromiso_report.xml'],
+    "data":['data/group_button_data.xml','wizard/w_reschedule_lead_view.xml','wizard/w_reallocate_agent_view.xml','wizard/w_cancel_lead_view.xml','wizard/w_reprogram_lead_view.xml','crm_lead_view.xml','pant_phonecall_view.xml','pant_form_view.xml','op_meeting_view.xml', 'report/carta_compromiso_report.xml','crm_make_sale_view.xml'],
     "update_xml": [                   ],
     "demo_xml": [],
     "update_xml": [],

@@ -15,3 +15,5 @@ import op_objective
 import op_meeting
 import op_project
 import report
+import sale_order
+import crm_make_sale

@@ -11,7 +11,7 @@ class sale_order(osv.osv):
     _columns = {
        	'project': fields.char('Proyecto',size=300),
         'proposal': fields.char('Propuesta',size=300),
-        'lead_id': fields.many2one('crm.lead', string='Presupuestos', required=False),
+        #'lead_id': fields.many2one('crm.lead', string='Presupuestos', required=False),
         'state': fields.selection([
             ('draft', 'Draft Quotation'),
             ('sent', 'Quotation Sent'),
